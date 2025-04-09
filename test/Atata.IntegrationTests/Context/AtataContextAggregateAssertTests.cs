@@ -10,14 +10,14 @@ public class AtataContextAggregateAssertTests : WebDriverSessionTestSuite
     [Test]
     public void NoFailure() =>
         Assert.DoesNotThrow(() =>
-            AtataContext.Current.AggregateAssert(() =>
+            CurrentContext.AggregateAssert(() =>
                 _page.IsTrue.Should.AtOnce.BeTrue()));
 
     [Test]
     public void OneFailure()
     {
         AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
-            AtataContext.Current.AggregateAssert(() =>
+            CurrentContext.AggregateAssert(() =>
                 _page.IsTrue.Should.AtOnce.BeFalse()))!;
 
         Assert.That(exception.Results, Has.Count.EqualTo(1));
@@ -29,7 +29,7 @@ public class AtataContextAggregateAssertTests : WebDriverSessionTestSuite
     public void TwoFailures()
     {
         AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
-            AtataContext.Current.AggregateAssert(() =>
+            CurrentContext.AggregateAssert(() =>
             {
                 _page.IsTrue.Should.AtOnce.BeFalse();
                 _page.IsTrue.Should.AtOnce.BeTrue();

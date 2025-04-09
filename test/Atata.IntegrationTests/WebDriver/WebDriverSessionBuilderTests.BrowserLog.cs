@@ -19,7 +19,7 @@ public partial class WebDriverSessionBuilderTests
             BuildAtataContextWithWebDriverSession(
                 x => x.BrowserLogs.UseLog());
             Go.To<OrdinaryPage>(url: "/input");
-            AtataContext.Current.GetWebDriverSession().RestartDriver();
+            CurrentSession.RestartDriver();
 
             GoToTestPageAndVerifyLogs();
         }
@@ -32,7 +32,7 @@ public partial class WebDriverSessionBuilderTests
             Go.To<OrdinaryPage>(url: "/browserlogs")
                 .WaitSeconds(2);
 
-            Subject.Invoking(() => AtataContext.Current.Dispose())
+            Subject.Invoking(() => CurrentContext.Dispose())
                 .Should.Throw<AggregateAssertionException>()
                 .SubjectOf(x => x.Results)
                     .Should.HaveCount(3)
@@ -56,7 +56,7 @@ public partial class WebDriverSessionBuilderTests
             Go.To<OrdinaryPage>(url: "/browserlogs")
                 .WaitSeconds(2);
 
-            Subject.Invoking(() => AtataContext.Current.Dispose())
+            Subject.Invoking(() => CurrentContext.Dispose())
                 .Should.Throw<AggregateAssertionException>()
                 .SubjectOf(x => x.Results)
                     .Should.HaveCount(2)
@@ -76,7 +76,7 @@ public partial class WebDriverSessionBuilderTests
             // Wait a bit for browser logs to be recorded.
             Thread.Sleep(500);
 
-            AtataContext.Current.Dispose();
+            CurrentContext.Dispose();
 
             var logRecords = CurrentLog.GetSnapshot();
             logRecords.Should().ContainSingle(

@@ -58,7 +58,7 @@ public class ReportTests : WebDriverSessionTestSuite
             "^> Take page snapshot #02 sometitle$",
             "^< Take page snapshot #02 sometitle \\(.*\\) >> \".*-02 Test page - sometitle.mhtml\"$");
 
-        AtataContext.Current.Artifacts.Should.ContainFiles(
+        CurrentContext.Artifacts.Should.ContainFiles(
             $"{sessionId}-01 Test page.mhtml",
             $"{sessionId}-02 Test page - sometitle.mhtml");
     }
@@ -239,7 +239,7 @@ public class ReportTests : WebDriverSessionTestSuite
                 "^> Take screenshot #02 sometitle$",
                 "^< Take screenshot #02 sometitle \\(.*\\) >> \".*-02 Test page - sometitle.png\"$");
 
-            AtataContext.Current.Artifacts.Should.ContainFiles(
+            CurrentContext.Artifacts.Should.ContainFiles(
                 $"{sessionId}-01 Test page.png",
                 $"{sessionId}-02 Test page - sometitle.png");
         }

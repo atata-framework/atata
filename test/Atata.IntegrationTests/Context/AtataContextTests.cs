@@ -9,42 +9,42 @@ public static class AtataContextTests
     {
         [Test]
         public void SubDirectory_Should_Not_Exist() =>
-            AtataContext.Current.Artifacts.Directories["dir1"]
+            CurrentContext.Artifacts.Directories["dir1"]
                 .Should.Not.Exist();
 
         [Test]
         public void SubDirectory_ProviderName() =>
-            AtataContext.Current.Artifacts.Directories["dir1"].ProviderName.ToResultSubject()
+            CurrentContext.Artifacts.Directories["dir1"].ProviderName.ToResultSubject()
                 .Should.Equal("Artifacts.Directories[\"dir1\"]");
 
         [Test]
         public void FileInSubDirectory_ProviderName() =>
-            AtataContext.Current.Artifacts.Directories["dir1"].Files["file.txt"].ProviderName.ToResultSubject()
+            CurrentContext.Artifacts.Directories["dir1"].Files["file.txt"].ProviderName.ToResultSubject()
                 .Should.Equal("Artifacts.Directories[\"dir1\"].Files[\"file.txt\"]");
 
         [Test]
         public void FileInSubDirectory_Should_Not_Exist() =>
-            AtataContext.Current.Artifacts.Directories["dir1"].Files["file.txt"].Should.Not.Exist();
+            CurrentContext.Artifacts.Directories["dir1"].Files["file.txt"].Should.Not.Exist();
 
         [Test]
         public void SubDirectory_Should_ContainFiles()
         {
-            var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(AtataContext.Current.ArtifactsPath)
+            var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(CurrentContext.ArtifactsPath)
                 .CreateFiles("1.txt", "2.txt");
 
             using (directoryFixture)
-                AtataContext.Current.Artifacts.Directories[directoryFixture.DirectoryName]
+                CurrentContext.Artifacts.Directories[directoryFixture.DirectoryName]
                     .Should.ContainFiles("1.txt", "2.txt");
         }
 
         [Test]
         public void SubDirectory_Should_ContainDirectories()
         {
-            var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(AtataContext.Current.ArtifactsPath)
+            var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(CurrentContext.ArtifactsPath)
                 .CreateDirectories("dir1", "dir2");
 
             using (directoryFixture)
-                AtataContext.Current.Artifacts.Directories[directoryFixture.DirectoryName]
+                CurrentContext.Artifacts.Directories[directoryFixture.DirectoryName]
                     .Should.ContainDirectories("dir1", "dir2");
         }
     }
@@ -54,7 +54,7 @@ public static class AtataContextTests
         private Subject<AtataContext> _sut;
 
         protected override void OnSetUp() =>
-            _sut = AtataContext.Current.ToSutSubject();
+            _sut = CurrentContext.ToSutSubject();
 
         [Test]
         public void WithNullAsRelativeFilePath() =>
@@ -249,7 +249,7 @@ public static class AtataContextTests
         private Subject<AtataContext> _sut;
 
         protected override void OnSetUp() =>
-            _sut = AtataContext.Current.ToSutSubject();
+            _sut = CurrentContext.ToSutSubject();
 
         [Test]
         public void WithMessageAndException()

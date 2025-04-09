@@ -5,7 +5,7 @@ public sealed class PageObjectReportExtensionsTests : WebDriverSessionTestSuite
     [Test]
     public void Setup()
     {
-        AtataContext.Current.Report.Setup(x => x
+        CurrentContext.Report.Setup(x => x
             .GetWebDriverSession().Go.To<OrdinaryPage>());
 
         VerifyLastLogNestingTextsWithMessagesMatch(

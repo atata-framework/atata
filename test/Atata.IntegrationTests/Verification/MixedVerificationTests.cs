@@ -104,7 +104,7 @@ public abstract class MixedVerificationTests
 
     [Test]
     public void WithinStep_Throw() =>
-        AtataContext.Current.Report.Step(
+        Context.Report.Step(
             "Step #1",
             _ =>
             throw new InvalidOperationException(
@@ -113,13 +113,13 @@ public abstract class MixedVerificationTests
 
     [Test]
     public void WithinStep_Fail() =>
-        AtataContext.Current.Report.Step(
+        Context.Report.Step(
             "Step #1",
             _ => _sut.Should.Contain('x'));
 
     [Test]
     public void WithinStep_WithinAggregateAssert_TwoWarningsThenThrowInAssertion() =>
-        AtataContext.Current.Report.Step(
+        Context.Report.Step(
             "Step #1",
             _ =>
             _sut.AggregateAssert(

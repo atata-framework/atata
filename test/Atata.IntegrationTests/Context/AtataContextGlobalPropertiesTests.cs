@@ -17,7 +17,7 @@ public static class AtataContextGlobalPropertiesTests
 
         [Test]
         public void AtataContext_Artifacts() =>
-            AtataContext.Current.Artifacts.FullName.Should.StartWith(_rootPath + Path.DirectorySeparatorChar);
+            CurrentContext.Artifacts.FullName.Should.StartWith(_rootPath + Path.DirectorySeparatorChar);
     }
 
     [Parallelizable(ParallelScope.None)]
@@ -40,7 +40,7 @@ public static class AtataContextGlobalPropertiesTests
 
         [Test]
         public void AtataContext_StartedAt() =>
-            AssertDateTimeIsCloseToExpected(AtataContext.Current.StartedAt, _nowInSetTimeZone);
+            AssertDateTimeIsCloseToExpected(CurrentContext.StartedAt, _nowInSetTimeZone);
 
         [Test]
         public void AtataContext_GlobalProperties_RunStart() =>

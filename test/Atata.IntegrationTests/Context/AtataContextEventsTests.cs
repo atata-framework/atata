@@ -11,7 +11,7 @@ public sealed class AtataContextEventsTests : WebDriverSessionTestSuiteBase
             .EventSubscriptions.Add<AtataContextPreInitEvent>((eventData, context) =>
             {
                 eventData.Should().NotBeNull();
-                context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
+                context.Should().NotBeNull().And.Be(eventData.Context).And.Be(CurrentContext);
 
                 context.Log.Should().NotBeNull();
                 CurrentLog.GetSnapshot().Should().BeEmpty();
@@ -34,7 +34,7 @@ public sealed class AtataContextEventsTests : WebDriverSessionTestSuiteBase
             .EventSubscriptions.Add<AtataContextInitStartedEvent>((eventData, context) =>
             {
                 eventData.Should().NotBeNull();
-                context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
+                context.Should().NotBeNull().And.Be(eventData.Context).And.Be(CurrentContext);
 
                 context.Log.Should().NotBeNull();
                 CurrentLog.GetSnapshot().Should().NotBeEmpty();
@@ -57,7 +57,7 @@ public sealed class AtataContextEventsTests : WebDriverSessionTestSuiteBase
             .EventSubscriptions.Add<AtataContextInitCompletedEvent>((eventData, context) =>
             {
                 eventData.Should().NotBeNull();
-                context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
+                context.Should().NotBeNull().And.Be(eventData.Context).And.Be(CurrentContext);
 
                 context.Log.Should().NotBeNull();
                 CurrentLog.GetSnapshot().Should().NotBeEmpty();

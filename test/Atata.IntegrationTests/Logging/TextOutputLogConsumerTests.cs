@@ -17,7 +17,7 @@ public sealed class TextOutputLogConsumerTests : TestSuiteBase
     [Test]
     public void Log_WithExternalSource()
     {
-        AtataContext.Current.Log.ForExternalSource("Ext").Trace("Text");
+        CurrentContext.Log.ForExternalSource("Ext").Trace("Text");
 
         _logLines[^1].Should().EndWith("TRACE {Ext} Text");
     }
@@ -25,7 +25,7 @@ public sealed class TextOutputLogConsumerTests : TestSuiteBase
     [Test]
     public void Log_WithCategory()
     {
-        AtataContext.Current.Log.ForCategory("Cat").Trace("Text");
+        CurrentContext.Log.ForCategory("Cat").Trace("Text");
 
         _logLines[^1].Should().EndWith("TRACE [Cat] Text");
     }
@@ -33,7 +33,7 @@ public sealed class TextOutputLogConsumerTests : TestSuiteBase
     [Test]
     public void Log_WithExternalSourceAndCategory()
     {
-        AtataContext.Current.Log.ForExternalSource("Ext").ForCategory("Cat").Trace("Text");
+        CurrentContext.Log.ForExternalSource("Ext").ForCategory("Cat").Trace("Text");
 
         _logLines[^1].Should().EndWith("TRACE {Ext} [Cat] Text");
     }
@@ -41,7 +41,7 @@ public sealed class TextOutputLogConsumerTests : TestSuiteBase
     [Test]
     public void Log_WithCategoryAndExternalSource()
     {
-        AtataContext.Current.Log.ForCategory("Cat").ForExternalSource("Ext").Trace("Text");
+        CurrentContext.Log.ForCategory("Cat").ForExternalSource("Ext").Trace("Text");
 
         _logLines[^1].Should().EndWith("TRACE {Ext} [Cat] Text");
     }
