@@ -220,10 +220,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public DateTime StartedAtUtc { get; }
 
-    [Obsolete("Use GetWebSession().BaseUrl instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().BaseUrl instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public string? BaseUrl =>
-        this.GetWebSession().BaseUrl;
+        Sessions.Get<WebDriverSession>().BaseUrl;
 
     /// <summary>
     /// Gets the base retry timeout.
@@ -237,15 +237,15 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public TimeSpan BaseRetryInterval { get; internal set; }
 
-    [Obsolete("Use GetWebSession().ElementFindTimeout instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().ElementFindTimeout instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public TimeSpan ElementFindTimeout =>
-        this.GetWebSession().ElementFindTimeout;
+        Sessions.Get<WebDriverSession>().ElementFindTimeout;
 
-    [Obsolete("Use GetWebSession().ElementFindRetryInterval instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().ElementFindRetryInterval instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public TimeSpan ElementFindRetryInterval =>
-        this.GetWebSession().ElementFindRetryInterval;
+        Sessions.Get<WebDriverSession>().ElementFindRetryInterval;
 
     /// <summary>
     /// Gets the waiting timeout.
@@ -370,10 +370,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public IReport<AtataContext> Report { get; }
 
-    [Obsolete("Use GetWebSession().PageObject instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().PageObject instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponent? PageObject =>
-        this.GetWebSession().PageObject;
+        Sessions.Get<WebDriverSession>().PageObject;
 
     internal Stopwatch ExecutionStopwatch { get; } = Stopwatch.StartNew();
 
@@ -427,15 +427,15 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public StateHierarchicalDictionary State { get; }
 
-    [Obsolete("Use GetWebSession().DomTestIdAttributeName instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().DomTestIdAttributeName instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public string DomTestIdAttributeName =>
-        this.GetWebSession().DomTestIdAttributeName;
+        Sessions.Get<WebDriverSession>().DomTestIdAttributeName;
 
-    [Obsolete("Use GetWebSession().DomTestIdAttributeDefaultCase instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().DomTestIdAttributeDefaultCase instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public TermCase DomTestIdAttributeDefaultCase =>
-        this.GetWebSession().DomTestIdAttributeDefaultCase;
+        Sessions.Get<WebDriverSession>().DomTestIdAttributeDefaultCase;
 
     /// <summary>
     /// Gets the current <see cref="AtataContext"/> instance.
@@ -656,17 +656,17 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     public void RestartDriver() =>
         this.GetWebDriverSession().RestartDriver();
 
-    [Obsolete("Use GetWebSession().TakeScreenshot(string) instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().TakeScreenshot(string) instead.")] // Obsolete since v4.0.0.
     public void TakeScreenshot(string? title = null) =>
-        this.GetWebSession().TakeScreenshot(title);
+        Sessions.Get<WebDriverSession>().TakeScreenshot(title);
 
-    [Obsolete("Use GetWebSession().TakeScreenshot(ScreenshotKind, string) instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().TakeScreenshot(ScreenshotKind, string) instead.")] // Obsolete since v4.0.0.
     public void TakeScreenshot(ScreenshotKind kind, string? title = null) =>
-        this.GetWebSession().TakeScreenshot(kind, title);
+        Sessions.Get<WebDriverSession>().TakeScreenshot(kind, title);
 
-    [Obsolete("Use GetWebSession().TakePageSnapshot(string) instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().TakePageSnapshot(string) instead.")] // Obsolete since v4.0.0.
     public void TakePageSnapshot(string? title = null) =>
-        this.GetWebSession().TakePageSnapshot(title);
+        Sessions.Get<WebDriverSession>().TakePageSnapshot(title);
 
     /// <summary>
     /// Adds the file to the Artifacts directory.
