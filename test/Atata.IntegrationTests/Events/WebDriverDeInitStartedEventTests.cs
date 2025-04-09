@@ -14,7 +14,7 @@ public sealed class WebDriverDeInitStartedEventTests : WebDriverSessionTestSuite
         var builder = ConfigureAtataContextWithWebDriverSession(session => session
             .EventSubscriptions.Add<WebDriverDeInitStartedEvent>((eventData, _) =>
             {
-                eventData.Driver.Should().NotBeNull().And.Be(_context.GetWebDriver());
+                eventData.Driver.Should().NotBeNull().And.Be(_context.Sessions.Get<WebDriverSession>().Driver);
 
                 _executionsCount++;
             }));

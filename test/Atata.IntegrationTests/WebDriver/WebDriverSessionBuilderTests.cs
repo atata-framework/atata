@@ -119,7 +119,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     {
         var context = BuildAtataContextWithWebDriverSession(
             x => x.UseDisposeDriver(true));
-        var driver = context.GetWebDriver();
+        var driver = context.Sessions.Get<WebDriverSession>().Driver;
 
         context.Dispose();
 
@@ -132,7 +132,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     {
         var context = BuildAtataContextWithWebDriverSession(
             x => x.UseDisposeDriver(false));
-        var driver = context.GetWebDriver();
+        var driver = context.Sessions.Get<WebDriverSession>().Driver;
 
         context.Dispose();
 

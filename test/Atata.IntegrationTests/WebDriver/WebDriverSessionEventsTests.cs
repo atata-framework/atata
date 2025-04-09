@@ -17,7 +17,7 @@ public sealed class WebDriverSessionEventsTests : WebDriverSessionTestSuiteBase
         var context = builder.Build();
 
         executionsCount.Should().Be(1);
-        driverOfEvent.Should().Be(context.GetWebDriver());
+        driverOfEvent.Should().Be(context.Sessions.Get<WebDriverSession>().Driver);
     }
 
     [Test]

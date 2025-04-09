@@ -190,7 +190,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     internal IWebDriverFactory? DriverFactory { get; set; }
 
-    [Obsolete("Use GetWebDriver() or Sessions.Get<WebDriverSession>().Driver instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().Driver instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public IWebDriver Driver =>
         Sessions.Get<WebDriverSession>().Driver;
