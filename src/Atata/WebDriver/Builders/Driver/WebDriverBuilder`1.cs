@@ -189,7 +189,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
         if (!string.IsNullOrEmpty(Alias))
             properties.Add($"Alias={Alias}");
 
-        if (driver.TryAs(out IHasSessionId driverWithSessionId))
+        if (driver.TryAs(out IHasSessionId? driverWithSessionId))
             properties.Add($"SessionId={driverWithSessionId.SessionId}");
 
         if (properties.Count > 0)

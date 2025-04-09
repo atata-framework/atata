@@ -29,5 +29,5 @@ public class SelectsOptionByAttributeAttribute : SelectOptionBehaviorAttribute
         Match.CreateXPathCondition(value, "@" + AttributeName);
 
     public override string GetOptionRawValue(IWebElement optionElement) =>
-        optionElement.GetValue();
+        optionElement.GetValue() ?? string.Empty;
 }

@@ -16,7 +16,7 @@ public sealed class WebDriverFullPageScreenshotStrategy : IScreenshotStrategy<We
     /// <inheritdoc/>
     public FileContentWithExtension TakeScreenshot(WebDriverSession session)
     {
-        if (!session.Driver.TryAs(out FirefoxDriver firefoxDriver))
+        if (!session.Driver.TryAs(out FirefoxDriver? firefoxDriver))
             throw new InvalidOperationException(
                 $"{GetType().FullName} works only with Driver of {typeof(FirefoxDriver).FullName} type, but was {session.Driver.GetType().FullName}.");
 

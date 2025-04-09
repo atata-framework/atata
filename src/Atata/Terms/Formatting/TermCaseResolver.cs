@@ -55,7 +55,7 @@ public static class TermCaseResolver
         }
         else
         {
-            throw ExceptionFactory.CreateForUnsupportedEnumValue(termCase, nameof(termCase));
+            throw ExceptionFactory.CreateForUnsupportedEnumValue(termCase);
         }
     }
 

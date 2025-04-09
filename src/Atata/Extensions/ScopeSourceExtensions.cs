@@ -23,7 +23,7 @@ public static class ScopeSourceExtensions
                 component.Owner.GetScopeContext(options),
             ScopeSource.Page =>
                 component.Driver,
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource))
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource)
         };
     }
 
@@ -40,6 +40,6 @@ public static class ScopeSourceExtensions
                 parentComponent.Owner.ScopeContext,
             ScopeSource.Page =>
                 (parentComponent?.Session ?? WebDriverSession.Current).Driver,
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource))
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource)
         };
 }

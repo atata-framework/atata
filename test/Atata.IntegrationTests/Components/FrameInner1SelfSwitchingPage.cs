@@ -14,7 +14,7 @@ public class FrameInner1SelfSwitchingPage : Page<_>
     {
         base.OnInit();
 
-        IWebElement iframe = Driver.Get(By.XPath(".//iframe[@id='iframe-1']"));
+        IWebElement iframe = Driver.Get(By.XPath(".//iframe[@id='iframe-1']"))!;
         Driver.SwitchTo().Frame(iframe);
     }
 

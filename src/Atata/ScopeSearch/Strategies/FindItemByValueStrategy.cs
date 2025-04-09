@@ -6,5 +6,5 @@ public class FindItemByValueStrategy : TermItemElementFindStrategy
         $"[{TermResolver.CreateXPathCondition(parameter, termOptions, "@value")}]";
 
     protected override string GetParameterAsString(IWebElement element) =>
-        element.GetValue();
+        element.GetValue() ?? string.Empty;
 }
