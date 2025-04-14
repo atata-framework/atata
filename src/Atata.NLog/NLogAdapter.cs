@@ -56,6 +56,6 @@ internal static class NLogAdapter
             LogLevel.Warn => NLogLevel.Warn,
             LogLevel.Error => NLogLevel.Error,
             LogLevel.Fatal => NLogLevel.Fatal,
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(level)
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(level)
         };
 }
