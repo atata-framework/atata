@@ -159,4 +159,35 @@ internal static class Guard
         if (!expectedType.IsAssignableFrom(argument))
             throw new ArgumentException($"Type is not assignable to {expectedType.FullName}.", paramName);
     }
+
+    internal static ArgumentException CreateArgumentExceptionForUnsupportedValue<T>(
+        T argument,
+        [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+    {
+        Type originalType = typeof(T);
+        Type underlyingType = argument is not null
+            ? Nullable.GetUnderlyingType(originalType) ?? originalType
+            : originalType;
+
+        bool isEnum = underlyingType.IsEnum;
+
+        StringBuilder builder = new("Unsupported ");
+
+        builder.Append(underlyingType.FullName);
+        builder.Append(' ');
+
+        if (isEnum)
+        {
+            builder.Append("enum ");
+
+            if (!underlyingType.IsEnumDefined(argument))
+                builder.Append("undefined ");
+        }
+
+        builder.Append("value: ");
+        builder.Append(Stringifier.ToString(argument));
+        builder.Append('.');
+
+        return new(builder.ToString(), paramName);
+    }
 }
