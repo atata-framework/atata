@@ -20,7 +20,7 @@ public static class NLogConsumerBuilderExtensions
         this LogConsumerBuilder<NLogFileConsumer> builder,
         string fileNameTemplate)
     {
-        fileNameTemplate.CheckNotNullOrWhitespace(nameof(fileNameTemplate));
+        Guard.ThrowIfNullOrWhitespace(fileNameTemplate);
 
         builder.Consumer.FileNameTemplate = fileNameTemplate;
         return builder;

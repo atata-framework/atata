@@ -1,4 +1,7 @@
-﻿global using NLog;
+﻿global using System.Diagnostics.CodeAnalysis;
+global using System.Runtime.CompilerServices;
+global using System.Text;
+global using NLog;
 global using NLog.Config;
 global using NLog.Layouts;
 global using NLog.Targets;
