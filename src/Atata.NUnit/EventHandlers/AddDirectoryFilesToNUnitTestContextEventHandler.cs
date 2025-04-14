@@ -6,12 +6,15 @@ public class AddDirectoryFilesToNUnitTestContextEventHandler : ProcessFilesOnAta
 
     public AddDirectoryFilesToNUnitTestContextEventHandler(string directoryPath)
     {
-        directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
+        Guard.ThrowIfNullOrWhitespace(directoryPath);
         _directoryPathBuilder = _ => directoryPath;
     }
 
-    public AddDirectoryFilesToNUnitTestContextEventHandler(Func<AtataContext, string> directoryPathBuilder) =>
-        _directoryPathBuilder = directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+    public AddDirectoryFilesToNUnitTestContextEventHandler(Func<AtataContext, string> directoryPathBuilder)
+    {
+        Guard.ThrowIfNull(directoryPathBuilder);
+        _directoryPathBuilder = directoryPathBuilder;
+    }
 
     protected override string GetDirectoryPath(AtataContext context)
     {

@@ -95,7 +95,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         string directoryPath)
     {
-        directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
+        Guard.ThrowIfNullOrWhitespace(directoryPath);
         return builder.Add(new AddDirectoryFilesToNUnitTestContextEventHandler(directoryPath));
     }
 
@@ -104,7 +104,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         Func<string> directoryPathBuilder)
     {
-        directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+        Guard.ThrowIfNull(directoryPathBuilder);
         return builder.AddDirectoryFilesToNUnitTestContext(_ => directoryPathBuilder.Invoke());
     }
 
@@ -121,7 +121,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         Func<AtataContext, string> directoryPathBuilder)
     {
-        directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+        Guard.ThrowIfNull(directoryPathBuilder);
         return builder.Add(new AddDirectoryFilesToNUnitTestContextEventHandler(directoryPathBuilder));
     }
 }
