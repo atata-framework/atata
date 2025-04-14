@@ -14,6 +14,6 @@ public class WaitForElementLogSection : UIComponentLogSection
             WaitBy.Class => "class",
             WaitBy.Css => "CSS selector",
             WaitBy.XPath => "XPath",
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(waitBy)
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(waitBy)
         };
 }

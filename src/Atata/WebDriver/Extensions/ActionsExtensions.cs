@@ -36,7 +36,7 @@ public static class ActionsExtensions
                     toElement,
                     offsetX - (elementSize.Width / 2),
                     offsetY - (elementSize.Height / 2)),
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(offsetKind)
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(offsetKind)
         };
     }
 }

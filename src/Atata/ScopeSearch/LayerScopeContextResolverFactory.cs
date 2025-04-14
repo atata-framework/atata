@@ -17,6 +17,6 @@ public static class LayerScopeContextResolverFactory
             FindAs.Sibling => s_siblingResolver,
             FindAs.Ancestor => s_ancestorResolver,
             FindAs.ShadowHost => s_shadowHostResolver,
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(findAs)
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(findAs)
         };
 }

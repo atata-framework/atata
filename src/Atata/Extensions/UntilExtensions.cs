@@ -58,7 +58,7 @@ public static class UntilExtensions
                     CreateAbsenceUnit(Visibility.Visible, until, options),
                     CreatePresenceUnit(Visibility.Visible, until, options)
                 ],
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(until)
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(until)
         };
     }
 

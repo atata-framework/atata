@@ -10,6 +10,6 @@ public static class WaitByExtensions
             WaitBy.Class => By.ClassName(selector),
             WaitBy.Css => By.CssSelector(selector),
             WaitBy.XPath => By.XPath(selector),
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(waitBy)
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(waitBy)
         };
 }

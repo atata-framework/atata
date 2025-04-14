@@ -81,7 +81,7 @@ public class AggregateAssertionException : Exception
             AssertionStatus.Warning => WarningResultPrefix,
             AssertionStatus.Failed => FailedResultPrefix,
             AssertionStatus.Exception => ExceptionResultPrefix,
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(status)
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(status)
         };
 
     private static string BuildIntroMessage(IEnumerable<AssertionResult> results)

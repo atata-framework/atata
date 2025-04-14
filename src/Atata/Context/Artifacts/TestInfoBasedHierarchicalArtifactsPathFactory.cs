@@ -59,7 +59,7 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
             AtataContextScope.TestSuiteGroup => CreateTestSuiteGroupPath(context),
             AtataContextScope.TestSuite => CreateTestSuitePath(context),
             AtataContextScope.Test => CreateTestPath(context),
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(context.Scope.Value, $"{nameof(context)}.{nameof(AtataContext.Scope)}")
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(context.Scope)
         };
     }
 

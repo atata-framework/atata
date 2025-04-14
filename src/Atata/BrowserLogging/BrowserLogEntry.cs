@@ -46,7 +46,7 @@ public sealed class BrowserLogEntry
             SeleniumLogLevel.Info => LogLevel.Info,
             SeleniumLogLevel.Warning => LogLevel.Warn,
             SeleniumLogLevel.Severe => LogLevel.Error,
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(logLevel)
+            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(logLevel)
         };
 
     private static string CorrectLineBreaksInMessage(string message) =>
