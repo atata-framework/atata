@@ -3,6 +3,27 @@
 internal static class Guard
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static T ReturnOrThrowIfNull<T>([NotNull] T argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+    {
+        ThrowIfNull(argument, paramName);
+        return argument;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static string ReturnOrThrowIfNullOrWhitespace([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+    {
+        ThrowIfNullOrWhitespace(argument, paramName);
+        return argument;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static string ReturnOrThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+    {
+        ThrowIfNullOrEmpty(argument, paramName);
+        return argument;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void ThrowIfNull<T>([NotNull] T argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
         if (argument is null)
