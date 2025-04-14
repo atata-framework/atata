@@ -185,7 +185,7 @@ internal static class Guard
         }
 
         builder.Append("value: ");
-        builder.Append(Stringifier.ToString(argument));
+        builder.Append(argument is null ? "null" : argument.ToString());
         builder.Append('.');
 
         return new(builder.ToString(), paramName);
