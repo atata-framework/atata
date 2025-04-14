@@ -51,7 +51,7 @@ public sealed class ExtentLogConsumer : ILogConsumer
             case LogLevel.Fatal:
                 return Status.Error;
             default:
-                throw ExceptionFactory.CreateForUnsupportedEnumValue(eventInfo.Level, $"{nameof(eventInfo)}.{nameof(LogEventInfo.Level)}");
+                throw Guard.CreateArgumentExceptionForUnsupportedValue(eventInfo.Level);
         }
     }
 
