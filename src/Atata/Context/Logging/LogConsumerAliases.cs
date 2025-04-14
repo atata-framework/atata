@@ -51,15 +51,15 @@ public static class LogConsumerAliases
 
     public static void Register(string typeAlias, Func<ILogConsumer> logConsumerFactory)
     {
-        typeAlias.CheckNotNullOrWhitespace(nameof(typeAlias));
-        logConsumerFactory.CheckNotNull(nameof(logConsumerFactory));
+        Guard.ThrowIfNullOrWhitespace(typeAlias);
+        Guard.ThrowIfNull(logConsumerFactory);
 
         s_aliasFactoryMap[typeAlias.ToLowerInvariant()] = logConsumerFactory;
     }
 
     public static ILogConsumer Resolve(string typeNameOrAlias)
     {
-        typeNameOrAlias.CheckNotNullOrWhitespace(nameof(typeNameOrAlias));
+        Guard.ThrowIfNullOrWhitespace(typeNameOrAlias);
 
         return s_aliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<ILogConsumer> factory)
             ? factory()

@@ -48,7 +48,7 @@ public class UIComponentAccessChainScopeCache
 
     public void ExecuteWithin(Action action)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         bool isActivatedAccessChainCache = AcquireActivation();
 
@@ -71,7 +71,7 @@ public class UIComponentAccessChainScopeCache
 
     public TResult ExecuteWithin<TResult>(Func<TResult> function)
     {
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNull(function);
 
         bool isActivatedAccessChainCache = AcquireActivation();
 

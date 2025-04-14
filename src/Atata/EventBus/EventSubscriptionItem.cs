@@ -12,8 +12,11 @@ public class EventSubscriptionItem
     /// <param name="eventHandler">The event handler, which should implement <see cref="IEventHandler{TEvent}"/>.</param>
     public EventSubscriptionItem(Type eventType, object eventHandler)
     {
-        EventType = eventType.CheckNotNull(nameof(eventType));
-        EventHandler = eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventType);
+        Guard.ThrowIfNull(eventHandler);
+
+        EventType = eventType;
+        EventHandler = eventHandler;
     }
 
     /// <summary>

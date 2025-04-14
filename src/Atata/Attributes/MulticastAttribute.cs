@@ -226,7 +226,7 @@ public abstract class MulticastAttribute : Attribute
     /// </returns>
     public bool AreTagsApplicable(IEnumerable<string> tags)
     {
-        tags.CheckNotNull(nameof(tags));
+        Guard.ThrowIfNull(tags);
 
         return (TargetTags is null or [] || TargetTags.Intersect(tags).Any())
             && (ExcludeTargetTags is null || ExcludeTargetTags.Length == 0 || !ExcludeTargetTags.Intersect(tags).Any());

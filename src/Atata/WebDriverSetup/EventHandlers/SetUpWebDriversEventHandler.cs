@@ -17,7 +17,7 @@ public sealed class SetUpWebDriversEventHandler : IAsyncEventHandler<AtataContex
 
     public SetUpWebDriversEventHandler(params string[] browserNames)
     {
-        browserNames.CheckNotNullOrEmpty(nameof(browserNames));
+        Guard.ThrowIfNullOrEmpty(browserNames);
         _browserNames = browserNames;
     }
 

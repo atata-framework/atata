@@ -601,7 +601,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     internal void AggregateAssert(Action action, ILogManager log, string? assertionScopeName = null)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         try
         {
@@ -677,8 +677,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="artifactTitle">The artifact title.</param>
     public void AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, string? artifactType = null, string? artifactTitle = null)
     {
-        relativeFilePathWithoutExtension.CheckNotNullOrWhitespace(nameof(relativeFilePathWithoutExtension));
-        fileContentWithExtension.CheckNotNull(nameof(fileContentWithExtension));
+        Guard.ThrowIfNullOrWhitespace(relativeFilePathWithoutExtension);
+        Guard.ThrowIfNull(fileContentWithExtension);
 
         string relativeFilePath = relativeFilePathWithoutExtension + fileContentWithExtension.Extension;
         string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
@@ -697,8 +697,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="artifactTitle">The artifact title.</param>
     public void AddArtifact(string relativeFilePath, byte[] fileBytes, string? artifactType = null, string? artifactTitle = null)
     {
-        relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
-        fileBytes.CheckNotNull(nameof(fileBytes));
+        Guard.ThrowIfNullOrWhitespace(relativeFilePath);
+        Guard.ThrowIfNull(fileBytes);
 
         string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
 
@@ -716,8 +716,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="artifactTitle">The artifact title.</param>
     public void AddArtifact(string relativeFilePath, string fileContent, string? artifactType = null, string? artifactTitle = null)
     {
-        relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
-        fileContent.CheckNotNull(nameof(fileContent));
+        Guard.ThrowIfNullOrWhitespace(relativeFilePath);
+        Guard.ThrowIfNull(fileContent);
 
         string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
 
@@ -736,8 +736,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="artifactTitle">The artifact title.</param>
     public void AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, string? artifactType = null, string? artifactTitle = null)
     {
-        relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
-        fileContent.CheckNotNull(nameof(fileContent));
+        Guard.ThrowIfNullOrWhitespace(relativeFilePath);
+        Guard.ThrowIfNull(fileContent);
 
         string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
 
@@ -758,8 +758,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="artifactTitle">The artifact title.</param>
     public void AddArtifact(string relativeFilePath, Stream stream, string? artifactType = null, string? artifactTitle = null)
     {
-        relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
-        stream.CheckNotNull(nameof(stream));
+        Guard.ThrowIfNullOrWhitespace(relativeFilePath);
+        Guard.ThrowIfNull(stream);
 
         string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
 
@@ -803,7 +803,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="exception">The exception.</param>
     public void HandleTestResultException(Exception exception)
     {
-        exception.CheckNotNull(nameof(exception));
+        Guard.ThrowIfNull(exception);
 
         EnsureNotDisposed();
 
@@ -826,7 +826,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="stackTrace">The exception stack trace.</param>
     public void HandleTestResultException(string message, string? stackTrace)
     {
-        message.CheckNotNull(nameof(message));
+        Guard.ThrowIfNull(message);
 
         EnsureNotDisposed();
 

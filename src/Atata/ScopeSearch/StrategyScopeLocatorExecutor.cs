@@ -61,7 +61,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
         ComponentScopeFindOptions scopeLocateOptions,
         SearchOptions searchOptions)
     {
-        result.CheckNotNull(nameof(result));
+        Guard.ThrowIfNull(result);
 
         if (result is MissingComponentScopeFindResult)
             return [];

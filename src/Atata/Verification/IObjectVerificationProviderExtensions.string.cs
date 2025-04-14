@@ -18,7 +18,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner Contain<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         return verifier.Satisfy(
             actual => actual is not null && actual.IndexOf(expected, verifier.ResolveStringComparison()) != -1,
@@ -28,7 +28,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner ContainIgnoringCase<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         return verifier.Satisfy(
             actual => actual is not null && actual.IndexOf(expected, DefaultIgnoreCaseComparison) != -1,
@@ -38,7 +38,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner StartWith<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         return verifier.Satisfy(
             actual => actual is not null && actual.StartsWith(expected, verifier.ResolveStringComparison()),
@@ -48,7 +48,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner StartWithIgnoringCase<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         return verifier.Satisfy(
             actual => actual is not null && actual.StartsWith(expected, DefaultIgnoreCaseComparison),
@@ -58,7 +58,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner EndWith<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         return verifier.Satisfy(
             actual => actual is not null && actual.EndsWith(expected, verifier.ResolveStringComparison()),
@@ -68,7 +68,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner EndWithIgnoringCase<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         return verifier.Satisfy(
             actual => actual is not null && actual.EndsWith(expected, DefaultIgnoreCaseComparison),
@@ -100,7 +100,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="options">The regular expression options.</param>
     public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern, RegexOptions options)
     {
-        pattern.CheckNotNull(nameof(pattern));
+        Guard.ThrowIfNull(pattern);
 
         if (verifier.IsIgnoringCase())
             options |= RegexOptions.IgnoreCase;
@@ -119,7 +119,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <returns>The owner instance.</returns>
     public static TOwner MatchWildcardPattern<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string pattern)
     {
-        pattern.CheckNotNull(nameof(pattern));
+        Guard.ThrowIfNull(pattern);
 
         StringComparison stringComparison = verifier.ResolveStringComparison();
 
@@ -130,7 +130,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner MatchAny<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, TermMatch match, params string[] expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var predicate = match.GetPredicate(verifier.ResolveStringComparison());
 
@@ -148,7 +148,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner ContainAll<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, params string[] expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         string message = new StringBuilder()
             .Append($"contain ")
@@ -177,7 +177,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <returns>The owner instance.</returns>
     public static TOwner StartWithAny<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, IEnumerable<string> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         StringComparison stringComparison = verifier.ResolveStringComparison();
 
@@ -199,7 +199,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <returns>The owner instance.</returns>
     public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, IEnumerable<string> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         StringComparison stringComparison = verifier.ResolveStringComparison();
 

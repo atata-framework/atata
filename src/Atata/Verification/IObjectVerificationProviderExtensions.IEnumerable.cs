@@ -14,7 +14,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         Expression<Func<IEnumerable<TObject>, bool>> predicateExpression)
     {
-        predicateExpression.CheckNotNull(nameof(predicateExpression));
+        Guard.ThrowIfNull(predicateExpression);
 
         var predicate = predicateExpression.Compile();
         string expressionAsString = Stringifier.ToString(predicateExpression);
@@ -36,8 +36,8 @@ public static partial class IObjectVerificationProviderExtensions
         Func<IEnumerable<TObject>, bool> predicate,
         string message)
     {
-        verifier.CheckNotNull(nameof(verifier));
-        predicate.CheckNotNull(nameof(predicate));
+        Guard.ThrowIfNull(verifier);
+        Guard.ThrowIfNull(predicate);
 
         string expectedMessage = message;
 
@@ -90,7 +90,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner BeEquivalent<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier, IEnumerable<TItem> expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -112,7 +112,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, IEnumerable<TObject> expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
@@ -134,7 +134,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner EqualSequence<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier, IEnumerable<TItem> expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -148,7 +148,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, IEnumerable<TObject> expected)
     {
-        expected.CheckNotNull(nameof(expected));
+        Guard.ThrowIfNull(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
@@ -213,7 +213,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Expression<Func<TItem, bool>> predicateExpression)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count(predicate) == 1,
@@ -227,7 +229,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         Expression<Func<TObject, bool>> predicateExpression)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count(predicate) == 1,
@@ -294,8 +298,10 @@ public static partial class IObjectVerificationProviderExtensions
         int expectedCount,
         Expression<Func<TItem, bool>> predicateExpression)
     {
-        expectedCount.CheckGreaterOrEqual(nameof(expectedCount), 0);
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+        Guard.ThrowIfLessThan(expectedCount, 0);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count(predicate) == expectedCount,
@@ -310,8 +316,10 @@ public static partial class IObjectVerificationProviderExtensions
         int expectedCount,
         Expression<Func<TObject, bool>> predicateExpression)
     {
-        expectedCount.CheckGreaterOrEqual(nameof(expectedCount), 0);
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+        Guard.ThrowIfLessThan(expectedCount, 0);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count(predicate) == expectedCount,
@@ -344,7 +352,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -381,7 +389,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         IEnumerable<TObject> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
@@ -404,7 +412,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Expression<Func<TItem, bool>> predicateExpression)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.Any(predicate),
@@ -423,7 +433,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         Expression<Func<TObject, bool>> predicateExpression)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.Any(predicate),
@@ -442,7 +454,7 @@ public static partial class IObjectVerificationProviderExtensions
         TermMatch match,
         IEnumerable<string> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var predicate = match.GetPredicate(verifier.ResolveStringComparison());
 
@@ -467,7 +479,7 @@ public static partial class IObjectVerificationProviderExtensions
         TermMatch match,
         IEnumerable<string> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var predicate = match.GetPredicate(verifier.ResolveStringComparison());
 
@@ -499,7 +511,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -527,7 +539,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         IEnumerable<TObject> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
@@ -555,7 +567,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -583,7 +595,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         IEnumerable<TObject> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
@@ -611,7 +623,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -647,7 +659,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         IEnumerable<TObject> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
@@ -683,7 +695,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -711,7 +723,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         IEnumerable<TObject> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
@@ -739,7 +751,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -775,7 +787,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         IEnumerable<TObject> expected)
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
@@ -882,7 +894,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params Expression<Func<TItem, bool>>[] predicateExpressions)
     {
-        var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
+        Guard.ThrowIfNullOrEmpty(predicateExpressions);
+
+        var predicates = predicateExpressions
             .Select(x => x.Compile())
             .ToArray();
 
@@ -898,7 +912,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         params Expression<Func<TObject, bool>>[] predicateExpressions)
     {
-        var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
+        Guard.ThrowIfNullOrEmpty(predicateExpressions);
+
+        var predicates = predicateExpressions
             .Select(x => x.Compile())
             .ToArray();
 
@@ -919,7 +935,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Expression<Func<TItem, bool>> predicateExpression)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.All(x => predicate(x)),
@@ -933,7 +951,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         Expression<Func<TObject, bool>> predicateExpression)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.All(x => predicate(x)),
@@ -954,7 +974,7 @@ public static partial class IObjectVerificationProviderExtensions
         Func<TItem, bool> predicate,
         string message)
     {
-        predicate.CheckNotNull(nameof(predicate));
+        Guard.ThrowIfNull(predicate);
 
         return verifier.Satisfy(
             actual => actual != null && actual.All(x => predicate(x)),
@@ -969,7 +989,7 @@ public static partial class IObjectVerificationProviderExtensions
         Func<TObject, bool> predicate,
         string message)
     {
-        predicate.CheckNotNull(nameof(predicate));
+        Guard.ThrowIfNull(predicate);
 
         return verifier.Satisfy(
             actual => actual != null && actual.All(x => predicate(x)),
@@ -1055,7 +1075,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Expression<Func<TItem, bool>> predicateExpression)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count() == 1 && predicate(actual.Single()),
@@ -1069,7 +1091,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         Expression<Func<TObject, bool>> predicateExpression)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count() == 1 && predicate(actual.Single()),
@@ -1088,7 +1112,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params Expression<Func<TItem, bool>>[] predicateExpressions)
     {
-        var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
+        Guard.ThrowIfNullOrEmpty(predicateExpressions);
+
+        var predicates = predicateExpressions
             .Select(x => x.Compile())
             .ToArray();
 
@@ -1104,7 +1130,9 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         params Expression<Func<TObject, bool>>[] predicateExpressions)
     {
-        var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
+        Guard.ThrowIfNullOrEmpty(predicateExpressions);
+
+        var predicates = predicateExpressions
             .Select(x => x.Compile())
             .ToArray();
 

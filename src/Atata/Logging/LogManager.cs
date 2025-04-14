@@ -96,8 +96,8 @@ internal sealed class LogManager : ILogManager
 
     public void ExecuteSection(LogSection section, Action action)
     {
-        section.CheckNotNull(nameof(section));
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(section);
+        Guard.ThrowIfNull(action);
 
         StartSection(section);
 
@@ -118,8 +118,8 @@ internal sealed class LogManager : ILogManager
 
     public TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function)
     {
-        section.CheckNotNull(nameof(section));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNull(section);
+        Guard.ThrowIfNull(function);
 
         StartSection(section);
 
@@ -142,8 +142,8 @@ internal sealed class LogManager : ILogManager
 
     public async Task ExecuteSectionAsync(LogSection section, Func<Task> function)
     {
-        section.CheckNotNull(nameof(section));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNull(section);
+        Guard.ThrowIfNull(function);
 
         StartSection(section);
 
@@ -164,8 +164,8 @@ internal sealed class LogManager : ILogManager
 
     public async Task<TResult> ExecuteSectionAsync<TResult>(LogSection section, Func<Task<TResult>> function)
     {
-        section.CheckNotNull(nameof(section));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNull(section);
+        Guard.ThrowIfNull(function);
 
         StartSection(section);
 
@@ -194,7 +194,7 @@ internal sealed class LogManager : ILogManager
 
     public ILogManager ForExternalSource(string externalSource)
     {
-        externalSource.CheckNotNullOrWhitespace(nameof(externalSource));
+        Guard.ThrowIfNullOrWhitespace(externalSource);
 
         return _lazyExternalSourceLogManagerMap.Value.GetOrAdd(
             externalSource,
@@ -206,7 +206,7 @@ internal sealed class LogManager : ILogManager
 
     public ILogManager ForCategory(string category)
     {
-        category.CheckNotNullOrWhitespace(nameof(category));
+        Guard.ThrowIfNullOrWhitespace(category);
 
         return _lazyCategoryLogManagerMap.Value.GetOrAdd(
             category,
@@ -231,7 +231,7 @@ internal sealed class LogManager : ILogManager
 
     public ILogManager CreateSubLogForCategory(string category)
     {
-        category.CheckNotNullOrWhitespace(nameof(category));
+        Guard.ThrowIfNullOrWhitespace(category);
 
         LogSection[] sectionsSpanshot = GetSectionsSnapshot();
 

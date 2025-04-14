@@ -38,8 +38,8 @@ internal sealed class AtataSessionPool : IEnumerable<AtataSession>
 
     internal async Task FillAsync(int count, bool inParallel = true, CancellationToken cancellationToken = default)
     {
-        count.CheckGreaterOrEqual(nameof(count), 1);
-        count.CheckLessOrEqual(nameof(count), MaxCapacity - _count);
+        Guard.ThrowIfLessThan(count, 1);
+        Guard.ThrowIfGreaterThan(count, MaxCapacity - _count);
 
         if (inParallel && count > 1)
         {
@@ -94,7 +94,7 @@ internal sealed class AtataSessionPool : IEnumerable<AtataSession>
 
     internal void Return(AtataSession session)
     {
-        session.CheckNotNull(nameof(session));
+        Guard.ThrowIfNull(session);
 
         if (session.OwnerContext != _sessionBuilder.TargetContext)
             throw new InvalidOperationException($"{session} cannot be returned to pool as it doesn't belong to this pool.");

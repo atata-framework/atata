@@ -70,7 +70,7 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Add(IAtataSessionProvider sessionProvider)
     {
-        sessionProvider.CheckNotNull(nameof(sessionProvider));
+        Guard.ThrowIfNull(sessionProvider);
 
         _sessionProviders.Add(sessionProvider);
         return _atataContextBuilder;
@@ -98,7 +98,7 @@ public sealed class AtataSessionsBuilder
     public AtataContextBuilder Configure<TSessionBuilder>(string? name, Action<TSessionBuilder> configure)
         where TSessionBuilder : IAtataSessionBuilder
     {
-        configure.CheckNotNull(nameof(configure));
+        Guard.ThrowIfNull(configure);
 
         var sessionBuilder = GetSessionProviderOrNull<TSessionBuilder>(name)
             ?? throw AtataSessionBuilderNotFoundException.ByBuilderType(typeof(TSessionBuilder), name);
@@ -118,8 +118,8 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Configure(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
     {
-        sessionType.CheckNotNull(nameof(sessionType));
-        configure.CheckNotNull(nameof(configure));
+        Guard.ThrowIfNull(sessionType);
+        Guard.ThrowIfNull(configure);
 
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name)
             ?? throw AtataSessionBuilderNotFoundException.BySessionType(sessionType, name);
@@ -149,7 +149,7 @@ public sealed class AtataSessionsBuilder
     public AtataContextBuilder ConfigureIfExists<TSessionBuilder>(string? name, Action<TSessionBuilder> configure)
         where TSessionBuilder : IAtataSessionBuilder
     {
-        configure.CheckNotNull(nameof(configure));
+        Guard.ThrowIfNull(configure);
 
         var sessionBuilder = GetSessionProviderOrNull<TSessionBuilder>(name);
 
@@ -168,8 +168,8 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder ConfigureIfExists(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
     {
-        sessionType.CheckNotNull(nameof(sessionType));
-        configure.CheckNotNull(nameof(configure));
+        Guard.ThrowIfNull(sessionType);
+        Guard.ThrowIfNull(configure);
 
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name);
 
@@ -232,7 +232,7 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder ConfigureOrAdd(Type sessionType, string? name, Action<IAtataSessionBuilder>? configure = null)
     {
-        sessionType.CheckNotNull(nameof(sessionType));
+        Guard.ThrowIfNull(sessionType);
 
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name);
 
@@ -322,7 +322,7 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Remove(IAtataSessionProvider sessionProvider)
     {
-        sessionProvider.CheckNotNull(nameof(sessionProvider));
+        Guard.ThrowIfNull(sessionProvider);
 
         _sessionProviders.Remove(sessionProvider);
         return _atataContextBuilder;

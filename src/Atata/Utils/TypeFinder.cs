@@ -33,8 +33,8 @@ public static class TypeFinder
     /// <exception cref="TypeNotFoundException">Type not found.</exception>
     public static Type FindInAssemblies(string typeName, IEnumerable<Assembly> assembliesToFindIn, bool useCache = true)
     {
-        typeName.CheckNotNullOrWhitespace(nameof(typeName));
-        assembliesToFindIn.CheckNotNull(nameof(assembliesToFindIn));
+        Guard.ThrowIfNullOrWhitespace(typeName);
+        Guard.ThrowIfNull(assembliesToFindIn);
 
         Type DoFind(string name)
         {

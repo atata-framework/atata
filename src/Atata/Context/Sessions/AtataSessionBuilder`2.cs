@@ -170,7 +170,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
     public TBuilder UseVariable(string key, object value)
     {
-        key.CheckNotNullOrWhitespace(nameof(key));
+        Guard.ThrowIfNullOrWhitespace(key);
 
         Variables[key] = value;
 
@@ -184,7 +184,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
     public TBuilder UseVariables(IEnumerable<KeyValuePair<string, object>> variables)
     {
-        variables.CheckNotNull(nameof(variables));
+        Guard.ThrowIfNull(variables);
 
         foreach (var variable in variables)
             Variables[variable.Key] = variable.Value;
@@ -213,7 +213,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
     public TBuilder UseState(string key, object value)
     {
-        key.CheckNotNullOrWhitespace(nameof(key));
+        Guard.ThrowIfNullOrWhitespace(key);
 
         State[key] = value;
 
@@ -227,7 +227,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
     public TBuilder UseState(IEnumerable<KeyValuePair<string, object>> objects)
     {
-        objects.CheckNotNull(nameof(objects));
+        Guard.ThrowIfNull(objects);
 
         foreach (var variable in objects)
             State[variable.Key] = variable.Value;

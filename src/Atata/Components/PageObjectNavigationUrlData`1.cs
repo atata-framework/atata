@@ -29,7 +29,7 @@ internal sealed class PageObjectNavigationUrlData<TPageObject>
 
     internal void SetVariable(string key, object? value)
     {
-        key.CheckNotNullOrWhitespace(nameof(key));
+        Guard.ThrowIfNullOrWhitespace(key);
 
         Variables ??= [];
         Variables[key] = value;

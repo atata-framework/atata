@@ -10,20 +10,24 @@ public class ActionAsyncEventHandler<TEvent> : IAsyncEventHandler<TEvent>
 
     public ActionAsyncEventHandler(Func<CancellationToken, Task> action)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         _action = (_, _, ct) => action.Invoke(ct);
     }
 
     public ActionAsyncEventHandler(Func<TEvent, CancellationToken, Task> action)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         _action = (e, _, ct) => action.Invoke(e, ct);
     }
 
-    public ActionAsyncEventHandler(Func<TEvent, AtataContext, CancellationToken, Task> action) =>
-        _action = action.CheckNotNull(nameof(action));
+    public ActionAsyncEventHandler(Func<TEvent, AtataContext, CancellationToken, Task> action)
+    {
+        Guard.ThrowIfNull(action);
+
+        _action = action;
+    }
 
     /// <inheritdoc/>
     public Task HandleAsync(TEvent eventData, AtataContext context, CancellationToken cancellationToken) =>

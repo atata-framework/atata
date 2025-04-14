@@ -19,9 +19,9 @@ public class ObjectCreator : IObjectCreator
     /// <inheritdoc/>
     public object Create(Type type, Dictionary<string, object?> valuesMap, Dictionary<string, string> alternativeParameterNamesMap)
     {
-        type.CheckNotNull(nameof(type));
-        valuesMap.CheckNotNull(nameof(valuesMap));
-        alternativeParameterNamesMap.CheckNotNull(nameof(alternativeParameterNamesMap));
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNull(valuesMap);
+        Guard.ThrowIfNull(alternativeParameterNamesMap);
 
         if (valuesMap.Count == 0)
             return ActivatorEx.CreateInstance(type);

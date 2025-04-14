@@ -67,7 +67,7 @@ public sealed class LogConsumersBuilder
         Action<LogConsumerBuilder<TLogConsumer>>? configure = null)
         where TLogConsumer : ILogConsumer
     {
-        consumer.CheckNotNull(nameof(consumer));
+        Guard.ThrowIfNull(consumer);
 
         ScopeLimitedLogConsumerConfiguration consumerConfiguration = new(new(consumer));
         _configurations.Add(consumerConfiguration);
@@ -88,7 +88,7 @@ public sealed class LogConsumersBuilder
         Action<LogConsumerBuilder<TLogConsumer>> configure)
         where TLogConsumer : ILogConsumer
     {
-        configure.CheckNotNull(nameof(configure));
+        Guard.ThrowIfNull(configure);
 
         var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>()
             ?? throw LogConsumerNotFoundException.ByBuilderType(typeof(TLogConsumer));
@@ -108,7 +108,7 @@ public sealed class LogConsumersBuilder
         Action<LogConsumerBuilder<TLogConsumer>> configure)
         where TLogConsumer : ILogConsumer
     {
-        configure.CheckNotNull(nameof(configure));
+        Guard.ThrowIfNull(configure);
 
         var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>();
 
@@ -180,7 +180,7 @@ public sealed class LogConsumersBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Remove(ILogConsumer logConsumer)
     {
-        logConsumer.CheckNotNull(nameof(logConsumer));
+        Guard.ThrowIfNull(logConsumer);
 
         var configuration = _configurations.FirstOrDefault(x => x.ConsumerConfiguration.Consumer == logConsumer);
 
@@ -197,7 +197,7 @@ public sealed class LogConsumersBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Remove(LogConsumerConfiguration logConsumerConfiguration)
     {
-        logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
+        Guard.ThrowIfNull(logConsumerConfiguration);
 
         var configuration = _configurations.FirstOrDefault(x => x.ConsumerConfiguration == logConsumerConfiguration);
 

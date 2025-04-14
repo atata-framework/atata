@@ -21,8 +21,10 @@ public class ActionProvider<TOwner> : ObjectProvider<Action, TOwner>
         string providerName,
         IAtataExecutionUnit? executionUnit = null)
         : base(objectSource, providerName, executionUnit)
-        =>
-        _owner = owner.CheckNotNull(nameof(owner));
+    {
+        Guard.ThrowIfNull(owner);
+        _owner = owner;
+    }
 
     /// <inheritdoc/>
     protected override TOwner Owner => _owner;

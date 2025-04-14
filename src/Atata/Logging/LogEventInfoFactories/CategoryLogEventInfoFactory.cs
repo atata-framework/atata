@@ -10,8 +10,11 @@ internal sealed class CategoryLogEventInfoFactory : ILogEventInfoFactory
         ILogEventInfoFactory parentFactory,
         string category)
     {
-        _parentFactory = parentFactory.CheckNotNull(nameof(parentFactory));
-        _category = category.CheckNotNullOrWhitespace(nameof(category));
+        Guard.ThrowIfNull(parentFactory);
+        Guard.ThrowIfNullOrWhitespace(category);
+
+        _parentFactory = parentFactory;
+        _category = category;
     }
 
     public LogEventInfo Create(DateTime timestamp, LogLevel level, string? message)

@@ -429,7 +429,9 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// </example>
     public TOwner RefreshPageUntil(Expression<Func<TOwner, bool>> predicateExpression, double? timeout = null, double? retryInterval = null)
     {
-        var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+        Guard.ThrowIfNull(predicateExpression);
+
+        var predicate = predicateExpression.Compile();
 
         TimeSpan timeoutTime = timeout.HasValue
             ? TimeSpan.FromSeconds(timeout.Value)
@@ -544,8 +546,8 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <returns>The instance of this page object.</returns>
     public TOwner Do<TComponent>(Func<TOwner, TComponent> componentSelector, Action<TComponent> action)
     {
-        componentSelector.CheckNotNull(nameof(componentSelector));
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(componentSelector);
+        Guard.ThrowIfNull(action);
 
         TComponent component = componentSelector((TOwner)this);
 
@@ -565,8 +567,8 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     public TNavigateTo Do<TComponent, TNavigateTo>(Func<TOwner, TComponent> componentSelector, Func<TComponent, TNavigateTo> navigationAction)
         where TNavigateTo : PageObject<TNavigateTo>
     {
-        componentSelector.CheckNotNull(nameof(componentSelector));
-        navigationAction.CheckNotNull(nameof(navigationAction));
+        Guard.ThrowIfNull(componentSelector);
+        Guard.ThrowIfNull(navigationAction);
 
         TComponent component = componentSelector((TOwner)this);
 
@@ -580,7 +582,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <returns>The instance of this page object.</returns>
     public TOwner Do(Action<TOwner> action)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         action((TOwner)this);
 
@@ -596,7 +598,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     public TNavigateTo Do<TNavigateTo>(Func<TOwner, TNavigateTo> navigationAction)
         where TNavigateTo : PageObject<TNavigateTo>
     {
-        navigationAction.CheckNotNull(nameof(navigationAction));
+        Guard.ThrowIfNull(navigationAction);
 
         return navigationAction((TOwner)this);
     }
@@ -608,7 +610,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <returns>The instance of this page object.</returns>
     public TOwner Do(Action action)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         action();
 
@@ -627,7 +629,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <returns>The instance of this page object.</returns>
     public TOwner AggregateAssert(Action<TOwner> action, string? assertionScopeName = null)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         assertionScopeName ??= ComponentFullName;
 
@@ -650,8 +652,8 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <returns>The instance of this page object.</returns>
     public TOwner AggregateAssert<TComponent>(Func<TOwner, TComponent> componentSelector, Action<TComponent> action, string? assertionScopeName = null)
     {
-        componentSelector.CheckNotNull(nameof(componentSelector));
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(componentSelector);
+        Guard.ThrowIfNull(action);
 
         TComponent component = componentSelector((TOwner)this);
 
@@ -670,7 +672,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <returns>The instance of this page object.</returns>
     public TOwner Press(string keys)
     {
-        if (!string.IsNullOrEmpty(keys))
+        if (keys?.Length > 0)
         {
             Log.ExecuteSection(
                 new PressKeysLogSection(this, keys),

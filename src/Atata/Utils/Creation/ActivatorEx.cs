@@ -8,7 +8,7 @@ public static class ActivatorEx
 {
     public static T CreateInstance<T>(string typeName)
     {
-        typeName.CheckNotNullOrEmpty(nameof(typeName));
+        Guard.ThrowIfNullOrEmpty(typeName);
 
         Type type = Type.GetType(typeName, true);
 

@@ -119,8 +119,7 @@ return textValues;";
     {
         get
         {
-            index.CheckIndexNonNegative();
-
+            Guard.ThrowIfIndexIsNegative(index);
             return GetItemByIndex(index);
         }
     }
@@ -134,7 +133,7 @@ return textValues;";
     {
         get
         {
-            predicateExpression.CheckNotNull(nameof(predicateExpression));
+            Guard.ThrowIfNull(predicateExpression);
 
             string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
@@ -162,7 +161,7 @@ return textValues;";
     /// <returns>The first item that matches the XPath condition.</returns>
     public TItem GetByXPathCondition(string? itemName, string xPathCondition)
     {
-        xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
+        Guard.ThrowIfNullOrEmpty(xPathCondition);
 
         itemName = itemName is null
             ? $"[{xPathCondition}]"
@@ -191,7 +190,7 @@ return textValues;";
     /// <returns>All items that match the XPath condition.</returns>
     public EnumerableValueProvider<TItem, TOwner> GetAllByXPathCondition(string? itemsName, string xPathCondition)
     {
-        xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
+        Guard.ThrowIfNullOrEmpty(xPathCondition);
 
         string extraXPath = xPathCondition[0] == '['
             ? xPathCondition
@@ -273,7 +272,7 @@ return textValues;";
     /// </returns>
     public ValueProvider<int, TOwner> IndexOf(Expression<Func<TItem, bool>> predicateExpression)
     {
-        predicateExpression.CheckNotNull(nameof(predicateExpression));
+        Guard.ThrowIfNull(predicateExpression);
 
         string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
@@ -393,7 +392,7 @@ return textValues;";
         string? valueProviderName = null,
         TermOptions? valueTermOptions = null)
     {
-        elementValueJSPath.CheckNotNullOrEmpty(nameof(elementValueJSPath));
+        Guard.ThrowIfNullOrEmpty(elementValueJSPath);
 
         if (valueProviderName is null)
         {

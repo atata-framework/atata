@@ -38,7 +38,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
     public Subject<TResult> ResultOf<TResult>(Expression<Func<TObject, TResult>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -58,7 +58,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public Subject<TResult> ResultOf<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -72,7 +72,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public Subject<TResult> ResultOf<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -91,7 +91,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
     public Subject<TResult> SubjectOf<TResult>(Expression<Func<TObject, TResult>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -107,8 +107,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
     public Subject<TResult> SubjectOf<TResult>(Func<TObject, TResult> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<TResult, TObject>(this, function),
@@ -119,7 +119,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public Subject<TResult> SubjectOf<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -129,8 +129,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public Subject<TResult> SubjectOf<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<TResult, TObject>(this, x => function(x).RunSync()),
@@ -141,7 +141,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public Subject<TResult> SubjectOf<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -151,8 +151,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public Subject<TResult> SubjectOf<TResult>(Func<TObject, Task<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<TResult, TObject>(this, x => function(x).RunSync()),
@@ -168,7 +168,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
     public Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TObject, TResult>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -188,7 +188,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -202,7 +202,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -221,7 +221,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
     public Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TObject, TResult>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -237,8 +237,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
     public Subject<TResult> DynamicSubjectOf<TResult>(Func<TObject, TResult> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new DynamicObjectSource<TResult, TObject>(this, function),
@@ -249,7 +249,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -259,8 +259,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public Subject<TResult> DynamicSubjectOf<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new DynamicObjectSource<TResult, TObject>(this, x => function(x).RunSync()),
@@ -271,7 +271,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -281,8 +281,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public Subject<TResult> DynamicSubjectOf<TResult>(Func<TObject, Task<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new DynamicObjectSource<TResult, TObject>(this, x => function(x).RunSync()),
@@ -298,7 +298,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>The same subject instance.</returns>
     public TSubject Act(Expression<Action<TObject>> actionExpression)
     {
-        actionExpression.CheckNotNull(nameof(actionExpression));
+        Guard.ThrowIfNull(actionExpression);
 
         var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
@@ -314,8 +314,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>The same subject instance.</returns>
     public TSubject Act(Action<TObject> action, string actionName)
     {
-        action.CheckNotNull(nameof(action));
-        actionName.CheckNotNull(nameof(actionName));
+        Guard.ThrowIfNull(action);
+        Guard.ThrowIfNull(actionName);
 
         action.Invoke(Object);
 
@@ -327,7 +327,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="Act(Expression{Action{TObject}})"/>
     public TSubject Act(Expression<Func<TObject, ValueTask>> actionExpression)
     {
-        actionExpression.CheckNotNull(nameof(actionExpression));
+        Guard.ThrowIfNull(actionExpression);
 
         var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
@@ -337,8 +337,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="Act(Action{TObject}, string)"/>
     public TSubject Act(Func<TObject, ValueTask> action, string actionName)
     {
-        action.CheckNotNull(nameof(action));
-        actionName.CheckNotNull(nameof(actionName));
+        Guard.ThrowIfNull(action);
+        Guard.ThrowIfNull(actionName);
 
         action.Invoke(Object).RunSync();
 
@@ -350,7 +350,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="Act(Expression{Action{TObject}})"/>
     public TSubject Act(Expression<Func<TObject, Task>> actionExpression)
     {
-        actionExpression.CheckNotNull(nameof(actionExpression));
+        Guard.ThrowIfNull(actionExpression);
 
         var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
@@ -360,8 +360,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <inheritdoc cref="Act(Action{TObject}, string)"/>
     public TSubject Act(Func<TObject, Task> action, string actionName)
     {
-        action.CheckNotNull(nameof(action));
-        actionName.CheckNotNull(nameof(actionName));
+        Guard.ThrowIfNull(action);
+        Guard.ThrowIfNull(actionName);
 
         action.Invoke(Object).RunSync();
 
@@ -377,7 +377,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking(Expression<Action<TObject>> actionExpression)
     {
-        actionExpression.CheckNotNull(nameof(actionExpression));
+        Guard.ThrowIfNull(actionExpression);
 
         var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
@@ -393,8 +393,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking(Action<TObject> action, string actionName)
     {
-        action.CheckNotNull(nameof(action));
-        actionName.CheckNotNull(nameof(actionName));
+        Guard.ThrowIfNull(action);
+        Guard.ThrowIfNull(actionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -410,7 +410,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking(Expression<Func<TObject, ValueTask>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -426,8 +426,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking(Func<TObject, ValueTask> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -444,7 +444,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -461,8 +461,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -478,7 +478,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking(Expression<Func<TObject, Task>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -494,8 +494,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking(Func<TObject, Task> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -512,7 +512,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -529,8 +529,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> Invoking<TResult>(Func<TObject, Task<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -546,7 +546,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking(Expression<Action<TObject>> actionExpression)
     {
-        actionExpression.CheckNotNull(nameof(actionExpression));
+        Guard.ThrowIfNull(actionExpression);
 
         var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
@@ -562,8 +562,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking(Action<TObject> action, string actionName)
     {
-        action.CheckNotNull(nameof(action));
-        actionName.CheckNotNull(nameof(actionName));
+        Guard.ThrowIfNull(action);
+        Guard.ThrowIfNull(actionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -579,7 +579,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking(Expression<Func<TObject, ValueTask>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -595,8 +595,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking(Func<TObject, ValueTask> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -613,7 +613,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -630,8 +630,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -647,7 +647,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking(Expression<Func<TObject, Task>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -663,8 +663,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking(Func<TObject, Task> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -681,7 +681,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -698,8 +698,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
     public ActionProvider<TSubject> DynamicInvoking<TResult>(Func<TObject, Task<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new ActionProvider<TSubject>(
             (TSubject)this,
@@ -720,7 +720,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <returns>The instance of this page object.</returns>
     public TSubject AggregateAssert(Action<TSubject> action, string? assertionScopeName = null)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         assertionScopeName ??= ProviderName;
 

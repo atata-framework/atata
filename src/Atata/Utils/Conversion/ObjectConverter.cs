@@ -10,7 +10,7 @@ public class ObjectConverter : IObjectConverter
 
     public object? Convert(object? sourceValue, Type destinationType)
     {
-        destinationType.CheckNotNull(nameof(destinationType));
+        Guard.ThrowIfNull(destinationType);
 
         if (sourceValue is null)
         {

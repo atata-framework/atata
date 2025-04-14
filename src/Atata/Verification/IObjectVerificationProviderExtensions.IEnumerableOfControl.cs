@@ -18,7 +18,7 @@ public static partial class IObjectVerificationProviderExtensions
         where TControl : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        expected.CheckNotNullOrEmpty(nameof(expected));
+        Guard.ThrowIfNullOrEmpty(expected);
 
         var predicate = match.GetPredicate(verifier.ResolveStringComparison());
 

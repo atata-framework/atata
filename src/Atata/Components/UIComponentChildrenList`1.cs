@@ -20,7 +20,7 @@ public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
     public TControl Create<TControl>(string name, IScopeLocator scopeLocator, params Attribute[] attributes)
         where TControl : Control<TOwner>
     {
-        name.CheckNotNullOrWhitespace(nameof(name));
+        Guard.ThrowIfNullOrWhitespace(name);
 
         var control = Create<TControl>(name, attributes);
         control.ScopeLocator = scopeLocator;
@@ -34,11 +34,11 @@ public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
     public TControl Resolve<TControl>(string propertyName, Func<IEnumerable<Attribute>>? additionalAttributesFactory = null)
         where TControl : Control<TOwner>
     {
-        propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
+        Guard.ThrowIfNullOrWhitespace(propertyName);
 
         TControl control = _component.Controls.OfType<TControl>().FirstOrDefault(x => x.Metadata.Name == propertyName);
 
-        if (control != null)
+        if (control is not null)
             return control;
 
         var additionalAttributes = additionalAttributesFactory?.Invoke()?.ToArray() ?? [];

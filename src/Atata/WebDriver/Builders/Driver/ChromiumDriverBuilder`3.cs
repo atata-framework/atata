@@ -54,7 +54,7 @@ public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithDownloadDirectory(string directoryPath)
     {
-        directoryPath.CheckNotNull(nameof(directoryPath));
+        Guard.ThrowIfNull(directoryPath);
 
         return WithDownloadDirectory(() => directoryPath);
     }
@@ -67,7 +67,7 @@ public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithDownloadDirectory(Func<string> directoryPathBuilder)
     {
-        directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+        Guard.ThrowIfNull(directoryPathBuilder);
 
         return WithOptions(x => x
             .AddUserProfilePreference("download.default_directory", directoryPathBuilder.Invoke()));

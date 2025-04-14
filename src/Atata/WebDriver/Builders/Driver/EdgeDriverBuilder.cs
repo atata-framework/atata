@@ -33,7 +33,7 @@ public class EdgeDriverBuilder : ChromiumDriverBuilder<EdgeDriverBuilder, EdgeDr
     /// <returns>The same builder instance.</returns>
     public EdgeDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
-        optionName.CheckNotNullOrWhitespace(nameof(optionName));
+        Guard.ThrowIfNullOrWhitespace(optionName);
 
         return WithOptions(options => options.AddAdditionalEdgeOption(optionName, optionValue));
     }

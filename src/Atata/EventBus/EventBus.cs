@@ -20,7 +20,9 @@ public class EventBus : IEventBus
 
     internal EventBus(AtataContext context, IEnumerable<EventSubscriptionItem>? eventSubscriptions)
     {
-        _context = context.CheckNotNull(nameof(context));
+        Guard.ThrowIfNull(context);
+
+        _context = context;
 
         if (eventSubscriptions is not null)
             foreach (var subscription in eventSubscriptions)
@@ -30,7 +32,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public void Publish<TEvent>(TEvent eventData)
     {
-        eventData.CheckNotNull(nameof(eventData));
+        Guard.ThrowIfNull(eventData);
 
         if (_subscriptionMap.TryGetValue(typeof(TEvent), out var eventHandlerSubscriptions)
             && eventHandlerSubscriptions.Count != 0)
@@ -48,7 +50,7 @@ public class EventBus : IEventBus
 
     public async Task PublishAsync<TEvent>(TEvent eventData, CancellationToken cancellationToken = default)
     {
-        eventData.CheckNotNull(nameof(eventData));
+        Guard.ThrowIfNull(eventData);
 
         if (_subscriptionMap.TryGetValue(typeof(TEvent), out var eventHandlerSubscriptions)
             && eventHandlerSubscriptions.Count != 0)
@@ -98,7 +100,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public object Subscribe<TEvent>(Action eventHandler)
     {
-        eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventHandler);
 
         return Subscribe(new ActionEventHandler<TEvent>(eventHandler));
     }
@@ -106,7 +108,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public object Subscribe<TEvent>(Action<TEvent> eventHandler)
     {
-        eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventHandler);
 
         return Subscribe(new ActionEventHandler<TEvent>(eventHandler));
     }
@@ -114,7 +116,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public object Subscribe<TEvent>(Action<TEvent, AtataContext> eventHandler)
     {
-        eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventHandler);
 
         return Subscribe(new ActionEventHandler<TEvent>(eventHandler));
     }
@@ -122,7 +124,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public object Subscribe<TEvent>(Func<CancellationToken, Task> eventHandler)
     {
-        eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventHandler);
 
         return Subscribe(new ActionAsyncEventHandler<TEvent>(eventHandler));
     }
@@ -130,7 +132,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public object Subscribe<TEvent>(Func<TEvent, CancellationToken, Task> eventHandler)
     {
-        eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventHandler);
 
         return Subscribe(new ActionAsyncEventHandler<TEvent>(eventHandler));
     }
@@ -138,7 +140,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public object Subscribe<TEvent>(Func<TEvent, AtataContext, CancellationToken, Task> eventHandler)
     {
-        eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventHandler);
 
         return Subscribe(new ActionAsyncEventHandler<TEvent>(eventHandler));
     }
@@ -169,7 +171,7 @@ public class EventBus : IEventBus
 
     private object Subscribe(Type eventType, object eventHandler)
     {
-        eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventHandler);
 
         object subscription = new object();
 
@@ -186,7 +188,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public void Unsubscribe(object subscription)
     {
-        subscription.CheckNotNull(nameof(subscription));
+        Guard.ThrowIfNull(subscription);
 
         foreach (var eventHandlerSubscriptions in _subscriptionMap.Values)
         {
@@ -201,7 +203,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public void UnsubscribeHandler(object eventHandler)
     {
-        eventHandler.CheckNotNull(nameof(eventHandler));
+        Guard.ThrowIfNull(eventHandler);
 
         foreach (var eventHandlerSubscriptions in _subscriptionMap.Values)
         {
@@ -219,7 +221,7 @@ public class EventBus : IEventBus
     /// <inheritdoc/>
     public void UnsubscribeAll(Type eventType)
     {
-        eventType.CheckNotNull(nameof(eventType));
+        Guard.ThrowIfNull(eventType);
 
         if (_subscriptionMap.TryGetValue(eventType, out var eventHandlerSubscriptions))
         {

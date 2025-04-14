@@ -185,8 +185,8 @@ public static class UIComponentResolver
         where TComponentPart : UIComponentPart<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        parentComponent.CheckNotNull(nameof(parentComponent));
-        name.CheckNotNull(nameof(name));
+        Guard.ThrowIfNull(parentComponent);
+        Guard.ThrowIfNull(name);
 
         TComponentPart componentPart = ActivatorEx.CreateInstance<TComponentPart>();
         componentPart.Component = parentComponent;
@@ -215,7 +215,7 @@ public static class UIComponentResolver
         where TComponent : UIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        parentComponent.CheckNotNull(nameof(parentComponent));
+        Guard.ThrowIfNull(parentComponent);
 
         attributes = attributes?.Where(x => x != null).ToArray() ?? [];
 
@@ -531,7 +531,7 @@ public static class UIComponentResolver
     internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)
         where TOwner : PageObject<TOwner>
     {
-        controlDelegate.CheckNotNull(nameof(controlDelegate));
+        Guard.ThrowIfNull(controlDelegate);
 
         if (s_delegateControls.TryGetValue(controlDelegate, out UIComponent control))
             return (Control<TOwner>)control;

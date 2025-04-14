@@ -18,7 +18,7 @@ public class ObjectExpressionStringBuilder : ImprovedExpressionStringBuilder
     /// <returns>The string representing the expression.</returns>
     public static new string ExpressionToString(Expression node)
     {
-        node.CheckNotNull(nameof(node));
+        Guard.ThrowIfNull(node);
 
         var expressionStringBuilder = new ObjectExpressionStringBuilder(node is LambdaExpression);
 

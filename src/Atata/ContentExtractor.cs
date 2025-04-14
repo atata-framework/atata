@@ -75,7 +75,7 @@ return '';";
     public static string Get<TOwner>(IUIComponent<TOwner> component, ContentSource contentSource)
         where TOwner : PageObject<TOwner>, IPageObject<TOwner>
     {
-        component.CheckNotNull(nameof(component));
+        Guard.ThrowIfNull(component);
 
         string? content = DoGet(component, contentSource);
 

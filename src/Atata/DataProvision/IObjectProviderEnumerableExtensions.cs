@@ -24,8 +24,8 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>> source,
         IEnumerable<TSource> items)
     {
-        source.CheckNotNull(nameof(source));
-        items.CheckNotNullOrEmpty(nameof(items));
+        Guard.ThrowIfNull(source);
+        Guard.ThrowIfNullOrEmpty(items);
 
         return source.Object.Intersect(items).Count() == items.Distinct().Count();
     }
@@ -49,8 +49,8 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>> source,
         IEnumerable<TSource> items)
     {
-        source.CheckNotNull(nameof(source));
-        items.CheckNotNullOrEmpty(nameof(items));
+        Guard.ThrowIfNull(source);
+        Guard.ThrowIfNullOrEmpty(items);
 
         return source.Object.Intersect(items).Any();
     }
@@ -67,8 +67,8 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Action<TSource> action)
     {
-        source.CheckNotNull(nameof(source));
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(source);
+        Guard.ThrowIfNull(action);
 
         foreach (TSource item in source.Object)
             action.Invoke(item);
@@ -85,7 +85,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.Count(predicateFunction),
@@ -132,7 +134,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.First(predicateFunction),
@@ -148,7 +152,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.FirstOrDefault(predicateFunction),
@@ -164,7 +170,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.Last(predicateFunction),
@@ -180,7 +188,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.LastOrDefault(predicateFunction),
@@ -196,7 +206,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.LongCount(predicateFunction),
@@ -207,7 +219,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, TResult>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.Max(predicateFunction),
@@ -225,7 +239,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, TResult>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.Min(predicateFunction),
@@ -243,10 +259,12 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, TResult>> selector)
     {
-        var predicateFunction = selector.CheckNotNull(nameof(selector)).Compile();
+        Guard.ThrowIfNull(selector);
+
+        var selectorFunction = selector.Compile();
 
         return source.ValueOf(
-            x => x.Select(predicateFunction),
+            x => x.Select(selectorFunction),
             $"Select({ConvertToString(selector)})");
     }
 
@@ -254,10 +272,12 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, int, TResult>> selector)
     {
-        var predicateFunction = selector.CheckNotNull(nameof(selector)).Compile();
+        Guard.ThrowIfNull(selector);
+
+        var selectorFunction = selector.Compile();
 
         return source.ValueOf(
-            x => x.Select(predicateFunction),
+            x => x.Select(selectorFunction),
             $"Select({ConvertToString(selector)})");
     }
 
@@ -270,7 +290,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.Single(predicateFunction),
@@ -286,7 +308,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.SingleOrDefault(predicateFunction),
@@ -305,7 +329,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.SkipWhile(predicateFunction),
@@ -316,7 +342,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, int, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.SkipWhile(predicateFunction),
@@ -335,7 +363,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.TakeWhile(predicateFunction),
@@ -346,7 +376,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, int, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.TakeWhile(predicateFunction),
@@ -356,14 +388,14 @@ public static class IObjectProviderEnumerableExtensions
     public static TSource[] ToArray<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
     {
-        source.CheckNotNull(nameof(source));
+        Guard.ThrowIfNull(source);
         return [.. source.Object];
     }
 
     public static List<TSource> ToList<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
     {
-        source.CheckNotNull(nameof(source));
+        Guard.ThrowIfNull(source);
         return [.. source.Object];
     }
 
@@ -371,7 +403,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, int, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.Where(predicateFunction),
@@ -382,7 +416,9 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
-        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+        Guard.ThrowIfNull(predicate);
+
+        var predicateFunction = predicate.Compile();
 
         return source.ValueOf(
             x => x.Where(predicateFunction),

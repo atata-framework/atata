@@ -37,7 +37,7 @@ public static class AssemblyFinder
     /// <returns>The found assemblies.</returns>
     public static Assembly[] FindAllByPatterns(IEnumerable<string> assemblyNamePatterns)
     {
-        assemblyNamePatterns.CheckNotNullOrEmpty(nameof(assemblyNamePatterns));
+        Guard.ThrowIfNullOrEmpty(assemblyNamePatterns);
 
         return assemblyNamePatterns.Any(string.IsNullOrEmpty)
             ? FindAllByPattern(string.Empty)

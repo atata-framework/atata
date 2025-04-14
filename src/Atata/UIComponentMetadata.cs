@@ -336,7 +336,7 @@ public class UIComponentMetadata
     /// <returns><see langword="true"/> if at least one item is successfully removed; otherwise, <see langword="false"/>.</returns>
     public bool Remove(IEnumerable<Attribute> attributes)
     {
-        attributes.CheckNotNull(nameof(attributes));
+        Guard.ThrowIfNull(attributes);
 
         bool isRemoved = false;
 
@@ -355,7 +355,7 @@ public class UIComponentMetadata
     /// <returns>The number of removed elements.</returns>
     public int RemoveAll(Predicate<Attribute> match)
     {
-        match.CheckNotNull(nameof(match));
+        Guard.ThrowIfNull(match);
 
         return DeclaredAttributesList.RemoveAll(match);
     }

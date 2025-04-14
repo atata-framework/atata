@@ -112,7 +112,7 @@ public sealed class VariableHierarchicalDictionary : HierarchicalDictionary<stri
         IEnumerable<KeyValuePair<string, object?>>? additionalVariables,
         Func<string, IEnumerable<KeyValuePair<string, object?>>, string> transformFunction)
     {
-        template.CheckNotNull(nameof(template));
+        Guard.ThrowIfNull(template);
 
         if (!template.Contains('{'))
             return template;

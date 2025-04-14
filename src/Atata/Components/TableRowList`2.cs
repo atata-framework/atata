@@ -21,7 +21,7 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
     {
         get
         {
-            cellValues.CheckNotNullOrEmpty(nameof(cellValues));
+            Guard.ThrowIfNullOrEmpty(cellValues);
 
             string itemName = BuildItemNameByCellValues(cellValues);
             string xPath = CreateItemInnerXPathByCellValues(cellValues);
@@ -32,7 +32,7 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
 
     protected static string BuildItemNameByCellValues(string[] values)
     {
-        values.CheckNotNullOrEmpty(nameof(values));
+        Guard.ThrowIfNullOrEmpty(values);
 
         return values.ToDoubleQuotedValuesListOfString();
     }

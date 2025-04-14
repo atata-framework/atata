@@ -103,10 +103,10 @@ public static class StringExtensions
 
     public static string Sanitize(this string value, char[] invalidChars)
     {
-        invalidChars.CheckNotNull(nameof(invalidChars));
+        Guard.ThrowIfNull(invalidChars);
 
-        if (string.IsNullOrEmpty(value))
-            return value;
+        if (value is null or [])
+            return value!;
 
         ReadOnlySpan<char> valueSpan = value.AsSpan();
         ReadOnlySpan<char> invalidCharsSpan = invalidChars;
@@ -124,10 +124,10 @@ public static class StringExtensions
 
     public static string Sanitize(this string value, char[] invalidChars, char replaceWith)
     {
-        invalidChars.CheckNotNull(nameof(invalidChars));
+        Guard.ThrowIfNull(invalidChars);
 
-        if (string.IsNullOrEmpty(value))
-            return value;
+        if (value is null or [])
+            return value!;
 
         ReadOnlySpan<char> valueSpan = value.AsSpan();
         ReadOnlySpan<char> invalidCharsSpan = invalidChars;
@@ -169,10 +169,10 @@ public static class StringExtensions
 
     public static string Truncate(this string value, int length, bool withEllipsis = true)
     {
-        value.CheckNotNull(nameof(value));
+        Guard.ThrowIfNull(value);
 
         const string ellipses = "...";
-        length.CheckGreaterOrEqual(nameof(length), 1 + (withEllipsis ? ellipses.Length : 0));
+        Guard.ThrowIfLessThan(length, 1 + (withEllipsis ? ellipses.Length : 0));
 
         return value.Length <= length
             ? value
@@ -183,7 +183,7 @@ public static class StringExtensions
 
     public static string TrimStart(this string value, string trimString)
     {
-        value.CheckNotNull(nameof(value));
+        Guard.ThrowIfNull(value);
 
         return trimString is not null && value.StartsWith(trimString, StringComparison.Ordinal)
             ? value[trimString.Length..]

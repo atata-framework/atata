@@ -244,7 +244,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner DispatchEvent(string eventName)
     {
-        eventName.CheckNotNullOrWhitespace(nameof(eventName));
+        Guard.ThrowIfNullOrWhitespace(eventName);
 
         return ExecuteAgainst(
             "arguments[0].dispatchEvent(new Event(arguments[1]));",

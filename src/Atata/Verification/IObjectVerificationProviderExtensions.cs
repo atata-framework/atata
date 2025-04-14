@@ -17,7 +17,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<TObject, TOwner> verifier,
         Expression<Func<TObject, bool>> predicateExpression)
     {
-        predicateExpression.CheckNotNull(nameof(predicateExpression));
+        Guard.ThrowIfNull(predicateExpression);
 
         var predicate = predicateExpression.Compile();
         string expressionAsString = Stringifier.ToString(predicateExpression);
@@ -41,8 +41,8 @@ public static partial class IObjectVerificationProviderExtensions
         string message,
         params TObject[] args)
     {
-        verifier.CheckNotNull(nameof(verifier));
-        predicate.CheckNotNull(nameof(predicate));
+        Guard.ThrowIfNull(verifier);
+        Guard.ThrowIfNull(predicate);
 
         void ExecuteVerification()
         {
@@ -112,8 +112,8 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<TObject, TOwner> verifier,
         IVerificationProvider<TOwner> sourceVerificationProvider)
     {
-        verifier.CheckNotNull(nameof(verifier));
-        sourceVerificationProvider.CheckNotNull(nameof(sourceVerificationProvider));
+        Guard.ThrowIfNull(verifier);
+        Guard.ThrowIfNull(sourceVerificationProvider);
 
         IObjectVerificationProvider<TObject, TOwner> resultVerificationProvider =
             sourceVerificationProvider.IsNegation && !verifier.IsNegation

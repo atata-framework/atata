@@ -83,7 +83,8 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
     public TBuilder UseDomTestIdAttributeName(string name)
     {
-        name.CheckNotNullOrWhitespace(nameof(name));
+        Guard.ThrowIfNullOrWhitespace(name);
+
         DomTestIdAttributeName = name;
 
         return (TBuilder)this;

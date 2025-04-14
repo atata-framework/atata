@@ -34,7 +34,7 @@ public sealed class ComponentAttributesBuilder : AttributesBuilderBase
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Configure(Action<ComponentAttributesBuilder> configure)
     {
-        configure.CheckNotNull(nameof(configure));
+        Guard.ThrowIfNull(configure);
 
         configure(this);
 
@@ -48,7 +48,7 @@ public sealed class ComponentAttributesBuilder : AttributesBuilderBase
     /// <returns>An instance of <see cref="PropertyAttributesBuilder"/>.</returns>
     public PropertyAttributesBuilder Property(string propertyName)
     {
-        propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
+        Guard.ThrowIfNullOrWhitespace(propertyName);
 
         return new(
             AtataContextBuilder,

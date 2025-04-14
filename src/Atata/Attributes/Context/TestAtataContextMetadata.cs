@@ -17,7 +17,7 @@ public sealed class TestAtataContextMetadata
     /// <returns>A new <see cref="TestAtataContextMetadata"/> instance.</returns>
     public static TestAtataContextMetadata GetForMethod(MethodInfo testMethod)
     {
-        testMethod.CheckNotNull(nameof(testMethod));
+        Guard.ThrowIfNull(testMethod);
 
         object[] allAttributes = testMethod.GetCustomAttributes(true);
         return new(allAttributes);

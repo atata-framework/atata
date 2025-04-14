@@ -114,7 +114,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     /// <returns>The same builder instance.</returns>
     public TBuilder WithAlias(string alias)
     {
-        alias.CheckNotNullOrWhitespace(nameof(alias));
+        Guard.ThrowIfNullOrWhitespace(alias);
 
         Alias = alias;
         return (TBuilder)this;
@@ -129,7 +129,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     /// <returns>The same builder instance.</returns>
     public TBuilder WithCreateRetries(int createRetries)
     {
-        createRetries.CheckGreaterOrEqual(nameof(createRetries), 0);
+        Guard.ThrowIfLessThan(createRetries, 0);
 
         CreateRetries = createRetries;
         return (TBuilder)this;
@@ -157,7 +157,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     /// <returns>The same builder instance.</returns>
     public TBuilder WithInitialHealthCheckFunction(Func<IWebDriver, bool> function)
     {
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNull(function);
 
         _initialHealthCheckFunction = function;
         return (TBuilder)this;

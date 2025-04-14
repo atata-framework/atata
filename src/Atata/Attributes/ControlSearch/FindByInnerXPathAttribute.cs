@@ -4,7 +4,7 @@ public class FindByInnerXPathAttribute : FindAttribute, ITermFindAttribute
 {
     public FindByInnerXPathAttribute(params string[] values)
     {
-        values.CheckNotNullOrEmpty(nameof(values));
+        Guard.ThrowIfNullOrEmpty(values);
 
         Values = values;
     }

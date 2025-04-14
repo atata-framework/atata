@@ -19,9 +19,10 @@ public class LazyObjectSource<TObject, TSource> : IObjectSource<TObject>
     /// <param name="objectGetFunction">The object get function.</param>
     public LazyObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> objectGetFunction)
     {
-        _sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
+        Guard.ThrowIfNull(sourceProvider);
+        Guard.ThrowIfNull(objectGetFunction);
 
-        objectGetFunction.CheckNotNull(nameof(objectGetFunction));
+        _sourceProvider = sourceProvider;
 
         _lazyObject = new(() => objectGetFunction.Invoke(_sourceProvider.Object));
         _sourceProvider = sourceProvider;

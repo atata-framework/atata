@@ -10,20 +10,24 @@ public class ActionEventHandler<TEvent> : IEventHandler<TEvent>
 
     public ActionEventHandler(Action action)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         _action = (_, _) => action.Invoke();
     }
 
     public ActionEventHandler(Action<TEvent> action)
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         _action = (e, _) => action.Invoke(e);
     }
 
-    public ActionEventHandler(Action<TEvent, AtataContext> action) =>
-        _action = action.CheckNotNull(nameof(action));
+    public ActionEventHandler(Action<TEvent, AtataContext> action)
+    {
+        Guard.ThrowIfNull(action);
+
+        _action = action;
+    }
 
     /// <inheritdoc/>
     public void Handle(TEvent eventData, AtataContext context) =>

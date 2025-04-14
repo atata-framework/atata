@@ -4,8 +4,12 @@ public class CustomWebDriverBuilder : WebDriverBuilder<CustomWebDriverBuilder>
 {
     private readonly Func<IWebDriver> _driverFactory;
 
-    public CustomWebDriverBuilder(Func<IWebDriver> driverFactory) =>
-        _driverFactory = driverFactory.CheckNotNull(nameof(driverFactory));
+    public CustomWebDriverBuilder(Func<IWebDriver> driverFactory)
+    {
+        Guard.ThrowIfNull(driverFactory);
+
+        _driverFactory = driverFactory;
+    }
 
     protected override IWebDriver CreateDriver(ILogManager logManager)
     {

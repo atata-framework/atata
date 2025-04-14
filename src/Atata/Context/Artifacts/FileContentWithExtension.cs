@@ -7,7 +7,9 @@ public abstract class FileContentWithExtension
 {
     protected FileContentWithExtension(string extension)
     {
-        Extension = extension.CheckNotNullOrWhitespace(nameof(extension));
+        Guard.ThrowIfNullOrWhitespace(extension);
+
+        Extension = extension;
 
         if (Extension[0] != '.')
             Extension = '.' + Extension;
@@ -20,24 +22,24 @@ public abstract class FileContentWithExtension
 
     public static FileContentWithExtension CreateFromText(string text, string extension)
     {
-        text.CheckNotNull(nameof(text));
-        extension.CheckNotNullOrWhitespace(nameof(extension));
+        Guard.ThrowIfNull(text);
+        Guard.ThrowIfNullOrWhitespace(extension);
 
         return new TextFileContentWithExtension(text, extension);
     }
 
     public static FileContentWithExtension CreateFromByteArray(byte[] bytes, string extension)
     {
-        bytes.CheckNotNull(nameof(bytes));
-        extension.CheckNotNullOrWhitespace(nameof(extension));
+        Guard.ThrowIfNull(bytes);
+        Guard.ThrowIfNullOrWhitespace(extension);
 
         return new ByteArrayFileContentWithExtension(bytes, extension);
     }
 
     public static FileContentWithExtension CreateFromBase64String(string base64String, string extension)
     {
-        base64String.CheckNotNull(nameof(base64String));
-        extension.CheckNotNullOrWhitespace(nameof(extension));
+        Guard.ThrowIfNull(base64String);
+        Guard.ThrowIfNullOrWhitespace(extension);
 
         var bytes = Convert.FromBase64String(base64String);
 

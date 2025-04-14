@@ -42,9 +42,9 @@ public sealed class ComponentAttributesBuilder<TComponent> : AttributesBuilderBa
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Configure(Action<ComponentAttributesBuilder<TComponent>> configure)
     {
-        configure.CheckNotNull(nameof(configure));
+        Guard.ThrowIfNull(configure);
 
-        configure(this);
+        configure.Invoke(this);
 
         return AtataContextBuilder;
     }
@@ -56,7 +56,7 @@ public sealed class ComponentAttributesBuilder<TComponent> : AttributesBuilderBa
     /// <returns>An instance of <see cref="PropertyAttributesBuilder"/>.</returns>
     public PropertyAttributesBuilder Property(string propertyName)
     {
-        propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
+        Guard.ThrowIfNullOrWhitespace(propertyName);
 
         return new(
             AtataContextBuilder,
@@ -72,7 +72,9 @@ public sealed class ComponentAttributesBuilder<TComponent> : AttributesBuilderBa
     /// <returns>An instance of <see cref="PropertyAttributesBuilder"/>.</returns>
     public PropertyAttributesBuilder Property(Expression<Func<TComponent, object>> propertyExpression)
     {
-        MemberInfo member = propertyExpression.CheckNotNull(nameof(propertyExpression)).ExtractMember();
+        Guard.ThrowIfNull(propertyExpression);
+
+        MemberInfo member = propertyExpression.ExtractMember();
         PropertyInfo property = (member as PropertyInfo)
             ?? throw new ArgumentException("Expression does not return a property.", nameof(propertyExpression));
 

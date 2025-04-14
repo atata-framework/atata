@@ -215,7 +215,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseVariable(string key, object? value)
     {
-        key.CheckNotNullOrWhitespace(nameof(key));
+        Guard.ThrowIfNullOrWhitespace(key);
 
         Variables[key] = value;
 
@@ -229,7 +229,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseVariables(IEnumerable<KeyValuePair<string, object?>> variables)
     {
-        variables.CheckNotNull(nameof(variables));
+        Guard.ThrowIfNull(variables);
 
         foreach (var variable in variables)
             Variables[variable.Key] = variable.Value;
@@ -258,7 +258,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseState(string key, object value)
     {
-        key.CheckNotNullOrWhitespace(nameof(key));
+        Guard.ThrowIfNullOrWhitespace(key);
 
         State[key] = value;
 
@@ -272,7 +272,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseState(IEnumerable<KeyValuePair<string, object>> objects)
     {
-        objects.CheckNotNull(nameof(objects));
+        Guard.ThrowIfNull(objects);
 
         foreach (var variable in objects)
             State[variable.Key] = variable.Value;
@@ -300,7 +300,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseTestName(Func<string?> testNameFactory)
     {
-        testNameFactory.CheckNotNull(nameof(testNameFactory));
+        Guard.ThrowIfNull(testNameFactory);
 
         TestNameFactory = testNameFactory;
         return this;
@@ -324,7 +324,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseTestSuiteName(Func<string?> testSuiteNameFactory)
     {
-        testSuiteNameFactory.CheckNotNull(nameof(testSuiteNameFactory));
+        Guard.ThrowIfNull(testSuiteNameFactory);
 
         TestSuiteNameFactory = testSuiteNameFactory;
         return this;
@@ -348,7 +348,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseTestSuiteType(Func<Type?> testSuiteTypeFactory)
     {
-        testSuiteTypeFactory.CheckNotNull(nameof(testSuiteTypeFactory));
+        Guard.ThrowIfNull(testSuiteTypeFactory);
 
         TestSuiteTypeFactory = testSuiteTypeFactory;
         return this;
@@ -361,7 +361,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseTestSuiteType(Type? testSuiteType)
     {
-        testSuiteType.CheckNotNull(nameof(testSuiteType));
+        Guard.ThrowIfNull(testSuiteType);
 
         TestSuiteTypeFactory = () => testSuiteType;
         return this;
@@ -374,7 +374,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseTestSuiteGroupName(Func<string?> testSuiteGroupNameFactory)
     {
-        testSuiteGroupNameFactory.CheckNotNull(nameof(testSuiteGroupNameFactory));
+        Guard.ThrowIfNull(testSuiteGroupNameFactory);
 
         TestSuiteGroupNameFactory = testSuiteGroupNameFactory;
         return this;
@@ -499,7 +499,7 @@ public sealed class AtataContextBuilder : ICloneable
         "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
     public AtataContextBuilder UseAssertionExceptionType(Type exceptionType)
     {
-        exceptionType.CheckIs<Exception>(nameof(exceptionType));
+        Guard.ThrowIfNot<Exception>(exceptionType);
 
         return UseAssertionExceptionFactory(new TypeBasedAssertionExceptionFactory(exceptionType));
     }
@@ -527,7 +527,7 @@ public sealed class AtataContextBuilder : ICloneable
         "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
     public AtataContextBuilder UseAggregateAssertionExceptionType(Type exceptionType)
     {
-        exceptionType.CheckIs<Exception>(nameof(exceptionType));
+        Guard.ThrowIfNot<Exception>(exceptionType);
 
         return UseAggregateAssertionExceptionFactory(new TypeBasedAggregateAssertionExceptionFactory(exceptionType));
     }

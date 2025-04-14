@@ -106,7 +106,7 @@ public static class TermResolver
         Func<T, TermOptions, string>? toStringConverter = null)
         where T : notnull
     {
-        fromStringConverter.CheckNotNull(nameof(fromStringConverter));
+        Guard.ThrowIfNull(fromStringConverter);
 
         object CastedFromStringConverter(string s, TermOptions to) =>
             fromStringConverter(s, to);
@@ -124,8 +124,8 @@ public static class TermResolver
         Func<string, TermOptions, object> fromStringConverter,
         Func<object, TermOptions, string>? toStringConverter = null)
     {
-        type.CheckNotNull(nameof(type));
-        fromStringConverter.CheckNotNull(nameof(fromStringConverter));
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNull(fromStringConverter);
 
         s_typeTermConverters[type] = new(fromStringConverter, toStringConverter);
     }
@@ -148,7 +148,7 @@ public static class TermResolver
 
     public static string[] GetTerms(object value, TermOptions? termOptions = null)
     {
-        value.CheckNotNull(nameof(value));
+        Guard.ThrowIfNull(value);
 
         termOptions ??= new TermOptions();
 

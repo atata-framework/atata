@@ -29,7 +29,7 @@ public class InternetExplorerDriverBuilder : WebDriverBuilder<InternetExplorerDr
     /// <returns>The same builder instance.</returns>
     public InternetExplorerDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
-        optionName.CheckNotNullOrWhitespace(nameof(optionName));
+        Guard.ThrowIfNullOrWhitespace(optionName);
 
         return WithOptions(options => options.AddAdditionalInternetExplorerOption(optionName, optionValue));
     }

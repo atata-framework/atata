@@ -232,7 +232,7 @@ public abstract class UIComponent
     public void ExecuteBehavior<TBehaviorAttribute>(Action<TBehaviorAttribute> behaviorExecutionAction)
         where TBehaviorAttribute : MulticastAttribute
     {
-        behaviorExecutionAction.CheckNotNull(nameof(behaviorExecutionAction));
+        Guard.ThrowIfNull(behaviorExecutionAction);
 
         var behavior = GetAttributeOrThrow<TBehaviorAttribute>();
 
@@ -247,7 +247,7 @@ public abstract class UIComponent
     public TResult ExecuteBehavior<TBehaviorAttribute, TResult>(Func<TBehaviorAttribute, TResult> behaviorExecutionFunction)
         where TBehaviorAttribute : MulticastAttribute
     {
-        behaviorExecutionFunction.CheckNotNull(nameof(behaviorExecutionFunction));
+        Guard.ThrowIfNull(behaviorExecutionFunction);
 
         var behavior = GetAttributeOrThrow<TBehaviorAttribute>();
 

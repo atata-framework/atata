@@ -19,10 +19,13 @@ public static class IObjectProviderExtensions
     public static ValueProvider<TResult, TOwner> ValueOf<TSource, TResult, TOwner>(
         this IObjectProvider<TSource, TOwner> source,
         Expression<Func<TSource, TResult>> valueExpression)
-        =>
-        source.CheckNotNull(nameof(source)).IsDynamic
-            ? source.DynamicValueOf(valueExpression)
-            : source.LazyValueOf(valueExpression);
+    {
+        Guard.ThrowIfNull(source);
+
+        return source.IsDynamic
+                ? source.DynamicValueOf(valueExpression)
+                : source.LazyValueOf(valueExpression);
+    }
 
     /// <summary>
     /// Creates a provider of value that is taken from <paramref name="valueGetFunction"/> with <paramref name="valueName"/> as a provider name.
@@ -40,10 +43,13 @@ public static class IObjectProviderExtensions
         this IObjectProvider<TSource, TOwner> source,
         Func<TSource, TResult> valueGetFunction,
         string valueName)
-        =>
-        source.CheckNotNull(nameof(source)).IsDynamic
-            ? source.DynamicValueOf(valueGetFunction, valueName)
-            : source.LazyValueOf(valueGetFunction, valueName);
+    {
+        Guard.ThrowIfNull(source);
+
+        return source.IsDynamic
+                ? source.DynamicValueOf(valueGetFunction, valueName)
+                : source.LazyValueOf(valueGetFunction, valueName);
+    }
 
     /// <summary>
     /// Creates a dynamic provider of value resolved from <paramref name="valueExpression"/> argument.
@@ -59,8 +65,7 @@ public static class IObjectProviderExtensions
         this IObjectProvider<TSource, TOwner> source,
         Expression<Func<TSource, TResult>> valueExpression)
     {
-        source.CheckNotNull(nameof(source));
-        valueExpression.CheckNotNull(nameof(valueExpression));
+        Guard.ThrowIfNull(valueExpression);
 
         string valueName = ConvertToValueName(valueExpression);
         var valueFunction = valueExpression.Compile();
@@ -84,9 +89,9 @@ public static class IObjectProviderExtensions
         Func<TSource, TResult> valueGetFunction,
         string valueName)
     {
-        source.CheckNotNull(nameof(source));
-        valueGetFunction.CheckNotNull(nameof(valueGetFunction));
-        valueName.CheckNotNull(nameof(valueName));
+        Guard.ThrowIfNull(source);
+        Guard.ThrowIfNull(valueGetFunction);
+        Guard.ThrowIfNull(valueName);
 
         return new(
             source.Owner,
@@ -108,8 +113,7 @@ public static class IObjectProviderExtensions
         this IObjectProvider<TSource, TOwner> source,
         Expression<Func<TSource, TResult>> valueExpression)
     {
-        source.CheckNotNull(nameof(source));
-        valueExpression.CheckNotNull(nameof(valueExpression));
+        Guard.ThrowIfNull(valueExpression);
 
         string valueName = ConvertToValueName(valueExpression);
         var valueFunction = valueExpression.Compile();
@@ -132,9 +136,9 @@ public static class IObjectProviderExtensions
         Func<TSource, TResult> valueGetFunction,
         string valueName)
     {
-        source.CheckNotNull(nameof(source));
-        valueGetFunction.CheckNotNull(nameof(valueGetFunction));
-        valueName.CheckNotNull(nameof(valueName));
+        Guard.ThrowIfNull(source);
+        Guard.ThrowIfNull(valueGetFunction);
+        Guard.ThrowIfNull(valueName);
 
         return new(
             source.Owner,
@@ -159,10 +163,13 @@ public static class IObjectProviderExtensions
         this IObjectProvider<TSource, TOwner> source,
         Func<TSource, IEnumerable<TResult>> valueGetFunction,
         string valueName)
-        =>
-        source.CheckNotNull(nameof(source)).IsDynamic
-            ? source.DynamicEnumerableValueOf(valueGetFunction, valueName)
-            : source.LazyEnumerableValueOf(valueGetFunction, valueName);
+    {
+        Guard.ThrowIfNull(source);
+
+        return source.IsDynamic
+                ? source.DynamicEnumerableValueOf(valueGetFunction, valueName)
+                : source.LazyEnumerableValueOf(valueGetFunction, valueName);
+    }
 
     /// <summary>
     /// Creates a dynamic enumerable provider of value that is taken from <paramref name="valueGetFunction"/> with <paramref name="valueName"/> as a provider name.
@@ -180,9 +187,9 @@ public static class IObjectProviderExtensions
         Func<TSource, IEnumerable<TResult>> valueGetFunction,
         string valueName)
     {
-        source.CheckNotNull(nameof(source));
-        valueGetFunction.CheckNotNull(nameof(valueGetFunction));
-        valueName.CheckNotNull(nameof(valueName));
+        Guard.ThrowIfNull(source);
+        Guard.ThrowIfNull(valueGetFunction);
+        Guard.ThrowIfNull(valueName);
 
         return new(
             source.Owner,
@@ -208,9 +215,9 @@ public static class IObjectProviderExtensions
         Func<TSource, IEnumerable<TResult>> valueGetFunction,
         string valueName)
     {
-        source.CheckNotNull(nameof(source));
-        valueGetFunction.CheckNotNull(nameof(valueGetFunction));
-        valueName.CheckNotNull(nameof(valueName));
+        Guard.ThrowIfNull(source);
+        Guard.ThrowIfNull(valueGetFunction);
+        Guard.ThrowIfNull(valueName);
 
         return new(
             source.Owner,

@@ -5,9 +5,9 @@ public static class TermMatchExtensions
     public static string CreateXPathCondition(this TermMatch match, string value, string operand = ".")
     {
         if (match != TermMatch.Equals)
-            value.CheckNotNullOrEmpty(nameof(value));
+            Guard.ThrowIfNullOrEmpty(value);
 
-        operand.CheckNotNullOrEmpty(nameof(operand));
+        Guard.ThrowIfNullOrEmpty(operand);
 
         string valueString = XPathString.ConvertTo(value);
 
@@ -25,8 +25,8 @@ public static class TermMatchExtensions
 
     public static string CreateXPathCondition(this TermMatch match, string[] values, string operand = ".")
     {
-        values.CheckNotNull(nameof(values));
-        operand.CheckNotNull(nameof(operand));
+        Guard.ThrowIfNull(values);
+        Guard.ThrowIfNull(operand);
 
         return string.Join(" or ", values.Select(x => match.CreateXPathCondition(x, operand)));
     }

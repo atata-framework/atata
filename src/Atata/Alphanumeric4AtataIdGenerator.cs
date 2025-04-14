@@ -22,8 +22,11 @@ public sealed class Alphanumeric4AtataIdGenerator : IAtataIdGenerator
     {
     }
 
-    public Alphanumeric4AtataIdGenerator(Random random) =>
-        _random = random.CheckNotNull(nameof(random));
+    public Alphanumeric4AtataIdGenerator(Random random)
+    {
+        Guard.ThrowIfNull(random);
+        _random = random;
+    }
 
     /// <inheritdoc/>
     public string GenerateId()

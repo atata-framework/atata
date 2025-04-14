@@ -25,7 +25,7 @@ public static class ValueRandomizer
 
     public static void RegisterRandomizer<T>(Func<UIComponentMetadata, T> randomizeFunction)
     {
-        randomizeFunction.CheckNotNull(nameof(randomizeFunction));
+        Guard.ThrowIfNull(randomizeFunction);
 
         s_randomizers[typeof(T)] = md => randomizeFunction(md)!;
     }

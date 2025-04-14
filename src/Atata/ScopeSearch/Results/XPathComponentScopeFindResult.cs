@@ -10,10 +10,10 @@ public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
         SearchOptions searchOptions,
         UIComponent component)
     {
-        xPath.CheckNotNullOrEmpty(nameof(xPath));
-        scopeSource.CheckNotNull(nameof(scopeSource));
-        searchOptions.CheckNotNull(nameof(searchOptions));
-        component.CheckNotNull(nameof(component));
+        Guard.ThrowIfNullOrEmpty(xPath);
+        Guard.ThrowIfNull(scopeSource);
+        Guard.ThrowIfNull(searchOptions);
+        Guard.ThrowIfNull(component);
 
         XPath = xPath;
         ScopeSource = scopeSource;

@@ -92,7 +92,8 @@ public sealed class AtataContextGlobalProperties
         get => _timeZone;
         set
         {
-            _timeZone = value.CheckNotNull(nameof(value));
+            Guard.ThrowIfNull(value);
+            _timeZone = value;
             InitializeRunStart();
         }
     }
@@ -218,7 +219,7 @@ public sealed class AtataContextGlobalProperties
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
     public AtataContextGlobalProperties UseArtifactsRootPathTemplate(string directoryPathTemplate)
     {
-        directoryPathTemplate.CheckNotNullOrWhitespace(nameof(directoryPathTemplate));
+        Guard.ThrowIfNullOrWhitespace(directoryPathTemplate);
 
         ArtifactsRootPathTemplate = directoryPathTemplate;
         return this;
@@ -231,7 +232,7 @@ public sealed class AtataContextGlobalProperties
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
     public AtataContextGlobalProperties UseArtifactsPathFactory(IArtifactsPathFactory artifactsPathFactory)
     {
-        artifactsPathFactory.CheckNotNull(nameof(artifactsPathFactory));
+        Guard.ThrowIfNull(artifactsPathFactory);
 
         ArtifactsPathFactory = artifactsPathFactory;
         return this;
@@ -281,7 +282,7 @@ public sealed class AtataContextGlobalProperties
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
     public AtataContextGlobalProperties UseTimeZone(string timeZoneId)
     {
-        timeZoneId.CheckNotNullOrWhitespace(nameof(timeZoneId));
+        Guard.ThrowIfNullOrWhitespace(timeZoneId);
         TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
         return UseTimeZone(timeZone);
@@ -294,7 +295,7 @@ public sealed class AtataContextGlobalProperties
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
     public AtataContextGlobalProperties UseTimeZone(TimeZoneInfo timeZone)
     {
-        timeZone.CheckNotNull(nameof(timeZone));
+        Guard.ThrowIfNull(timeZone);
 
         TimeZone = timeZone;
         return this;
@@ -322,7 +323,7 @@ public sealed class AtataContextGlobalProperties
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
     public AtataContextGlobalProperties UseAssemblyNamePatternToFindTypes(string pattern)
     {
-        pattern.CheckNotNullOrWhitespace(nameof(pattern));
+        Guard.ThrowIfNullOrWhitespace(pattern);
 
         AssemblyNamePatternToFindTypes = pattern;
         return this;
@@ -336,7 +337,7 @@ public sealed class AtataContextGlobalProperties
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
     public AtataContextGlobalProperties UseIdGenerator(IAtataIdGenerator idGenerator)
     {
-        idGenerator.CheckNotNull(nameof(idGenerator));
+        Guard.ThrowIfNull(idGenerator);
 
         IdGenerator = idGenerator;
         return this;

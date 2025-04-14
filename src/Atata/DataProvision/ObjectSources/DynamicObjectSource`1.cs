@@ -12,8 +12,11 @@ public class DynamicObjectSource<TObject> : IObjectSource<TObject>
     /// Initializes a new instance of the <see cref="DynamicObjectSource{TObject}"/> class.
     /// </summary>
     /// <param name="objectGetFunction">The object get function.</param>
-    public DynamicObjectSource(Func<TObject> objectGetFunction) =>
-        _objectGetFunction = objectGetFunction.CheckNotNull(nameof(objectGetFunction));
+    public DynamicObjectSource(Func<TObject> objectGetFunction)
+    {
+        Guard.ThrowIfNull(objectGetFunction);
+        _objectGetFunction = objectGetFunction;
+    }
 
     /// <inheritdoc/>
     public TObject Object =>

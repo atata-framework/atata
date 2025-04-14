@@ -4,14 +4,14 @@ public static class TypeExtensions
 {
     internal static bool IsClassOrNullable(this Type type)
     {
-        type.CheckNotNull(nameof(type));
+        Guard.ThrowIfNull(type);
 
         return type.IsClass || Nullable.GetUnderlyingType(type) is not null;
     }
 
     public static Enum[] GetIndividualEnumFlags(this Type type)
     {
-        type.CheckNotNull(nameof(type));
+        Guard.ThrowIfNull(type);
 
         if (type.IsDefined(typeof(FlagsAttribute), false))
         {
@@ -39,8 +39,8 @@ public static class TypeExtensions
 
     internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, params Type[] types)
     {
-        type.CheckNotNull(nameof(type));
-        name.CheckNotNullOrWhitespace(nameof(name));
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNullOrWhitespace(name);
 
         return type.GetMethod(name, types)
             ?? throw new MissingMethodException(type.FullName, name);
@@ -48,8 +48,8 @@ public static class TypeExtensions
 
     internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags)
     {
-        type.CheckNotNull(nameof(type));
-        name.CheckNotNullOrWhitespace(nameof(name));
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNullOrWhitespace(name);
 
         return type.GetMethod(name, bindingFlags)
             ?? throw new MissingMethodException(type.FullName, name);
@@ -57,8 +57,8 @@ public static class TypeExtensions
 
     internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags, params Type[] types)
     {
-        type.CheckNotNull(nameof(type));
-        name.CheckNotNullOrWhitespace(nameof(name));
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNullOrWhitespace(name);
 
         return type.GetMethod(name, bindingFlags, null, types, null)
             ?? throw new MissingMethodException(type.FullName, name);
@@ -66,8 +66,8 @@ public static class TypeExtensions
 
     internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
     {
-        type.CheckNotNull(nameof(type));
-        name.CheckNotNullOrWhitespace(nameof(name));
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNullOrWhitespace(name);
 
         PropertyInfo[] properties = bindingFlags == BindingFlags.Default
             ? type.GetProperties()
@@ -82,8 +82,8 @@ public static class TypeExtensions
         if (propertyType is null)
             return type.GetPropertyWithThrowOnError(name, bindingFlags);
 
-        type.CheckNotNull(nameof(type));
-        name.CheckNotNullOrWhitespace(nameof(name));
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNullOrWhitespace(name);
 
         PropertyInfo[] properties = bindingFlags == BindingFlags.Default
             ? type.GetProperties()
@@ -95,8 +95,8 @@ public static class TypeExtensions
 
     internal static FieldInfo GetFieldWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
     {
-        type.CheckNotNull(nameof(type));
-        name.CheckNotNullOrWhitespace(nameof(name));
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNullOrWhitespace(name);
 
         FieldInfo[] fields = bindingFlags == BindingFlags.Default
             ? type.GetFields()
@@ -108,7 +108,7 @@ public static class TypeExtensions
 
     public static int? GetDepthOfInheritance(this Type type, Type baseType)
     {
-        type.CheckNotNull(nameof(type));
+        Guard.ThrowIfNull(type);
 
         if (baseType is null)
             return null;
@@ -135,7 +135,7 @@ public static class TypeExtensions
 
     public static bool IsInheritedFromOrIs(this Type type, Type baseType)
     {
-        type.CheckNotNull(nameof(type));
+        Guard.ThrowIfNull(type);
 
         if (baseType is null)
             return false;

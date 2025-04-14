@@ -93,7 +93,9 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
 
     public TVerificationProvider Using(IVerificationStrategy strategy)
     {
-        Strategy = strategy.CheckNotNull(nameof(strategy));
+        Guard.ThrowIfNull(strategy);
+
+        Strategy = strategy;
 
         return (TVerificationProvider)this;
     }

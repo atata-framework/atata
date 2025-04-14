@@ -17,8 +17,9 @@ public class DirectorySubject : SubjectBase<DirectoryInfo, _>
         : this(
             DynamicObjectSource.Create(() => new DirectoryInfo(directoryPath)),
             providerName ?? BuildProviderName(directoryPath),
-            executionUnit) =>
-        directoryPath.CheckNotNullOrEmpty(nameof(directoryPath));
+            executionUnit)
+        =>
+        Guard.ThrowIfNullOrEmpty(directoryPath);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="_"/> class.
@@ -28,7 +29,7 @@ public class DirectorySubject : SubjectBase<DirectoryInfo, _>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
     public DirectorySubject(DirectoryInfo directoryInfo, string? providerName = null, IAtataExecutionUnit? executionUnit = null)
         : this(
-            new StaticObjectSource<DirectoryInfo>(directoryInfo.CheckNotNull(nameof(directoryInfo))),
+            new StaticObjectSource<DirectoryInfo>(Guard.ReturnOrThrowIfNull(directoryInfo)),
             providerName ?? BuildProviderName(directoryInfo.FullName),
             executionUnit)
     {

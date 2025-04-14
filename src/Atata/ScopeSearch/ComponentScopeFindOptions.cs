@@ -7,9 +7,9 @@ public sealed class ComponentScopeFindOptions : ICloneable
 {
     public ComponentScopeFindOptions(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
     {
-        component.CheckNotNull(nameof(component));
-        metadata.CheckNotNull(nameof(metadata));
-        findAttribute.CheckNotNull(nameof(findAttribute));
+        Guard.ThrowIfNull(component);
+        Guard.ThrowIfNull(metadata);
+        Guard.ThrowIfNull(findAttribute);
 
         ControlDefinitionAttribute? definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
 

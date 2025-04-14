@@ -42,7 +42,7 @@ public class TermOptions : ITermSettings, IHasOptionalProperties
 
     public TermOptions MergeWith(IHasOptionalProperties settingsAttribute)
     {
-        settingsAttribute.CheckNotNull(nameof(settingsAttribute));
+        Guard.ThrowIfNull(settingsAttribute);
 
         if (settingsAttribute.OptionalProperties.TryGet(nameof(Case), out TermCase termCase))
             Case = termCase;

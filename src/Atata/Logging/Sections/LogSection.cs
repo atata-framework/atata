@@ -9,7 +9,9 @@ public class LogSection
 
     public LogSection(string message, LogLevel level = LogLevel.Info)
     {
-        Message = message.CheckNotNull(nameof(message));
+        Guard.ThrowIfNull(message);
+
+        Message = message;
         Level = level;
     }
 

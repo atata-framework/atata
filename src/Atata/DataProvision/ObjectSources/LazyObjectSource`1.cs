@@ -14,8 +14,8 @@ public class LazyObjectSource<TObject> : IObjectSource<TObject>
     /// <param name="objectGetFunction">The object get function.</param>
     public LazyObjectSource(Func<TObject> objectGetFunction)
     {
-        objectGetFunction.CheckNotNull(nameof(objectGetFunction));
-        _lazyObject = new Lazy<TObject>(objectGetFunction);
+        Guard.ThrowIfNull(objectGetFunction);
+        _lazyObject = new(objectGetFunction);
     }
 
     /// <inheritdoc/>

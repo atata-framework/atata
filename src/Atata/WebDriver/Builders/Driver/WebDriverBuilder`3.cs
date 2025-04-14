@@ -124,7 +124,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithOptions(TOptions options)
     {
-        options.CheckNotNull(nameof(options));
+        Guard.ThrowIfNull(options);
 
         _optionsFactory = () => options;
         return (TBuilder)this;
@@ -137,7 +137,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithOptions(Func<TOptions> optionsFactory)
     {
-        optionsFactory.CheckNotNull(nameof(optionsFactory));
+        Guard.ThrowIfNull(optionsFactory);
 
         _optionsFactory = optionsFactory;
         return (TBuilder)this;
@@ -150,7 +150,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithOptions(Action<TOptions> optionsInitializer)
     {
-        optionsInitializer.CheckNotNull(nameof(optionsInitializer));
+        Guard.ThrowIfNull(optionsInitializer);
 
         _optionsInitializers.Add(optionsInitializer);
         return (TBuilder)this;
@@ -163,7 +163,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithOptions(IEnumerable<KeyValuePair<string, object?>> optionsPropertiesMap)
     {
-        optionsPropertiesMap.CheckNotNull(nameof(optionsPropertiesMap));
+        Guard.ThrowIfNull(optionsPropertiesMap);
 
         return WithOptions(opt => AtataContext.GlobalProperties.ObjectMapper.Map(optionsPropertiesMap, opt));
     }
@@ -176,7 +176,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder AddAdditionalOption(string optionName, object optionValue)
     {
-        optionName.CheckNotNullOrWhitespace(nameof(optionName));
+        Guard.ThrowIfNullOrWhitespace(optionName);
 
         return WithOptions(options => options.AddAdditionalOption(optionName, optionValue));
     }
@@ -188,7 +188,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithDriverService(Func<TService> serviceFactory)
     {
-        serviceFactory.CheckNotNull(nameof(serviceFactory));
+        Guard.ThrowIfNull(serviceFactory);
 
         _serviceFactory = serviceFactory;
         return (TBuilder)this;
@@ -201,7 +201,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithDriverService(Action<TService> serviceInitializer)
     {
-        serviceInitializer.CheckNotNull(nameof(serviceInitializer));
+        Guard.ThrowIfNull(serviceInitializer);
 
         _serviceInitializers.Add(serviceInitializer);
         return (TBuilder)this;
@@ -214,7 +214,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithDriverService(Dictionary<string, object?> servicePropertiesMap)
     {
-        servicePropertiesMap.CheckNotNull(nameof(servicePropertiesMap));
+        Guard.ThrowIfNull(servicePropertiesMap);
 
         return WithDriverService(srv => AtataContext.GlobalProperties.ObjectMapper.Map(servicePropertiesMap, srv));
     }
@@ -226,7 +226,9 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithDriverPath(string driverPath)
     {
-        _driverPath = driverPath.CheckNotNullOrWhitespace(nameof(driverPath));
+        Guard.ThrowIfNullOrWhitespace(driverPath);
+
+        _driverPath = driverPath;
         return (TBuilder)this;
     }
 
@@ -246,7 +248,9 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithDriverExecutableFileName(string driverExecutableFileName)
     {
-        _driverExecutableFileName = driverExecutableFileName.CheckNotNullOrWhitespace(nameof(driverExecutableFileName));
+        Guard.ThrowIfNullOrWhitespace(driverExecutableFileName);
+
+        _driverExecutableFileName = driverExecutableFileName;
         return (TBuilder)this;
     }
 

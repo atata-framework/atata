@@ -23,7 +23,7 @@ public static class TermCaseResolver
 
     public static string ApplyCase(string value, TermCase termCase, CultureInfo? culture = null)
     {
-        value.CheckNotNull(nameof(value));
+        Guard.ThrowIfNull(value);
 
         if (termCase == TermCase.None)
             return value;
@@ -35,7 +35,8 @@ public static class TermCaseResolver
 
     public static string ApplyCase(string[] words, TermCase termCase, CultureInfo? culture = null)
     {
-        words.CheckNotNull(nameof(words));
+        Guard.ThrowIfNull(words);
+
         culture ??= CultureInfo.CurrentCulture;
 
         if (words is [])

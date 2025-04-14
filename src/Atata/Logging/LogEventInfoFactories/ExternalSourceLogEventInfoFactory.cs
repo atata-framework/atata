@@ -10,8 +10,11 @@ internal sealed class ExternalSourceLogEventInfoFactory : ILogEventInfoFactory
         ILogEventInfoFactory parentFactory,
         string externalSource)
     {
-        _parentFactory = parentFactory.CheckNotNull(nameof(parentFactory));
-        _externalSource = externalSource.CheckNotNullOrWhitespace(nameof(externalSource));
+        Guard.ThrowIfNull(parentFactory);
+        Guard.ThrowIfNullOrWhitespace(externalSource);
+
+        _parentFactory = parentFactory;
+        _externalSource = externalSource;
     }
 
     public LogEventInfo Create(DateTime timestamp, LogLevel level, string? message)

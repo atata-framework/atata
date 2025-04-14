@@ -17,8 +17,9 @@ public class FileSubject : SubjectBase<FileInfo, _>
         : this(
             DynamicObjectSource.Create(() => new FileInfo(filePath)),
             providerName ?? BuildProviderName(filePath),
-            executionUnit) =>
-        filePath.CheckNotNullOrEmpty(nameof(filePath));
+            executionUnit)
+        =>
+        Guard.ThrowIfNullOrEmpty(filePath);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="_"/> class.
@@ -28,7 +29,7 @@ public class FileSubject : SubjectBase<FileInfo, _>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
     public FileSubject(FileInfo fileInfo, string? providerName = null, IAtataExecutionUnit? executionUnit = null)
         : this(
-            new StaticObjectSource<FileInfo>(fileInfo.CheckNotNull(nameof(fileInfo))),
+            new StaticObjectSource<FileInfo>(Guard.ReturnOrThrowIfNull(fileInfo)),
             providerName ?? BuildProviderName(fileInfo.FullName),
             executionUnit)
     {

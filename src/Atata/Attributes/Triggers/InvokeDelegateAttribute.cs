@@ -6,8 +6,11 @@
 public class InvokeDelegateAttribute : TriggerAttribute
 {
     public InvokeDelegateAttribute(Action actionDelegate, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-        : base(on, priority) =>
-        ActionDelegate = actionDelegate.CheckNotNull(nameof(actionDelegate));
+        : base(on, priority)
+    {
+        Guard.ThrowIfNull(actionDelegate);
+        ActionDelegate = actionDelegate;
+    }
 
     /// <summary>
     /// Gets the action delegate.

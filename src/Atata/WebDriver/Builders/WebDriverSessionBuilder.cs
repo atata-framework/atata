@@ -85,7 +85,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <returns>The driver factory or <see langword="null"/>.</returns>
     public IWebDriverFactory? GetDriverFactory(string alias)
     {
-        alias.CheckNotNullOrWhitespace(nameof(alias));
+        Guard.ThrowIfNullOrWhitespace(alias);
 
         return DriverFactories.LastOrDefault(x => alias.Equals(x.Alias, StringComparison.OrdinalIgnoreCase));
     }
@@ -104,8 +104,8 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         Action<TDriverBuilder>? configure = null)
         where TDriverBuilder : WebDriverBuilder<TDriverBuilder>
     {
-        alias.CheckNotNullOrWhitespace(nameof(alias));
-        driverBuilderCreator.CheckNotNull(nameof(driverBuilderCreator));
+        Guard.ThrowIfNullOrWhitespace(alias);
+        Guard.ThrowIfNull(driverBuilderCreator);
 
         IWebDriverFactory? driverFactory = GetDriverFactory(alias);
 
@@ -151,7 +151,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     public WebDriverSessionBuilder UseDriver<TDriverBuilder>(TDriverBuilder driverBuilder, Action<TDriverBuilder>? configure = null)
         where TDriverBuilder : WebDriverBuilder<TDriverBuilder>
     {
-        driverBuilder.CheckNotNull(nameof(driverBuilder));
+        Guard.ThrowIfNull(driverBuilder);
 
         configure?.Invoke(driverBuilder);
 
@@ -168,7 +168,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
     public WebDriverSessionBuilder UseDriver(string alias)
     {
-        alias.CheckNotNullOrWhitespace(nameof(alias));
+        Guard.ThrowIfNullOrWhitespace(alias);
 
         IWebDriverFactory? driverFactory = GetDriverFactory(alias);
 
@@ -188,7 +188,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
     public WebDriverSessionBuilder UseDriver(IWebDriver driver, Action<CustomWebDriverBuilder>? configure = null)
     {
-        driver.CheckNotNull(nameof(driver));
+        Guard.ThrowIfNull(driver);
 
         return UseDriver(() => driver, configure);
     }
@@ -201,7 +201,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
     public WebDriverSessionBuilder UseDriver(Func<IWebDriver> driverFactory, Action<CustomWebDriverBuilder>? configure = null)
     {
-        driverFactory.CheckNotNull(nameof(driverFactory));
+        Guard.ThrowIfNull(driverFactory);
 
         return UseDriver(new CustomWebDriverBuilder(driverFactory), configure);
     }

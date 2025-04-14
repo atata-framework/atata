@@ -19,8 +19,11 @@ public class DynamicObjectSource<TObject, TSource> : IObjectSource<TObject>
     /// <param name="objectGetFunction">The object get function.</param>
     public DynamicObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> objectGetFunction)
     {
-        _sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
-        _objectGetFunction = objectGetFunction.CheckNotNull(nameof(objectGetFunction));
+        Guard.ThrowIfNull(sourceProvider);
+        Guard.ThrowIfNull(objectGetFunction);
+
+        _sourceProvider = sourceProvider;
+        _objectGetFunction = objectGetFunction;
     }
 
     /// <inheritdoc/>

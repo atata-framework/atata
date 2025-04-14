@@ -30,7 +30,9 @@ public sealed class LogConsumerConfiguration : ICloneable
         LogLevel minLevel,
         LogSectionEndOption sectionEnd)
     {
-        Consumer = consumer.CheckNotNull(nameof(consumer));
+        Guard.ThrowIfNull(consumer);
+
+        Consumer = consumer;
         MinLevel = minLevel;
         SectionEnd = sectionEnd;
     }

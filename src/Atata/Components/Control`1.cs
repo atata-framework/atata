@@ -281,7 +281,7 @@ public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
     /// <returns>The instance of the owner page object.</returns>
     public TOwner DragAndDropTo(Func<TOwner, Control<TOwner>> targetSelector)
     {
-        targetSelector.CheckNotNull(nameof(targetSelector));
+        Guard.ThrowIfNull(targetSelector);
 
         var target = targetSelector(Owner);
 
@@ -298,7 +298,7 @@ public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
     /// <returns>The instance of the owner page object.</returns>
     public TOwner DragAndDropTo(Control<TOwner> target)
     {
-        target.CheckNotNull(nameof(target));
+        Guard.ThrowIfNull(target);
 
         ExecuteTriggers(TriggerEvents.BeforeClick);
 

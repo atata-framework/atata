@@ -10,17 +10,22 @@ public class ProcessFilesOnAtataContextDeInitCompletedEventHandler : ProcessFile
         string directoryPath,
         Action<FileInfo> fileProcessor)
     {
-        directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
+        Guard.ThrowIfNullOrWhitespace(directoryPath);
+        Guard.ThrowIfNull(fileProcessor);
+
         _directoryPathBuilder = _ => directoryPath;
-        _fileProcessor = fileProcessor.CheckNotNull(nameof(fileProcessor));
+        _fileProcessor = fileProcessor;
     }
 
     public ProcessFilesOnAtataContextDeInitCompletedEventHandler(
         Func<AtataContext, string> directoryPathBuilder,
         Action<FileInfo> fileProcessor)
     {
-        _directoryPathBuilder = directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
-        _fileProcessor = fileProcessor.CheckNotNull(nameof(fileProcessor));
+        Guard.ThrowIfNull(directoryPathBuilder);
+        Guard.ThrowIfNull(fileProcessor);
+
+        _directoryPathBuilder = directoryPathBuilder;
+        _fileProcessor = fileProcessor;
     }
 
     protected override string GetDirectoryPath(AtataContext context) =>

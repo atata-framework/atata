@@ -9,8 +9,8 @@ public class ObjectMapper : IObjectMapper
 
     public void Map(IEnumerable<KeyValuePair<string, object?>> propertiesMap, object destination)
     {
-        propertiesMap.CheckNotNull(nameof(propertiesMap));
-        destination.CheckNotNull(nameof(destination));
+        Guard.ThrowIfNull(propertiesMap);
+        Guard.ThrowIfNull(destination);
 
         Type destinationType = destination.GetType();
 
@@ -22,14 +22,14 @@ public class ObjectMapper : IObjectMapper
 
     public void Map(string propertyName, object? propertyValue, object destination)
     {
-        destination.CheckNotNull(nameof(destination));
+        Guard.ThrowIfNull(destination);
 
         Map(propertyName, propertyValue, destination, destination.GetType());
     }
 
     private void Map(string propertyName, object? propertyValue, object destination, Type destinationType)
     {
-        propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
+        Guard.ThrowIfNullOrWhitespace(propertyName);
 
         PropertyInfo property = destinationType.GetProperty(
             propertyName,

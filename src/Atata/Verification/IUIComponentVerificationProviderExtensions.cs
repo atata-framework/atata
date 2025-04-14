@@ -17,7 +17,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TComponent : UIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         verifier.Component.Log.ExecuteSection(
             new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
@@ -106,7 +106,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TComponent : UIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         return verifier.Component.IsVisibleInViewport.Should.WithSettings(verifier).BeTrue();
     }
@@ -135,7 +135,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TControl : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         return verifier.Component.IsEnabled.Should.WithSettings(verifier).BeTrue();
     }
@@ -151,7 +151,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TControl : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         return verifier.Component.IsEnabled.Should.WithSettings(verifier).BeFalse();
     }
@@ -167,7 +167,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TControl : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         return verifier.Component.IsFocused.Should.WithSettings(verifier).BeTrue();
     }
@@ -184,7 +184,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TControl : EditableField<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         return verifier.Component.IsReadOnly.Should.WithSettings(verifier).BeTrue();
     }
@@ -200,7 +200,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TControl : Field<bool, TOwner>, ICheckable<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         return verifier.Component.Should.WithSettings(verifier).BeTrue();
     }
@@ -216,7 +216,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TControl : Field<bool, TOwner>, ICheckable<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         return verifier.Component.Should.WithSettings(verifier).BeFalse();
     }
@@ -232,7 +232,7 @@ public static class IUIComponentVerificationProviderExtensions
     public static TOwner HaveChecked<TValue, TOwner>(this IFieldVerificationProvider<TValue, CheckBoxList<TValue, TOwner>, TOwner> verifier, TValue value)
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         TValue[] expectedIndividualValues = [.. verifier.Component.GetIndividualValues(value)];
         string expectedIndividualValuesAsString = verifier.Component.ConvertIndividualValuesToString(expectedIndividualValues, true);
@@ -309,7 +309,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TComponent : UIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        verifier.CheckNotNull(nameof(verifier));
+        Guard.ThrowIfNull(verifier);
 
         return verifier.Component.DomClasses.Should.WithSettings(verifier).Contain(classNames);
     }

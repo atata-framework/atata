@@ -17,8 +17,11 @@ public class Report<TOwner> : IReport<TOwner>
     /// <param name="executionUnit">The execution unit.</param>
     public Report(TOwner owner, IAtataExecutionUnit executionUnit)
     {
-        _owner = owner.CheckNotNull(nameof(owner));
-        _executionUnit = executionUnit.CheckNotNull(nameof(executionUnit));
+        Guard.ThrowIfNull(owner);
+        Guard.ThrowIfNull(executionUnit);
+
+        _owner = owner;
+        _executionUnit = executionUnit;
     }
 
     /// <summary>
@@ -113,8 +116,8 @@ public class Report<TOwner> : IReport<TOwner>
     /// <inheritdoc/>
     public TOwner Setup(string message, Action<TOwner> action)
     {
-        message.CheckNotNullOrEmpty(nameof(message));
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNullOrEmpty(message);
+        Guard.ThrowIfNull(action);
 
         _executionUnit.Log.ExecuteSection(new SetupLogSection(message), () =>
         {
@@ -147,8 +150,8 @@ public class Report<TOwner> : IReport<TOwner>
     /// <inheritdoc/>
     public TResult Setup<TResult>(string message, Func<TOwner, TResult> function)
     {
-        message.CheckNotNullOrEmpty(nameof(message));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNullOrEmpty(message);
+        Guard.ThrowIfNull(function);
 
         TResult result = default!;
 
@@ -184,8 +187,8 @@ public class Report<TOwner> : IReport<TOwner>
     /// <inheritdoc/>
     public async Task SetupAsync(string message, Func<TOwner, Task> function)
     {
-        message.CheckNotNullOrEmpty(nameof(message));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNullOrEmpty(message);
+        Guard.ThrowIfNull(function);
 
         await _executionUnit.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
         {
@@ -217,8 +220,8 @@ public class Report<TOwner> : IReport<TOwner>
     /// <inheritdoc/>
     public async Task<TResult> SetupAsync<TResult>(string message, Func<TOwner, Task<TResult>> function)
     {
-        message.CheckNotNullOrEmpty(nameof(message));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNullOrEmpty(message);
+        Guard.ThrowIfNull(function);
 
         TResult result = default!;
 
@@ -254,8 +257,8 @@ public class Report<TOwner> : IReport<TOwner>
     /// <inheritdoc/>
     public TOwner Step(string message, Action<TOwner> action)
     {
-        message.CheckNotNullOrEmpty(nameof(message));
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNullOrEmpty(message);
+        Guard.ThrowIfNull(action);
 
         _executionUnit.Log.ExecuteSection(new StepLogSection(message), () =>
         {
@@ -275,8 +278,8 @@ public class Report<TOwner> : IReport<TOwner>
     /// <inheritdoc/>
     public TResult Step<TResult>(string message, Func<TOwner, TResult> function)
     {
-        message.CheckNotNullOrEmpty(nameof(message));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNullOrEmpty(message);
+        Guard.ThrowIfNull(function);
 
         TResult result = default!;
 
@@ -299,8 +302,8 @@ public class Report<TOwner> : IReport<TOwner>
     /// <inheritdoc/>
     public async Task StepAsync(string message, Func<TOwner, Task> function)
     {
-        message.CheckNotNullOrEmpty(nameof(message));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNullOrEmpty(message);
+        Guard.ThrowIfNull(function);
 
         await _executionUnit.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
         {
@@ -319,8 +322,8 @@ public class Report<TOwner> : IReport<TOwner>
     /// <inheritdoc/>
     public async Task<TResult> StepAsync<TResult>(string message, Func<TOwner, Task<TResult>> function)
     {
-        message.CheckNotNullOrEmpty(nameof(message));
-        function.CheckNotNull(nameof(function));
+        Guard.ThrowIfNullOrEmpty(message);
+        Guard.ThrowIfNull(function);
 
         TResult result = default!;
 

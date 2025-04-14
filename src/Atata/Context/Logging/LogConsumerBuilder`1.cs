@@ -131,7 +131,7 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>The same builder instance.</returns>
     public LogConsumerBuilder<TLogConsumer> With(Action<TLogConsumer> configureConsumer)
     {
-        configureConsumer.CheckNotNull(nameof(configureConsumer));
+        Guard.ThrowIfNull(configureConsumer);
 
         configureConsumer.Invoke(Consumer);
         return this;

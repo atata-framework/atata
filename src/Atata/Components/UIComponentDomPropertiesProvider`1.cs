@@ -62,7 +62,7 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     /// <returns>The <see cref="ValueProvider{TValue, TOwner}"/> instance for the property's current value.</returns>
     public ValueProvider<TValue?, TOwner> Get<TValue>(string propertyName)
     {
-        propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
+        Guard.ThrowIfNullOrWhitespace(propertyName);
 
         return Component.CreateValueProvider(
             ItemProviderNameFormat.FormatWith(propertyName),
@@ -79,7 +79,7 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     /// </returns>
     public string? GetValue(string propertyName)
     {
-        propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
+        Guard.ThrowIfNullOrWhitespace(propertyName);
 
         return Component.Scope.GetDomProperty(propertyName);
     }

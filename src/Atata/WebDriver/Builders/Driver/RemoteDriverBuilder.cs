@@ -89,7 +89,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <returns>The same builder instance.</returns>
     public RemoteDriverBuilder WithRemoteAddress(string remoteAddress)
     {
-        remoteAddress.CheckNotNullOrWhitespace(nameof(remoteAddress));
+        Guard.ThrowIfNullOrWhitespace(remoteAddress);
 
         _remoteAddress = new Uri(remoteAddress);
         return this;
@@ -114,7 +114,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <returns>The same builder instance.</returns>
     public RemoteDriverBuilder WithOptions(DriverOptions options)
     {
-        options.CheckNotNull(nameof(options));
+        Guard.ThrowIfNull(options);
 
         _optionsFactory = () => options;
         return this;
@@ -127,7 +127,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <returns>The same builder instance.</returns>
     public RemoteDriverBuilder WithOptions(Func<DriverOptions> optionsFactory)
     {
-        optionsFactory.CheckNotNull(nameof(optionsFactory));
+        Guard.ThrowIfNull(optionsFactory);
 
         _optionsFactory = optionsFactory;
         return this;
@@ -140,7 +140,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <returns>The same builder instance.</returns>
     public RemoteDriverBuilder WithOptions(Action<DriverOptions> optionsInitializer)
     {
-        optionsInitializer.CheckNotNull(nameof(optionsInitializer));
+        Guard.ThrowIfNull(optionsInitializer);
 
         _optionsInitializers.Add(optionsInitializer);
         return this;
@@ -153,7 +153,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <returns>The same builder instance.</returns>
     public RemoteDriverBuilder WithCapabilities(ICapabilities capabilities)
     {
-        capabilities.CheckNotNull(nameof(capabilities));
+        Guard.ThrowIfNull(capabilities);
 
         _capabilitiesFactory = () => capabilities;
         return this;
@@ -166,7 +166,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <returns>The same builder instance.</returns>
     public RemoteDriverBuilder WithCapabilities(Func<ICapabilities> capabilitiesFactory)
     {
-        capabilitiesFactory.CheckNotNull(nameof(capabilitiesFactory));
+        Guard.ThrowIfNull(capabilitiesFactory);
 
         _capabilitiesFactory = capabilitiesFactory;
         return this;
@@ -180,7 +180,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <returns>The same builder instance.</returns>
     public RemoteDriverBuilder AddAdditionalOption(string optionName, object optionValue)
     {
-        optionName.CheckNotNullOrWhitespace(nameof(optionName));
+        Guard.ThrowIfNullOrWhitespace(optionName);
 
         return WithOptions(options => options.AddAdditionalOption(optionName, optionValue));
     }
@@ -193,7 +193,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <returns>The same builder instance.</returns>
     public RemoteDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
-        optionName.CheckNotNullOrWhitespace(nameof(optionName));
+        Guard.ThrowIfNullOrWhitespace(optionName);
 
         return WithOptions(options =>
         {

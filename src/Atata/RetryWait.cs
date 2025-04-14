@@ -46,7 +46,7 @@ public sealed class RetryWait
     /// <returns>The same <see cref="RetryWait"/> instance.</returns>
     public RetryWait IgnoreExceptions(params Type[] exceptionTypes)
     {
-        exceptionTypes.CheckNotNull(nameof(exceptionTypes));
+        Guard.ThrowIfNull(exceptionTypes);
 
         _ignoredExceptionTypes.AddRange(exceptionTypes);
         return this;
@@ -64,8 +64,7 @@ public sealed class RetryWait
     /// <param name="input">The input value to pass to the condition.</param>
     public bool Until<TInput>(Func<TInput, bool> condition, TInput input)
     {
-        condition.CheckNotNull(nameof(condition));
-        input.CheckNotNull(nameof(input));
+        Guard.ThrowIfNull(condition);
 
         return Until(() => condition.Invoke(input));
     }
@@ -77,7 +76,7 @@ public sealed class RetryWait
     /// <returns><see langword="true"/> if the condition is satisfied within the timeout; otherwise, <see langword="false"/>.</returns>
     public bool Until(Func<bool> condition)
     {
-        condition.CheckNotNull(nameof(condition));
+        Guard.ThrowIfNull(condition);
 
         long operationStart = GetCurrentTicks();
         long operationTimeoutEnd = operationStart + _timeout.Ticks;
@@ -122,7 +121,7 @@ public sealed class RetryWait
     /// <inheritdoc cref="UntilAsync(Func{CancellationToken, Task{bool}}, CancellationToken)"/>
     public async Task<bool> UntilAsync(Func<Task<bool>> condition, CancellationToken cancellationToken = default)
     {
-        condition.CheckNotNull(nameof(condition));
+        Guard.ThrowIfNull(condition);
 
         return await UntilAsync(_ => condition.Invoke(), cancellationToken);
     }
@@ -130,8 +129,7 @@ public sealed class RetryWait
     /// <inheritdoc cref="UntilAsync{TInput}(Func{TInput, CancellationToken, Task{bool}}, TInput, CancellationToken)"/>
     public async Task<bool> UntilAsync<TInput>(Func<TInput, Task<bool>> condition, TInput input, CancellationToken cancellationToken = default)
     {
-        condition.CheckNotNull(nameof(condition));
-        input.CheckNotNull(nameof(input));
+        Guard.ThrowIfNull(condition);
 
         return await UntilAsync(_ => condition.Invoke(input), cancellationToken);
     }
@@ -139,7 +137,7 @@ public sealed class RetryWait
     /// <inheritdoc cref="UntilAsync(Func{CancellationToken, Task{bool}}, CancellationToken)"/>
     public async Task<bool> UntilAsync(Func<bool> condition, CancellationToken cancellationToken = default)
     {
-        condition.CheckNotNull(nameof(condition));
+        Guard.ThrowIfNull(condition);
 
         return await UntilAsync(_ => Task.FromResult(condition.Invoke()), cancellationToken);
     }
@@ -147,8 +145,7 @@ public sealed class RetryWait
     /// <inheritdoc cref="UntilAsync{TInput}(Func{TInput, CancellationToken, Task{bool}}, TInput, CancellationToken)"/>
     public async Task<bool> UntilAsync<TInput>(Func<TInput, bool> condition, TInput input, CancellationToken cancellationToken = default)
     {
-        condition.CheckNotNull(nameof(condition));
-        input.CheckNotNull(nameof(input));
+        Guard.ThrowIfNull(condition);
 
         return await UntilAsync(_ => Task.FromResult(condition.Invoke(input)), cancellationToken);
     }
@@ -159,8 +156,7 @@ public sealed class RetryWait
     /// <param name="cancellationToken">The cancellation token.</param>
     public async Task<bool> UntilAsync<TInput>(Func<TInput, CancellationToken, Task<bool>> condition, TInput input, CancellationToken cancellationToken = default)
     {
-        condition.CheckNotNull(nameof(condition));
-        input.CheckNotNull(nameof(input));
+        Guard.ThrowIfNull(condition);
 
         return await UntilAsync(ct => condition.Invoke(input, ct), cancellationToken);
     }
@@ -170,7 +166,7 @@ public sealed class RetryWait
     /// <param name="cancellationToken">The cancellation token.</param>
     public async Task<bool> UntilAsync(Func<CancellationToken, Task<bool>> condition, CancellationToken cancellationToken = default)
     {
-        condition.CheckNotNull(nameof(condition));
+        Guard.ThrowIfNull(condition);
 
         long operationStart = GetCurrentTicks();
         long operationTimeoutEnd = operationStart + _timeout.Ticks;

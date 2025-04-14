@@ -23,7 +23,7 @@ public static class IJavaScriptExecutorLoggingExtensions
 
     internal static object? ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager? log, string script, params object?[] args)
     {
-        scriptExecutor.CheckNotNull(nameof(scriptExecutor));
+        Guard.ThrowIfNull(scriptExecutor);
 
         object? Execute() =>
             scriptExecutor.ExecuteScript(script, args);
@@ -57,7 +57,7 @@ public static class IJavaScriptExecutorLoggingExtensions
 
     internal static object? ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager? log, string script, params object?[] args)
     {
-        scriptExecutor.CheckNotNull(nameof(scriptExecutor));
+        Guard.ThrowIfNull(scriptExecutor);
 
         object? Execute() =>
             scriptExecutor.ExecuteAsyncScript(script, args);

@@ -28,7 +28,9 @@ public class WildcardPattern
     /// <param name="stringComparison">The string comparison type.</param>
     public WildcardPattern(string pattern, StringComparison stringComparison)
     {
-        _pattern = pattern.CheckNotNull(nameof(pattern));
+        Guard.ThrowIfNull(pattern);
+
+        _pattern = pattern;
         _stringComparison = stringComparison;
     }
 
@@ -36,7 +38,7 @@ public class WildcardPattern
     /// <param name="input">The text to search for a match.</param>
     /// <param name="pattern">The pattern.</param>
     public static bool IsMatch(string input, string pattern) =>
-        IsMatch(input.CheckNotNull(nameof(input)).AsSpan(), pattern, StringComparison.Ordinal);
+        IsMatch(Guard.ReturnOrThrowIfNull(input).AsSpan(), pattern, StringComparison.Ordinal);
 
     /// <inheritdoc cref="IsMatch(string, string)"/>
     public static bool IsMatch(ReadOnlySpan<char> input, string pattern) =>
@@ -47,7 +49,7 @@ public class WildcardPattern
     /// <param name="pattern">The pattern.</param>
     /// <param name="stringComparison">The string comparison type.</param>
     public static bool IsMatch(string input, string pattern, StringComparison stringComparison) =>
-        IsMatch(input.CheckNotNull(nameof(input)).AsSpan(), pattern, stringComparison);
+        IsMatch(Guard.ReturnOrThrowIfNull(input).AsSpan(), pattern, stringComparison);
 
     /// <inheritdoc cref="IsMatch(string, string, StringComparison)"/>
     public static bool IsMatch(ReadOnlySpan<char> input, string pattern, StringComparison stringComparison) =>
@@ -61,7 +63,7 @@ public class WildcardPattern
     /// <see langword="true"/> if the specified input matches the pattern; otherwise, <see langword="false"/>.
     /// </returns>
     public bool IsMatch(string input) =>
-        IsMatch(input.CheckNotNull(nameof(input)).AsSpan());
+        IsMatch(Guard.ReturnOrThrowIfNull(input).AsSpan());
 
     /// <inheritdoc cref="IsMatch(string)"/>
     public bool IsMatch(ReadOnlySpan<char> input)

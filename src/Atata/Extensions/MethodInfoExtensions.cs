@@ -56,8 +56,8 @@ public static class MethodInfoExtensions
 
     public static MethodCallExpression ToInstanceMethodCallExpression(this MethodInfo method, object instance, params object?[] args)
     {
-        method.CheckNotNull(nameof(method));
-        instance.CheckNotNull(nameof(instance));
+        Guard.ThrowIfNull(method);
+        Guard.ThrowIfNull(instance);
 
         var parameterExpressions = args?.Select(Expression.Constant) ?? [];
         return Expression.Call(Expression.Constant(instance), method, parameterExpressions);
@@ -65,7 +65,7 @@ public static class MethodInfoExtensions
 
     public static MethodCallExpression ToStaticMethodCallExpression(this MethodInfo method, params object?[] args)
     {
-        method.CheckNotNull(nameof(method));
+        Guard.ThrowIfNull(method);
 
         var parameterExpressions = args?.Select(Expression.Constant) ?? [];
         return Expression.Call(method, parameterExpressions);

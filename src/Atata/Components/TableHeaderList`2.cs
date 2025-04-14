@@ -21,7 +21,7 @@ public class TableHeaderList<TItem, TOwner> : ControlList<TItem, TOwner>
     {
         get
         {
-            headerText.CheckNotNull(nameof(headerText));
+            Guard.ThrowIfNull(headerText);
 
             string xPath = TermMatch.Contains.CreateXPathCondition(headerText);
 

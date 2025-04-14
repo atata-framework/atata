@@ -30,8 +30,11 @@ public abstract class ObjectProvider<TObject, TOwner> :
         string providerName,
         IAtataExecutionUnit? executionUnit = null)
     {
-        _objectSource = objectSource.CheckNotNull(nameof(objectSource));
-        _providerName = providerName.CheckNotNull(nameof(providerName));
+        Guard.ThrowIfNull(objectSource);
+        Guard.ThrowIfNull(providerName);
+
+        _objectSource = objectSource;
+        _providerName = providerName;
         _executionUnit = executionUnit;
     }
 

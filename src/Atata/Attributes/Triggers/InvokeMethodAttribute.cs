@@ -6,8 +6,11 @@
 public class InvokeMethodAttribute : TriggerAttribute
 {
     public InvokeMethodAttribute(string methodName, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-        : base(on, priority) =>
-        MethodName = methodName.CheckNotNullOrWhitespace(nameof(methodName));
+        : base(on, priority)
+    {
+        Guard.ThrowIfNullOrWhitespace(methodName);
+        MethodName = methodName;
+    }
 
     /// <summary>
     /// Gets the name of the method.

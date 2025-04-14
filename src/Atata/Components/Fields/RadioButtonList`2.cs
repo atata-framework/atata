@@ -30,7 +30,8 @@ public class RadioButtonList<TValue, TOwner> : OptionList<TValue, TOwner>
 
     protected override void SetValue(TValue value)
     {
-        value.CheckNotNull(nameof(value), $"Cannot set \"null\" value to {nameof(RadioButtonList<TValue, TOwner>)} control.");
+        if (value is null)
+            throw new ArgumentException($"Cannot set null value to {nameof(RadioButtonList<TValue, TOwner>)} control.", nameof(value));
 
         IWebElement element = GetItemElement(value!);
         if (!element.Selected)

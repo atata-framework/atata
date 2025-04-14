@@ -12,8 +12,8 @@ public sealed class SecretStringToMask
     /// <param name="mask">The mask.</param>
     public SecretStringToMask(string value, string mask)
     {
-        value.CheckNotNullOrWhitespace(nameof(value));
-        mask.CheckNotNullOrWhitespace(nameof(mask));
+        Guard.ThrowIfNullOrWhitespace(value);
+        Guard.ThrowIfNullOrWhitespace(mask);
 
         Value = value;
         Mask = mask;

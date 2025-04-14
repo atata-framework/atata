@@ -13,7 +13,9 @@ public class TakeSessionFromPoolAndShareAttribute : TestSuiteAtataContextConfigu
     /// <param name="sessionName">Name of the session. Can be <see langword="null"/>.</param>
     public TakeSessionFromPoolAndShareAttribute(Type sessionType, string? sessionName = null)
     {
-        SessionType = sessionType.CheckNotNull(nameof(sessionType));
+        Guard.ThrowIfNull(sessionType);
+
+        SessionType = sessionType;
         SessionName = sessionName;
     }
 

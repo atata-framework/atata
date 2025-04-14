@@ -8,7 +8,7 @@ public class FindByXPathAttribute : FindAttribute, ITermFindAttribute
 {
     public FindByXPathAttribute(params string[] values)
     {
-        values.CheckNotNullOrEmpty(nameof(values));
+        Guard.ThrowIfNullOrEmpty(values);
 
         Values = values;
     }

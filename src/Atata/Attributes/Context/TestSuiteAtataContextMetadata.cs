@@ -17,7 +17,7 @@ public sealed class TestSuiteAtataContextMetadata
     /// <returns>A new <see cref="TestAtataContextMetadata"/> instance.</returns>
     public static TestSuiteAtataContextMetadata GetForType(Type testSuiteType)
     {
-        testSuiteType.CheckNotNull(nameof(testSuiteType));
+        Guard.ThrowIfNull(testSuiteType);
 
         object[] allAttributes = testSuiteType.GetCustomAttributes(true);
         return new(allAttributes);

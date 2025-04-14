@@ -12,7 +12,9 @@ public class SetStateAttribute : AtataContextConfigurationAttribute
     /// <param name="value">The variable value.</param>
     public SetStateAttribute(string key, object value)
     {
-        Key = key.CheckNotNullOrWhitespace(nameof(key));
+        Guard.ThrowIfNullOrWhitespace(key);
+
+        Key = key;
         Value = value;
     }
 

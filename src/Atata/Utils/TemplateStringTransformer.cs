@@ -89,8 +89,8 @@ public static class TemplateStringTransformer
 
     private static string Transform(string template, IEnumerable<KeyValuePair<string, object?>> variables, IFormatProvider formatProvider)
     {
-        template.CheckNotNull(nameof(template));
-        variables.CheckNotNull(nameof(variables));
+        Guard.ThrowIfNull(template);
+        Guard.ThrowIfNull(variables);
 
         if (CanTransform(template))
         {

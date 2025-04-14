@@ -8,8 +8,7 @@ public class FindByCssAttribute : FindAttribute, ITermFindAttribute
 {
     public FindByCssAttribute(params string[] values)
     {
-        values.CheckNotNullOrEmpty(nameof(values));
-
+        Guard.ThrowIfNullOrEmpty(values);
         Values = values;
     }
 

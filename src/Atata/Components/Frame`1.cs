@@ -42,7 +42,7 @@ public class Frame<TOwner> : Control<TOwner>
     public TOwner DoWithin<TFramePageObject>(Action<TFramePageObject> action, bool? temporarily = null)
         where TFramePageObject : PageObject<TFramePageObject>
     {
-        action.CheckNotNull(nameof(action));
+        Guard.ThrowIfNull(action);
 
         TFramePageObject framePageObject = SwitchTo<TFramePageObject>(temporarily: temporarily);
 

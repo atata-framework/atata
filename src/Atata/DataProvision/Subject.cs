@@ -18,7 +18,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> ResultOf<TResult>(Expression<Func<TResult>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -32,7 +32,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> ResultOf<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -46,7 +46,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> ResultOf<TResult>(Expression<Func<Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -60,7 +60,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> SubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -70,8 +70,8 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public static Subject<TResult> SubjectOf<TResult>(Func<TResult> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<TResult>(function),
@@ -81,7 +81,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> SubjectOf<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -91,8 +91,8 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public static Subject<TResult> SubjectOf<TResult>(Func<ValueTask<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<TResult>(() => function.Invoke().RunSync()),
@@ -102,7 +102,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> SubjectOf<TResult>(Expression<Func<Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -112,8 +112,8 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public static Subject<TResult> SubjectOf<TResult>(Func<Task<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<TResult>(() => function.Invoke().RunSync()),
@@ -123,7 +123,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TResult>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -137,7 +137,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> DynamicResultOf<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -151,7 +151,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -161,8 +161,8 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public static Subject<TResult> DynamicSubjectOf<TResult>(Func<TResult> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             DynamicObjectSource.Create(function),
@@ -172,7 +172,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -182,8 +182,8 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public static Subject<TResult> DynamicSubjectOf<TResult>(Func<ValueTask<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             DynamicObjectSource.Create(() => function.Invoke().RunSync()),
@@ -193,7 +193,7 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -203,8 +203,8 @@ public static class Subject
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
     public static Subject<TResult> DynamicSubjectOf<TResult>(Func<Task<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             DynamicObjectSource.Create(() => function.Invoke().RunSync()),
@@ -218,7 +218,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking(Expression<Action> actionExpression)
     {
-        actionExpression.CheckNotNull(nameof(actionExpression));
+        Guard.ThrowIfNull(actionExpression);
 
         var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
@@ -234,8 +234,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking(Action action, string actionName)
     {
-        action.CheckNotNull(nameof(action));
-        actionName.CheckNotNull(nameof(actionName));
+        Guard.ThrowIfNull(action);
+        Guard.ThrowIfNull(actionName);
 
         return new(
             new LazyObjectSource<Action>(() => action),
@@ -249,7 +249,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking(Expression<Func<ValueTask>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -265,8 +265,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking(Func<ValueTask> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<Action>(() => () => function.Invoke().RunSync()),
@@ -281,7 +281,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -298,8 +298,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking<TResult>(Func<ValueTask<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<Action>(() => () => function.Invoke().RunSync()),
@@ -313,7 +313,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking(Expression<Func<Task>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -329,8 +329,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking(Func<Task> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<Action>(() => function.Invoke().RunSync),
@@ -345,7 +345,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking<TResult>(Expression<Func<Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -362,8 +362,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider Invoking<TResult>(Func<Task<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new LazyObjectSource<Action>(() => function.Invoke().RunSync),
@@ -377,7 +377,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking(Expression<Action> actionExpression)
     {
-        actionExpression.CheckNotNull(nameof(actionExpression));
+        Guard.ThrowIfNull(actionExpression);
 
         var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
@@ -393,8 +393,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking(Action action, string actionName)
     {
-        action.CheckNotNull(nameof(action));
-        actionName.CheckNotNull(nameof(actionName));
+        Guard.ThrowIfNull(action);
+        Guard.ThrowIfNull(actionName);
 
         return new(
             DynamicObjectSource.Create(() => action),
@@ -408,7 +408,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking(Expression<Func<ValueTask>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -424,8 +424,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking(Func<ValueTask> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new DynamicObjectSource<Action>(() => () => function.Invoke().RunSync()),
@@ -440,7 +440,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -457,8 +457,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking<TResult>(Func<ValueTask<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new DynamicObjectSource<Action>(() => () => function.Invoke().RunSync()),
@@ -472,7 +472,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking(Expression<Func<Task>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -488,8 +488,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking(Func<Task> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new DynamicObjectSource<Action>(() => function.Invoke().RunSync),
@@ -504,7 +504,7 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking<TResult>(Expression<Func<Task<TResult>>> functionExpression)
     {
-        functionExpression.CheckNotNull(nameof(functionExpression));
+        Guard.ThrowIfNull(functionExpression);
 
         var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
@@ -521,8 +521,8 @@ public static class Subject
     /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
     public static ActionProvider DynamicInvoking<TResult>(Func<Task<TResult>> function, string functionName)
     {
-        function.CheckNotNull(nameof(function));
-        functionName.CheckNotNull(nameof(functionName));
+        Guard.ThrowIfNull(function);
+        Guard.ThrowIfNull(functionName);
 
         return new(
             new DynamicObjectSource<Action>(() => function.Invoke().RunSync),

@@ -37,8 +37,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     {
         get
         {
-            index.CheckIndexNonNegative();
-            index.CheckIndexLessThanSize(_sessionListOrderedByAdding.Count);
+            Guard.ThrowIfIndexIsNegativeOrGreaterOrEqualTo(index, _sessionListOrderedByAdding.Count);
 
             return _sessionListOrderedByAdding[index];
         }
@@ -67,7 +66,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     public TSession Get<TSession>(int index)
        where TSession : AtataSession
     {
-        index.CheckIndexNonNegative();
+        Guard.ThrowIfIndexIsNegative(index);
 
         return _sessionListOrderedByAdding.OfType<TSession>().ElementAtOrDefault(index)
             ?? throw AtataSessionNotFoundException.ByIndex<TSession>(

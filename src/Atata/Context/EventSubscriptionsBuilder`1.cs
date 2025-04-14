@@ -76,7 +76,7 @@ public abstract class EventSubscriptionsBuilder<TRootBuilder>
     /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
     public TRootBuilder Add(Type eventHandlerType)
     {
-        eventHandlerType.CheckNotNull(nameof(eventHandlerType));
+        Guard.ThrowIfNull(eventHandlerType);
 
         Type expectedSyncInterfaceType = typeof(IEventHandler<>);
         Type expectedAsyncInterfaceType = typeof(IAsyncEventHandler<>);
@@ -101,8 +101,8 @@ public abstract class EventSubscriptionsBuilder<TRootBuilder>
     /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
     public TRootBuilder Add(Type eventType, Type eventHandlerType)
     {
-        eventType.CheckNotNull(nameof(eventType));
-        eventHandlerType.CheckNotNull(nameof(eventHandlerType));
+        Guard.ThrowIfNull(eventType);
+        Guard.ThrowIfNull(eventHandlerType);
 
         ValidateEventHandlerType(eventHandlerType, eventType);
         var eventHandler = ActivatorEx.CreateInstance(eventHandlerType);
@@ -117,7 +117,7 @@ public abstract class EventSubscriptionsBuilder<TRootBuilder>
     /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
     public TRootBuilder RemoveAll(Predicate<EventSubscriptionItem> match)
     {
-        match.CheckNotNull(nameof(match));
+        Guard.ThrowIfNull(match);
 
         DoRemoveAll(match);
         return _rootBuilder;

@@ -10,14 +10,20 @@ public class PlainScopeLocator : IScopeLocator
 
     public PlainScopeLocator(WebDriverSession session, By by)
     {
-        _session = session.CheckNotNull(nameof(session));
-        _by = by.CheckNotNull(nameof(by));
+        Guard.ThrowIfNull(session);
+        Guard.ThrowIfNull(by);
+
+        _session = session;
+        _by = by;
     }
 
     public PlainScopeLocator(WebDriverSession session, Func<By> byCreator)
     {
-        _session = session.CheckNotNull(nameof(session));
-        _byCreator = byCreator.CheckNotNull(nameof(byCreator));
+        Guard.ThrowIfNull(session);
+        Guard.ThrowIfNull(byCreator);
+
+        _session = session;
+        _byCreator = byCreator;
     }
 
     private By By =>

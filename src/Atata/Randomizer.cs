@@ -108,10 +108,12 @@ public static class Randomizer
     [return: NotNull]
     public static T GetOneOf<T>(IEnumerable<T> values)
     {
-        values.CheckNotNull(nameof(values));
+        Guard.ThrowIfNull(values);
 
         IReadOnlyList<T> valueArray = values as IReadOnlyList<T> ?? [.. values];
-        valueArray.CheckNotNull(nameof(values));
+
+        if (valueArray.Count == 0)
+            throw new ArgumentException("Value cannot be empty.", nameof(values));
 
         int valueIndex = CreateRandom().Next(valueArray.Count);
         return valueArray[valueIndex]!;
@@ -128,14 +130,16 @@ public static class Randomizer
 
     public static T[] GetManyOf<T>(int min, int max, IEnumerable<T> values)
     {
-        values.CheckNotNullOrEmpty(nameof(values));
-        min.CheckGreaterOrEqual(nameof(min), 0);
-        max.CheckGreaterOrEqual(nameof(min), min);
+        Guard.ThrowIfNullOrEmpty(values);
+        Guard.ThrowIfLessThan(min, 0);
+        Guard.ThrowIfLessThan(max, min);
 
         List<T> valuesAsList = [.. values];
-        max.CheckLessOrEqual(nameof(max), valuesAsList.Count, $"Count of {nameof(values)} is {valuesAsList.Count}");
+        Guard.ThrowIfGreaterThan(max, valuesAsList.Count);
 
-        int count = max == min ? max : (min + CreateRandom().Next(max + 1 - min));
+        int count = max == min
+            ? max
+            : (min + CreateRandom().Next(max + 1 - min));
 
         T[] randomValues = new T[count];
 
