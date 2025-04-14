@@ -180,7 +180,7 @@ internal static class Guard
         {
             builder.Append("enum ");
 
-            if (!underlyingType.IsEnumDefined(argument))
+            if (argument is not null && !underlyingType.IsEnumDefined(argument))
                 builder.Append("undefined ");
         }
 
