@@ -157,7 +157,8 @@ internal static class Guard
         Type expectedType = typeof(T);
 
         if (!expectedType.IsAssignableFrom(argument))
-            throw new ArgumentException($"Type is not assignable to {expectedType.FullName}.", paramName);
+            throw new ArgumentException(
+                $"Type {argument.FullName} is not {(argument.IsClass && expectedType.IsClass ? "inherited from" : "assignable to")} {expectedType.FullName}.", paramName);
     }
 
     internal static ArgumentException CreateArgumentExceptionForUnsupportedValue<T>(

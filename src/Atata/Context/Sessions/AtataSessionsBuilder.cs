@@ -265,7 +265,7 @@ public sealed class AtataSessionsBuilder
 
     public AtataContextBuilder Borrow(Type sessionType, Action<AtataSessionBorrowRequestBuilder>? configure = null)
     {
-        EnsureAtataSessionType(sessionType);
+        Guard.ThrowIfNot<AtataSession>(sessionType);
 
         AtataSessionBorrowRequestBuilder sessionRequestBuilder = new(sessionType)
         {
@@ -289,7 +289,7 @@ public sealed class AtataSessionsBuilder
 
     public AtataContextBuilder TakeFromPool(Type sessionType, Action<AtataSessionPoolRequestBuilder>? configure = null)
     {
-        EnsureAtataSessionType(sessionType);
+        Guard.ThrowIfNot<AtataSession>(sessionType);
 
         AtataSessionPoolRequestBuilder sessionRequestBuilder = new(sessionType)
         {
@@ -348,12 +348,6 @@ public sealed class AtataSessionsBuilder
     {
         _sessionProviders.Clear();
         return _atataContextBuilder;
-    }
-
-    private static void EnsureAtataSessionType(Type type)
-    {
-        if (!typeof(AtataSession).IsAssignableFrom(type))
-            throw new ArgumentException($"{type.FullName} is not inherited from {nameof(AtataSession)}.", nameof(type));
     }
 
     private static bool DoesSessionStartScopeSatisfyContextScope(AtataContextScopes? sessionStartScopes, AtataContextScope? scope) =>
