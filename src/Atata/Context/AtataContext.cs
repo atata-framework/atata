@@ -184,6 +184,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public string Id { get; }
 
+    /// <summary>
+    /// Gets a collection of sessions associated with the context.
+    /// </summary>
     public AtataSessionCollection Sessions { get; }
 
     [Obsolete("Use Sessions.Get<WebDriverSession>().DriverFactory instead.")] // Obsolete since v4.0.0.
