@@ -1,5 +1,8 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// An exception that is thrown when a session pool cannot be found.
+/// </summary>
 public class AtataSessionPoolNotFoundException : Exception
 {
     public AtataSessionPoolNotFoundException()

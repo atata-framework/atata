@@ -1,5 +1,8 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// An exception that is thrown when a session cannot be found.
+/// </summary>
 public class AtataSessionNotFoundException : Exception
 {
     public AtataSessionNotFoundException()

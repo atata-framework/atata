@@ -1,5 +1,8 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// An exception that is thrown when a session builder cannot be found.
+/// </summary>
 public class AtataSessionBuilderNotFoundException : Exception
 {
     public AtataSessionBuilderNotFoundException()
