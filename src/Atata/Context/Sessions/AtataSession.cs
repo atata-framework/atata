@@ -1,5 +1,17 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// Represents a session within the Atata framework, which provides session-specific functionality, logging and state management.
+/// </summary>
+/// <remarks>
+/// <para>
+/// The <see cref="AtataSession"/> class serves as the base class for all session types in the Atata framework.
+/// </para>
+/// <para>
+/// A session is associated with an <see cref="AtataContext"/> and can be shared, borrowed, or taken from a pool.
+/// It provides access to various session-specific properties, such as logging, reporting, variables, and state.
+/// </para>
+/// </remarks>
 public abstract class AtataSession : IAsyncDisposable
 {
     internal const int DefaultPoolInitialCapacity = 0;
@@ -34,15 +46,30 @@ public abstract class AtataSession : IAsyncDisposable
     /// </summary>
     public AtataContext Context { get; private set; } = null!;
 
+    /// <summary>
+    /// Gets the mode of the session.
+    /// </summary>
     public AtataSessionMode Mode { get; internal set; }
 
+    /// <summary>
+    /// Gets a value indicating whether the session is shareable.
+    /// </summary>
     public bool IsShareable { get; internal set; }
 
+    /// <summary>
+    /// Gets a value indicating whether the session is currently borrowed.
+    /// </summary>
     public bool IsBorrowed =>
         IsShareable && BorrowSourceContext != null;
 
+    /// <summary>
+    /// Gets a value indicating whether the session is taken from pool.
+    /// </summary>
     public bool IsTakenFromPool { get; internal set; }
 
+    /// <summary>
+    /// Gets a value indicating whether the session is borrowed or taken from pool.
+    /// </summary>
     public bool IsBorrowedOrTakenFromPool => IsTakenFromPool || IsBorrowed;
 
     internal object BorrowLock { get; } = new object();
@@ -351,16 +378,46 @@ public abstract class AtataSession : IAsyncDisposable
         AssignToContext(context);
     }
 
+    /// <summary>
+    /// Starts the session asynchronously.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A <see cref="Task"/> object.</returns>
     protected internal abstract Task StartAsync(CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Logs the configuration details of the session.
+    /// </summary>
+    /// <remarks>
+    /// This method is intended to be overridden in derived classes to provide
+    /// specific logging of session configuration details.
+    /// By default, it does nothing.
+    /// </remarks>
     protected internal virtual void LogConfiguration()
     {
     }
 
+    /// <summary>
+    /// Takes a snapshot of the current session state in case of a failure.
+    /// </summary>
+    /// <remarks>
+    /// This method is intended to be overridden in derived classes to provide
+    /// specific functionality for capturing failure snapshots, such as screenshots,
+    /// logs, or other diagnostic information.
+    /// By default, it does nothing.
+    /// </remarks>
     protected internal virtual void TakeFailureSnapshot()
     {
     }
 
+    /// <summary>
+    /// Called when the session is assigned to a context.
+    /// </summary>
+    /// <remarks>
+    /// This method is intended to be overridden in derived classes to provide
+    /// specific functionality or behavior when the session is assigned to a context.
+    /// By default, it does nothing.
+    /// </remarks>
     protected internal virtual void OnAssignedToContext()
     {
     }
