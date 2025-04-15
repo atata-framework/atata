@@ -236,6 +236,13 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     internal void AddBuilders(IEnumerable<IAtataSessionBuilder> sessionBuilders) =>
         _sessionBuilders.AddRange(sessionBuilders);
 
+    /// <summary>
+    /// Creates a new session builder of the specified <typeparamref name="TSessionBuilder"/> type
+    /// and adds it to the collection.
+    /// </summary>
+    /// <typeparam name="TSessionBuilder">The type of the session builder to add.</typeparam>
+    /// <param name="configure">An action delegate to configure the <typeparamref name="TSessionBuilder"/>.</param>
+    /// <returns>The created <typeparamref name="TSessionBuilder"/> instance.</returns>
     public TSessionBuilder Add<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
         where TSessionBuilder : IAtataSessionBuilder, new()
     {
@@ -253,6 +260,13 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         return sessionBuilder;
     }
 
+    /// <summary>
+    /// Starts a pool of sessions of the specified <typeparamref name="TSessionBuilder"/> type.
+    /// </summary>
+    /// <typeparam name="TSessionBuilder">The type of the session.</typeparam>
+    /// <param name="configure">An action delegate to configure the <typeparamref name="TSessionBuilder"/>.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A <see cref="ValueTask"/> object.</returns>
     public async ValueTask StartPoolAsync<TSessionBuilder>(Action<TSessionBuilder>? configure = null, CancellationToken cancellationToken = default)
         where TSessionBuilder : IAtataSessionBuilder, new()
     {
@@ -333,11 +347,25 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         return stringBuilder.ToString();
     }
 
+    /// <summary>
+    /// Builds a session of the specified <typeparamref name="TSession"/> type and <paramref name="sessionName"/>.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="sessionName">The name of the session.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A <see cref="ValueTask{TResult}"/> of <typeparamref name="TSession"/> object.</returns>
     public async Task<TSession> BuildAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
         (TSession)await BuildAsync(typeof(TSession), sessionName, cancellationToken);
 
+    /// <summary>
+    /// Builds a session of the specified <paramref name="sessionType"/> and <paramref name="sessionName"/>.
+    /// </summary>
+    /// <param name="sessionType">The type of the session.</param>
+    /// <param name="sessionName">The name of the session.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A <see cref="ValueTask{TResult}"/> of <see cref="AtataSession"/> object.</returns>
     public async Task<AtataSession> BuildAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
         EnsureNotDisposed();
@@ -355,7 +383,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     /// <typeparam name="TSession">The type of the session to borrow.</typeparam>
     /// <param name="sessionName">The name of the session.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A <see cref="ValueTask{TResult}"/> object.</returns>
+    /// <returns>A <see cref="ValueTask{TResult}"/> of <typeparamref name="TSession"/> object.</returns>
     public async ValueTask<TSession> BorrowAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
@@ -367,7 +395,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     /// <param name="sessionType">The type of the session to borrow.</param>
     /// <param name="sessionName">The name of the session.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A <see cref="ValueTask{TResult}"/> object.</returns>
+    /// <returns>A <see cref="ValueTask{TResult}"/> of <see cref="AtataSession"/> object.</returns>
     public async ValueTask<AtataSession> BorrowAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
         EnsureNotDisposed();
@@ -422,7 +450,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     /// <typeparam name="TSession">The type of the session to take from the pool.</typeparam>
     /// <param name="sessionName">The name of the session.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A <see cref="ValueTask{TResult}"/> object.</returns>
+    /// <returns>A <see cref="ValueTask{TResult}"/> of <typeparamref name="TSession"/> object.</returns>
     public async ValueTask<TSession> TakeFromPoolAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
@@ -434,7 +462,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     /// <param name="sessionType">The type of the session to take from the pool.</param>
     /// <param name="sessionName">The name of the session.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A <see cref="ValueTask{TResult}"/> object.</returns>
+    /// <returns>A <see cref="ValueTask{TResult}"/> of <see cref="AtataSession"/> object.</returns>
     public async ValueTask<AtataSession> TakeFromPoolAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
         EnsureNotDisposed();
