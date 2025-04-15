@@ -1,5 +1,14 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// Represents a builder for creating and configuring an <see cref="AtataSession"/>.
+/// </summary>
+/// <typeparam name="TSession">The type of the session to build, which must inherit from <see cref="AtataSession"/>.</typeparam>
+/// <typeparam name="TBuilder">The type of the inherited builder.</typeparam>
+/// <remarks>
+/// This class provides methods to configure various aspects of an Atata session,
+/// such as mode, timeouts, variables, state, event subscriptions, etc.
+/// </remarks>
 public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBuilder
     where TSession : AtataSession, new()
     where TBuilder : AtataSessionBuilder<TSession, TBuilder>
