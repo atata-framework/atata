@@ -3,7 +3,7 @@
 /// <summary>
 /// A collection of <see cref="AtataSession"/> items associated with a certain <see cref="AtataContext"/>.
 /// </summary>
-public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, IDisposable
+public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDisposable
 {
     private readonly AtataContext _context;
 
