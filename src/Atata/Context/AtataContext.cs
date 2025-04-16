@@ -556,14 +556,14 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         string fullPath = Path.Combine(GlobalProperties.ArtifactsRootPath, relativePath);
 
         ArtifactsRelativePath = relativePath;
-        Artifacts = new DirectorySubject(fullPath, "Artifacts", ExecutionUnit);
+        Artifacts = new(fullPath, "Artifacts", ExecutionUnit);
     }
 
     private string CreateArtifactsRelativePath()
     {
         string relativePath = GlobalProperties.ArtifactsPathFactory.Create(this);
 
-        if (string.IsNullOrEmpty(relativePath))
+        if (relativePath is null or [])
             return string.Empty;
 
         return relativePath[0] == Path.DirectorySeparatorChar || relativePath[0] == Path.AltDirectorySeparatorChar
