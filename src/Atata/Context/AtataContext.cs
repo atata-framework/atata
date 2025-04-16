@@ -915,6 +915,30 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         }
     }
 
+    [Obsolete("Use Variables.FillTemplateString(...) instead.")] // Obsolete since v4.0.0.
+    public string FillTemplateString(string template) =>
+        Variables.FillTemplateString(template);
+
+    [Obsolete("Use Variables.FillTemplateString(...) instead.")] // Obsolete since v4.0.0.
+    public string FillTemplateString(string template, IEnumerable<KeyValuePair<string, object?>>? additionalVariables) =>
+        Variables.FillTemplateString(template, additionalVariables);
+
+    [Obsolete("Use Variables.FillPathTemplateString(...) instead.")] // Obsolete since v4.0.0.
+    public string FillPathTemplateString(string template) =>
+        Variables.FillPathTemplateString(template);
+
+    [Obsolete("Use Variables.FillPathTemplateString(...) instead.")] // Obsolete since v4.0.0.
+    public string FillPathTemplateString(string template, IEnumerable<KeyValuePair<string, object?>>? additionalVariables) =>
+        Variables.FillPathTemplateString(template, additionalVariables);
+
+    [Obsolete("Use Variables.FillUriTemplateString(...) instead.")] // Obsolete since v4.0.0.
+    public string FillUriTemplateString(string template) =>
+        Variables.FillUriTemplateString(template);
+
+    [Obsolete("Use Variables.FillUriTemplateString(...) instead.")] // Obsolete since v4.0.0.
+    public string FillUriTemplateString(string template, IEnumerable<KeyValuePair<string, object?>>? additionalVariables) =>
+        Variables.FillUriTemplateString(template, additionalVariables);
+
     /// <summary>
     /// <para>
     /// Deinitializes and disposes the current context together with sessions and other associated objects.
