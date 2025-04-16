@@ -101,14 +101,14 @@ public sealed class LogEventInfo
             foreach (var item in variables)
                 yield return item;
 
-            if (!string.IsNullOrEmpty(NestingText))
-                yield return new("log-nesting-text", NestingText!);
+            if (NestingText?.Length > 0)
+                yield return new("log-nesting-text", NestingText);
 
-            if (!string.IsNullOrEmpty(ExternalSource))
-                yield return new("log-external-source", ExternalSource!);
+            if (ExternalSource?.Length > 0)
+                yield return new("log-external-source", ExternalSource);
 
-            if (!string.IsNullOrEmpty(Category))
-                yield return new("log-category", Category!);
+            if (Category?.Length > 0)
+                yield return new("log-category", Category);
         }
     }
 }
