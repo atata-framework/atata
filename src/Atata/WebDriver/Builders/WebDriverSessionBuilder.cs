@@ -8,6 +8,9 @@ using OpenQA.Selenium.Safari;
 
 namespace Atata;
 
+/// <summary>
+/// Represents a builder for creating and configuring a <see cref="WebDriverSession"/>.
+/// </summary>
 public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDriverSessionBuilder>
 {
     public WebDriverSessionBuilder()

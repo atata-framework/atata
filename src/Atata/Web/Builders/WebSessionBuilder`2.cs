@@ -1,5 +1,10 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// Represents a base builder class for creating and configuring sessions inherited from <see cref="WebSession"/>.
+/// </summary>
+/// <typeparam name="TSession">The type of the session to build, which must inherit from <see cref="WebSession"/>.</typeparam>
+/// <typeparam name="TBuilder">The type of the inherited builder.</typeparam>
 public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilder<TSession, TBuilder>
     where TSession : WebSession, new()
     where TBuilder : WebSessionBuilder<TSession, TBuilder>
