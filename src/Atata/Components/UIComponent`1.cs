@@ -274,7 +274,7 @@ return (
     {
         string? componentProviderName = BuildComponentProviderName();
 
-        return string.IsNullOrEmpty(componentProviderName)
+        return componentProviderName is null or []
             ? providerName
             : $"{componentProviderName} {providerName}";
     }

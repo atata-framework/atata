@@ -39,7 +39,7 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
 
     public TestInfoBasedHierarchicalArtifactsPathFactory(string? suiteSubFolderName)
     {
-        _hasSuiteSubFolderName = !string.IsNullOrEmpty(suiteSubFolderName);
+        _hasSuiteSubFolderName = suiteSubFolderName?.Length > 0;
         _suiteSubFolderName = suiteSubFolderName;
         _suiteSubFolderPathEnding = $"/{_suiteSubFolderName}";
     }

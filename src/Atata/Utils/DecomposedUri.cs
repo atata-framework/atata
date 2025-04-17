@@ -64,13 +64,13 @@ internal sealed class DecomposedUri : ICloneable
 
     public DecomposedUri AppendQuery(string query)
     {
-        if (!string.IsNullOrEmpty(query))
+        if (query?.Length > 0)
         {
             string queryWithoutPrefix = query[0] is '?' or '&' or ';'
                 ? query[1..]
                 : query;
 
-            Query = string.IsNullOrEmpty(Query)
+            Query = Query is null or []
                 ? queryWithoutPrefix
                 : $"{Query}{(query[0] == ';' ? ';' : '&')}{queryWithoutPrefix}";
         }
@@ -114,10 +114,10 @@ internal sealed class DecomposedUri : ICloneable
     {
         StringBuilder builder = new StringBuilder(FullPath);
 
-        if (!string.IsNullOrEmpty(Query))
+        if (Query?.Length > 0)
             builder.Append('?').Append(Query);
 
-        if (!string.IsNullOrEmpty(Fragment))
+        if (Fragment?.Length > 0)
             builder.Append('#').Append(Fragment);
 
         return builder.ToString();

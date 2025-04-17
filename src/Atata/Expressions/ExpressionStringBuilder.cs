@@ -331,7 +331,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
 
         string name = node.Name;
 
-        if (string.IsNullOrEmpty(name))
+        if (name is null or [])
             Out("Param_" + GetParamId(node));
         else
             Out(name);
@@ -872,7 +872,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
 
     private void DumpLabel(LabelTarget target)
     {
-        if (!string.IsNullOrEmpty(target.Name))
+        if (target.Name?.Length > 0)
         {
             Out(target.Name);
         }

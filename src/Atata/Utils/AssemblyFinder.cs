@@ -58,7 +58,7 @@ public static class AssemblyFinder
     {
         var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-        if (string.IsNullOrEmpty(assemblyNamePattern))
+        if (assemblyNamePattern is null or [])
         {
             return allAssemblies;
         }

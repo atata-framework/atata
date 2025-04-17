@@ -226,7 +226,7 @@ public sealed class WebDriverSessionNavigator
         _session.PageObject = pageObject;
 
         string? navigationUrl = options.Navigate
-            ? string.IsNullOrEmpty(pageObject.NavigationUrlData.Value)
+            ? pageObject.NavigationUrlData.Value is null or []
                 ? _session.BaseUrl
                 : pageObject.NavigationUrlData.Value
             : options.Url;
@@ -240,7 +240,7 @@ public sealed class WebDriverSessionNavigator
             new GoToPageObjectLogSection(pageObject, navigationUrl, options.NavigationTarget),
             () =>
             {
-                if (!string.IsNullOrEmpty(navigationUrl) || options.Navigate)
+                if (navigationUrl?.Length > 0 || options.Navigate)
                 {
                     Uri uri = CreateAbsoluteUriForNavigation(navigationUrl);
                     Navigate(uri);
@@ -306,7 +306,7 @@ public sealed class WebDriverSessionNavigator
                 if (options.WindowNameResolver != null)
                     ((IPageObject)currentPageObject).SwitchToWindow(options.WindowNameResolver.Invoke());
 
-                if (!string.IsNullOrEmpty(navigationUrl))
+                if (navigationUrl?.Length > 0)
                 {
                     Uri uri = CreateAbsoluteUriForNavigation(navigationUrl);
                     Navigate(uri);
@@ -421,7 +421,7 @@ public sealed class WebDriverSessionNavigator
     }
 
     private string? NormalizeAsAbsoluteUrlSafely(string? url) =>
-        !string.IsNullOrEmpty(url) && !UriUtils.TryCreateAbsoluteUrl(url, out _) && _session.BaseUrl != null
+        url?.Length > 0 && !UriUtils.TryCreateAbsoluteUrl(url, out _) && _session.BaseUrl != null
             ? UriUtils.Concat(_session.BaseUrl, url).ToString()
             : url;
 

@@ -10,10 +10,10 @@ public class GoToPageObjectLogSection : UIComponentLogSection
         var messageBuilder = new StringBuilder("Go to ")
             .Append(pageObject.ComponentFullName);
 
-        if (!string.IsNullOrEmpty(navigationTarget))
+        if (navigationTarget?.Length > 0)
             messageBuilder.Append(' ').Append(navigationTarget);
 
-        if (!string.IsNullOrEmpty(url))
+        if (url?.Length > 0)
             messageBuilder.Append(" by URL ").Append(url);
 
         Message = messageBuilder.ToString();

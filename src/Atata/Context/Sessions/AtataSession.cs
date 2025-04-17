@@ -472,7 +472,7 @@ public abstract class AtataSession : IAsyncDisposable
             .Append(" { Id=")
             .Append(Id);
 
-        if (!string.IsNullOrEmpty(Name))
+        if (Name?.Length > 0)
             stringBuilder.Append(", Name=")
                 .Append(Name);
 
@@ -485,7 +485,7 @@ public abstract class AtataSession : IAsyncDisposable
     {
         string sessionTypeName = sessionType.Name;
 
-        return string.IsNullOrEmpty(sessionName)
+        return sessionName is null or []
             ? sessionTypeName
             : $"{sessionTypeName} {{ Name={sessionName} }}";
     }

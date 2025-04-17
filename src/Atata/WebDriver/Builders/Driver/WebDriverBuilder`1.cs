@@ -169,7 +169,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
 
         builder.Append($" {{ Port={service.Port}");
 
-        if (!string.IsNullOrEmpty(service.DriverServicePath) && !string.IsNullOrEmpty(service.DriverServiceExecutableName))
+        if (service.DriverServicePath?.Length > 0 && service.DriverServiceExecutableName?.Length > 0)
         {
             string executablePath = Path.Combine(service.DriverServicePath, service.DriverServiceExecutableName);
             builder.Append($", ExecutablePath={executablePath}");
@@ -186,7 +186,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
 
         List<string> properties = [];
 
-        if (!string.IsNullOrEmpty(Alias))
+        if (Alias?.Length > 0)
             properties.Add($"Alias={Alias}");
 
         if (driver.TryAs(out IHasSessionId? driverWithSessionId))

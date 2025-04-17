@@ -8,7 +8,7 @@ public sealed class AddArtifactListToExtentLogEventHandler : IEventHandler<Atata
 
         if (directory.Exists)
         {
-            bool isTestContext = !string.IsNullOrEmpty(context.Test.Name);
+            bool isTestContext = context.Test.Name?.Length > 0;
 
             SearchOption directorySearchOption = isTestContext
                 ? SearchOption.AllDirectories

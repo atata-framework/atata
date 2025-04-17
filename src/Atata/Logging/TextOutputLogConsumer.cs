@@ -65,12 +65,12 @@ public class TextOutputLogConsumer : ILogConsumer
             .Append(Separator)
             .Append(eventInfo.NestingText);
 
-        bool hasExternalSource = !string.IsNullOrEmpty(eventInfo.ExternalSource);
+        bool hasExternalSource = eventInfo.ExternalSource?.Length > 0;
 
         if (hasExternalSource)
             builder.AppendFormat("{{{0}}}", eventInfo.ExternalSource);
 
-        bool hasCategory = !string.IsNullOrEmpty(eventInfo.Category);
+        bool hasCategory = eventInfo.Category?.Length > 0;
 
         if (hasCategory)
         {
@@ -80,7 +80,7 @@ public class TextOutputLogConsumer : ILogConsumer
             builder.AppendFormat("[{0}]", eventInfo.Category);
         }
 
-        bool hasMessage = !string.IsNullOrEmpty(eventInfo.Message);
+        bool hasMessage = eventInfo.Message?.Length > 0;
 
         if (hasMessage)
         {

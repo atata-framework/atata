@@ -10,7 +10,7 @@ public class TypesTextUsingFocusBehaviorAndSendKeysCharByCharAttribute : TypesTe
     /// <inheritdoc/>
     public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)
     {
-        if (!string.IsNullOrEmpty(value))
+        if (value?.Length > 0)
         {
             component.Session.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
             {

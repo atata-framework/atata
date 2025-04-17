@@ -98,7 +98,7 @@ public abstract class WebSession : AtataSession
     {
         base.LogConfiguration();
 
-        if (!string.IsNullOrEmpty(BaseUrl))
+        if (BaseUrl?.Length > 0)
             Log.Trace($"Set: BaseUrl={BaseUrl}");
 
         LogRetrySettings();
