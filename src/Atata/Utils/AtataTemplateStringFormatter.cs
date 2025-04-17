@@ -14,7 +14,7 @@ internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFor
     public object? GetFormat(Type formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;
 
-    public string Format(string format, object arg, IFormatProvider formatProvider)
+    public string Format(string? format, object? arg, IFormatProvider? formatProvider)
     {
         if (arg is null)
             return string.Empty;

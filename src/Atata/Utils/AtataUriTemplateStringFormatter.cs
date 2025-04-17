@@ -24,7 +24,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
     public object? GetFormat(Type formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;
 
-    public string Format(string format, object arg, IFormatProvider formatProvider)
+    public string Format(string? format, object? arg, IFormatProvider? formatProvider)
     {
         if (arg is null)
             return string.Empty;
@@ -42,9 +42,9 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
             : processingResult.EncodeFunction.Invoke(origin);
     }
 
-    private static UriVariableProcessingResult ProcessFormat(string format)
+    private static UriVariableProcessingResult ProcessFormat(string? format)
     {
-        if (!string.IsNullOrEmpty(format))
+        if (format?.Length > 0)
         {
             foreach (var item in s_aliasAndModifierFunctionMap)
             {
@@ -71,7 +71,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
     private sealed class UriVariableProcessingResult
     {
         public UriVariableProcessingResult(
-            string leftFormat,
+            string? leftFormat,
             Func<string, string> encodeFunction,
             bool encodeFirst)
         {
@@ -80,7 +80,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
             EncodeFirst = encodeFirst;
         }
 
-        public string LeftFormat { get; }
+        public string? LeftFormat { get; }
 
         public Func<string, string> EncodeFunction { get; }
 
