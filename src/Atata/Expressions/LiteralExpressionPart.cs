@@ -4,7 +4,7 @@ internal class LiteralExpressionPart
 {
     private readonly StringBuilder _builder = new();
 
-    public void Append(string value)
+    public void Append(string? value)
         => _builder.Append(value);
 
     public void Append(char value)

@@ -1,223 +1,132 @@
-﻿using System.Dynamic;
-
-#pragma warning disable
+﻿#pragma warning disable
 
 namespace Atata;
 
 public class ExpressionStringBuilder : ExpressionVisitor
 {
-    private readonly StringBuilder builder;
+    private readonly StringBuilder _out;
 
     // Associate every unique label or anonymous parameter in the tree with an integer.
-    // The label is displayed as Label_#.
-    private Dictionary<object, int> ids;
+    // Labels are displayed as UnnamedLabel_#; parameters are displayed as Param_#.
+    private Dictionary<object, int>? _ids;
 
     protected ExpressionStringBuilder()
     {
-        builder = new StringBuilder();
+        _out = new StringBuilder();
     }
 
     public override string ToString()
     {
-        return builder.ToString();
+        return _out.ToString();
     }
 
-    private void AddLabel(LabelTarget label)
+    private int GetLabelId(LabelTarget label) => GetId(label);
+    private int GetParamId(ParameterExpression p) => GetId(p);
+
+    private int GetId(object o)
     {
-        if (ids == null)
+        _ids ??= new Dictionary<object, int>();
+
+        int id;
+        if (!_ids.TryGetValue(o, out id))
         {
-            ids = new Dictionary<object, int>();
-            ids.Add(label, 0);
+            id = _ids.Count;
+            _ids.Add(o, id);
         }
-        else
-        {
-            if (!ids.ContainsKey(label))
-            {
-                ids.Add(label, ids.Count);
-            }
-        }
+
+        return id;
     }
 
-    protected int GetLabelId(LabelTarget label)
+    #region The printing code
+
+    protected virtual void Out(string? s)
     {
-        if (ids == null)
-        {
-            ids = new Dictionary<object, int>();
-            AddLabel(label);
-            return 0;
-        }
-        else
-        {
-            if (!ids.TryGetValue(label, out int id))
-            {
-                // label is met the first time
-                id = ids.Count;
-                AddLabel(label);
-            }
-
-            return id;
-        }
-    }
-
-    private void AddParam(ParameterExpression p)
-    {
-        if (ids == null)
-        {
-            ids = new Dictionary<object, int>();
-            ids.Add(ids, 0);
-        }
-        else
-        {
-            if (!ids.ContainsKey(p))
-            {
-                ids.Add(p, ids.Count);
-            }
-        }
-    }
-
-    protected int GetParamId(ParameterExpression p)
-    {
-        if (ids == null)
-        {
-            ids = new Dictionary<object, int>();
-            AddParam(p);
-            return 0;
-        }
-        else
-        {
-            if (!ids.TryGetValue(p, out int id))
-            {
-                // p is met the first time
-                id = ids.Count;
-                AddParam(p);
-            }
-
-            return id;
-        }
-    }
-
-    protected virtual void Out(string s)
-    {
-        builder.Append(s);
+        _out.Append(s);
     }
 
     protected virtual void Out(char c)
     {
-        builder.Append(c);
+        _out.Append(c);
     }
+
+    #endregion
+
+    #region Output an expression tree to a string
 
     /// <summary>
     /// Output a given expression tree to a string.
     /// </summary>
-    /// <param name="node">The expression node.</param>
-    /// <returns>The string representing the expression.</returns>
-    public static string ExpressionToString(Expression node)
+    internal static string ExpressionToString(Expression node)
     {
-        Debug.Assert(node != null, "'node' should not be null.");
-
-        ExpressionStringBuilder expressionStringBuilder = new ExpressionStringBuilder();
-        expressionStringBuilder.Visit(node);
-        return expressionStringBuilder.ToString();
+        Debug.Assert(node != null);
+        ExpressionStringBuilder esb = new ExpressionStringBuilder();
+        esb.Visit(node);
+        return esb.ToString();
     }
 
-    // More proper would be to make this a virtual method on Action
-    private static string FormatBinder(CallSiteBinder binder)
+    internal static string CatchBlockToString(CatchBlock node)
     {
-        ConvertBinder convert;
-        GetMemberBinder getMember;
-        SetMemberBinder setMember;
-        DeleteMemberBinder deleteMember;
-        InvokeMemberBinder call;
-        UnaryOperationBinder unary;
-        BinaryOperationBinder binary;
-
-        if ((convert = binder as ConvertBinder) != null)
-        {
-            return "Convert " + convert.Type;
-        }
-        else if ((getMember = binder as GetMemberBinder) != null)
-        {
-            return "GetMember " + getMember.Name;
-        }
-        else if ((setMember = binder as SetMemberBinder) != null)
-        {
-            return "SetMember " + setMember.Name;
-        }
-        else if ((deleteMember = binder as DeleteMemberBinder) != null)
-        {
-            return "DeleteMember " + deleteMember.Name;
-        }
-        else if (binder is GetIndexBinder)
-        {
-            return "GetIndex";
-        }
-        else if (binder is SetIndexBinder)
-        {
-            return "SetIndex";
-        }
-        else if (binder is DeleteIndexBinder)
-        {
-            return "DeleteIndex";
-        }
-        else if ((call = binder as InvokeMemberBinder) != null)
-        {
-            return "Call " + call.Name;
-        }
-        else if (binder is InvokeBinder)
-        {
-            return "Invoke";
-        }
-        else if (binder is CreateInstanceBinder)
-        {
-            return "Create";
-        }
-        else if ((unary = binder as UnaryOperationBinder) != null)
-        {
-            return unary.Operation.ToString();
-        }
-        else if ((binary = binder as BinaryOperationBinder) != null)
-        {
-            return binary.Operation.ToString();
-        }
-        else
-        {
-            return "CallSiteBinder";
-        }
+        Debug.Assert(node != null);
+        ExpressionStringBuilder esb = new ExpressionStringBuilder();
+        esb.VisitCatchBlock(node);
+        return esb.ToString();
     }
 
-    protected void VisitExpressions<T>(char open, IList<T> expressions, char close)
-        where T : Expression
+    internal static string SwitchCaseToString(SwitchCase node)
+    {
+        Debug.Assert(node != null);
+        ExpressionStringBuilder esb = new ExpressionStringBuilder();
+        esb.VisitSwitchCase(node);
+        return esb.ToString();
+    }
+
+    /// <summary>
+    /// Output a given member binding to a string.
+    /// </summary>
+    internal static string MemberBindingToString(MemberBinding node)
+    {
+        Debug.Assert(node != null);
+        ExpressionStringBuilder esb = new ExpressionStringBuilder();
+        esb.VisitMemberBinding(node);
+        return esb.ToString();
+    }
+
+    /// <summary>
+    /// Output a given ElementInit to a string.
+    /// </summary>
+    internal static string ElementInitBindingToString(ElementInit node)
+    {
+        Debug.Assert(node != null);
+        ExpressionStringBuilder esb = new ExpressionStringBuilder();
+        esb.VisitElementInit(node);
+        return esb.ToString();
+    }
+
+    protected void VisitExpressions<T>(char open, ReadOnlyCollection<T> expressions, char close) where T : Expression
     {
         VisitExpressions(open, expressions, close, ", ");
     }
 
-    private void VisitExpressions<T>(char open, IList<T> expressions, char close, string seperator)
-        where T : Expression
+    protected void VisitExpressions<T>(char open, ReadOnlyCollection<T> expressions, char close, string separator) where T : Expression
     {
         Out(open);
-
         if (expressions != null)
         {
             bool isFirst = true;
             foreach (T e in expressions)
             {
                 if (isFirst)
+                {
                     isFirst = false;
+                }
                 else
-                    Out(seperator);
-
+                {
+                    Out(separator);
+                }
                 Visit(e);
             }
         }
-
         Out(close);
-    }
-
-    protected override Expression VisitDynamic(DynamicExpression node)
-    {
-        Out(FormatBinder(node.Binder));
-        VisitExpressions('(', node.Arguments, ')');
-        return node;
     }
 
     protected override Expression VisitBinary(BinaryExpression node)
@@ -225,101 +134,142 @@ public class ExpressionStringBuilder : ExpressionVisitor
         if (node.NodeType == ExpressionType.ArrayIndex)
         {
             Visit(node.Left);
-            Out("[");
+            Out('[');
             Visit(node.Right);
-            Out("]");
+            Out(']');
         }
         else
         {
-            string operatorString = GetBinaryOperator(node.NodeType);
+            string op;
+            op = GetBinaryOperator(node);
 
-            Out("(");
+            Out('(');
             Visit(node.Left);
             Out(' ');
-            Out(operatorString);
+            Out(op);
             Out(' ');
             Visit(node.Right);
-            Out(")");
+            Out(')');
         }
-
         return node;
     }
 
-    protected virtual string GetBinaryOperator(ExpressionType expressionType)
+    protected static string GetBinaryOperator(BinaryExpression node)
     {
-        switch (expressionType)
+        string op;
+        switch (node.NodeType)
         {
+            // AndAlso and OrElse were unintentionally changed in
+            // CLR 4. We changed them to "AndAlso" and "OrElse" to
+            // be 3.5 compatible, but it turns out 3.5 shipped with
+            // "&&" and "||". Oops.
             case ExpressionType.AndAlso:
-                return "&&";
+                op = "&&";
+                break;
             case ExpressionType.OrElse:
-                return "||";
+                op = "||";
+                break;
             case ExpressionType.Assign:
-                return "=";
+                op = "=";
+                break;
             case ExpressionType.Equal:
-                return "==";
+                op = "==";
+                break;
             case ExpressionType.NotEqual:
-                return "!=";
+                op = "!=";
+                break;
             case ExpressionType.GreaterThan:
-                return ">";
+                op = ">";
+                break;
             case ExpressionType.LessThan:
-                return "<";
+                op = "<";
+                break;
             case ExpressionType.GreaterThanOrEqual:
-                return ">=";
+                op = ">=";
+                break;
             case ExpressionType.LessThanOrEqual:
-                return "<=";
+                op = "<=";
+                break;
             case ExpressionType.Add:
             case ExpressionType.AddChecked:
-                return "+";
+                op = "+";
+                break;
             case ExpressionType.AddAssign:
             case ExpressionType.AddAssignChecked:
-                return "+=";
+                op = "+=";
+                break;
             case ExpressionType.Subtract:
             case ExpressionType.SubtractChecked:
-                return "-";
+                op = "-";
+                break;
             case ExpressionType.SubtractAssign:
             case ExpressionType.SubtractAssignChecked:
-                return "-=";
+                op = "-=";
+                break;
             case ExpressionType.Divide:
-                return "/";
+                op = "/";
+                break;
             case ExpressionType.DivideAssign:
-                return "/=";
+                op = "/=";
+                break;
             case ExpressionType.Modulo:
-                return "%";
+                op = "%";
+                break;
             case ExpressionType.ModuloAssign:
-                return "%=";
+                op = "%=";
+                break;
             case ExpressionType.Multiply:
             case ExpressionType.MultiplyChecked:
-                return "*";
+                op = "*";
+                break;
             case ExpressionType.MultiplyAssign:
             case ExpressionType.MultiplyAssignChecked:
-                return "*=";
+                op = "*=";
+                break;
             case ExpressionType.LeftShift:
-                return "<<";
+                op = "<<";
+                break;
             case ExpressionType.LeftShiftAssign:
-                return "<<=";
+                op = "<<=";
+                break;
             case ExpressionType.RightShift:
-                return ">>";
+                op = ">>";
+                break;
             case ExpressionType.RightShiftAssign:
-                return ">>=";
+                op = ">>=";
+                break;
             case ExpressionType.And:
-                return "&";
+                op = "&";
+                break;
             case ExpressionType.AndAssign:
-                return "&=";
+                op = "&=";
+                break;
             case ExpressionType.Or:
-                return "|";
+                op = "|";
+                break;
             case ExpressionType.OrAssign:
-                return "|=";
+                op = "|=";
+                break;
             case ExpressionType.ExclusiveOr:
-            case ExpressionType.Power:
-                return "^";
+                op = "^";
+                break;
             case ExpressionType.ExclusiveOrAssign:
+                op = "^=";
+                break;
+            case ExpressionType.Power:
+                op = "**";
+                break; // This was changed in .NET Core from ^ to **
             case ExpressionType.PowerAssign:
-                return "^=";
+                op = "**=";
+                break;
             case ExpressionType.Coalesce:
-                return "??";
+                op = "??";
+                break;
             default:
                 throw new InvalidOperationException();
         }
+
+        return op;
     }
 
     protected override Expression VisitParameter(ParameterExpression node)
@@ -328,14 +278,15 @@ public class ExpressionStringBuilder : ExpressionVisitor
         {
             Out("ref ");
         }
-
-        string name = node.Name;
-
-        if (name is null or [])
+        string? name = node.Name;
+        if (string.IsNullOrEmpty(name))
+        {
             Out("Param_" + GetParamId(node));
+        }
         else
+        {
             Out(name);
-
+        }
         return node;
     }
 
@@ -349,9 +300,18 @@ public class ExpressionStringBuilder : ExpressionVisitor
         else
         {
             // (p1, p2, ..., pn) => body
-            VisitExpressions('(', node.Parameters, ')');
+            Out('(');
+            string sep = ", ";
+            for (int i = 0, n = node.Parameters.Count; i < n; i++)
+            {
+                if (i > 0)
+                {
+                    Out(sep);
+                }
+                Visit(node.Parameters[i]);
+            }
+            Out(')');
         }
-
         Out(" => ");
         Visit(node.Body);
         return node;
@@ -361,16 +321,15 @@ public class ExpressionStringBuilder : ExpressionVisitor
     {
         Visit(node.NewExpression);
         Out(" {");
-
         for (int i = 0, n = node.Initializers.Count; i < n; i++)
         {
             if (i > 0)
+            {
                 Out(", ");
-
-            Out(node.Initializers[i].ToString());
+            }
+            VisitElementInit(node.Initializers[i]);
         }
-
-        Out("}");
+        Out('}');
         return node;
     }
 
@@ -378,14 +337,11 @@ public class ExpressionStringBuilder : ExpressionVisitor
     {
         Out("IIF(");
         Visit(node.Test);
-
         Out(", ");
         Visit(node.IfTrue);
-
         Out(", ");
         Visit(node.IfFalse);
-
-        Out(")");
+        Out(')');
         return node;
     }
 
@@ -393,45 +349,34 @@ public class ExpressionStringBuilder : ExpressionVisitor
     {
         if (node.Value != null)
         {
-            string valueAsString = node.Value.ToString();
+            string? sValue = node.Value.ToString();
             if (node.Value is string)
             {
-                Out("\"");
-                Out(valueAsString);
-                Out("\"");
+                Out('\"');
+                Out(sValue);
+                Out('\"');
             }
-            else if (valueAsString == node.Value.GetType().ToString())
+            else if (sValue == node.Value.GetType().ToString())
             {
                 Out("value(");
-                Out(valueAsString);
-                Out(")");
+                Out(sValue);
+                Out(')');
             }
             else
             {
-                Out(valueAsString);
+                Out(sValue);
             }
         }
         else
         {
             Out("null");
         }
-
         return node;
     }
 
     protected override Expression VisitDebugInfo(DebugInfoExpression node)
     {
-        string s = string.Format(
-            CultureInfo.CurrentCulture,
-            "<DebugInfo({0}: {1}, {2}, {3}, {4})>",
-            node.Document.FileName,
-            node.StartLine,
-            node.StartColumn,
-            node.EndLine,
-            node.EndColumn);
-
-        Out(s);
-
+        Out($"<DebugInfo({node.Document.FileName}: {node.StartLine}, {node.StartColumn}, {node.EndLine}, {node.EndColumn})>");
         return node;
     }
 
@@ -442,18 +387,20 @@ public class ExpressionStringBuilder : ExpressionVisitor
     }
 
     // Prints ".instanceField" or "declaringType.staticField"
-    protected virtual void OutMember(Expression instance, MemberInfo member)
+    private void OutMember(Expression? instance, MemberInfo member)
     {
         if (instance != null)
         {
             Visit(instance);
-            Out("." + member.Name);
         }
         else
         {
             // For static members, include the type name
-            Out(member.DeclaringType.Name + "." + member.Name);
+            Out(member.DeclaringType!.Name);
         }
+
+        Out('.');
+        Out(member.Name);
     }
 
     protected override Expression VisitMember(MemberExpression node)
@@ -465,7 +412,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
     protected override Expression VisitMemberInit(MemberInitExpression node)
     {
         if (node.NewExpression.Arguments.Count == 0 &&
-            node.NewExpression.Type.Name.Contains("<"))
+            node.NewExpression.Type.Name.Contains('<'))
         {
             // anonymous type constructor
             Out("new");
@@ -474,9 +421,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
         {
             Visit(node.NewExpression);
         }
-
         Out(" {");
-
         for (int i = 0, n = node.Bindings.Count; i < n; i++)
         {
             MemberBinding b = node.Bindings[i];
@@ -484,64 +429,67 @@ public class ExpressionStringBuilder : ExpressionVisitor
             {
                 Out(", ");
             }
-
             VisitMemberBinding(b);
         }
-
-        Out("}");
+        Out('}');
         return node;
     }
 
-    protected override MemberAssignment VisitMemberAssignment(MemberAssignment node)
+    protected override MemberAssignment VisitMemberAssignment(MemberAssignment assignment)
     {
-        Out(node.Member.Name);
+        Out(assignment.Member.Name);
         Out(" = ");
-        Visit(node.Expression);
-        return node;
+        Visit(assignment.Expression);
+        return assignment;
     }
 
-    protected override MemberListBinding VisitMemberListBinding(MemberListBinding node)
+    protected override MemberListBinding VisitMemberListBinding(MemberListBinding binding)
     {
-        Out(node.Member.Name);
+        Out(binding.Member.Name);
         Out(" = {");
-
-        for (int i = 0, n = node.Initializers.Count; i < n; i++)
+        for (int i = 0, n = binding.Initializers.Count; i < n; i++)
         {
             if (i > 0)
             {
                 Out(", ");
             }
-
-            VisitElementInit(node.Initializers[i]);
+            VisitElementInit(binding.Initializers[i]);
         }
-
-        Out("}");
-        return node;
+        Out('}');
+        return binding;
     }
 
-    protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding node)
+    protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding binding)
     {
-        Out(node.Member.Name);
+        Out(binding.Member.Name);
         Out(" = {");
-        for (int i = 0, n = node.Bindings.Count; i < n; i++)
+        for (int i = 0, n = binding.Bindings.Count; i < n; i++)
         {
             if (i > 0)
+            {
                 Out(", ");
-
-            VisitMemberBinding(node.Bindings[i]);
+            }
+            VisitMemberBinding(binding.Bindings[i]);
         }
-
-        Out("}");
-        return node;
+        Out('}');
+        return binding;
     }
 
-    protected override ElementInit VisitElementInit(ElementInit node)
+    protected override ElementInit VisitElementInit(ElementInit initializer)
     {
-        Out(node.AddMethod.ToString());
+        Out(initializer.AddMethod.ToString());
         string sep = ", ";
-
-        VisitExpressions('(', node.Arguments, ')', sep);
-        return node;
+        Out('(');
+        for (int i = 0, n = initializer.Arguments.Count; i < n; i++)
+        {
+            if (i > 0)
+            {
+                Out(sep);
+            }
+            Visit(initializer.Arguments[i]);
+        }
+        Out(')');
+        return initializer;
     }
 
     protected override Expression VisitInvocation(InvocationExpression node)
@@ -549,111 +497,106 @@ public class ExpressionStringBuilder : ExpressionVisitor
         Out("Invoke(");
         Visit(node.Expression);
         string sep = ", ";
-
         for (int i = 0, n = node.Arguments.Count; i < n; i++)
         {
             Out(sep);
             Visit(node.Arguments[i]);
         }
-
-        Out(")");
+        Out(')');
         return node;
     }
 
     protected override Expression VisitMethodCall(MethodCallExpression node)
     {
         int start = 0;
-        Expression objectExpression = node.Object;
+        Expression? ob = node.Object;
 
-        if (Attribute.GetCustomAttribute(node.Method, typeof(ExtensionAttribute)) != null)
+        if (node.Method.GetCustomAttribute(typeof(ExtensionAttribute)) != null)
         {
             start = 1;
-            objectExpression = node.Arguments[0];
+            ob = node.Arguments[0];
         }
 
-        if (objectExpression != null)
+        if (ob != null)
         {
-            Visit(objectExpression);
-            Out(".");
+            Visit(ob);
+            Out('.');
         }
-
         Out(node.Method.Name);
-        Out("(");
-
+        Out('(');
         VisitMethodParameters(node, start);
-
-        Out(")");
+        Out(')');
         return node;
     }
 
-    protected virtual Expression VisitMethodParameters(MethodCallExpression node, int startArgumentIndex)
+    protected virtual void VisitMethodParameters(MethodCallExpression node, int start)
     {
-        for (int i = startArgumentIndex, n = node.Arguments.Count; i < n; i++)
+        for (int i = start, n = node.Arguments.Count; i < n; i++)
         {
-            if (i > startArgumentIndex)
+            if (i > start)
                 Out(", ");
-
             Visit(node.Arguments[i]);
         }
-
-        return node;
     }
 
     protected override Expression VisitNewArray(NewArrayExpression node)
     {
-        if (node.NodeType == ExpressionType.NewArrayBounds)
+        switch (node.NodeType)
         {
-            Out("new " + node.Type);
-            VisitExpressions('(', node.Expressions, ')');
+            case ExpressionType.NewArrayBounds:
+                // new MyType[](expr1, expr2)
+                Out("new ");
+                Out(node.Type.ToString());
+                VisitExpressions('(', node.Expressions, ')');
+                break;
+            case ExpressionType.NewArrayInit:
+                // new [] {expr1, expr2}
+                Out("new [] ");
+                VisitExpressions('{', node.Expressions, '}');
+                break;
         }
-        else if (node.NodeType == ExpressionType.NewArrayInit)
-        {
-            Out("new [] ");
-            VisitExpressions('{', node.Expressions, '}');
-        }
-
         return node;
     }
 
     protected override Expression VisitNew(NewExpression node)
     {
-        Out("new " + node.Type.Name);
-        Out("(");
-        var members = node.Members;
+        Out("new ");
+        Out(node.Type.Name);
+        Out('(');
+        ReadOnlyCollection<MemberInfo>? members = node.Members;
         for (int i = 0; i < node.Arguments.Count; i++)
         {
             if (i > 0)
             {
                 Out(", ");
             }
-
             if (members != null)
             {
                 string name = members[i].Name;
-
                 Out(name);
                 Out(" = ");
             }
-
             Visit(node.Arguments[i]);
         }
-
-        Out(")");
+        Out(')');
         return node;
     }
 
     protected override Expression VisitTypeBinary(TypeBinaryExpression node)
     {
-        Out("(");
+        Out('(');
         Visit(node.Expression);
-
-        if (node.NodeType == ExpressionType.TypeIs)
-            Out(" is ");
-        else if (node.NodeType == ExpressionType.TypeEqual)
-            Out(" TypeEqual ");
-
+        switch (node.NodeType)
+        {
+            case ExpressionType.TypeIs:
+                Out(" Is ");
+                break;
+            case ExpressionType.TypeEqual:
+                Out(" TypeEqual ");
+                break;
+        }
         Out(node.TypeOperand.Name);
-        Out(")");
+        Out(')');
         return node;
     }
 
@@ -661,26 +604,42 @@ public class ExpressionStringBuilder : ExpressionVisitor
     {
         switch (node.NodeType)
         {
-            case ExpressionType.TypeAs:
-                Out("(");
-                break;
-            case ExpressionType.Not:
-                if (node.Type == typeof(bool) || node.Type == typeof(bool?))
-                    Out("!");
-                else
-                    Out("~");
-                break;
             case ExpressionType.Negate:
             case ExpressionType.NegateChecked:
-                Out("-");
+                Out('-');
                 break;
-            case ExpressionType.UnaryPlus:
-                Out("+");
+            case ExpressionType.Not:
+                Out("!");
                 break;
-            case ExpressionType.Quote:
+            case ExpressionType.IsFalse:
+                Out("IsFalse(");
+                break;
+            case ExpressionType.IsTrue:
+                Out("IsTrue(");
+                break;
+            case ExpressionType.OnesComplement:
+                Out("~(");
+                break;
+            case ExpressionType.ArrayLength:
+                Out("ArrayLength(");
+                break;
+            case ExpressionType.Convert:
+                Out("Convert(");
+                break;
+            case ExpressionType.ConvertChecked:
+                Out("ConvertChecked(");
                 break;
             case ExpressionType.Throw:
                 Out("throw(");
+                break;
+            case ExpressionType.TypeAs:
+                Out('(');
+                break;
+            case ExpressionType.UnaryPlus:
+                Out('+');
+                break;
+            case ExpressionType.Unbox:
+                Out("Unbox(");
                 break;
             case ExpressionType.Increment:
                 Out("Increment(");
@@ -694,8 +653,9 @@ public class ExpressionStringBuilder : ExpressionVisitor
             case ExpressionType.PreDecrementAssign:
                 Out("--");
                 break;
-            case ExpressionType.OnesComplement:
-                Out("~(");
+            case ExpressionType.Quote:
+            case ExpressionType.PostIncrementAssign:
+            case ExpressionType.PostDecrementAssign:
                 break;
             default:
                 Out(node.NodeType.ToString());
@@ -718,7 +678,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
             case ExpressionType.TypeAs:
                 Out(" as ");
                 Out(node.Type.Name);
-                Out(")");
+                Out(')');
                 break;
             case ExpressionType.PostIncrementAssign:
                 Out("++");
@@ -727,24 +687,21 @@ public class ExpressionStringBuilder : ExpressionVisitor
                 Out("--");
                 break;
             default:
-                Out(")");
+                Out(')');
                 break;
         }
-
         return node;
     }
 
     protected override Expression VisitBlock(BlockExpression node)
     {
-        Out("{");
-
-        foreach (var v in node.Variables)
+        Out('{');
+        foreach (ParameterExpression v in node.Variables)
         {
             Out("var ");
             Visit(v);
-            Out(";");
+            Out(';');
         }
-
         Out(" ... }");
         return node;
     }
@@ -753,7 +710,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
     {
         Out("default(");
         Out(node.Type.Name);
-        Out(")");
+        Out(')');
         return node;
     }
 
@@ -761,22 +718,29 @@ public class ExpressionStringBuilder : ExpressionVisitor
     {
         Out("{ ... } ");
         DumpLabel(node.Target);
-        Out(":");
+        Out(':');
         return node;
     }
 
     protected override Expression VisitGoto(GotoExpression node)
     {
-        Out(node.Kind.ToString().ToLower(CultureInfo.CurrentCulture));
+        string op = node.Kind switch
+        {
+            GotoExpressionKind.Goto => "goto",
+            GotoExpressionKind.Break => "break",
+            GotoExpressionKind.Continue => "continue",
+            GotoExpressionKind.Return => "return",
+            _ => throw new InvalidOperationException(),
+        };
+        Out(op);
+        Out(' ');
         DumpLabel(node.Target);
-
         if (node.Value != null)
         {
             Out(" (");
             Visit(node.Value);
-            Out(") ");
+            Out(")");
         }
-
         return node;
     }
 
@@ -797,7 +761,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
     protected override Expression VisitSwitch(SwitchExpression node)
     {
         Out("switch ");
-        Out("(");
+        Out('(');
         Visit(node.SwitchValue);
         Out(") { ... }");
         return node;
@@ -805,11 +769,13 @@ public class ExpressionStringBuilder : ExpressionVisitor
 
     protected override CatchBlock VisitCatchBlock(CatchBlock node)
     {
-        Out("catch (" + node.Test.Name);
-
-        if (node.Variable != null)
-            Out(node.Variable.Name ?? string.Empty);
-
+        Out("catch (");
+        Out(node.Test.Name);
+        if (!string.IsNullOrEmpty(node.Variable?.Name))
+        {
+            Out(' ');
+            Out(node.Variable.Name);
+        }
         Out(") { ... }");
         return node;
     }
@@ -828,60 +794,59 @@ public class ExpressionStringBuilder : ExpressionVisitor
         }
         else
         {
-            Debug.Assert(node.Indexer != null, "'node.Indexer' should not be null.");
-            Out(node.Indexer.DeclaringType.Name);
+            Debug.Assert(node.Indexer != null);
+            Out(node.Indexer.DeclaringType!.Name);
         }
-
         if (node.Indexer != null)
         {
-            Out(".");
+            Out('.');
             Out(node.Indexer.Name);
         }
 
-        VisitExpressions('[', node.Arguments, ']');
+        Out('[');
+        for (int i = 0, n = node.Arguments.Count; i < n; i++)
+        {
+            if (i > 0)
+                Out(", ");
+            Visit(node.Arguments[i]);
+        }
+        Out(']');
+
         return node;
     }
 
     protected override Expression VisitExtension(Expression node)
     {
-        // Prefer an overriden ToString, if available.
-        var flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.ExactBinding;
-        var toString = node.GetType().GetMethod("ToString", flags, null, Type.EmptyTypes, null);
-        if (toString.DeclaringType != typeof(Expression))
+        // Prefer an overridden ToString, if available.
+        MethodInfo toString = node.GetType().GetMethod("ToString", Type.EmptyTypes)!;
+        if (toString.DeclaringType != typeof(Expression) && !toString.IsStatic)
         {
             Out(node.ToString());
             return node;
         }
 
-        Out("[");
-
+        Out('[');
         // For 3.5 subclasses, print the NodeType.
         // For Extension nodes, print the class name.
-        if (node.NodeType == ExpressionType.Extension)
-        {
-            Out(node.GetType().FullName);
-        }
-        else
-        {
-            Out(node.NodeType.ToString());
-        }
-
-        Out("]");
+        Out(node.NodeType == ExpressionType.Extension ? node.GetType().FullName : node.NodeType.ToString());
+        Out(']');
         return node;
     }
 
     private void DumpLabel(LabelTarget target)
     {
-        if (target.Name?.Length > 0)
+        if (!string.IsNullOrEmpty(target.Name))
         {
             Out(target.Name);
         }
         else
         {
             int labelId = GetLabelId(target);
-            Out("UnamedLabel_" + labelId);
+            Out("UnnamedLabel_" + labelId);
         }
     }
+
+    #endregion
 }
 
 #pragma warning restore

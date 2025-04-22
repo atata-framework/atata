@@ -28,8 +28,12 @@ public static class ImprovedExpressionStringBuilderTests
         TestCaseData TestPredicate(Expression<Func<TestComponent, bool>> expression) =>
             Test(expression);
 
+        TestCaseData TestIntOperation(Expression<Func<int, int>> expression) =>
+            Test(expression);
+
         TestCaseData TestModelWithIndexPredicate(Expression<Func<TestModel, int, bool>> expression) =>
             Test(expression);
+
         TestCaseData TestModelSelector(Expression<Func<TestModel, object>> expression) =>
             Test(expression);
 
@@ -48,6 +52,18 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => !x.Item.Attributes.Checked");
         TestPredicate(x => x.Item.Attributes.Checked == true)
             .Returns("x => x.Item.Attributes.Checked == true");
+
+        // Operators:
+        TestIntOperation(x => x % 2)
+            .Returns("x => x % 2");
+        TestIntOperation(x => x ^ 2)
+            .Returns("x => x ^ 2");
+        TestIntOperation(x => x * -2)
+            .Returns("x => x * -2");
+        TestIntOperation(x => (int)(2L - x))
+            .Returns("x => 2 - x");
+        TestIntOperation(x => Interlocked.Increment(ref x))
+            .Returns("x => Interlocked.Increment(ref x)");
 
         // Variable:
         string itemName = "VarStr";
@@ -91,7 +107,7 @@ public static class ImprovedExpressionStringBuilderTests
         TestPredicate(x => x.TryGetValue("key", out outResult))
             .Returns("x => x.TryGetValue(\"key\", out outResult)");
 
-        // Instance method with out parameter:
+        // Instance method with ref parameter:
         int refValue = 1;
 
         TestPredicate(x => x.UseRefValue("key", ref refValue))

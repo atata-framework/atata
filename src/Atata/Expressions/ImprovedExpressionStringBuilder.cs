@@ -56,7 +56,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         }
     }
 
-    protected override void Out(string s) =>
+    protected override void Out(string? s) =>
         CurrentLiteral.Append(s);
 
     protected override void Out(char c) =>
@@ -203,7 +203,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
     protected Expression VisitIndexerAsMethodCall(MethodCallExpression node)
     {
-        Out("[");
+        Out('[');
 
         for (int i = 0; i < node.Arguments.Count; i++)
         {
@@ -213,7 +213,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             Visit(node.Arguments[i]);
         }
 
-        Out("]");
+        Out(']');
         return node;
     }
 
@@ -223,24 +223,22 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             OutStaticClass(type.DeclaringType);
 
         Out(type.Name);
-        Out(".");
+        Out('.');
     }
 
-    protected override Expression VisitMethodParameters(MethodCallExpression node, int startArgumentIndex)
+    protected override void VisitMethodParameters(MethodCallExpression node, int start)
     {
         ParameterInfo[] methodParameters = node.Method.GetParameters();
 
-        for (int i = startArgumentIndex; i < node.Arguments.Count; i++)
+        for (int i = start; i < node.Arguments.Count; i++)
         {
-            if (i > startArgumentIndex)
+            if (i > start)
                 Out(", ");
 
             ParameterInfo parameter = methodParameters[i];
 
             VisitMethodParameter(parameter, node.Arguments[i]);
         }
-
-        return node;
     }
 
     private void VisitMethodParameter(ParameterInfo parameter, Expression argumentExpression)
@@ -250,16 +248,20 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             if (parameter.IsOut)
             {
                 Out($"out {memberExpression.Member.Name}");
-                return;
             }
             else if (parameter.ParameterType.IsByRef)
             {
                 Out($"ref {memberExpression.Member.Name}");
-                return;
             }
         }
-
-        Visit(argumentExpression);
+        else if (argumentExpression is ParameterExpression parameterExpression && parameter.ParameterType.IsByRef)
+        {
+            Out($"ref {parameterExpression.Name}");
+        }
+        else
+        {
+            Visit(argumentExpression);
+        }
     }
 
     protected override Expression VisitNewArray(NewArrayExpression node)
@@ -285,12 +287,12 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         bool addParentheses = alwaysAddParentheses || node.Arguments.Count > 0;
 
         if (addParentheses)
-            Out("(");
+            Out('(');
 
         OutArguments(node.Arguments, node.Members);
 
         if (addParentheses)
-            Out(")");
+            Out(')');
 
         return node;
     }
@@ -386,7 +388,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         Out('(');
         OutPart(node.Left);
         Out(' ');
-        Out(GetBinaryOperator(node.NodeType));
+        Out(GetBinaryOperator(node));
         Out(' ');
         OutPart(node.Right);
         Out(')');
