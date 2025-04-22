@@ -20,5 +20,5 @@ internal sealed class AtataContextExecutionUnit : IAtataExecutionUnit
         _context.IsActive
             ? _context
             : throw new InvalidOperationException(
-                $"The {nameof(AtataContext)} with Id={_context.Id} is already disposed.");
+                $"The {_context} is already disposed.");
 }

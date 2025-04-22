@@ -20,5 +20,5 @@ internal sealed class AtataSessionExecutionUnit : IAtataExecutionUnit
         _session.IsActive
             ? _session
             : throw new InvalidOperationException(
-                $"The {_session.GetType().Name} with Id={_session.Id} is already not active or disposed.");
+                $"The {_session} is already not active or disposed.");
 }
