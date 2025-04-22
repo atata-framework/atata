@@ -1212,7 +1212,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <inheritdoc/>
     public override string ToString()
     {
-        var builder = new StringBuilder(GetType().Name)
+        var builder = new StringBuilder(nameof(AtataContext))
             .Append(" { Id=")
             .Append(Id);
 
