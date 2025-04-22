@@ -90,4 +90,14 @@ public static class StringifierTests
 
         public sealed record class SomeRecord(int Id, string Name);
     }
+
+    public sealed class ToStringInShortForm
+    {
+        [TestCase(typeof(Uri), ExpectedResult = "Uri")]
+        [TestCase(typeof(bool), ExpectedResult = "bool")]
+        [TestCase(typeof(List<Uri>), ExpectedResult = "List<Uri>")]
+        [TestCase(typeof(Dictionary<int, string>), ExpectedResult = "Dictionary<int, string>")]
+        public string With(Type type) =>
+            Stringifier.ToStringInShortForm(type);
+    }
 }

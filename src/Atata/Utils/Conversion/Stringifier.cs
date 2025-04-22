@@ -85,9 +85,9 @@ public static class Stringifier
     private static string AddIndent(string value) =>
         Indent + value.Replace("\r\n", "\n").Replace("\n", Environment.NewLine + Indent);
 
-    public static string ToStringInFormOfOneOrMany<T>(IEnumerable<T> collection)
+    public static string ToStringInFormOfOneOrMany<T>(IEnumerable<T>? collection)
     {
-        if (collection == null)
+        if (collection is null)
             return NullString;
 
         int count = collection.Count();
@@ -97,7 +97,7 @@ public static class Stringifier
             : ToString(collection);
     }
 
-    public static string ToStringInSimpleStructuredForm(object value, Type? excludeBaseType = null)
+    public static string ToStringInSimpleStructuredForm(object? value, Type? excludeBaseType = null)
     {
         if (value is null)
             return NullString;
@@ -134,19 +134,43 @@ public static class Stringifier
         }
     }
 
-    private static string ResolveSimplifiedTypeName(Type type)
+    public static string ToStringInShortForm(Type? type)
     {
-        string name = type.Name;
+        if (type is null)
+            return NullString;
 
+        return ResolveSimplifiedTypeName(type);
+    }
+
+    internal static string ResolveSimplifiedTypeName(Type type)
+    {
         if (type.IsGenericType)
         {
             Type[] genericArgumentTypes = type.GetGenericArguments();
             string genericArgumentsString = string.Join(", ", genericArgumentTypes.Select(ResolveSimplifiedTypeName));
 
+            string name = type.Name;
             return $"{name[..name.IndexOf('`')]}<{genericArgumentsString}>";
         }
 
-        return name;
+        return type.FullName switch
+        {
+            "System.Boolean" => "bool",
+            "System.Byte" => "byte",
+            "System.SByte" => "sbyte",
+            "System.Int16" => "short",
+            "System.UInt16" => "ushort",
+            "System.Int32" => "int",
+            "System.UInt32" => "uint",
+            "System.Int64" => "long",
+            "System.UInt64" => "ulong",
+            "System.Single" => "float",
+            "System.Double" => "double",
+            "System.Decimal" => "decimal",
+            "System.String" => "string",
+            "System.Char" => "char",
+            _ => type.Name
+        };
     }
 
     private static bool TakeValueForSimpleStructuredForm(object value) =>
