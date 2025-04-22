@@ -24,6 +24,6 @@ public class ElementFindLogSection : LogSection
 
     private static string ResolveSearchContextName(ISearchContext searchContext) =>
         searchContext is IWebDriver
-            ? searchContext.GetType().Name
+            ? searchContext.GetType().ToStringInShortForm()
             : Stringifier.ToString(searchContext);
 }

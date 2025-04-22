@@ -17,5 +17,5 @@ public class LogConsumerNotFoundException : Exception
     }
 
     internal static LogConsumerNotFoundException ByBuilderType(Type logConsumerBuilderType) =>
-        new($"Failed to find {logConsumerBuilderType.Name} in {nameof(AtataContextBuilder)}.");
+        new($"Failed to find {logConsumerBuilderType.ToStringInShortForm()} in {nameof(AtataContextBuilder)}.");
 }

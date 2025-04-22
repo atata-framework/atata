@@ -35,7 +35,7 @@ public class AtataSessionBuilderNotFoundException : Exception
     internal static AtataSessionBuilderNotFoundException ByBuilderType(Type sessionBuilderType, string? sessionBuilderName, AtataContext? context = null)
     {
         var messageBuilder = new StringBuilder("Failed to find ")
-            .Append(sessionBuilderType.Name);
+            .Append(sessionBuilderType.ToStringInShortForm());
 
         if (sessionBuilderName is not null)
             messageBuilder.Append(" { Name=").Append(sessionBuilderName).Append(" }");

@@ -15,7 +15,7 @@ public sealed class TestInfo : IEquatable<TestInfo>
         Name = name;
         NameSanitized = name?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
 
-        SuiteName = suiteName ?? suiteType?.Name;
+        SuiteName = suiteName ?? suiteType?.ToStringInShortForm();
         SuiteType = suiteType;
         SuiteGroupName = suiteGroupName;
 

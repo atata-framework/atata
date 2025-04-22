@@ -6,7 +6,7 @@ public class ExecuteEventHandlerLogSection : LogSection
     {
         string eventHandlerAsString = Stringifier.ToStringInSimpleStructuredForm(eventHandler);
 
-        Message = $"Execute event handler {eventHandlerAsString} on {eventData.GetType().Name}";
+        Message = $"Execute event handler {eventHandlerAsString} on {eventData.GetType().ToStringInShortForm()}";
 
         Level = LogLevel.Trace;
     }

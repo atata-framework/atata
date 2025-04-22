@@ -165,7 +165,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
 
     protected string GetDriverServiceStringForLog(DriverService service)
     {
-        StringBuilder builder = new(service.GetType().Name);
+        StringBuilder builder = new(service.GetType().ToStringInShortForm());
 
         builder.Append($" {{ Port={service.Port}");
 
@@ -182,7 +182,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
 
     protected string GetDriverStringForLog(IWebDriver driver)
     {
-        StringBuilder builder = new(driver.GetType().Name);
+        StringBuilder builder = new(driver.GetType().ToStringInShortForm());
 
         List<string> properties = [];
 

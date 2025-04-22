@@ -468,7 +468,7 @@ public abstract class AtataSession : IAsyncDisposable
     /// </returns>
     public override string ToString()
     {
-        var stringBuilder = new StringBuilder(GetType().Name)
+        var stringBuilder = new StringBuilder(GetType().ToStringInShortForm())
             .Append(" { Id=")
             .Append(Id);
 
@@ -483,7 +483,7 @@ public abstract class AtataSession : IAsyncDisposable
 
     internal static string BuildTypedName(Type sessionType, string? sessionName)
     {
-        string sessionTypeName = sessionType.Name;
+        string sessionTypeName = sessionType.ToStringInShortForm();
 
         return sessionName is null or []
             ? sessionTypeName

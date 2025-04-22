@@ -170,4 +170,16 @@ public static class TypeExtensions
 
         return null;
     }
+
+    /// <summary>
+    /// Returns a full type name in a short form, without namespace(s).
+    /// </summary>
+    /// <param name="type">The type.</param>
+    /// <returns>A string representing type name.</returns>
+    public static string ToStringInShortForm(this Type type)
+    {
+        Guard.ThrowIfNull(type);
+
+        return Stringifier.ResolveSimplifiedTypeName(type);
+    }
 }

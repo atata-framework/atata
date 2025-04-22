@@ -69,7 +69,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
         }
         catch (Exception exception)
         {
-            logManager?.Error(exception, $"{service.GetType().Name}.Dispose() failed.");
+            logManager?.Error(exception, $"{service.GetType().ToStringInShortForm()}.Dispose() failed.");
         }
     }
 
