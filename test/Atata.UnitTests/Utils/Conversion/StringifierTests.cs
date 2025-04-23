@@ -97,7 +97,19 @@ public static class StringifierTests
         [TestCase(typeof(bool), ExpectedResult = "bool")]
         [TestCase(typeof(List<Uri>), ExpectedResult = "List<Uri>")]
         [TestCase(typeof(Dictionary<int, string>), ExpectedResult = "Dictionary<int, string>")]
+        [TestCase(typeof(Dictionary<int, string>.KeyCollection.Enumerator), ExpectedResult = "Dictionary<int, string>.KeyCollection.Enumerator")]
+        [TestCase(typeof(Top<int, string>.Middle<float>.ILow<Uri, List<int>.Enumerator>), ExpectedResult = "StringifierTests.Top<int, string>.Middle<float>.ILow<Uri, List<int>.Enumerator>")]
         public string With(Type type) =>
             Stringifier.ToStringInShortForm(type);
     }
+
+#pragma warning disable S2326 // Unused type parameters should be removed
+    public class Top<T1, T2>
+    {
+        public class Middle<T3>
+        {
+            public interface ILow<T4, T5>;
+        }
+    }
+#pragma warning restore S2326 // Unused type parameters should be removed
 }

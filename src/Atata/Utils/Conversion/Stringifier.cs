@@ -6,6 +6,24 @@
 /// </summary>
 public static class Stringifier
 {
+    private static readonly Dictionary<Type, string> s_typeNamesInShortForm = new()
+    {
+        { typeof(bool), "bool" },
+        { typeof(byte), "byte" },
+        { typeof(sbyte), "sbyte" },
+        { typeof(short), "short" },
+        { typeof(ushort), "ushort" },
+        { typeof(int), "int" },
+        { typeof(uint), "uint" },
+        { typeof(long), "long" },
+        { typeof(ulong), "ulong" },
+        { typeof(float), "float" },
+        { typeof(double), "double" },
+        { typeof(decimal), "decimal" },
+        { typeof(string), "string" },
+        { typeof(char), "char" }
+    };
+
     public const string NullString = "null";
 
     public const string Indent = "  ";
@@ -144,33 +162,58 @@ public static class Stringifier
 
     internal static string ResolveSimplifiedTypeName(Type type)
     {
-        if (type.IsGenericType)
+        if (!s_typeNamesInShortForm.TryGetValue(type, out string name))
         {
-            Type[] genericArgumentTypes = type.GetGenericArguments();
-            string genericArgumentsString = string.Join(", ", genericArgumentTypes.Select(ResolveSimplifiedTypeName));
+            Queue<Type> genericArgumentTypeQueue = new(type.GetGenericArguments());
 
-            string name = type.Name;
-            return $"{name[..name.IndexOf('`')]}<{genericArgumentsString}>";
+            StringBuilder outputBuilder = new();
+            ResolveSimplifiedTypeName(type, genericArgumentTypeQueue, outputBuilder);
+            name = outputBuilder.ToString();
+
+            s_typeNamesInShortForm[type] = name;
         }
 
-        return type.FullName switch
+        return name;
+    }
+
+    private static void ResolveSimplifiedTypeName(Type type, Queue<Type> genericArgumentTypeQueue, StringBuilder outputBuilder)
+    {
+        Type declaringType = type.DeclaringType;
+
+        if (declaringType is not null)
         {
-            "System.Boolean" => "bool",
-            "System.Byte" => "byte",
-            "System.SByte" => "sbyte",
-            "System.Int16" => "short",
-            "System.UInt16" => "ushort",
-            "System.Int32" => "int",
-            "System.UInt32" => "uint",
-            "System.Int64" => "long",
-            "System.UInt64" => "ulong",
-            "System.Single" => "float",
-            "System.Double" => "double",
-            "System.Decimal" => "decimal",
-            "System.String" => "string",
-            "System.Char" => "char",
-            _ => type.Name
-        };
+            ResolveSimplifiedTypeName(declaringType, genericArgumentTypeQueue, outputBuilder);
+            outputBuilder.Append('.');
+        }
+
+        string name = type.Name;
+        int indexOfGenericIndicator = name.IndexOf('`');
+
+        if (indexOfGenericIndicator >= 0)
+        {
+            outputBuilder.Append(name, 0, indexOfGenericIndicator);
+            outputBuilder.Append('<');
+
+            int numberOfGenericArguments = int.Parse(name[(indexOfGenericIndicator + 1)..]);
+
+            for (int i = 0; i < numberOfGenericArguments; i++)
+            {
+                if (i != 0)
+                    outputBuilder.Append(", ");
+
+                Type genericArgumentType = genericArgumentTypeQueue.Dequeue();
+                ResolveSimplifiedTypeName(genericArgumentType, new(genericArgumentType.GetGenericArguments()), outputBuilder);
+            }
+
+            outputBuilder.Append('>');
+        }
+        else
+        {
+            outputBuilder.Append(
+                s_typeNamesInShortForm.TryGetValue(type, out string cachedName)
+                    ? cachedName
+                    : name);
+        }
     }
 
     private static bool TakeValueForSimpleStructuredForm(object value) =>
