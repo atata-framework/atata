@@ -215,7 +215,12 @@ public static class Stringifier
                         throw new InvalidOperationException("There are no generic argument types to use.");
 
                     Type genericArgumentType = genericArgumentTypeQueue.Dequeue();
-                    PrintSimplifiedTypeName(genericArgumentType, new(genericArgumentType.GetGenericArguments()), outputBuilder);
+                    Type[] genericArgumentTypeGenericArguments = genericArgumentType.GetGenericArguments();
+                    Queue<Type>? genericArgumentTypeGenericArgumentTypeQueue = genericArgumentTypeGenericArguments.Length > 0
+                        ? new(genericArgumentTypeGenericArguments)
+                        : null;
+
+                    PrintSimplifiedTypeName(genericArgumentType, genericArgumentTypeGenericArgumentTypeQueue, outputBuilder);
                 }
 
                 outputBuilder.Append('>');
