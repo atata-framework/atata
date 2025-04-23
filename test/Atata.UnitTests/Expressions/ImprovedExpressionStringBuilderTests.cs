@@ -34,7 +34,7 @@ public static class ImprovedExpressionStringBuilderTests
         TestCaseData TestModelWithIndexPredicate(Expression<Func<TestModel, int, bool>> expression) =>
             Test(expression);
 
-        TestCaseData TestModelSelector(Expression<Func<TestModel, object>> expression) =>
+        TestCaseData TestModelSelector(Expression<Func<TestModel, object?>> expression) =>
             Test(expression);
 
         // Comparison:
@@ -113,13 +113,23 @@ public static class ImprovedExpressionStringBuilderTests
         TestPredicate(x => x.UseRefValue("key", ref refValue))
             .Returns("x => x.UseRefValue(\"key\", ref refValue)");
 
-        // Static method:
+        // Static member:
         TestPredicate(x => x.Item.Value.Length == StaticClass.GetInt())
-            .Returns($"x => x.Item.Value.Length == {nameof(ImprovedExpressionStringBuilderTests)}.{nameof(StaticClass)}.{nameof(StaticClass.GetInt)}()");
+            .Returns("x => x.Item.Value.Length == ImprovedExpressionStringBuilderTests.StaticClass.GetInt()");
         TestPredicate(x => x.Item.Value.Contains(StaticClass.GetString(item.Name)))
-            .Returns($"x => x.Item.Value.Contains({nameof(ImprovedExpressionStringBuilderTests)}.{nameof(StaticClass)}.{nameof(StaticClass.GetString)}(item.Name))");
+            .Returns("x => x.Item.Value.Contains(ImprovedExpressionStringBuilderTests.StaticClass.GetString(item.Name))");
         TestPredicate(x => StaticClass.GetBool())
-            .Returns($"x => {nameof(ImprovedExpressionStringBuilderTests)}.{nameof(StaticClass)}.{nameof(StaticClass.GetBool)}()");
+            .Returns("x => ImprovedExpressionStringBuilderTests.StaticClass.GetBool()");
+
+#pragma warning disable CS0184 // 'is' expression's given expression is never of the provided type
+        TestPredicate(x => new List<int?>().GetEnumerator() is List<int>.Enumerator)
+            .Returns("x => new List<int?>().GetEnumerator() is List<int>.Enumerator");
+#pragma warning restore CS0184 // 'is' expression's given expression is never of the provided type
+
+        TestPredicate(x => StaticGenericClass<int>.GetValue() == 1)
+            .Returns("x => ImprovedExpressionStringBuilderTests.StaticGenericClass<int>.GetValue() == 1");
+        TestPredicate(x => StaticGenericClass<int>.Value > 1)
+            .Returns("x => ImprovedExpressionStringBuilderTests.StaticGenericClass<int>.Value > 1");
 
         // Enum comparison:
         TestPredicate(x => x.Flags == TestFlagValues.B)
@@ -159,25 +169,35 @@ public static class ImprovedExpressionStringBuilderTests
 
         // Object construction:
         TestModelSelector(x => new TestModel())
-            .Returns("x => new TestModel()");
+            .Returns("x => new ImprovedExpressionStringBuilderTests.TestModel()");
         TestModelSelector(x => new TestModel(x.Name))
-            .Returns("x => new TestModel(x.Name)");
+            .Returns("x => new ImprovedExpressionStringBuilderTests.TestModel(x.Name)");
         TestModelSelector(x => new TestModel(x.Name) { Name = "nm" })
-            .Returns("x => new TestModel(x.Name) { Name = \"nm\" }");
+            .Returns("x => new ImprovedExpressionStringBuilderTests.TestModel(x.Name) { Name = \"nm\" }");
         TestModelSelector(x => new TestModel { Name = x.Name })
-            .Returns("x => new TestModel { Name = x.Name }");
+            .Returns("x => new ImprovedExpressionStringBuilderTests.TestModel { Name = x.Name }");
         TestModelSelector(x => new { })
             .Returns("x => new { }");
         TestModelSelector(x => new { x.Name })
             .Returns("x => new { Name = x.Name }");
         TestModelSelector(x => new { x.Name, Id = 0 })
             .Returns("x => new { Name = x.Name, Id = 0 }");
+        TestModelSelector(x => new Dictionary<int, string>())
+            .Returns("x => new Dictionary<int, string>()");
 
         // Array construction:
         TestModelSelector(x => new[] { new { x.Name }, new { Name = "nm" } })
             .Returns("x => [new { Name = x.Name }, new { Name = \"nm\" }]");
         TestModelSelector(x => new object[] { x.Name, 1 })
             .Returns("x => [x.Name, 1]");
+
+        // Other:
+        TestModelSelector(x => (object)x as List<int>)
+            .Returns("x => x as List<int>");
+        TestModelSelector(x => default(int))
+            .Returns("x => 0");
+        TestModelSelector(x => default(List<int>))
+            .Returns("x => null");
 
         return items;
     }
@@ -193,6 +213,15 @@ public static class ImprovedExpressionStringBuilderTests
         public static int GetInt() => 42;
 
         public static string GetString(string value) => value;
+    }
+
+    public static class StaticGenericClass<T>
+    {
+#pragma warning disable CA1000 // Do not declare static members on generic types
+        public static T Value => default!;
+
+        public static T GetValue() => default!;
+#pragma warning restore CA1000 // Do not declare static members on generic types
     }
 
     public abstract class TestComponent

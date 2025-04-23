@@ -49,6 +49,11 @@ public class ExpressionStringBuilder : ExpressionVisitor
         _out.Append(c);
     }
 
+    protected virtual void OutType(Type type)
+    {
+        _out.Append(type.Name);
+    }
+
     #endregion
 
     #region Output an expression tree to a string
@@ -396,7 +401,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
         else
         {
             // For static members, include the type name
-            Out(member.DeclaringType!.Name);
+            OutType(member.DeclaringType!);
         }
 
         Out('.');
@@ -561,7 +566,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
     protected override Expression VisitNew(NewExpression node)
     {
         Out("new ");
-        Out(node.Type.Name);
+        OutType(node.Type);
         Out('(');
         ReadOnlyCollection<MemberInfo>? members = node.Members;
         for (int i = 0; i < node.Arguments.Count; i++)
@@ -589,13 +594,13 @@ public class ExpressionStringBuilder : ExpressionVisitor
         switch (node.NodeType)
         {
             case ExpressionType.TypeIs:
-                Out(" Is ");
+                Out(" is ");
                 break;
             case ExpressionType.TypeEqual:
                 Out(" TypeEqual ");
                 break;
         }
-        Out(node.TypeOperand.Name);
+        OutType(node.TypeOperand);
         Out(')');
         return node;
     }
@@ -677,7 +682,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
                 break;
             case ExpressionType.TypeAs:
                 Out(" as ");
-                Out(node.Type.Name);
+                OutType(node.Type);
                 Out(')');
                 break;
             case ExpressionType.PostIncrementAssign:
@@ -709,7 +714,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
     protected override Expression VisitDefault(DefaultExpression node)
     {
         Out("default(");
-        Out(node.Type.Name);
+        OutType(node.Type);
         Out(')');
         return node;
     }
@@ -770,7 +775,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
     protected override CatchBlock VisitCatchBlock(CatchBlock node)
     {
         Out("catch (");
-        Out(node.Test.Name);
+        OutType(node.Test);
         if (!string.IsNullOrEmpty(node.Variable?.Name))
         {
             Out(' ');
@@ -795,7 +800,7 @@ public class ExpressionStringBuilder : ExpressionVisitor
         else
         {
             Debug.Assert(node.Indexer != null);
-            Out(node.Indexer.DeclaringType!.Name);
+            OutType(node.Indexer.DeclaringType!);
         }
         if (node.Indexer != null)
         {

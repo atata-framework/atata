@@ -62,6 +62,9 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
     protected override void Out(char c) =>
         CurrentLiteral.Append(c);
 
+    protected override void OutType(Type type) =>
+        CurrentLiteral.Append(type.ToStringInShortForm());
+
     private static bool CanStringifyValue(Type valueType)
     {
         Type underlyingType = Nullable.GetUnderlyingType(valueType) ?? valueType;
@@ -185,7 +188,8 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
         if (node.Method.IsStatic && !isExtensionMethod && node.Method.DeclaringType != typeof(object))
         {
-            OutStaticClass(node.Method.DeclaringType);
+            OutType(node.Method.DeclaringType);
+            Out('.');
         }
         else if (IsIndexer(node))
         {
@@ -215,15 +219,6 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
         Out(']');
         return node;
-    }
-
-    private void OutStaticClass(Type type)
-    {
-        if (type.DeclaringType != null)
-            OutStaticClass(type.DeclaringType);
-
-        Out(type.Name);
-        Out('.');
     }
 
     protected override void VisitMethodParameters(MethodCallExpression node, int start)
@@ -282,7 +277,8 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
     private NewExpression VisitNewKnownType(NewExpression node, bool alwaysAddParentheses = true)
     {
-        Out("new " + node.Type.Name);
+        Out("new ");
+        OutType(node.Type);
 
         bool addParentheses = alwaysAddParentheses || node.Arguments.Count > 0;
 
