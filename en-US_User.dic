@@ -53,6 +53,8 @@ screenshot
 screenshots
 serializer
 sessionless
+stdout
+stderr
 stringifier
 sudo
 Summernote
