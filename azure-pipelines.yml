@@ -1,6 +1,6 @@
 variables:
   buildConfiguration: 'Release'
-  netSdkVersion: '9.x'
+  netSdkVersion: '8.x'
 
 jobs:
 - job: BuildAndRunCodeAnalysis
