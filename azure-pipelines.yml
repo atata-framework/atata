@@ -72,7 +72,7 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       artifactName: Artifacts-ubuntu-latest
-      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net9.0/artifacts
+      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net8.0/artifacts
 
 - job: RunTestsOnWindowsAndMacOS
   displayName: Run tests on 
@@ -115,4 +115,4 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       artifactName: Artifacts-$(imageName)
-      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net9.0/artifacts
+      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net8.0/artifacts
