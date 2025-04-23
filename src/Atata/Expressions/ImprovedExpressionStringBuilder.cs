@@ -200,7 +200,44 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             return VisitIndexerAsMethodCall(node);
         }
 
-        return base.VisitMethodCall(node);
+        int start = 0;
+        Expression? ob = node.Object;
+
+        if (isExtensionMethod)
+        {
+            start = 1;
+            ob = node.Arguments[0];
+        }
+
+        if (ob != null)
+        {
+            Visit(ob);
+            Out('.');
+        }
+
+        Out(node.Method.Name);
+
+        if (node.Method.IsGenericMethod && !isExtensionMethod)
+        {
+            Type[] genericArguments = node.Method.GetGenericArguments();
+            Out('<');
+
+            for (int i = 0; i < genericArguments.Length; i++)
+            {
+                if (i != 0)
+                    Out(", ");
+
+                OutType(genericArguments[i]);
+            }
+
+            Out('>');
+        }
+
+        Out('(');
+        VisitMethodParameters(node, start);
+        Out(')');
+
+        return node;
     }
 
     protected static bool IsIndexer(MethodCallExpression node) =>

@@ -97,9 +97,15 @@ public static class ImprovedExpressionStringBuilderTests
         TestPredicate(x => x.Item.Value[1] == 'a')
             .Returns("x => x.Item.Value[1] == 'a'");
 
+        // Extension method:
+        TestPredicate(x => x.Item.Value.Where(c => char.IsDigit(c)).Select(c => c.ToString()).Any())
+            .Returns("x => x.Item.Value.Where(c => char.IsDigit(c)).Select(c => c.ToString()).Any()");
+
         // Instance method:
         TestPredicate(x => x.Item.Attributes.GetValue<DateTime>("data-date") <= DateTime.Today)
-            .Returns("x => x.Item.Attributes.GetValue(\"data-date\") <= DateTime.Today");
+            .Returns("x => x.Item.Attributes.GetValue<DateTime>(\"data-date\") <= DateTime.Today");
+        TestPredicate(x => x.Item.Attributes.GetValue<string, float>("key") <= 1.5)
+            .Returns("x => x.Item.Attributes.GetValue<string, float>(\"key\") <= 1.5");
 
         // Instance method with out parameter:
         int outResult;
@@ -258,6 +264,8 @@ public static class ImprovedExpressionStringBuilderTests
         public abstract string this[string index] { get; }
 
         public abstract TValue GetValue<TValue>(string attributeName);
+
+        public abstract TValue GetValue<TKey, TValue>(TKey key);
     }
 
     public class TestModel

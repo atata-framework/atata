@@ -38,7 +38,7 @@ public class ObjectExpressionStringBuilderTests
         TestPredicate(x => x.Item1.Attributes.Checked == true)
             .Returns("Item1.Attributes.Checked == true");
         TestPredicate(x => x.Item1.Attributes.GetValue<DateTime>("data-date") <= DateTime.Today)
-            .Returns("Item1.Attributes.GetValue(\"data-date\") <= DateTime.Today");
+            .Returns("Item1.Attributes.GetValue<DateTime>(\"data-date\") <= DateTime.Today");
         TestPredicate(x => x.Item1.Value.Length == StaticClass.GetSomething())
             .Returns($"Item1.Value.Length == {nameof(ObjectExpressionStringBuilderTests)}.{nameof(StaticClass)}.{nameof(StaticClass.GetSomething)}()");
         TestPredicate(x => x.Item1.Value.Contains(StaticClass.GetSomething(item.Name)))
