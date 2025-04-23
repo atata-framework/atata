@@ -164,10 +164,13 @@ public static class Stringifier
     {
         if (!s_typeNamesInShortForm.TryGetValue(type, out string name))
         {
-            Queue<Type> genericArgumentTypeQueue = new(type.GetGenericArguments());
+            Type[] genericArguments = type.GetGenericArguments();
+            Queue<Type>? genericArgumentTypeQueue = genericArguments.Length > 0
+                ? new(genericArguments)
+                : null;
 
             StringBuilder outputBuilder = new();
-            ResolveSimplifiedTypeName(type, genericArgumentTypeQueue, outputBuilder);
+            PrintSimplifiedTypeName(type, genericArgumentTypeQueue, outputBuilder);
             name = outputBuilder.ToString();
 
             s_typeNamesInShortForm[type] = name;
@@ -176,13 +179,13 @@ public static class Stringifier
         return name;
     }
 
-    private static void ResolveSimplifiedTypeName(Type type, Queue<Type> genericArgumentTypeQueue, StringBuilder outputBuilder)
+    private static void PrintSimplifiedTypeName(Type type, Queue<Type>? genericArgumentTypeQueue, StringBuilder outputBuilder)
     {
         Type declaringType = type.DeclaringType;
 
         if (declaringType is not null)
         {
-            ResolveSimplifiedTypeName(declaringType, genericArgumentTypeQueue, outputBuilder);
+            PrintSimplifiedTypeName(declaringType, genericArgumentTypeQueue, outputBuilder);
             outputBuilder.Append('.');
         }
 
@@ -191,21 +194,32 @@ public static class Stringifier
 
         if (indexOfGenericIndicator >= 0)
         {
-            outputBuilder.Append(name, 0, indexOfGenericIndicator);
-            outputBuilder.Append('<');
-
-            int numberOfGenericArguments = int.Parse(name[(indexOfGenericIndicator + 1)..]);
-
-            for (int i = 0; i < numberOfGenericArguments; i++)
+            if (name == "Nullable`1" && Nullable.GetUnderlyingType(type) is { } nullableUnderlyingType)
             {
-                if (i != 0)
-                    outputBuilder.Append(", ");
-
-                Type genericArgumentType = genericArgumentTypeQueue.Dequeue();
-                ResolveSimplifiedTypeName(genericArgumentType, new(genericArgumentType.GetGenericArguments()), outputBuilder);
+                PrintSimplifiedTypeName(nullableUnderlyingType, [], outputBuilder);
+                outputBuilder.Append('?');
             }
+            else
+            {
+                outputBuilder.Append(name, 0, indexOfGenericIndicator);
+                outputBuilder.Append('<');
 
-            outputBuilder.Append('>');
+                int numberOfGenericArguments = int.Parse(name[(indexOfGenericIndicator + 1)..]);
+
+                for (int i = 0; i < numberOfGenericArguments; i++)
+                {
+                    if (i != 0)
+                        outputBuilder.Append(", ");
+
+                    if (genericArgumentTypeQueue is null || genericArgumentTypeQueue.Count == 0)
+                        throw new InvalidOperationException("There are no generic argument types to use.");
+
+                    Type genericArgumentType = genericArgumentTypeQueue.Dequeue();
+                    PrintSimplifiedTypeName(genericArgumentType, new(genericArgumentType.GetGenericArguments()), outputBuilder);
+                }
+
+                outputBuilder.Append('>');
+            }
         }
         else
         {

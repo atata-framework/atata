@@ -96,6 +96,7 @@ public static class StringifierTests
         [TestCase(typeof(Uri), ExpectedResult = "Uri")]
         [TestCase(typeof(bool), ExpectedResult = "bool")]
         [TestCase(typeof(List<Uri>), ExpectedResult = "List<Uri>")]
+        [TestCase(typeof(List<int?>), ExpectedResult = "List<int?>")]
         [TestCase(typeof(Dictionary<int, string>), ExpectedResult = "Dictionary<int, string>")]
         [TestCase(typeof(Dictionary<int, string>.KeyCollection.Enumerator), ExpectedResult = "Dictionary<int, string>.KeyCollection.Enumerator")]
         [TestCase(typeof(Top<int, string>.Middle<float>.ILow<Uri, List<int>.Enumerator>), ExpectedResult = "StringifierTests.Top<int, string>.Middle<float>.ILow<Uri, List<int>.Enumerator>")]
