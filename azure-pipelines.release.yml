@@ -1,5 +1,5 @@
 variables:
-  netSdkVersion: '8.x'
+  netSdkVersion: '9.x'
 
 trigger: none
 pr: none
