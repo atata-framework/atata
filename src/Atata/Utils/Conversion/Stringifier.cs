@@ -6,22 +6,22 @@
 /// </summary>
 public static class Stringifier
 {
-    private static readonly Dictionary<Type, string> s_typeNamesInShortForm = new()
+    private static readonly ConcurrentDictionary<Type, string> s_typeNamesInShortForm = new()
     {
-        { typeof(bool), "bool" },
-        { typeof(byte), "byte" },
-        { typeof(sbyte), "sbyte" },
-        { typeof(short), "short" },
-        { typeof(ushort), "ushort" },
-        { typeof(int), "int" },
-        { typeof(uint), "uint" },
-        { typeof(long), "long" },
-        { typeof(ulong), "ulong" },
-        { typeof(float), "float" },
-        { typeof(double), "double" },
-        { typeof(decimal), "decimal" },
-        { typeof(string), "string" },
-        { typeof(char), "char" }
+        [typeof(bool)] = "bool",
+        [typeof(byte)] = "byte",
+        [typeof(sbyte)] = "sbyte",
+        [typeof(short)] = "short",
+        [typeof(ushort)] = "ushort",
+        [typeof(int)] = "int",
+        [typeof(uint)] = "uint",
+        [typeof(long)] = "long",
+        [typeof(ulong)] = "ulong",
+        [typeof(float)] = "float",
+        [typeof(double)] = "double",
+        [typeof(decimal)] = "decimal",
+        [typeof(string)] = "string",
+        [typeof(char)] = "char"
     };
 
     public const string NullString = "null";
@@ -160,23 +160,19 @@ public static class Stringifier
         return ResolveSimplifiedTypeName(type);
     }
 
-    internal static string ResolveSimplifiedTypeName(Type type)
+    internal static string ResolveSimplifiedTypeName(Type type) =>
+        s_typeNamesInShortForm.GetOrAdd(type, DoResolveSimplifiedTypeName);
+
+    private static string DoResolveSimplifiedTypeName(Type type)
     {
-        if (!s_typeNamesInShortForm.TryGetValue(type, out string name))
-        {
-            Type[] genericArguments = type.GetGenericArguments();
-            Queue<Type>? genericArgumentTypeQueue = genericArguments.Length > 0
-                ? new(genericArguments)
-                : null;
+        Type[] genericArguments = type.GetGenericArguments();
+        Queue<Type>? genericArgumentTypeQueue = genericArguments.Length > 0
+            ? new(genericArguments)
+            : null;
 
-            StringBuilder outputBuilder = new();
-            PrintSimplifiedTypeName(type, genericArgumentTypeQueue, outputBuilder);
-            name = outputBuilder.ToString();
-
-            s_typeNamesInShortForm[type] = name;
-        }
-
-        return name;
+        StringBuilder outputBuilder = new();
+        PrintSimplifiedTypeName(type, genericArgumentTypeQueue, outputBuilder);
+        return outputBuilder.ToString();
     }
 
     private static void PrintSimplifiedTypeName(Type type, Queue<Type>? genericArgumentTypeQueue, StringBuilder outputBuilder)
