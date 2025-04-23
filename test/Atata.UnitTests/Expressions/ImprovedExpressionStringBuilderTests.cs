@@ -198,6 +198,8 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => 0");
         TestModelSelector(x => default(List<int>))
             .Returns("x => null");
+        TestModelSelector(x => typeof(List<int>))
+            .Returns("x => typeof(List<int>)");
 
         return items;
     }

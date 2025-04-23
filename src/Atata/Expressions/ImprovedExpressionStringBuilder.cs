@@ -11,7 +11,8 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         new BoolExpressionValueStringifier(),
         new CharExpressionValueStringifier(),
         new PrimitiveExpressionValueStringifier(),
-        new EnumExpressionValueStringifier()
+        new EnumExpressionValueStringifier(),
+        new TypeExpressionValueStringifier()
     ];
 
     private bool _expectLambdaVisit;
