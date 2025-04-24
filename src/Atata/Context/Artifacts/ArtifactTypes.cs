@@ -14,4 +14,9 @@ public static class ArtifactTypes
     /// The <c>"page snapshot"</c> type.
     /// </summary>
     public const string PageSnapshot = "page snapshot";
+
+    /// <summary>
+    /// The <c>"log"</c> type.
+    /// </summary>
+    public const string Log = "log";
 }
