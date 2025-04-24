@@ -24,6 +24,24 @@ public static class Stringifier
         [typeof(char)] = "char"
     };
 
+    private static readonly Dictionary<Type, string> s_typeNamesInAliasForm = new()
+    {
+        [typeof(bool)] = "bool",
+        [typeof(byte)] = "byte",
+        [typeof(sbyte)] = "sbyte",
+        [typeof(short)] = "short",
+        [typeof(ushort)] = "ushort",
+        [typeof(int)] = "int",
+        [typeof(uint)] = "uint",
+        [typeof(long)] = "long",
+        [typeof(ulong)] = "ulong",
+        [typeof(float)] = "float",
+        [typeof(double)] = "double",
+        [typeof(decimal)] = "decimal",
+        [typeof(string)] = "string",
+        [typeof(char)] = "char"
+    };
+
     public const string NullString = "null";
 
     public const string Indent = "  ";
@@ -225,7 +243,7 @@ public static class Stringifier
         else
         {
             outputBuilder.Append(
-                s_typeNamesInShortForm.TryGetValue(type, out string cachedName)
+                declaringType is null && s_typeNamesInAliasForm.TryGetValue(type, out string cachedName)
                     ? cachedName
                     : name);
         }
