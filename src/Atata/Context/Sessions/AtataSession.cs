@@ -18,10 +18,14 @@ public abstract class AtataSession : IAsyncDisposable
 
     internal const int DefaultPoolMaxCapacity = int.MaxValue;
 
+    private readonly Lazy<string> _lazyStringRepresentation;
+
     private bool _isDisposed;
 
     protected AtataSession()
     {
+        _lazyStringRepresentation = new(ToStringCore, LazyThreadSafetyMode.None);
+
         Id = AtataContext.GlobalProperties.IdGenerator.GenerateId();
         ExecutionUnit = new AtataSessionExecutionUnit(this);
     }
@@ -466,7 +470,19 @@ public abstract class AtataSession : IAsyncDisposable
     /// <returns>
     /// A <see langword="string"/> that represents this instance.
     /// </returns>
-    public override string ToString()
+    public override string ToString() =>
+        _lazyStringRepresentation.Value;
+
+    internal static string BuildTypedName(Type sessionType, string? sessionName)
+    {
+        string sessionTypeName = sessionType.ToStringInShortForm();
+
+        return sessionName is null or []
+            ? sessionTypeName
+            : $"{sessionTypeName} {{ Name={sessionName} }}";
+    }
+
+    private string ToStringCore()
     {
         var stringBuilder = new StringBuilder(GetType().ToStringInShortForm())
             .Append(" { Id=")
@@ -479,14 +495,5 @@ public abstract class AtataSession : IAsyncDisposable
         stringBuilder.Append(" }");
 
         return stringBuilder.ToString();
-    }
-
-    internal static string BuildTypedName(Type sessionType, string? sessionName)
-    {
-        string sessionTypeName = sessionType.ToStringInShortForm();
-
-        return sessionName is null or []
-            ? sessionTypeName
-            : $"{sessionTypeName} {{ Name={sessionName} }}";
     }
 }

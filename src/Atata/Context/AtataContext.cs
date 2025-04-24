@@ -5,17 +5,6 @@
 /// </summary>
 public sealed class AtataContext : IDisposable, IAsyncDisposable
 {
-    private static readonly AsyncLocal<AtataContext?> s_currentAsyncLocalContext = new();
-
-    private static readonly AsyncLocal<StrongBox<AtataContext?>> s_currentAsyncLocalBoxedContext = new();
-
-    [ThreadStatic]
-    private static AtataContext? s_currentThreadStaticContext;
-
-    private static AtataContext? s_currentStaticContext;
-
-    private Status _status;
-
     /// <summary>
     /// Gets the base retry timeout, which is <c>5</c> seconds.
     /// </summary>
@@ -26,10 +15,25 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.2);
 
+    private static readonly AsyncLocal<AtataContext?> s_currentAsyncLocalContext = new();
+
+    private static readonly AsyncLocal<StrongBox<AtataContext?>> s_currentAsyncLocalBoxedContext = new();
+
+    [ThreadStatic]
+    private static AtataContext? s_currentThreadStaticContext;
+
+    private static AtataContext? s_currentStaticContext;
+
+    private readonly Lazy<string> _lazyStringRepresentation;
+
     private readonly AddOnlyList<AtataContext> _childContexts = [];
+
+    private Status _status;
 
     internal AtataContext(AtataContext? parentContext, AtataContextScope? scope, TestInfo testInfo)
     {
+        _lazyStringRepresentation = new(ToStringCore, LazyThreadSafetyMode.None);
+
         ParentContext = parentContext;
         Scope = scope;
         Test = testInfo;
@@ -1210,7 +1214,13 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     }
 
     /// <inheritdoc/>
-    public override string ToString()
+    public override string ToString() =>
+        _lazyStringRepresentation.Value;
+
+    private static string ConvertDateTimeToString(DateTime dateTime) =>
+        dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
+
+    private string ToStringCore()
     {
         var builder = new StringBuilder(nameof(AtataContext))
             .Append(" { Id=")
@@ -1224,7 +1234,4 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         return builder.ToString();
     }
-
-    private static string ConvertDateTimeToString(DateTime dateTime) =>
-        dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
 }
