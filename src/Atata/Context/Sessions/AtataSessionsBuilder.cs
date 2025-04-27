@@ -95,7 +95,10 @@ public sealed class AtataSessionsBuilder
         Configure(null, configure, mode);
 
     /// <summary>
+    /// <para>
     /// Configures existing <typeparamref name="TSessionBuilder"/> session builder that has the specified <paramref name="name"/>.
+    /// </para>
+    /// <para>
     /// The <paramref name="mode"/> (<see cref="ConfigurationMode.ConfigureOrThrow"/> by default)
     /// parameter specifies the behavior of the fallback logic when the session builder is not found:
     /// <list type="bullet">
@@ -103,6 +106,7 @@ public sealed class AtataSessionsBuilder
     /// <item><see cref="ConfigurationMode.ConfigureIfExists"/> - configures the builder only if it exists; otherwise, no action is taken.</item>
     /// <item><see cref="ConfigurationMode.ConfigureOrAdd"/> - configures the builder if it exists, or adds a new builder if it does not exist.</item>
     /// </list>
+    /// </para>
     /// </summary>
     /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
     /// <param name="name">The session name.</param>
