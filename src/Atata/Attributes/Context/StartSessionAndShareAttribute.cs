@@ -30,21 +30,23 @@ public class StartSessionAndShareAttribute : TestSuiteAtataContextConfigurationA
     public string? SessionName { get; }
 
     public override void ConfigureAtataContext(AtataContextBuilder builder) =>
-        builder.Sessions.ConfigureOrAdd(
+        builder.Sessions.Configure(
             SessionType,
             SessionName,
             x =>
             {
                 x.StartScopes = AtataContextScopes.TestSuite;
                 x.Mode = AtataSessionMode.Shared;
-            });
+            },
+            ConfigurationMode.ConfigureOrAdd);
 
     public override void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
-        builder.Sessions.ConfigureIfExists(
+        builder.Sessions.Configure(
             SessionType,
             SessionName,
-            x => x.StartScopes = AtataContextScopes.None);
+            x => x.StartScopes = AtataContextScopes.None,
+            ConfigurationMode.ConfigureIfExists);
         builder.Sessions.Borrow(SessionType, x => x.Name = SessionName);
     }
 }

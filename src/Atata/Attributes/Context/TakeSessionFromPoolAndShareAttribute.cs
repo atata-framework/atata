@@ -36,10 +36,11 @@ public class TakeSessionFromPoolAndShareAttribute : TestSuiteAtataContextConfigu
 
     public override void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
-        builder.Sessions.ConfigureIfExists(
+        builder.Sessions.Configure(
             SessionType,
             SessionName,
-            x => x.StartScopes = AtataContextScopes.None);
+            x => x.StartScopes = AtataContextScopes.None,
+            ConfigurationMode.ConfigureIfExists);
         builder.Sessions.Borrow(SessionType, x => x.Name = SessionName);
     }
 }

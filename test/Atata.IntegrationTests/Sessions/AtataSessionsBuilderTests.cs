@@ -35,7 +35,7 @@ public static class AtataSessionsBuilderTests
         }
     }
 
-    public sealed class Configure
+    public sealed class Configure_WithConfigureOrThrowMode
     {
         [Test]
         public void WhenNoSuchBuilder()
@@ -71,7 +71,7 @@ public static class AtataSessionsBuilderTests
         }
     }
 
-    public sealed class ConfigureIfExists
+    public sealed class Configure_WithConfigureIfExistsMode
     {
         [Test]
         public void WhenNoSuchBuilder()
@@ -80,7 +80,7 @@ public static class AtataSessionsBuilderTests
             var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
 
             // Act
-            sut.ConfigureIfExists<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared);
+            sut.Configure<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared, ConfigurationMode.ConfigureIfExists);
 
             // Assert
             sut.Builders.Should().BeEmpty();
@@ -94,7 +94,7 @@ public static class AtataSessionsBuilderTests
             sut.Add<FakeSessionBuilder>(x => x.Name = "some");
 
             // Act
-            sut.ConfigureIfExists<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared);
+            sut.Configure<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared, ConfigurationMode.ConfigureIfExists);
 
             // Assert
             sut.Builders.Should().ContainSingle()
@@ -106,7 +106,7 @@ public static class AtataSessionsBuilderTests
         }
     }
 
-    public sealed class ConfigureOrAdd
+    public sealed class Configure_WithConfigureOrAddMode
     {
         [Test]
         public void WhenNoSuchBuilder()
@@ -115,7 +115,7 @@ public static class AtataSessionsBuilderTests
             var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
 
             // Act
-            sut.ConfigureOrAdd<FakeSessionBuilder>("some");
+            sut.Configure<FakeSessionBuilder>("some", x => { }, ConfigurationMode.ConfigureOrAdd);
 
             // Assert
             sut.Builders.Should().ContainSingle()
@@ -131,7 +131,7 @@ public static class AtataSessionsBuilderTests
             sut.Add<FakeSessionBuilder>(x => x.Name = "some");
 
             // Act
-            sut.ConfigureOrAdd<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared);
+            sut.Configure<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared, ConfigurationMode.ConfigureOrAdd);
 
             // Assert
             sut.Builders.Should().ContainSingle()
@@ -150,7 +150,7 @@ public static class AtataSessionsBuilderTests
             sut.Add<FakeSessionBuilder>(x => x.Name = "some1");
 
             // Act
-            sut.ConfigureOrAdd<FakeSessionBuilder>("some2", x => x.Mode = AtataSessionMode.Shared);
+            sut.Configure<FakeSessionBuilder>("some2", x => x.Mode = AtataSessionMode.Shared, ConfigurationMode.ConfigureOrAdd);
 
             // Assert
             sut.Builders.Should().HaveCount(2);

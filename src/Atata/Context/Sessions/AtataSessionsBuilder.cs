@@ -77,139 +77,143 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
-    /// Configures existing nameless <typeparamref name="TSessionBuilder"/> session builder;
-    /// or throws <see cref="AtataSessionBuilderNotFoundException"/> if session builder of such type is not found.
+    /// Configures existing nameless <typeparamref name="TSessionBuilder"/> session builder.
+    /// The <paramref name="mode"/> (<see cref="ConfigurationMode.ConfigureOrThrow"/> by default)
+    /// parameter specifies the behavior of the fallback logic when the session builder is not found:
+    /// <list type="bullet">
+    /// <item><see cref="ConfigurationMode.ConfigureOrThrow"/> - configures the builder or throws the <see cref="AtataSessionBuilderNotFoundException"/> if it is not found.</item>
+    /// <item><see cref="ConfigurationMode.ConfigureIfExists"/> - configures the builder only if it exists; otherwise, no action is taken.</item>
+    /// <item><see cref="ConfigurationMode.ConfigureOrAdd"/> - configures the builder if it exists, or adds a new builder if it does not exist.</item>
+    /// </list>
     /// </summary>
     /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
     /// <param name="configure">An action delegate to configure the provided <typeparamref name="TSessionBuilder"/>.</param>
+    /// <param name="mode">The configuration mode, which is <see cref="ConfigurationMode.ConfigureOrThrow"/> by default.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Configure<TSessionBuilder>(Action<TSessionBuilder> configure)
+    public AtataContextBuilder Configure<TSessionBuilder>(Action<TSessionBuilder> configure, ConfigurationMode mode = default)
         where TSessionBuilder : IAtataSessionBuilder =>
-        Configure(null, configure);
+        Configure(null, configure, mode);
 
     /// <summary>
-    /// Configures existing <typeparamref name="TSessionBuilder"/> session builder that has the specified <paramref name="name"/>;
-    /// or throws <see cref="AtataSessionBuilderNotFoundException"/> if session builder of such type and name is not found.
+    /// Configures existing <typeparamref name="TSessionBuilder"/> session builder that has the specified <paramref name="name"/>.
+    /// The <paramref name="mode"/> (<see cref="ConfigurationMode.ConfigureOrThrow"/> by default)
+    /// parameter specifies the behavior of the fallback logic when the session builder is not found:
+    /// <list type="bullet">
+    /// <item><see cref="ConfigurationMode.ConfigureOrThrow"/> - configures the builder or throws the <see cref="AtataSessionBuilderNotFoundException"/> if it is not found.</item>
+    /// <item><see cref="ConfigurationMode.ConfigureIfExists"/> - configures the builder only if it exists; otherwise, no action is taken.</item>
+    /// <item><see cref="ConfigurationMode.ConfigureOrAdd"/> - configures the builder if it exists, or adds a new builder if it does not exist.</item>
+    /// </list>
     /// </summary>
     /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
     /// <param name="name">The session name.</param>
     /// <param name="configure">An action delegate to configure the provided <typeparamref name="TSessionBuilder"/>.</param>
+    /// <param name="mode">The configuration mode, which is <see cref="ConfigurationMode.ConfigureOrThrow"/> by default.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Configure<TSessionBuilder>(string? name, Action<TSessionBuilder> configure)
+    public AtataContextBuilder Configure<TSessionBuilder>(string? name, Action<TSessionBuilder> configure, ConfigurationMode mode = default)
         where TSessionBuilder : IAtataSessionBuilder
     {
         Guard.ThrowIfNull(configure);
 
+        switch (mode)
+        {
+            case ConfigurationMode.ConfigureOrThrow:
+                ConfigureOrThrow(name, configure);
+                break;
+            case ConfigurationMode.ConfigureIfExists:
+                ConfigureIfExists(name, configure);
+                break;
+            case ConfigurationMode.ConfigureOrAdd:
+                ConfigureOrAdd(name, configure);
+                break;
+            default:
+                throw Guard.CreateArgumentExceptionForUnsupportedValue(mode);
+        }
+
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Configures existing session builder that has the specified <paramref name="sessionType"/> and <paramref name="name"/>.
+    /// The <paramref name="mode"/> (<see cref="ConfigurationMode.ConfigureOrThrow"/> by default)
+    /// parameter specifies the behavior of the fallback logic when the session builder is not found:
+    /// <list type="bullet">
+    /// <item><see cref="ConfigurationMode.ConfigureOrThrow"/> - configures the builder or throws the <see cref="AtataSessionBuilderNotFoundException"/> if it is not found.</item>
+    /// <item><see cref="ConfigurationMode.ConfigureIfExists"/> - configures the builder only if it exists; otherwise, no action is taken.</item>
+    /// <item><see cref="ConfigurationMode.ConfigureOrAdd"/> - configures the builder if it exists, or adds a new builder if it does not exist.</item>
+    /// </list>
+    /// </summary>
+    /// <param name="sessionType">The type of the session.</param>
+    /// <param name="name">The session name.</param>
+    /// <param name="configure">An action delegate to configure the provided <see cref="IAtataSessionBuilder"/>.</param>
+    /// <param name="mode">The configuration mode, which is <see cref="ConfigurationMode.ConfigureOrThrow"/> by default.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Configure(Type sessionType, string? name, Action<IAtataSessionBuilder> configure, ConfigurationMode mode = default)
+    {
+        Guard.ThrowIfNull(sessionType);
+        Guard.ThrowIfNull(configure);
+
+        switch (mode)
+        {
+            case ConfigurationMode.ConfigureOrThrow:
+                ConfigureOrThrow(sessionType, name, configure);
+                break;
+            case ConfigurationMode.ConfigureIfExists:
+                ConfigureIfExists(sessionType, name, configure);
+                break;
+            case ConfigurationMode.ConfigureOrAdd:
+                ConfigureOrAdd(sessionType, name, configure);
+                break;
+            default:
+                throw Guard.CreateArgumentExceptionForUnsupportedValue(mode);
+        }
+
+        return _atataContextBuilder;
+    }
+
+    private void ConfigureOrThrow<TSessionBuilder>(string? name, Action<TSessionBuilder> configure)
+        where TSessionBuilder : IAtataSessionBuilder
+    {
         var sessionBuilder = GetSessionProviderOrNull<TSessionBuilder>(name)
             ?? throw AtataSessionBuilderNotFoundException.ByBuilderType(typeof(TSessionBuilder), name);
 
         configure.Invoke(sessionBuilder);
-
-        return _atataContextBuilder;
     }
 
-    /// <summary>
-    /// Configures existing session builder that has the specified <paramref name="sessionType"/> and <paramref name="name"/>;
-    /// or throws <see cref="AtataSessionBuilderNotFoundException"/> if session builder of such type and name is not found.
-    /// </summary>
-    /// <param name="sessionType">The type of the session.</param>
-    /// <param name="name">The session name.</param>
-    /// <param name="configure">An action delegate to configure the provided <see cref="IAtataSessionBuilder"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Configure(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
+    private void ConfigureOrThrow(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
     {
-        Guard.ThrowIfNull(sessionType);
-        Guard.ThrowIfNull(configure);
-
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name)
             ?? throw AtataSessionBuilderNotFoundException.BySessionType(sessionType, name);
 
         configure.Invoke(sessionBuilder);
-
-        return _atataContextBuilder;
     }
 
-    /// <summary>
-    /// Configures nameless <typeparamref name="TSessionBuilder"/> session builder if it exists.
-    /// </summary>
-    /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
-    /// <param name="configure">An action delegate to configure the provided <typeparamref name="TSessionBuilder"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureIfExists<TSessionBuilder>(Action<TSessionBuilder> configure)
-        where TSessionBuilder : IAtataSessionBuilder =>
-        ConfigureIfExists(null, configure);
-
-    /// <summary>
-    /// Configures <typeparamref name="TSessionBuilder"/> session builder that has the specified <paramref name="name"/> if it exists.
-    /// </summary>
-    /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
-    /// <param name="name">The session name.</param>
-    /// <param name="configure">An action delegate to configure the provided <typeparamref name="TSessionBuilder"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureIfExists<TSessionBuilder>(string? name, Action<TSessionBuilder> configure)
+    private void ConfigureIfExists<TSessionBuilder>(string? name, Action<TSessionBuilder> configure)
         where TSessionBuilder : IAtataSessionBuilder
     {
-        Guard.ThrowIfNull(configure);
-
         var sessionBuilder = GetSessionProviderOrNull<TSessionBuilder>(name);
 
         if (sessionBuilder is not null)
             configure.Invoke(sessionBuilder);
-
-        return _atataContextBuilder;
     }
 
-    /// <summary>
-    /// Configures session builder that has the specified <paramref name="sessionType"/> and <paramref name="name"/> if it exists.
-    /// </summary>
-    /// <param name="sessionType">The type of the session.</param>
-    /// <param name="name">The session name.</param>
-    /// <param name="configure">An action delegate to configure the provided <see cref="IAtataSessionBuilder"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureIfExists(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
+    private void ConfigureIfExists(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
     {
-        Guard.ThrowIfNull(sessionType);
-        Guard.ThrowIfNull(configure);
-
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name);
 
         if (sessionBuilder is not null)
             configure.Invoke(sessionBuilder);
-
-        return _atataContextBuilder;
     }
 
-    /// <summary>
-    /// Configures existing nameless <typeparamref name="TSessionBuilder"/> session builder;
-    /// or adds a new one if such builder doesn't exist.
-    /// </summary>
-    /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
-    /// <param name="configure">An action delegate to configure the provided <typeparamref name="TSessionBuilder"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureOrAdd<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
-        where TSessionBuilder : IAtataSessionBuilder, new() =>
-        ConfigureOrAdd(null, configure);
-
-    /// <summary>
-    /// Configures existing <typeparamref name="TSessionBuilder"/> session builder that has the specified <paramref name="name"/>;
-    /// or adds a new one if such builder doesn't exist.
-    /// </summary>
-    /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
-    /// <param name="name">The session name.</param>
-    /// <param name="configure">An action delegate to configure the provided <typeparamref name="TSessionBuilder"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureOrAdd<TSessionBuilder>(string? name, Action<TSessionBuilder>? configure = null)
-        where TSessionBuilder : IAtataSessionBuilder, new()
+    private void ConfigureOrAdd<TSessionBuilder>(string? name, Action<TSessionBuilder>? configure = null)
+        where TSessionBuilder : IAtataSessionBuilder
     {
         var sessionBuilder = GetSessionProviderOrNull<TSessionBuilder>(name);
 
         if (sessionBuilder is null)
         {
-            sessionBuilder = new()
-            {
-                StartScopes = _defaultStartScopes,
-                Name = name
-            };
+            sessionBuilder = ActivatorEx.CreateInstance<TSessionBuilder>();
+            sessionBuilder.StartScopes = _defaultStartScopes;
+            sessionBuilder.Name = name;
 
             configure?.Invoke(sessionBuilder);
             _sessionProviders.Add(sessionBuilder);
@@ -218,22 +222,10 @@ public sealed class AtataSessionsBuilder
         {
             configure?.Invoke(sessionBuilder);
         }
-
-        return _atataContextBuilder;
     }
 
-    /// <summary>
-    /// Configures existing session builder that has the specified <paramref name="sessionType"/> and <paramref name="name"/>;
-    /// or adds a new one if such builder doesn't exist.
-    /// </summary>
-    /// <param name="sessionType">The type of the session.</param>
-    /// <param name="name">The session name.</param>
-    /// <param name="configure">An action delegate to configure the provided <see cref="IAtataSessionBuilder"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureOrAdd(Type sessionType, string? name, Action<IAtataSessionBuilder>? configure = null)
+    private void ConfigureOrAdd(Type sessionType, string? name, Action<IAtataSessionBuilder>? configure = null)
     {
-        Guard.ThrowIfNull(sessionType);
-
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name);
 
         if (sessionBuilder is null)
@@ -249,8 +241,6 @@ public sealed class AtataSessionsBuilder
         {
             configure?.Invoke(sessionBuilder);
         }
-
-        return _atataContextBuilder;
     }
 
     /// <summary>

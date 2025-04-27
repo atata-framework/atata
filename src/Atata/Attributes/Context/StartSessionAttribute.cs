@@ -30,8 +30,9 @@ public class StartSessionAttribute : AtataContextConfigurationAttribute
     public string? SessionName { get; }
 
     public override void ConfigureAtataContext(AtataContextBuilder builder) =>
-        builder.Sessions.ConfigureOrAdd(
+        builder.Sessions.Configure(
             SessionType,
             SessionName,
-            x => x.StartScopes = AtataContextScopes.All);
+            x => x.StartScopes = AtataContextScopes.All,
+            ConfigurationMode.ConfigureOrAdd);
 }

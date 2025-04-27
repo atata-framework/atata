@@ -31,10 +31,11 @@ public class TakeSessionFromPoolAttribute : AtataContextConfigurationAttribute
 
     public override void ConfigureAtataContext(AtataContextBuilder builder)
     {
-        builder.Sessions.ConfigureIfExists(
+        builder.Sessions.Configure(
             SessionType,
             SessionName,
-            x => x.StartScopes = AtataContextScopes.None);
+            x => x.StartScopes = AtataContextScopes.None,
+            ConfigurationMode.ConfigureIfExists);
         builder.Sessions.TakeFromPool(SessionType, x => x.Name = SessionName);
     }
 }
