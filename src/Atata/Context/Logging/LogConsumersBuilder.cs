@@ -78,34 +78,26 @@ public sealed class LogConsumersBuilder
     }
 
     /// <summary>
-    /// Configures log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer;
-    /// or throws <see cref="LogConsumerNotFoundException"/> if consumer of such type is not found.
+    /// <para>
+    /// Configures a log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer.
+    /// </para>
+    /// <para>
+    /// The <paramref name="mode"/> (<see cref="ConfigurationMode.ConfigureOrThrow"/> by default)
+    /// parameter specifies the behavior of the fallback logic when the log consumer builder is not found:
+    /// <list type="bullet">
+    /// <item><see cref="ConfigurationMode.ConfigureOrThrow"/> - configures the builder or throws the <see cref="LogConsumerNotFoundException"/> if it is not found.</item>
+    /// <item><see cref="ConfigurationMode.ConfigureIfExists"/> - configures the builder only if it exists; otherwise, no action is taken.</item>
+    /// <item><see cref="ConfigurationMode.ConfigureOrAdd"/> - configures the builder if it exists, or adds a new builder if it does not exist.</item>
+    /// </list>
+    /// </para>
     /// </summary>
     /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
     /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
+    /// <param name="mode">The configuration mode, which is <see cref="ConfigurationMode.ConfigureOrThrow"/> by default.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Configure<TLogConsumer>(
-        Action<LogConsumerBuilder<TLogConsumer>> configure)
-        where TLogConsumer : ILogConsumer
-    {
-        Guard.ThrowIfNull(configure);
-
-        var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>()
-            ?? throw LogConsumerNotFoundException.ByBuilderType(typeof(TLogConsumer));
-
-        configure.Invoke(new(consumerConfiguration));
-
-        return _atataContextBuilder;
-    }
-
-    /// <summary>
-    /// Configures log consumer builder for <typeparamref name="TLogConsumer"/> log consumer if it exists.
-    /// </summary>
-    /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
-    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureIfExists<TLogConsumer>(
-        Action<LogConsumerBuilder<TLogConsumer>> configure)
+        Action<LogConsumerBuilder<TLogConsumer>> configure,
+        ConfigurationMode mode = default)
         where TLogConsumer : ILogConsumer
     {
         Guard.ThrowIfNull(configure);
@@ -113,34 +105,27 @@ public sealed class LogConsumersBuilder
         var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>();
 
         if (consumerConfiguration is not null)
-            configure.Invoke(new(consumerConfiguration));
-
-        return _atataContextBuilder;
-    }
-
-    /// <summary>
-    /// Configures log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer;
-    /// or adds a new one if such consumer doesn't exist.
-    /// </summary>
-    /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
-    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureOrAdd<TLogConsumer>(
-        Action<LogConsumerBuilder<TLogConsumer>>? configure = null)
-        where TLogConsumer : ILogConsumer, new()
-    {
-        var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>();
-
-        if (consumerConfiguration is null)
         {
-            TLogConsumer consumer = new();
-            return Add(consumer, configure);
+            configure.Invoke(new(consumerConfiguration));
         }
         else
         {
-            configure?.Invoke(new(consumerConfiguration));
-            return _atataContextBuilder;
+            switch (mode)
+            {
+                case ConfigurationMode.ConfigureOrThrow:
+                    throw LogConsumerNotFoundException.ByBuilderType(typeof(TLogConsumer));
+                case ConfigurationMode.ConfigureIfExists:
+                    break;
+                case ConfigurationMode.ConfigureOrAdd:
+                    TLogConsumer consumer = ActivatorEx.CreateInstance<TLogConsumer>();
+                    Add(consumer, configure);
+                    break;
+                default:
+                    throw Guard.CreateArgumentExceptionForUnsupportedValue(mode);
+            }
         }
+
+        return _atataContextBuilder;
     }
 
     /// <summary>
