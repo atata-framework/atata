@@ -1,7 +1,14 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// Represents a base web UI session.
+/// </summary>
 public abstract class WebSession : AtataSession
 {
+    /// <summary>
+    /// Gets the current <see cref="WebSession"/> instance in scope of <see cref="AtataContext.Current"/>.
+    /// Returns <see langword="null"/> if there is no such session or <see cref="AtataContext.Current"/> is <see langword="null"/>.
+    /// </summary>
     public static WebSession? Current =>
         AtataContext.Current?.Sessions.GetOrNull<WebSession>();
 

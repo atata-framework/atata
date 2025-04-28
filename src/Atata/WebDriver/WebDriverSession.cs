@@ -6,7 +6,7 @@
 /// and provides a set of functionality to manipulate the driver.
 /// </para>
 /// <para>
-/// The class adds additional variable to its <see cref="AtataSession.Variables"/>: <c>{driver-alias}</c>.
+/// The session has additional variable in <see cref="AtataSession.Variables"/>: <c>{driver-alias}</c>.
 /// </para>
 /// </summary>
 public class WebDriverSession : WebSession
@@ -16,6 +16,10 @@ public class WebDriverSession : WebSession
     public WebDriverSession() =>
         Go = new(this);
 
+    /// <summary>
+    /// Gets the current <see cref="WebDriverSession"/> instance in scope of <see cref="AtataContext.Current"/>.
+    /// Returns <see langword="null"/> if there is no such session or <see cref="AtataContext.Current"/> is <see langword="null"/>.
+    /// </summary>
     public static new WebDriverSession? Current =>
         AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>();
 
