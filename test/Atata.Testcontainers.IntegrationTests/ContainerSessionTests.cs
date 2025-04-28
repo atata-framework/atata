@@ -1,6 +1,7 @@
 ﻿namespace Atata.Testcontainers.IntegrationTests;
 
-public class ContainerSessionTests : AtataTestSuite
+[Explicit("Requires Docker to be installed and running.")]
+public sealed class ContainerSessionTests : AtataTestSuite
 {
     [Test]
     public async Task ExtractFileToArtifactsAsync()

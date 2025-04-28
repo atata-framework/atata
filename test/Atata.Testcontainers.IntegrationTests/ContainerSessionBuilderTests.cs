@@ -1,6 +1,7 @@
 ﻿namespace Atata.Testcontainers.IntegrationTests;
 
-public class ContainerSessionBuilderTests : AtataTestSuite
+[Explicit("Requires Docker to be installed and running.")]
+public sealed class ContainerSessionBuilderTests : AtataTestSuite
 {
     [Test]
     public async Task NonGenericContainerStarts()
