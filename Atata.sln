@@ -62,6 +62,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.NLog", "src\Atata.NLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.NLog.IntegrationTests", "test\Atata.NLog.IntegrationTests\Atata.NLog.IntegrationTests.csproj", "{9893E0C0-591E-4669-ACCF-676AECE8C7EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Testcontainers", "src\Atata.Testcontainers\Atata.Testcontainers.csproj", "{B8CF48EA-4A43-4E76-AF34-7F786CCC50C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Testcontainers.IntegrationTests", "test\Atata.Testcontainers.IntegrationTests\Atata.Testcontainers.IntegrationTests.csproj", "{C55386C1-8B54-4FB9-8473-9786F27996B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -144,6 +148,14 @@ Global
 		{9893E0C0-591E-4669-ACCF-676AECE8C7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9893E0C0-591E-4669-ACCF-676AECE8C7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9893E0C0-591E-4669-ACCF-676AECE8C7EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8CF48EA-4A43-4E76-AF34-7F786CCC50C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8CF48EA-4A43-4E76-AF34-7F786CCC50C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8CF48EA-4A43-4E76-AF34-7F786CCC50C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8CF48EA-4A43-4E76-AF34-7F786CCC50C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55386C1-8B54-4FB9-8473-9786F27996B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C55386C1-8B54-4FB9-8473-9786F27996B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C55386C1-8B54-4FB9-8473-9786F27996B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C55386C1-8B54-4FB9-8473-9786F27996B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
