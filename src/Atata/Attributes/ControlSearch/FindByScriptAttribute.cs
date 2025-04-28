@@ -3,7 +3,7 @@
 /// <summary>
 /// Specifies that a control should be found by specific script.
 /// The script should return an element or collection of elements.
-/// The script can also return <c>null</c> for the case when the element is not found.
+/// The script can also return <see langword="null"/> for the case when the element is not found.
 /// The scope element is passed to the script as an argument and can be used in the script as <c>arguments[0]</c>.
 /// </summary>
 /// <example>
