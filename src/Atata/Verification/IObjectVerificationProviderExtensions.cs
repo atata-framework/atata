@@ -6,7 +6,7 @@
 public static partial class IObjectVerificationProviderExtensions
 {
     /// <summary>
-    /// Verifies that object satisfies the specified predicate expression.
+    /// Verifies that the object satisfies the specified predicate expression.
     /// </summary>
     /// <typeparam name="TObject">The type of the object.</typeparam>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
@@ -26,7 +26,7 @@ public static partial class IObjectVerificationProviderExtensions
     }
 
     /// <summary>
-    /// Verifies that object satisfies the specified predicate.
+    /// Verifies that the object satisfies the specified predicate.
     /// </summary>
     /// <typeparam name="TObject">The type of the object.</typeparam>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
@@ -158,7 +158,7 @@ public static partial class IObjectVerificationProviderExtensions
     }
 
     /// <summary>
-    /// Verifies that object is equal to <paramref name="expected"/> value.
+    /// Verifies that the object is equal to the <paramref name="expected"/> value.
     /// </summary>
     /// <typeparam name="TObject">The type of the object.</typeparam>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
@@ -175,6 +175,37 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
+    /// <summary>
+    /// Verifies that the object is equal to <see langword="null"/>.
+    /// </summary>
+    /// <typeparam name="TObject">The type of the object.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner.</typeparam>
+    /// <param name="verifier">The verification provider.</param>
+    /// <returns>The owner instance.</returns>
     public static TOwner BeNull<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier) =>
         verifier.Satisfy(actual => Equals(actual, null), "be null");
+
+    /// <summary>
+    /// Verifies that the object is equal to the default value of <typeparamref name="TObject"/> value.
+    /// </summary>
+    /// <typeparam name="TObject">The type of the object.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner.</typeparam>
+    /// <param name="verifier">The verification provider.</param>
+    /// <returns>The owner instance.</returns>
+    public static TOwner BeDefault<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier)
+        where TObject : struct
+        =>
+        verifier.Satisfy(actual => Equals(actual, default(TObject)), "be default");
+
+    /// <summary>
+    /// Verifies that the object is equal to <see langword="null"/> or the default value of <typeparamref name="TObject"/> value.
+    /// </summary>
+    /// <typeparam name="TObject">The type of the object.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner.</typeparam>
+    /// <param name="verifier">The verification provider.</param>
+    /// <returns>The owner instance.</returns>
+    public static TOwner BeNullOrDefault<TObject, TOwner>(this IObjectVerificationProvider<TObject?, TOwner> verifier)
+        where TObject : struct
+        =>
+        verifier.Satisfy(actual => Equals(actual, null) || Equals(actual, default(TObject)), "be null or default");
 }

@@ -29,6 +29,41 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
     }
 
+    public class BeDefault : ExtensionMethodTestSuite<int, BeDefault>
+    {
+        static BeDefault() =>
+            For(0)
+                .Pass(should => should.BeDefault());
+    }
+
+    public class BeDefault_WhenNotDefault : ExtensionMethodTestSuite<int, BeDefault_WhenNotDefault>
+    {
+        static BeDefault_WhenNotDefault() =>
+            For(1)
+                .Fail(should => should.BeDefault());
+    }
+
+    public class BeNullOrDefault_WhenNull : ExtensionMethodTestSuite<int?, BeNullOrDefault_WhenNull>
+    {
+        static BeNullOrDefault_WhenNull() =>
+            For(null)
+                .Pass(should => should.BeNullOrDefault());
+    }
+
+    public class BeNullOrDefault_WhenDefault : ExtensionMethodTestSuite<int?, BeNullOrDefault_WhenDefault>
+    {
+        static BeNullOrDefault_WhenDefault() =>
+            For(0)
+                .Pass(should => should.BeNullOrDefault());
+    }
+
+    public class BeNullOrDefault_WhenNotNullOrDefault : ExtensionMethodTestSuite<int?, BeNullOrDefault_WhenNotNullOrDefault>
+    {
+        static BeNullOrDefault_WhenNotNullOrDefault() =>
+            For(1)
+                .Fail(should => should.BeNullOrDefault());
+    }
+
     public class StartWith_string : ExtensionMethodTestSuite<string, StartWith_string>
     {
         static StartWith_string() =>
