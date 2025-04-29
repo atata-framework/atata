@@ -115,7 +115,7 @@ public abstract class WebSession : AtataSession
     {
         base.TakeFailureSnapshot();
 
-        const string failureTitle = "Failed";
+        const string failureTitle = "Failure";
 
         if (TakeScreenshotOnFailure)
             ScreenshotTaker.TakeScreenshot(failureTitle);
