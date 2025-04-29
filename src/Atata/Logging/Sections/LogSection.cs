@@ -44,12 +44,12 @@ public class LogSection
     public bool IsResultSet { get; private set; }
 
     /// <summary>
-    /// Gets or sets the result.
+    /// Gets the result.
     /// </summary>
     public object? Result
     {
         get => _result;
-        set
+        internal set
         {
             _result = value;
             IsResultSet = true;
