@@ -7,16 +7,20 @@ public class LogSection
 {
     private object? _result;
 
-    public LogSection(string message, LogLevel level = LogLevel.Info)
+    public LogSection(string message, LogLevel level = LogLevel.Info, bool logResult = true)
     {
         Guard.ThrowIfNull(message);
 
         Message = message;
         Level = level;
+        LogResult = logResult;
     }
 
-    protected LogSection() =>
+    protected LogSection()
+    {
         Level = LogLevel.Info;
+        LogResult = true;
+    }
 
     /// <summary>
     /// Gets or sets the message.
@@ -27,6 +31,12 @@ public class LogSection
     /// Gets or sets the log level.
     /// </summary>
     public LogLevel Level { get; protected set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to write the result to the end log message.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    public bool LogResult { get; protected set; }
 
     /// <summary>
     /// Gets the date/time of section start.

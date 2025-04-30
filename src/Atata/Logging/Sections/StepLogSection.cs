@@ -3,7 +3,7 @@
 public class StepLogSection : LogSection
 {
     public StepLogSection(string message)
-        : base(message)
+        : base(message, logResult: false)
     {
     }
 }

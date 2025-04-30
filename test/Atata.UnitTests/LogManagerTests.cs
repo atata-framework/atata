@@ -40,8 +40,8 @@ public class LogManagerTests
             x => x == "> step section",
             x => x == "- > trace sub-section",
             x => x == "- - inner trace message",
-            x => x.StartsWith("- < trace sub-section ("),
-            x => x.StartsWith("< step section ("));
+            x => WildcardPattern.IsMatch(x, "- < trace sub-section (*)"),
+            x => WildcardPattern.IsMatch(x, "< step section (*)"));
     }
 
     [Test]
@@ -64,8 +64,8 @@ public class LogManagerTests
             x => x == "> step section",
             x => x == "- > trace sub-section",
             x => x == "- - inner trace message",
-            x => x.StartsWith("- < trace sub-section ("),
-            x => x.StartsWith("< step section ("));
+            x => WildcardPattern.IsMatch(x, "- < trace sub-section (*) >> \"ok\""),
+            x => WildcardPattern.IsMatch(x, "< step section (*)"));
     }
 
     [Test]

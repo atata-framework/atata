@@ -350,7 +350,7 @@ internal sealed class LogManager : ILogManager
 
                 string message = $"{section.Message} ({section.ElapsedTime.ToLongIntervalString()})";
 
-                if (section.IsResultSet)
+                if (section.IsResultSet && section.LogResult)
                     message = AppendSectionResultToMessage(message, Stringifier.ToString(section.Result));
                 else if (section.Exception is not null)
                     message = AppendSectionResultToMessage(message, BuildExceptionShortSingleLineMessage(section.Exception));

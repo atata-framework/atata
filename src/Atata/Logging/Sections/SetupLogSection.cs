@@ -3,7 +3,7 @@
 public class SetupLogSection : LogSection
 {
     public SetupLogSection(string message)
-        : base(message)
+        : base(message, logResult: false)
     {
     }
 }

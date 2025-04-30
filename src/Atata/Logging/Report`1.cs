@@ -153,9 +153,7 @@ public class Report<TOwner> : IReport<TOwner>
         Guard.ThrowIfNullOrEmpty(message);
         Guard.ThrowIfNull(function);
 
-        TResult result = default!;
-
-        _executionUnit.Log.ExecuteSection(new SetupLogSection(message), () =>
+        return _executionUnit.Log.ExecuteSection(new SetupLogSection(message), () =>
         {
             bool shouldStopBodyExecutionStopwatch = _executionUnit.Context.BodyExecutionStopwatch.IsRunning;
             if (shouldStopBodyExecutionStopwatch)
@@ -165,7 +163,7 @@ public class Report<TOwner> : IReport<TOwner>
 
             try
             {
-                result = function.Invoke(_owner);
+                return function.Invoke(_owner);
             }
             catch (Exception exception)
             {
@@ -180,8 +178,6 @@ public class Report<TOwner> : IReport<TOwner>
                     _executionUnit.Context.BodyExecutionStopwatch.Start();
             }
         });
-
-        return result;
     }
 
     /// <inheritdoc/>
@@ -223,9 +219,7 @@ public class Report<TOwner> : IReport<TOwner>
         Guard.ThrowIfNullOrEmpty(message);
         Guard.ThrowIfNull(function);
 
-        TResult result = default!;
-
-        await _executionUnit.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
+        return await _executionUnit.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
         {
             bool shouldStopBodyExecutionStopwatch = _executionUnit.Context.BodyExecutionStopwatch.IsRunning;
             if (shouldStopBodyExecutionStopwatch)
@@ -235,7 +229,7 @@ public class Report<TOwner> : IReport<TOwner>
 
             try
             {
-                result = await function.Invoke(_owner).ConfigureAwait(false);
+                return await function.Invoke(_owner).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -250,8 +244,6 @@ public class Report<TOwner> : IReport<TOwner>
                     _executionUnit.Context.BodyExecutionStopwatch.Start();
             }
         }).ConfigureAwait(false);
-
-        return result;
     }
 
     /// <inheritdoc/>
@@ -281,13 +273,11 @@ public class Report<TOwner> : IReport<TOwner>
         Guard.ThrowIfNullOrEmpty(message);
         Guard.ThrowIfNull(function);
 
-        TResult result = default!;
-
-        _executionUnit.Log.ExecuteSection(new StepLogSection(message), () =>
+        return _executionUnit.Log.ExecuteSection(new StepLogSection(message), () =>
         {
             try
             {
-                result = function.Invoke(_owner);
+                return function.Invoke(_owner);
             }
             catch (Exception exception)
             {
@@ -295,8 +285,6 @@ public class Report<TOwner> : IReport<TOwner>
                 throw;
             }
         });
-
-        return result;
     }
 
     /// <inheritdoc/>
@@ -325,13 +313,11 @@ public class Report<TOwner> : IReport<TOwner>
         Guard.ThrowIfNullOrEmpty(message);
         Guard.ThrowIfNull(function);
 
-        TResult result = default!;
-
-        await _executionUnit.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
+        return await _executionUnit.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
         {
             try
             {
-                result = await function.Invoke(_owner).ConfigureAwait(false);
+                return await function.Invoke(_owner).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -339,7 +325,5 @@ public class Report<TOwner> : IReport<TOwner>
                 throw;
             }
         }).ConfigureAwait(false);
-
-        return result;
     }
 }
