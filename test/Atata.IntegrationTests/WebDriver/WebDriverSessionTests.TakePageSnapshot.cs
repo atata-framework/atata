@@ -11,9 +11,10 @@ public partial class WebDriverSessionTests
             var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
-            session.TakePageSnapshot();
+            var artifact = session.TakePageSnapshot();
 
-            context.Artifacts.Should.ContainFile($"{session.Id}-01 Input page.mhtml");
+            artifact!.Should.Exist()
+                .Name.Should.Be($"{session.Id}-01 Input page.mhtml");
         }
 
         [Test]
@@ -23,9 +24,10 @@ public partial class WebDriverSessionTests
             var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
-            session.TakePageSnapshot("Test");
+            var artifact = session.TakePageSnapshot("Test");
 
-            context.Artifacts.Should.ContainFile($"{session.Id}-01 Input page - Test.mhtml");
+            artifact!.Should.Exist()
+                .Name.Should.Be($"{session.Id}-01 Input page - Test.mhtml");
         }
 
         [Test]
@@ -34,9 +36,10 @@ public partial class WebDriverSessionTests
             var context = BuildAtataContextWithWebDriverSession();
             var session = context.Sessions.Get<WebDriverSession>();
 
-            session.TakePageSnapshot();
+            var artifact = session.TakePageSnapshot();
 
-            context.Artifacts.Should.ContainFile($"{session.Id}-01.mhtml");
+            artifact!.Should.Exist()
+                .Name.Should.Be($"{session.Id}-01.mhtml");
         }
 
         [Test]
@@ -45,9 +48,10 @@ public partial class WebDriverSessionTests
             var context = BuildAtataContextWithWebDriverSession();
             var session = context.Sessions.Get<WebDriverSession>();
 
-            session.TakePageSnapshot("Test");
+            var artifact = session.TakePageSnapshot("Test");
 
-            context.Artifacts.Should.ContainFile($"{session.Id}-01 - Test.mhtml");
+            artifact!.Should.Exist()
+                .Name.Should.Be($"{session.Id}-01 - Test.mhtml");
         }
 
         [Test]
@@ -59,9 +63,10 @@ public partial class WebDriverSessionTests
             var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
-            session.TakePageSnapshot();
+            var artifact = session.TakePageSnapshot();
 
             VerifyLastLogNestingTextsWithMessagesMatch(LogLevel.Error, "^Page snapshot failed");
+            artifact.ToSubject().Should.BeNull();
             context.Artifacts.Should.Not.Exist();
         }
     }

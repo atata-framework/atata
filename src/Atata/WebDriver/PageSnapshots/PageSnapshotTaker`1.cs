@@ -21,29 +21,29 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
         _session = session;
     }
 
-    public void TakeSnapshot(string? title = null)
+    public FileSubject? TakeSnapshot(string? title = null)
     {
         if (_snapshotStrategy is null || !_session.IsActive)
-            return;
+            return null;
 
         _snapshotNumber++;
 
         try
         {
-            _session.Log.ExecuteSection(
+            return _session.Log.ExecuteSection(
                 new TakePageSnapshotLogSection(_snapshotNumber, title),
                 () =>
                 {
                     FileContentWithExtension fileContent = _snapshotStrategy.TakeSnapshot(_session);
                     string filePath = FormatFilePath(title);
 
-                    _session.Context.AddArtifact(filePath, fileContent, ArtifactTypes.PageSnapshot);
-                    return filePath + fileContent.Extension;
+                    return _session.Context.AddArtifact(filePath, fileContent, ArtifactTypes.PageSnapshot);
                 });
         }
         catch (Exception exception)
         {
             _session.Log.Error(exception, "Page snapshot failed.");
+            return null;
         }
     }
 
