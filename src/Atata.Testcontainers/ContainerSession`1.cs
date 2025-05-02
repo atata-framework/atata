@@ -53,16 +53,14 @@ public class ContainerSession<TContainer> : AtataSession
 
         string destinationFileName = Path.GetFileName(containerFilePath);
 
-        await Log.ExecuteSectionAsync(
+        return await Log.ExecuteSectionAsync(
             new LogSection($"Extract \"{containerFilePath}\" file to Artifacts", LogLevel.Trace),
             async () =>
             {
                 byte[] fileBytes = await Container.ReadFileAsync(containerFilePath, cancellationToken).ConfigureAwait(false);
-                Context.AddArtifact(destinationFileName, fileBytes, artifactType, artifactTitle);
+                return Context.AddArtifact(destinationFileName, fileBytes, artifactType, artifactTitle);
             })
             .ConfigureAwait(false);
-
-        return Context.Artifacts.Files[destinationFileName];
     }
 
     protected override async ValueTask DisposeAsyncCore()

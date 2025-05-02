@@ -12,10 +12,10 @@ public sealed class ContainerSessionTests : AtataTestSuite
             .BuildAsync();
 
         // Act
-        await containerSession.ExtractFileToArtifactsAsync("hello");
+        FileSubject file = await containerSession.ExtractFileToArtifactsAsync("hello");
 
         // Assert
-        Context.Artifacts.Files["hello"].Should.Exist()
+        file.Should.Exist()
             .Length.Should.BeGreater(5_000L);
     }
 }

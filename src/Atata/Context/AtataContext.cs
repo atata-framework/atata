@@ -682,7 +682,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="fileContentWithExtension">The file content with extension.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, string? artifactType = null, string? artifactTitle = null)
+    /// <returns>A <see cref="FileSubject"/> for added file.</returns>
+    public FileSubject AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, string? artifactType = null, string? artifactTitle = null)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePathWithoutExtension);
         Guard.ThrowIfNull(fileContentWithExtension);
@@ -693,6 +694,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         fileContentWithExtension.Save(absoluteFilePath);
 
         EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+
+        return Artifacts.Files[relativeFilePath];
     }
 
     /// <summary>
@@ -702,7 +705,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="fileBytes">The file bytes.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePath, byte[] fileBytes, string? artifactType = null, string? artifactTitle = null)
+    /// <returns>A <see cref="FileSubject"/> for added file.</returns>
+    public FileSubject AddArtifact(string relativeFilePath, byte[] fileBytes, string? artifactType = null, string? artifactTitle = null)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileBytes);
@@ -712,6 +716,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         File.WriteAllBytes(absoluteFilePath, fileBytes);
 
         EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+
+        return Artifacts.Files[relativeFilePath];
     }
 
     /// <summary>
@@ -721,7 +727,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="fileContent">Content of the file.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePath, string fileContent, string? artifactType = null, string? artifactTitle = null)
+    /// <returns>A <see cref="FileSubject"/> for added file.</returns>
+    public FileSubject AddArtifact(string relativeFilePath, string fileContent, string? artifactType = null, string? artifactTitle = null)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileContent);
@@ -731,6 +738,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         File.WriteAllText(absoluteFilePath, fileContent);
 
         EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+
+        return Artifacts.Files[relativeFilePath];
     }
 
     /// <summary>
@@ -741,7 +750,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="encoding">The encoding. Can be <see langword="null"/>.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, string? artifactType = null, string? artifactTitle = null)
+    /// <returns>A <see cref="FileSubject"/> for added file.</returns>
+    public FileSubject AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, string? artifactType = null, string? artifactTitle = null)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileContent);
@@ -754,6 +764,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             File.WriteAllText(absoluteFilePath, fileContent, encoding);
 
         EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+
+        return Artifacts.Files[relativeFilePath];
     }
 
     /// <summary>
@@ -763,7 +775,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="stream">The stream to write to the file.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePath, Stream stream, string? artifactType = null, string? artifactTitle = null)
+    /// <returns>A <see cref="FileSubject"/> for added file.</returns>
+    public FileSubject AddArtifact(string relativeFilePath, Stream stream, string? artifactType = null, string? artifactTitle = null)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(stream);
@@ -774,6 +787,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             stream.CopyTo(source);
 
         EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+
+        return Artifacts.Files[relativeFilePath];
     }
 
     private string BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(string relativeFilePath)
