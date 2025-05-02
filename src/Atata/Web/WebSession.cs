@@ -77,7 +77,8 @@ public abstract class WebSession : AtataSession
     /// Takes a screenshot of the current page with an optionally specified title.
     /// </summary>
     /// <param name="title">The title of a screenshot.</param>
-    public void TakeScreenshot(string? title = null) =>
+    /// <returns>A <see cref="FileSubject"/> for a taken screenshot file.</returns>
+    public FileSubject? TakeScreenshot(string? title = null) =>
         ScreenshotTaker.TakeScreenshot(title);
 
     /// <summary>
@@ -85,7 +86,8 @@ public abstract class WebSession : AtataSession
     /// </summary>
     /// <param name="kind">The kind of a screenshot.</param>
     /// <param name="title">The title of a screenshot.</param>
-    public void TakeScreenshot(ScreenshotKind kind, string? title = null) =>
+    /// <returns>A <see cref="FileSubject"/> for a taken screenshot file.</returns>
+    public FileSubject? TakeScreenshot(ScreenshotKind kind, string? title = null) =>
         ScreenshotTaker.TakeScreenshot(kind, title);
 
     /// <summary>

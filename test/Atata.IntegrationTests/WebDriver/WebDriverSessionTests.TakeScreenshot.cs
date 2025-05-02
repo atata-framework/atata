@@ -11,9 +11,10 @@ public partial class WebDriverSessionTests
             var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
-            session.TakeScreenshot();
+            var artifact = session.TakeScreenshot();
 
-            context.Artifacts.Should.ContainFile($"{session.Id}-01 Input page.png");
+            artifact!.Should.Exist()
+                .Name.Should.Be($"{session.Id}-01 Input page.png");
         }
 
         [Test]
@@ -23,9 +24,10 @@ public partial class WebDriverSessionTests
             var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
-            session.TakeScreenshot("Test");
+            var artifact = session.TakeScreenshot("Test");
 
-            context.Artifacts.Should.ContainFile($"{session.Id}-01 Input page - Test.png");
+            artifact!.Should.Exist()
+                .Name.Should.Be($"{session.Id}-01 Input page - Test.png");
         }
 
         [Test]
@@ -34,9 +36,10 @@ public partial class WebDriverSessionTests
             var context = BuildAtataContextWithWebDriverSession();
             var session = context.Sessions.Get<WebDriverSession>();
 
-            session.TakeScreenshot();
+            var artifact = session.TakeScreenshot();
 
-            context.Artifacts.Should.ContainFile($"{session.Id}-01.png");
+            artifact!.Should.Exist()
+                .Name.Should.Be($"{session.Id}-01.png");
         }
 
         [Test]
@@ -45,9 +48,10 @@ public partial class WebDriverSessionTests
             var context = BuildAtataContextWithWebDriverSession();
             var session = context.Sessions.Get<WebDriverSession>();
 
-            session.TakeScreenshot("Test");
+            var artifact = session.TakeScreenshot("Test");
 
-            context.Artifacts.Should.ContainFile($"{session.Id}-01 - Test.png");
+            artifact!.Should.Exist()
+                .Name.Should.Be($"{session.Id}-01 - Test.png");
         }
 
         [Test]
@@ -59,9 +63,10 @@ public partial class WebDriverSessionTests
             var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
-            session.TakeScreenshot();
+            var artifact = session.TakeScreenshot();
 
-            VerifyLastLogNestingTextsWithMessagesMatch(LogLevel.Error, "Screenshot failed");
+            VerifyLastLogNestingTextsWithMessagesMatch(LogLevel.Error, "^Screenshot failed");
+            artifact.ToSubject().Should.BeNull();
             context.Artifacts.Should.Not.Exist();
         }
     }

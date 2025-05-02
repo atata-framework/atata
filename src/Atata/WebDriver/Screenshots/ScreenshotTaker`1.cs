@@ -29,45 +29,40 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
         _session = session;
     }
 
-    public void TakeScreenshot(string? title = null)
-    {
-        if (_defaultScreenshotStrategy is not null)
-            TakeScreenshot(_defaultScreenshotStrategy, title);
-    }
+    public FileSubject? TakeScreenshot(string? title = null) =>
+        TakeScreenshot(_defaultScreenshotStrategy, title);
 
-    public void TakeScreenshot(ScreenshotKind kind, string? title = null)
-    {
-        if (kind == ScreenshotKind.Viewport)
-            TakeScreenshot(_viewportScreenshotStrategy, title);
-        else if (kind == ScreenshotKind.FullPage)
-            TakeScreenshot(_fullPageScreenshotStrategy, title);
-        else
-            TakeScreenshot(title);
-    }
+    public FileSubject? TakeScreenshot(ScreenshotKind kind, string? title = null) =>
+        kind switch
+        {
+            ScreenshotKind.Viewport => TakeScreenshot(_viewportScreenshotStrategy, title),
+            ScreenshotKind.FullPage => TakeScreenshot(_fullPageScreenshotStrategy, title),
+            _ => TakeScreenshot(title)
+        };
 
-    private void TakeScreenshot(IScreenshotStrategy<TSession> strategy, string? title = null)
+    private FileSubject? TakeScreenshot(IScreenshotStrategy<TSession> strategy, string? title = null)
     {
         if (strategy is null || !_session.IsActive)
-            return;
+            return null;
 
         _screenshotNumber++;
 
         try
         {
-            _session.Log.ExecuteSection(
+            return _session.Log.ExecuteSection(
                 new TakeScreenshotLogSection(_screenshotNumber, title),
                 () =>
                 {
                     FileContentWithExtension fileContent = strategy.TakeScreenshot(_session);
                     string filePath = FormatFilePath(title);
 
-                    _session.Context.AddArtifact(filePath, fileContent, ArtifactTypes.Screenshot);
-                    return filePath + fileContent.Extension;
+                    return _session.Context.AddArtifact(filePath, fileContent, ArtifactTypes.Screenshot);
                 });
         }
         catch (Exception exception)
         {
             _session.Log.Error(exception, "Screenshot failed.");
+            return null;
         }
     }
 
