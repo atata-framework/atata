@@ -12,7 +12,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="NLog" Version="5.4.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
-    <PackageReference Include="Reqnroll.NUnit" Version="2.4.0" />
   </ItemGroup>
 
   <ItemGroup>
