@@ -54,9 +54,9 @@ public class ReportTests : WebDriverSessionTestSuite
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> Take page snapshot #01$",
-            "^< Take page snapshot #01 \\(.*\\) >> \".*-01 Test page.mhtml\"$",
+            "^< Take page snapshot #01 \\(.*\\) >> Artifacts\\.Files\\[\".*-01 Test page.mhtml\"\\]$",
             "^> Take page snapshot #02 sometitle$",
-            "^< Take page snapshot #02 sometitle \\(.*\\) >> \".*-02 Test page - sometitle.mhtml\"$");
+            "^< Take page snapshot #02 sometitle \\(.*\\) >> Artifacts\\.Files\\[\".*-02 Test page - sometitle.mhtml\"\\]$");
 
         CurrentContext.Artifacts.Should.ContainFiles(
             $"{sessionId}-01 Test page.mhtml",
@@ -235,9 +235,9 @@ public class ReportTests : WebDriverSessionTestSuite
             VerifyLastLogNestingTextsWithMessagesMatch(
                 minLogLevel: LogLevel.Trace,
                 "^> Take screenshot #01$",
-                "^< Take screenshot #01 \\(.*\\) >> \".*-01 Test page.png\"$",
+                "^< Take screenshot #01 \\(.*\\) >> Artifacts\\.Files\\[\".*-01 Test page.png\"\\]$",
                 "^> Take screenshot #02 sometitle$",
-                "^< Take screenshot #02 sometitle \\(.*\\) >> \".*-02 Test page - sometitle.png\"$");
+                "^< Take screenshot #02 sometitle \\(.*\\) >> Artifacts\\.Files\\[\".*-02 Test page - sometitle.png\"\\]$");
 
             CurrentContext.Artifacts.Should.ContainFiles(
                 $"{sessionId}-01 Test page.png",
