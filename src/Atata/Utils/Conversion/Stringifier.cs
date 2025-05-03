@@ -46,6 +46,8 @@ public static class Stringifier
 
     public const string Indent = "  ";
 
+    private const int EnumerableSingleLinePresentationMaxLength = 70;
+
     private static readonly Lazy<Func<WebElement, string>> s_elementIdRetrieveFunction = new(() =>
     {
         var idProperty = typeof(WebElement).GetPropertyWithThrowOnError(
@@ -70,7 +72,8 @@ public static class Stringifier
 
         string[] itemStringValues = [.. collection.Select(x => ToString(x))];
 
-        return itemStringValues.Any(x => x.Contains('\n'))
+        return itemStringValues.Any(x => x.Contains('\n')
+            || itemStringValues.Sum(x => x.Length) + (itemStringValues.Length * 2) > EnumerableSingleLinePresentationMaxLength)
             ? $"[{Environment.NewLine}{string.Join($",{Environment.NewLine}", itemStringValues.Select(AddIndent))}{Environment.NewLine}]"
             : $"[{string.Join(", ", itemStringValues)}]";
     }
@@ -107,19 +110,17 @@ public static class Stringifier
     private static string AnyObjectToString(object value)
     {
         string valueAsString = value.ToString();
-        if (valueAsString.Contains('\n'))
-        {
-            string indentedValue = AddIndent(valueAsString);
-            return $"{{{Environment.NewLine}{indentedValue}{Environment.NewLine}}}";
-        }
-        else
-        {
-            return $"{{ {value} }}";
-        }
+
+        return valueAsString.Contains('\n')
+            ? ReplaceNewLines(valueAsString)
+            : valueAsString;
     }
 
     private static string AddIndent(string value) =>
         Indent + value.Replace("\r\n", "\n").Replace("\n", Environment.NewLine + Indent);
+
+    private static string ReplaceNewLines(string value) =>
+        value.Replace("\r\n", "\n").Replace("\n", Environment.NewLine);
 
     public static string ToStringInFormOfOneOrMany<T>(IEnumerable<T>? collection)
     {

@@ -50,6 +50,30 @@ public static class StringifierTests
                 .Should.Be("[1, 2, 3]");
 
         [Test]
+        public void WithArrayOfIntegers_WithinSingleLineLimit() =>
+            ResultOf(
+                new[] { 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000 })
+                .Should.Be("[100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000]");
+
+        [Test]
+        public void WithArrayOfIntegers_OutOfSingleLineLimit() =>
+            ResultOf(
+                new[] { 100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000 })
+                .Should.Be("""
+                [
+                  100000,
+                  200000,
+                  300000,
+                  400000,
+                  500000,
+                  600000,
+                  700000,
+                  800000,
+                  900000
+                ]
+                """);
+
+        [Test]
         public void WithArrayOfBooleans() =>
             ResultOf(
                 new[] { true, false })
@@ -63,7 +87,7 @@ public static class StringifierTests
                     new SomeRecord(1, "a"),
                     new SomeRecord(2, "b")
                 })
-                .Should.Be("[{ SomeRecord { Id = 1, Name = a } }, { SomeRecord { Id = 2, Name = b } }]");
+                .Should.Be("[SomeRecord { Id = 1, Name = a }, SomeRecord { Id = 2, Name = b }]");
 
         [Test]
         public void WithArrayOfRecordsContainingMultilineStringAndNull() =>
@@ -76,11 +100,9 @@ public static class StringifierTests
                 })
                 .Should.Be("""
                     [
-                      { SomeRecord { Id = 1, Name = a } },
-                      {
-                        SomeRecord { Id = 2, Name = b
-                        c }
-                      },
+                      SomeRecord { Id = 1, Name = a },
+                      SomeRecord { Id = 2, Name = b
+                      c },
                       null
                     ]
                     """);
