@@ -131,7 +131,7 @@ internal sealed class AtataSessionPool : IEnumerable<AtataSession>
         return session!;
     }
 
-    private async Task<AtataSession?> TryBuildAsync(CancellationToken cancellationToken = default)
+    private async Task<AtataSession?> TryBuildAsync(CancellationToken cancellationToken)
     {
         if (_count < _maxCapacity)
         {

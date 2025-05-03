@@ -276,7 +276,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
             .ConfigureAwait(false);
     }
 
-    internal async ValueTask StartPoolAsync(IAtataSessionBuilder sessionBuilder, CancellationToken cancellationToken = default)
+    internal async ValueTask StartPoolAsync(IAtataSessionBuilder sessionBuilder, CancellationToken cancellationToken)
     {
         EnsureNotDisposed();
 

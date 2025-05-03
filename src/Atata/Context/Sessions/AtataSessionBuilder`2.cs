@@ -378,7 +378,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         }
     }
 
-    private async Task<TSession> BuildAsync(AtataContext context, CancellationToken cancellationToken = default)
+    private async Task<TSession> BuildAsync(AtataContext context, CancellationToken cancellationToken)
     {
         ValidateConfiguration();
 

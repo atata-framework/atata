@@ -700,7 +700,7 @@ public sealed class AtataContextBuilder : ICloneable
         return new(configuration, new AtataContextLogEventInfoFactory(context));
     }
 
-    private async Task InitializeContextAsync(AtataContext context, CancellationToken cancellationToken = default)
+    private async Task InitializeContextAsync(AtataContext context, CancellationToken cancellationToken)
     {
         context.LogTestStart();
 
@@ -721,7 +721,7 @@ public sealed class AtataContextBuilder : ICloneable
         context.BodyExecutionStopwatch.Start();
     }
 
-    private async Task DoInitializeContextAsync(AtataContext context, CancellationToken cancellationToken = default)
+    private async Task DoInitializeContextAsync(AtataContext context, CancellationToken cancellationToken)
     {
         if (Culture != null)
             ApplyCulture(context, Culture);
