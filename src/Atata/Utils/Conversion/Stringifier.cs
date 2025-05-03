@@ -48,20 +48,6 @@ public static class Stringifier
 
     private const int EnumerableSingleLinePresentationMaxLength = 70;
 
-    private static readonly Lazy<Func<WebElement, string>> s_elementIdRetrieveFunction = new(() =>
-    {
-        var idProperty = typeof(WebElement).GetPropertyWithThrowOnError(
-            "Id",
-            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-        var parameterExpression = Expression.Parameter(typeof(WebElement), "item");
-
-        var propertyExpression = Expression.Property(parameterExpression, idProperty);
-
-        return Expression.Lambda<Func<WebElement, string>>(propertyExpression, parameterExpression)
-            .Compile();
-    });
-
     public static string ToString(IEnumerable? collection) =>
         ToString(collection?.Cast<object>());
 
@@ -95,14 +81,10 @@ public static class Stringifier
                 $"'{value}'",
             bool =>
                 value.ToString().ToLowerInvariant(),
-            ValueType =>
-                value.ToString(),
             IEnumerable enumerableValue =>
                 ToString(enumerableValue),
             Expression expressionValue =>
                 ToString(expressionValue),
-            WebElement asWebElement =>
-                $"Element {{ Id={s_elementIdRetrieveFunction.Value.Invoke(asWebElement)} }}",
             _ =>
                 AnyObjectToString(value)
         };
