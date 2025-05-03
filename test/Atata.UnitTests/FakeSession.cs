@@ -2,6 +2,6 @@
 
 public sealed class FakeSession : AtataSession
 {
-    protected internal override Task StartAsync(CancellationToken cancellationToken = default) =>
+    protected internal override Task StartAsync(CancellationToken cancellationToken) =>
         Task.CompletedTask;
 }

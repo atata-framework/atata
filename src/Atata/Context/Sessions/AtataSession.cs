@@ -387,7 +387,7 @@ public abstract class AtataSession : IAsyncDisposable
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>A <see cref="Task"/> object.</returns>
-    protected internal abstract Task StartAsync(CancellationToken cancellationToken = default);
+    protected internal abstract Task StartAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Logs the configuration details of the session.

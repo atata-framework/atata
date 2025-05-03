@@ -29,7 +29,7 @@ public class ContainerSession<TContainer> : AtataSession
 
     internal ContainerLogsSaveConfiguration LogsSaveConfiguration { get; set; } = null!;
 
-    protected override async Task StartAsync(CancellationToken cancellationToken = default) =>
+    protected override async Task StartAsync(CancellationToken cancellationToken) =>
         await Log.ExecuteSectionAsync(
             new LogSection("Start container", LogLevel.Trace),
             async () => await Container.StartAsync(cancellationToken).ConfigureAwait(false))
