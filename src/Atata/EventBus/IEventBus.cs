@@ -12,14 +12,14 @@ public interface IEventBus
     /// <param name="eventData">The event data.</param>
     void Publish<TEvent>(TEvent eventData);
 
-    /// <summary>
-    /// Publishes the specified event to subscribed event handlers.
-    /// </summary>
-    /// <typeparam name="TEvent">The type of the event.</typeparam>
+    /// <inheritdoc cref="Publish{TEvent}(TEvent)"/>
+    /// <returns>A <see cref="Task"/> object.</returns>
+    Task PublishAsync<TEvent>(TEvent eventData);
+
+    /// <inheritdoc cref="PublishAsync{TEvent}(TEvent)"/>"/>
     /// <param name="eventData">The event data.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A <see cref="Task"/> object.</returns>
-    Task PublishAsync<TEvent>(TEvent eventData, CancellationToken cancellationToken = default);
+    Task PublishAsync<TEvent>(TEvent eventData, CancellationToken cancellationToken);
 
     /// <summary>
     /// Subscribes the specified event handler to the <typeparamref name="TEvent"/>.

@@ -12,14 +12,15 @@ public abstract class AtataTestSuite
     [OneTimeSetUp]
     public void SetUpSuiteAtataContext()
     {
-        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite);
+        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite)
+            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
 
         _testSuiteContextMetadata = TestSuiteAtataContextMetadata.GetForType(GetType());
         _testSuiteContextMetadata.ApplyToTestSuiteBuilder(builder);
 
         ConfigureSuiteAtataContext(builder);
 
-        SuiteContext = builder.Build(TestContext.CurrentContext.CancellationToken);
+        SuiteContext = builder.Build();
     }
 
     [OneTimeTearDown]
@@ -29,7 +30,8 @@ public abstract class AtataTestSuite
     [SetUp]
     public void SetUpTestAtataContext()
     {
-        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test);
+        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test)
+            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
 
         _testSuiteContextMetadata?.ApplyToTestBuilder(builder);
 
@@ -40,7 +42,7 @@ public abstract class AtataTestSuite
 
         ConfigureTestAtataContext(builder);
 
-        Context = builder.Build(TestContext.CurrentContext.CancellationToken);
+        Context = builder.Build();
     }
 
     [TearDown]

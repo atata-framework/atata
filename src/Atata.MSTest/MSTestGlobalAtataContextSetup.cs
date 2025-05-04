@@ -22,12 +22,13 @@ public static class MSTestGlobalAtataContextSetup
         TestSuiteTypeResolver.Assembly = globalFixtureType.Assembly;
 
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Global)
+            .UseDefaultCancellationToken(testContext.CancellationTokenSource.Token)
             .UseTestSuiteType(globalFixtureType)
             .UseAssertionExceptionFactory(MSTestAssertionExceptionFactory.Instance);
 
         configure?.Invoke(builder);
 
-        builder.Build(testContext.CancellationTokenSource.Token);
+        builder.Build();
     }
 
     public static void TearDown(TestContext testContext) =>

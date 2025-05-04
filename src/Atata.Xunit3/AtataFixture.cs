@@ -14,11 +14,12 @@ public abstract class AtataFixture : IAsyncLifetime
 
     public virtual async ValueTask InitializeAsync()
     {
-        AtataContextBuilder builder = AtataContext.CreateBuilder(_contextScope);
+        AtataContextBuilder builder = AtataContext.CreateBuilder(_contextScope)
+            .UseDefaultCancellationToken(TestContext.Current.CancellationToken);
 
         ConfigureAtataContext(builder);
 
-        Context = await builder.BuildAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
+        Context = await builder.BuildAsync().ConfigureAwait(false);
     }
 
     private protected abstract void ConfigureAtataContext(AtataContextBuilder builder);

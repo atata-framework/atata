@@ -23,11 +23,12 @@ public abstract class AtataGlobalFixture
 
         ConfigureAtataContextBaseConfiguration(AtataContext.BaseConfiguration);
 
-        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Global);
+        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Global)
+            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
 
         ConfigureGlobalAtataContext(builder);
 
-        Context = builder.Build(TestContext.CurrentContext.CancellationToken);
+        Context = builder.Build();
     }
 
     [OneTimeTearDown]

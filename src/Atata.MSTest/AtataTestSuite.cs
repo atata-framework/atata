@@ -15,13 +15,14 @@ public abstract class AtataTestSuite
         Type testClassType = TestSuiteTypeResolver.Resolve(testClassFullName);
 
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite)
+            .UseDefaultCancellationToken(testContext.CancellationTokenSource.Token)
             .UseTestSuiteType(testClassType)
             .UseAssertionExceptionFactory(MSTestAssertionExceptionFactory.Instance);
 
         TestSuiteAtataContextMetadata suiteContextMetadata = GetAndApplySuiteMetadata(testClassType, builder);
         FindAndInvokeSuiteConfigurationMethods(testClassType, builder);
 
-        AtataContext suiteContext = builder.Build(testContext.CancellationTokenSource.Token);
+        AtataContext suiteContext = builder.Build();
 
         s_testSuiteDataByTypeName[testClassFullName] = new(suiteContext, suiteContextMetadata);
     }
@@ -40,6 +41,7 @@ public abstract class AtataTestSuite
         Type testClassType = TestSuiteTypeResolver.Resolve(testClassFullName);
 
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test)
+            .UseDefaultCancellationToken(TestContext.CancellationTokenSource.Token)
             .UseTestSuiteType(testClassType)
             .UseTestName(TestContext.TestDisplayName)
             .UseAssertionExceptionFactory(MSTestAssertionExceptionFactory.Instance)
@@ -56,7 +58,7 @@ public abstract class AtataTestSuite
 
         ConfigureTestAtataContext(builder);
 
-        Context = builder.Build(TestContext.CancellationTokenSource.Token);
+        Context = builder.Build();
         TestContext.SetAtataContext(Context);
     }
 

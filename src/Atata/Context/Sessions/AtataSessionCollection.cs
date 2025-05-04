@@ -270,6 +270,8 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     public async ValueTask StartPoolAsync<TSessionBuilder>(Action<TSessionBuilder>? configure = null, CancellationToken cancellationToken = default)
         where TSessionBuilder : IAtataSessionBuilder, new()
     {
+        _context.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
+
         TSessionBuilder sessionBuilder = Add(configure);
 
         await StartPoolAsync(sessionBuilder, cancellationToken)
@@ -400,6 +402,8 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     {
         EnsureNotDisposed();
 
+        _context.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
+
         AtataSession? session = FindSessionToBorrowInContextAncestors(sessionType, sessionName);
 
         if (session is null)
@@ -466,6 +470,8 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     public async ValueTask<AtataSession> TakeFromPoolAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
         EnsureNotDisposed();
+
+        _context.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
 
         if (!TryFindPool(sessionType, sessionName, out AtataSessionPool? pool))
             throw new AtataSessionPoolNotFoundException(

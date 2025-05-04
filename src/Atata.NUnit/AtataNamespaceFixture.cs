@@ -8,11 +8,12 @@ public abstract class AtataNamespaceFixture
     [OneTimeSetUp]
     public void SetUpNamespaceAtataContext()
     {
-        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Namespace);
+        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Namespace)
+            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
 
         ConfigureNamespaceAtataContext(builder);
 
-        Context = builder.Build(TestContext.CurrentContext.CancellationToken);
+        Context = builder.Build();
     }
 
     [OneTimeTearDown]

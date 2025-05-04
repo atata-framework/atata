@@ -51,6 +51,8 @@ public class ContainerSession<TContainer> : AtataSession
     {
         Guard.ThrowIfNullOrWhitespace(containerFilePath);
 
+        Context.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
+
         string destinationFileName = Path.GetFileName(containerFilePath);
 
         return await Log.ExecuteSectionAsync(

@@ -284,6 +284,11 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         Sessions.Get<WebDriverSession>().DefaultControlVisibility;
 
     /// <summary>
+    /// Gets the default cancellation token.
+    /// </summary>
+    public CancellationToken DefaultCancellationToken { get; internal set; }
+
+    /// <summary>
     /// Gets the culture.
     /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
     /// </summary>
@@ -957,6 +962,12 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     [Obsolete("Use Variables.FillUriTemplateString(...) instead.")] // Obsolete since v4.0.0.
     public string FillUriTemplateString(string template, IEnumerable<KeyValuePair<string, object?>>? additionalVariables) =>
         Variables.FillUriTemplateString(template, additionalVariables);
+
+    public void SetToDefaultCancellationTokenWhenDefault(ref CancellationToken cancellationToken)
+    {
+        if (cancellationToken == default)
+            cancellationToken = DefaultCancellationToken;
+    }
 
     /// <summary>
     /// <para>

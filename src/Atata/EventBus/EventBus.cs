@@ -44,11 +44,11 @@ public class EventBus : IEventBus
                 eventHandlersArray = [.. eventHandlerSubscriptions.Select(x => x.EventHandler)];
             }
 
-            PublishToEventHandlersAsync(eventData, eventHandlersArray).RunSync();
+            PublishToEventHandlersAsync(eventData, eventHandlersArray, _context.DefaultCancellationToken).RunSync();
         }
     }
 
-    public async Task PublishAsync<TEvent>(TEvent eventData, CancellationToken cancellationToken = default)
+    public async Task PublishAsync<TEvent>(TEvent eventData)
     {
         Guard.ThrowIfNull(eventData);
 
@@ -62,12 +62,33 @@ public class EventBus : IEventBus
                 eventHandlersArray = [.. eventHandlerSubscriptions.Select(x => x.EventHandler)];
             }
 
+            await PublishToEventHandlersAsync(eventData, eventHandlersArray, CancellationToken.None)
+                .ConfigureAwait(false);
+        }
+    }
+
+    public async Task PublishAsync<TEvent>(TEvent eventData, CancellationToken cancellationToken)
+    {
+        Guard.ThrowIfNull(eventData);
+
+        if (_subscriptionMap.TryGetValue(typeof(TEvent), out var eventHandlerSubscriptions)
+            && eventHandlerSubscriptions.Count != 0)
+        {
+            object[] eventHandlersArray;
+
+            lock (eventHandlerSubscriptions)
+            {
+                eventHandlersArray = [.. eventHandlerSubscriptions.Select(x => x.EventHandler)];
+            }
+
+            _context.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
+
             await PublishToEventHandlersAsync(eventData, eventHandlersArray, cancellationToken)
                 .ConfigureAwait(false);
         }
     }
 
-    private async Task PublishToEventHandlersAsync<TEvent>(TEvent eventData, object[] eventHandlers, CancellationToken cancellationToken = default)
+    private async Task PublishToEventHandlersAsync<TEvent>(TEvent eventData, object[] eventHandlers, CancellationToken cancellationToken)
     {
         List<Task> executingTasks = [];
 

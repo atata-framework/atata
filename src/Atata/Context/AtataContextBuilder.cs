@@ -151,6 +151,12 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
+    /// Gets or sets the default cancellation token.
+    /// The default value is <see cref="CancellationToken.None"/>.
+    /// </summary>
+    public CancellationToken DefaultCancellationToken { get; set; }
+
+    /// <summary>
     /// Gets or sets the culture.
     /// </summary>
     public CultureInfo? Culture { get; set; }
@@ -468,6 +474,18 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
+    /// Sets the default cancellation token.
+    /// The default value is <see cref="CancellationToken.None"/>.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseDefaultCancellationToken(CancellationToken cancellationToken)
+    {
+        DefaultCancellationToken = cancellationToken;
+        return this;
+    }
+
+    /// <summary>
     /// Sets the culture.
     /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
     /// </summary>
@@ -655,6 +673,7 @@ public sealed class AtataContextBuilder : ICloneable
             WaitingRetryInterval = WaitingRetryInterval,
             VerificationTimeout = VerificationTimeout,
             VerificationRetryInterval = VerificationRetryInterval,
+            DefaultCancellationToken = DefaultCancellationToken,
             Culture = Culture ?? CultureInfo.CurrentCulture,
             AssertionExceptionFactory = AssertionExceptionFactory,
             AggregateAssertionExceptionFactory = AggregateAssertionExceptionFactory,
@@ -703,6 +722,8 @@ public sealed class AtataContextBuilder : ICloneable
     private async Task InitializeContextAsync(AtataContext context, CancellationToken cancellationToken)
     {
         context.LogTestStart();
+
+        context.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
 
         try
         {

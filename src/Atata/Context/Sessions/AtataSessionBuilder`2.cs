@@ -340,6 +340,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     {
         if (Mode == AtataSessionMode.Pool)
         {
+            context.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
+
             await context.Sessions.StartPoolAsync(this, cancellationToken)
                 .ConfigureAwait(false);
         }
@@ -357,6 +359,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
         if (assignToContext is not null)
         {
+            assignToContext.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
+
             return await BuildAsync(assignToContext, cancellationToken).ConfigureAwait(false);
         }
         else if (Mode is not (AtataSessionMode.Own or AtataSessionMode.Shared))
