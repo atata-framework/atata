@@ -63,7 +63,7 @@ public abstract class AtataGlobalFixture : AtataFixture
 
     /// <summary>
     /// Configures the global <see cref="AtataContext"/>.
-    /// This method can be overridden in derived classes to provide custom configuration.
+    /// The method can be overridden to provide custom configuration.
     /// </summary>
     /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureGlobalAtataContext(AtataContextBuilder builder)

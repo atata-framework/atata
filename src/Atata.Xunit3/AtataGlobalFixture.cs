@@ -38,7 +38,7 @@ public abstract class AtataGlobalFixture : AtataFixture
 
     /// <summary>
     /// Configures the global properties of the <see cref="AtataContext"/>.
-    /// Override this method to customize the global properties.
+    /// The method can be overridden to provide custom configuration.
     /// </summary>
     /// <param name="globalProperties">The global properties to configure.</param>
     protected virtual void ConfigureAtataContextGlobalProperties(AtataContextGlobalProperties globalProperties)
@@ -47,7 +47,7 @@ public abstract class AtataGlobalFixture : AtataFixture
 
     /// <summary>
     /// Configures the base configuration of the <see cref="AtataContext"/>.
-    /// Override this method to customize the base configuration.
+    /// The method can be overridden to provide custom configuration.
     /// </summary>
     /// <param name="builder">The builder for the base configuration.</param>
     protected virtual void ConfigureAtataContextBaseConfiguration(AtataContextBuilder builder)
@@ -63,7 +63,7 @@ public abstract class AtataGlobalFixture : AtataFixture
 
     /// <summary>
     /// Configures the global <see cref="AtataContext"/>.
-    /// This method can be overridden in derived classes to provide custom configuration.
+    /// The method can be overridden to provide custom configuration.
     /// </summary>
     /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureGlobalAtataContext(AtataContextBuilder builder)

@@ -35,7 +35,7 @@ public abstract class AtataTestSuite : AtataFixture
 
     /// <summary>
     /// Configures the test <see cref="AtataContext"/>.
-    /// This method can be overridden in derived classes to provide custom configuration.
+    /// The method can be overridden to provide custom configuration.
     /// </summary>
     /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
