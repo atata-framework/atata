@@ -1,13 +1,29 @@
 ﻿namespace Atata.MSTest;
 
+/// <summary>
+/// Represents a base class for test suites/classes using Atata with MSTest.
+/// Provides setup and tear-down logic for Atata contexts at the suite and test levels.
+/// </summary>
 public abstract class AtataTestSuite
 {
     private static readonly ConcurrentDictionary<string, TestSuiteData> s_testSuiteDataByTypeName = [];
 
+    /// <summary>
+    /// Gets or sets the MSTest test context.
+    /// The value is set automatically by MSTest framework.
+    /// </summary>
     public TestContext TestContext { get; set; } = null!;
 
+    /// <summary>
+    /// Gets the <see cref="AtataContext"/> instance for the current test.
+    /// </summary>
     protected AtataContext Context { get; private set; } = null!;
 
+    /// <summary>
+    /// Sets up the <see cref="AtataContext"/> for the test suite.
+    /// The method is executed once before any tests in the suite are run.
+    /// </summary>
+    /// <param name="testContext">The MSTest test context.</param>
     [ClassInitialize(InheritanceBehavior.BeforeEachDerivedClass)]
     public static void SetUpSuiteAtataContext(TestContext testContext)
     {
@@ -27,6 +43,11 @@ public abstract class AtataTestSuite
         s_testSuiteDataByTypeName[testClassFullName] = new(suiteContext, suiteContextMetadata);
     }
 
+    /// <summary>
+    /// Tears down the <see cref="AtataContext"/> for the test suite.
+    /// The method is executed once after all tests in the suite have run.
+    /// </summary>
+    /// <param name="testContext">The MSTest test context.</param>
     [ClassCleanup(InheritanceBehavior.BeforeEachDerivedClass, ClassCleanupBehavior.EndOfClass)]
     public static void TearDownSuiteAtataContext(TestContext testContext)
     {
@@ -34,6 +55,10 @@ public abstract class AtataTestSuite
             MSTestAtataContextCompletionHandler.Complete(testContext, suiteData.AtataContext);
     }
 
+    /// <summary>
+    /// Sets up the <see cref="AtataContext"/> for the current test.
+    /// The method is executed before each test in the suite.
+    /// </summary>
     [TestInitialize]
     public void SetUpTestAtataContext()
     {
@@ -62,10 +87,19 @@ public abstract class AtataTestSuite
         TestContext.SetAtataContext(Context);
     }
 
+    /// <summary>
+    /// Tears down the <see cref="AtataContext"/> for the current test.
+    /// The method is executed after each test in the suite.
+    /// </summary>
     [TestCleanup]
     public void TearDownTestAtataContext() =>
         MSTestAtataContextCompletionHandler.Complete(TestContext);
 
+    /// <summary>
+    /// Configures the test <see cref="AtataContext"/>.
+    /// The method can be overridden to provide custom configuration.
+    /// </summary>
+    /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
     }
