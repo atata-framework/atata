@@ -6,13 +6,14 @@ public static class ReqnrollAtataContextSetup
         FeatureContext featureContext,
         Action<AtataContextBuilder, FeatureContext>? configure = null)
     {
-        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite);
+        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite)
+            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
 
         builder.LogConsumers.RemoveAll<NUnitTestContextLogConsumer>();
 
         configure?.Invoke(builder, featureContext);
 
-        AtataContext featureAtataContext = builder.Build(TestContext.CurrentContext.CancellationToken);
+        AtataContext featureAtataContext = builder.Build();
         featureContext.Set(featureAtataContext);
     }
 
@@ -27,11 +28,12 @@ public static class ReqnrollAtataContextSetup
         ScenarioContext scenarioContext,
         Action<AtataContextBuilder, FeatureContext, ScenarioContext>? configure = null)
     {
-        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test);
+        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test)
+            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
 
         configure?.Invoke(builder, featureContext, scenarioContext);
 
-        AtataContext scenarioAtataContext = builder.Build(TestContext.CurrentContext.CancellationToken);
+        AtataContext scenarioAtataContext = builder.Build();
         scenarioContext.Set(scenarioAtataContext);
     }
 
