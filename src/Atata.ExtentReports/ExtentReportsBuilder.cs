@@ -1,5 +1,8 @@
 ﻿namespace Atata.ExtentReports;
 
+/// <summary>
+/// Provides functionality to build and configure Extent Reports.
+/// </summary>
 public sealed class ExtentReportsBuilder
 {
     internal string ReportTitle { get; set; } = "Atata Tests";

@@ -1,5 +1,8 @@
 ﻿namespace Atata.ExtentReports;
 
+/// <summary>
+/// Represents a log consumer that logs to ExtentReports.
+/// </summary>
 public sealed class ExtentLogConsumer : ILogConsumer
 {
     private static readonly Regex s_normalizeMessageLineBreakRegex =

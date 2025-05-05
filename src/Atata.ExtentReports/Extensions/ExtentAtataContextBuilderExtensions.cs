@@ -2,6 +2,9 @@
 
 namespace Atata;
 
+/// <summary>
+/// Provides extension methods for configuring Atata with ExtentReports.
+/// </summary>
 public static class ExtentAtataContextBuilderExtensions
 {
     /// <summary>
