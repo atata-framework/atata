@@ -1,5 +1,10 @@
 ﻿namespace Atata.Xunit;
 
+/// <summary>
+/// Represents a class fixture for Atata Xunit test suites/classes,
+/// providing configuration and initialization for the test suite <see cref="AtataContext"/>.
+/// </summary>
+/// <typeparam name="TClass">The type of the test class.</typeparam>
 public class AtataClassFixture<TClass> : AtataFixture
 {
     public AtataClassFixture()
@@ -18,6 +23,11 @@ public class AtataClassFixture<TClass> : AtataFixture
         ConfigureSuiteAtataContext(builder);
     }
 
+    /// <summary>
+    /// Configures the test suite <see cref="AtataContext"/>.
+    /// This method can be overridden in derived classes to provide custom configuration.
+    /// </summary>
+    /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureSuiteAtataContext(AtataContextBuilder builder)
     {
     }

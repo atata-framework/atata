@@ -28,7 +28,7 @@ public class AtataClassFixture<TClass> : AtataFixture
     }
 
     /// <summary>
-    /// Configures the class <see cref="AtataContext"/>.
+    /// Configures the test suite <see cref="AtataContext"/>.
     /// This method can be overridden in derived classes to provide custom configuration.
     /// </summary>
     /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>

@@ -1,9 +1,18 @@
 ﻿namespace Atata.Xunit;
 
+/// <summary>
+/// Represents a base class for Atata Xunit test suite/class.
+/// providing configuration and initialization for the test <see cref="AtataContext"/>.
+/// </summary>
 public abstract class AtataTestSuite : AtataFixture
 {
     private readonly ITestOutputHelper _output;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AtataTestSuite"/> class
+    /// with the <see cref="AtataContextScope.Test"/> context scope.
+    /// </summary>
+    /// <param name="output">The test output helper.</param>
     protected AtataTestSuite(ITestOutputHelper output)
         : base(AtataContextScope.Test) =>
         _output = output;
@@ -25,6 +34,11 @@ public abstract class AtataTestSuite : AtataFixture
         ConfigureTestAtataContext(builder);
     }
 
+    /// <summary>
+    /// Configures the test <see cref="AtataContext"/>.
+    /// This method can be overridden in derived classes to provide custom configuration.
+    /// </summary>
+    /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
     }
