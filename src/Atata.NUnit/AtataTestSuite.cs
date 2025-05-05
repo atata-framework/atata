@@ -1,14 +1,28 @@
 ﻿namespace Atata.NUnit;
 
+/// <summary>
+/// Represents a base class for test suites/classes using Atata with NUnit.
+/// Provides setup and tear-down logic for Atata contexts at the suite and test levels.
+/// </summary>
 [Parallelizable(ParallelScope.Self)]
 public abstract class AtataTestSuite
 {
     private TestSuiteAtataContextMetadata? _testSuiteContextMetadata;
 
+    /// <summary>
+    /// Gets the <see cref="AtataContext"/> instance for the test suite.
+    /// </summary>
     protected AtataContext SuiteContext { get; private set; } = null!;
 
+    /// <summary>
+    /// Gets the <see cref="AtataContext"/> instance for the current test.
+    /// </summary>
     protected AtataContext Context { get; private set; } = null!;
 
+    /// <summary>
+    /// Sets up the <see cref="AtataContext"/> for the test suite.
+    /// The method is executed once before any tests in the suite are run.
+    /// </summary>
     [OneTimeSetUp]
     public void SetUpSuiteAtataContext()
     {
@@ -23,10 +37,18 @@ public abstract class AtataTestSuite
         SuiteContext = builder.Build();
     }
 
+    /// <summary>
+    /// Tears down the <see cref="AtataContext"/> for the test suite.
+    /// The method is executed once after all tests in the suite have run.
+    /// </summary>
     [OneTimeTearDown]
     public void TearDownSuiteAtataContext() =>
         NUnitAtataContextCompletionHandler.Complete(SuiteContext);
 
+    /// <summary>
+    /// Sets up the <see cref="AtataContext"/> for the current test.
+    /// The method is executed before each test in the suite.
+    /// </summary>
     [SetUp]
     public void SetUpTestAtataContext()
     {
@@ -45,14 +67,28 @@ public abstract class AtataTestSuite
         Context = builder.Build();
     }
 
+    /// <summary>
+    /// Tears down the <see cref="AtataContext"/> for the current test.
+    /// The method is executed after each test in the suite.
+    /// </summary>
     [TearDown]
     public void TearDownTestAtataContext() =>
         NUnitAtataContextCompletionHandler.Complete(Context);
 
+    /// <summary>
+    /// Configures the test suite <see cref="AtataContext"/>.
+    /// The method can be overridden to provide custom configuration.
+    /// </summary>
+    /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureSuiteAtataContext(AtataContextBuilder builder)
     {
     }
 
+    /// <summary>
+    /// Configures the test <see cref="AtataContext"/>.
+    /// The method can be overridden to provide custom configuration.
+    /// </summary>
+    /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
     }
