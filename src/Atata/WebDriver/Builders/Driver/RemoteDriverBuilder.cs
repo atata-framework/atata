@@ -39,7 +39,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     {
         ICapabilities capabilities = CreateCapabilities();
 
-        var driver = CreateDriver(
+        var driver = CreateRemoteWebDriver(
             _remoteAddress,
             capabilities,
             _commandTimeout ?? DefaultCommandTimeout);
@@ -50,11 +50,11 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
         return driver!;
     }
 
-    protected virtual IWebDriver CreateDriver(
+    protected virtual RemoteWebDriver CreateRemoteWebDriver(
         Uri remoteAddress,
         ICapabilities capabilities,
         TimeSpan commandTimeout) =>
-        new RemoteWebDriver(remoteAddress, capabilities, commandTimeout);
+        new(remoteAddress, capabilities, commandTimeout);
 
     protected virtual ICapabilities CreateCapabilities()
     {
