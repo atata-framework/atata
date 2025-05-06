@@ -2,22 +2,32 @@
 
 namespace Atata;
 
+/// <summary>
+/// Represents a builder for creating and configuring <see cref="FirefoxDriver"/> instances.
+/// </summary>
 public class FirefoxDriverBuilder : WebDriverBuilder<FirefoxDriverBuilder, FirefoxDriverService, FirefoxOptions>
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FirefoxDriverBuilder"/> class.
+    /// </summary>
     public FirefoxDriverBuilder()
         : base(WebDriverAliases.Firefox, "Firefox")
     {
     }
 
+    /// <inheritdoc/>
     protected override FirefoxDriverService CreateService()
         => FirefoxDriverService.CreateDefaultService();
 
+    /// <inheritdoc/>
     protected override FirefoxDriverService CreateService(string driverPath)
         => FirefoxDriverService.CreateDefaultService(driverPath);
 
+    /// <inheritdoc/>
     protected override FirefoxDriverService CreateService(string driverPath, string driverExecutableFileName)
         => FirefoxDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
+    /// <inheritdoc/>
     protected override IWebDriver CreateDriver(FirefoxDriverService service, FirefoxOptions options, TimeSpan commandTimeout)
         => new FirefoxDriver(service, options, commandTimeout);
 
@@ -38,7 +48,7 @@ public class FirefoxDriverBuilder : WebDriverBuilder<FirefoxDriverBuilder, Firef
         WithOptions(options => options.AddArguments(arguments));
 
     /// <summary>
-    /// Adds the additional Firefox browser option to the driver options.
+    /// Adds an additional Firefox browser option to the driver options.
     /// </summary>
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>

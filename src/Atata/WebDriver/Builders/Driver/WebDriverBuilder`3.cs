@@ -1,5 +1,11 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// Represents a base class for building web driver instances with specific driver service and driver options.
+/// </summary>
+/// <typeparam name="TBuilder">The type of the builder.</typeparam>
+/// <typeparam name="TService">The type of the driver service.</typeparam>
+/// <typeparam name="TOptions">The type of the driver options.</typeparam>
 public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     : WebDriverBuilder<TBuilder>, IUsesLocalBrowser
     where TBuilder : WebDriverBuilder<TBuilder, TService, TOptions>
@@ -86,8 +92,8 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// </summary>
     /// <param name="service">The driver service.</param>
     /// <param name="options">The driver options.</param>
-    /// <param name="commandTimeout">The command timeout.</param>
-    /// <returns>The driver instance.</returns>
+    /// <param name="commandTimeout">The command timeout duration.</param>
+    /// <returns>An instance of <see cref="IWebDriver"/>.</returns>
     protected abstract IWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
 
     private TService CreateServiceUsingDriverParameters() =>
@@ -111,10 +117,25 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
         return driverPath is not null;
     }
 
+    /// <summary>
+    /// Creates the default driver service instance.
+    /// </summary>
+    /// <returns>The created driver service instance.</returns>
     protected abstract TService CreateService();
 
+    /// <summary>
+    /// Creates the driver service instance using the specified driver path.
+    /// </summary>
+    /// <param name="driverPath">The directory containing the driver executable file.</param>
+    /// <returns>The created driver service instance.</returns>
     protected abstract TService CreateService(string driverPath);
 
+    /// <summary>
+    /// Creates the driver service instance using the specified driver path and driver executable file name.
+    /// </summary>
+    /// <param name="driverPath">The directory containing the driver executable file.</param>
+    /// <param name="driverExecutableFileName">The name of the driver executable file.</param>
+    /// <returns>The created driver service instance.</returns>
     protected abstract TService CreateService(string driverPath, string driverExecutableFileName);
 
     /// <summary>

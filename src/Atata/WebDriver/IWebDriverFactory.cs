@@ -13,7 +13,7 @@ public interface IWebDriverFactory
     /// <summary>
     /// Creates the driver instance.
     /// </summary>
-    /// <param name="logManager">The log manager, which can be <see langword="null"/>.</param>
+    /// <param name="logManager">The log manager.</param>
     /// <returns>The created <see cref="IWebDriver" /> instance.</returns>
     IWebDriver Create(ILogManager logManager);
 }

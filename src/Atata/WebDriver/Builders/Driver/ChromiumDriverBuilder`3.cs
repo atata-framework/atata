@@ -6,7 +6,7 @@ using OpenQA.Selenium.Chromium;
 namespace Atata;
 
 /// <summary>
-/// Represents the base class for Chromium-based web driver builder.
+/// Represents a base class for Chromium-based web driver builder.
 /// </summary>
 /// <typeparam name="TBuilder">The type of the builder.</typeparam>
 /// <typeparam name="TService">The type of the driver service.</typeparam>

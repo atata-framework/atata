@@ -1,15 +1,23 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// Represents a base class for building web driver instances.
+/// </summary>
+/// <typeparam name="TBuilder">The type of the builder.</typeparam>
 public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     where TBuilder : WebDriverBuilder<TBuilder>
 {
     private Func<IWebDriver, bool> _initialHealthCheckFunction = CheckHealthByRequestingDriverUrl;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WebDriverBuilder{TBuilder}"/> class.
+    /// </summary>
+    /// <param name="alias">The alias for the driver.</param>
     protected WebDriverBuilder(string? alias = null) =>
         Alias = alias;
 
     /// <summary>
-    /// Gets the alias.
+    /// Gets the alias of the driver.
     /// </summary>
     public string? Alias { get; private set; }
 
@@ -27,6 +35,8 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
 
     IWebDriver IWebDriverFactory.Create(ILogManager logManager)
     {
+        Guard.ThrowIfNull(logManager);
+
         int retriesLeft = CreateRetries;
 
         while (true)
@@ -36,11 +46,11 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
 
             try
             {
-                driver = CreateDriver(logManager!);
+                driver = CreateDriver(logManager);
             }
             catch (Exception exception) when (retriesLeft > 0)
             {
-                logManager!.Warn(exception, $"{creationErrorMessage} Will retry.");
+                logManager.Warn(exception, $"{creationErrorMessage} Will retry.");
                 retriesLeft--;
                 continue;
             }
@@ -62,7 +72,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
                 }
                 catch (Exception exception) when (retriesLeft > 0)
                 {
-                    logManager!.Warn(exception, healthCheckWarningMessage);
+                    logManager.Warn(exception, healthCheckWarningMessage);
                     DisposeSafely(driver);
                     retriesLeft--;
                     continue;
@@ -77,7 +87,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
                     if (retriesLeft == 0)
                         throw new WebDriverInitializationException(healthCheckErrorMessage);
 
-                    logManager!.Warn(healthCheckWarningMessage);
+                    logManager.Warn(healthCheckWarningMessage);
                     DisposeSafely(driver);
                     retriesLeft--;
                     continue;
@@ -103,7 +113,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     /// <summary>
     /// Creates the driver instance.
     /// </summary>
-    /// <param name="logManager">The log manager, which can be <see langword="null"/>.</param>
+    /// <param name="logManager">The log manager.</param>
     /// <returns>The created <see cref="IWebDriver"/> instance.</returns>
     protected abstract IWebDriver CreateDriver(ILogManager logManager);
 
@@ -163,6 +173,11 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
         return (TBuilder)this;
     }
 
+    /// <summary>
+    /// Gets a string representation of the driver service for logging purposes.
+    /// </summary>
+    /// <param name="service">The driver service.</param>
+    /// <returns>A string representation of the driver service.</returns>
     protected string GetDriverServiceStringForLog(DriverService service)
     {
         StringBuilder builder = new(service.GetType().ToStringInShortForm());
@@ -180,6 +195,11 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
         return builder.ToString();
     }
 
+    /// <summary>
+    /// Gets a string representation of the driver for logging purposes.
+    /// </summary>
+    /// <param name="driver">The web driver.</param>
+    /// <returns>A string representation of the driver.</returns>
     protected string GetDriverStringForLog(IWebDriver driver)
     {
         StringBuilder builder = new(driver.GetType().ToStringInShortForm());
@@ -213,6 +233,10 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
         return copy;
     }
 
+    /// <summary>
+    /// Called when the builder is cloned.
+    /// </summary>
+    /// <param name="copy">The cloned builder instance.</param>
     protected virtual void OnClone(TBuilder copy)
     {
     }

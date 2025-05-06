@@ -6,6 +6,9 @@ using OpenQA.Selenium.Remote;
 
 namespace Atata;
 
+/// <summary>
+/// Represents a builder for creating and configuring <see cref="RemoteWebDriver"/> instances.
+/// </summary>
 public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
 {
     /// <summary>
@@ -23,11 +26,15 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
 
     private TimeSpan? _commandTimeout;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RemoteDriverBuilder"/> class.
+    /// </summary>
     public RemoteDriverBuilder()
         : base(WebDriverAliases.Remote)
     {
     }
 
+    /// <inheritdoc/>
     protected sealed override IWebDriver CreateDriver(ILogManager logManager)
     {
         ICapabilities capabilities = CreateCapabilities();
@@ -173,7 +180,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     }
 
     /// <summary>
-    /// Adds the additional option to the driver options.
+    /// Adds an additional option to the driver options.
     /// </summary>
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
@@ -186,7 +193,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     }
 
     /// <summary>
-    /// Adds the additional browser option to the driver options.
+    /// Adds an additional browser option to the driver options.
     /// </summary>
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
