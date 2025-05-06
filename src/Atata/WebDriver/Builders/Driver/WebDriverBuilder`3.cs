@@ -52,7 +52,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
 
             logManager?.Trace($"Created {GetDriverServiceStringForLog(service)}");
 
-            var driver = CreateDriver(service, options, _commandTimeout ?? RemoteDriverBuilder.DefaultCommandTimeout);
+            var driver = CreateDriver(service, options, _commandTimeout ?? RemoteWebDriverBuilder.DefaultCommandTimeout);
 
             if (driver is not null)
                 logManager?.Trace($"Created {GetDriverStringForLog(driver)}");

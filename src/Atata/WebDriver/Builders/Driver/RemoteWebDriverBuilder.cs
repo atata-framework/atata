@@ -9,7 +9,7 @@ namespace Atata;
 /// <summary>
 /// Represents a builder for creating and configuring <see cref="RemoteWebDriver"/> instances.
 /// </summary>
-public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
+public class RemoteWebDriverBuilder : WebDriverBuilder<RemoteWebDriverBuilder>
 {
     /// <summary>
     /// The default command timeout is <c>60</c> seconds.
@@ -27,9 +27,9 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     private TimeSpan? _commandTimeout;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RemoteDriverBuilder"/> class.
+    /// Initializes a new instance of the <see cref="RemoteWebDriverBuilder"/> class.
     /// </summary>
-    public RemoteDriverBuilder()
+    public RemoteWebDriverBuilder()
         : base(WebDriverAliases.Remote)
     {
     }
@@ -72,7 +72,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
             return _capabilitiesFactory?.Invoke()
                 ?? throw new InvalidOperationException(
                     $"Type or instance of {nameof(DriverOptions)} is not set. " +
-                    $"Use one of {nameof(RemoteDriverBuilder)}.{nameof(WithOptions)} methods to set driver options type or instance.");
+                    $"Use one of {nameof(RemoteWebDriverBuilder)}.{nameof(WithOptions)} methods to set driver options type or instance.");
         }
     }
 
@@ -82,7 +82,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <param name="remoteAddress">URI containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithRemoteAddress(Uri remoteAddress)
+    public RemoteWebDriverBuilder WithRemoteAddress(Uri remoteAddress)
     {
         _remoteAddress = remoteAddress;
         return this;
@@ -94,7 +94,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <param name="remoteAddress">URI string containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithRemoteAddress(string remoteAddress)
+    public RemoteWebDriverBuilder WithRemoteAddress(string remoteAddress)
     {
         Guard.ThrowIfNullOrWhitespace(remoteAddress);
 
@@ -107,7 +107,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <typeparam name="TOptions">The type of the options.</typeparam>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithOptions<TOptions>()
+    public RemoteWebDriverBuilder WithOptions<TOptions>()
         where TOptions : DriverOptions, new()
     {
         _optionsFactory = () => new TOptions();
@@ -119,7 +119,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <param name="options">The driver options.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithOptions(DriverOptions options)
+    public RemoteWebDriverBuilder WithOptions(DriverOptions options)
     {
         Guard.ThrowIfNull(options);
 
@@ -132,7 +132,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <param name="optionsFactory">The factory method of the driver options.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithOptions(Func<DriverOptions> optionsFactory)
+    public RemoteWebDriverBuilder WithOptions(Func<DriverOptions> optionsFactory)
     {
         Guard.ThrowIfNull(optionsFactory);
 
@@ -145,7 +145,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <param name="optionsInitializer">The initialization method of the driver options.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithOptions(Action<DriverOptions> optionsInitializer)
+    public RemoteWebDriverBuilder WithOptions(Action<DriverOptions> optionsInitializer)
     {
         Guard.ThrowIfNull(optionsInitializer);
 
@@ -158,7 +158,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <param name="capabilities">The driver capabilities.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithCapabilities(ICapabilities capabilities)
+    public RemoteWebDriverBuilder WithCapabilities(ICapabilities capabilities)
     {
         Guard.ThrowIfNull(capabilities);
 
@@ -171,7 +171,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <param name="capabilitiesFactory">The factory method of the driver capabilities.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithCapabilities(Func<ICapabilities> capabilitiesFactory)
+    public RemoteWebDriverBuilder WithCapabilities(Func<ICapabilities> capabilitiesFactory)
     {
         Guard.ThrowIfNull(capabilitiesFactory);
 
@@ -185,7 +185,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder AddAdditionalOption(string optionName, object optionValue)
+    public RemoteWebDriverBuilder AddAdditionalOption(string optionName, object optionValue)
     {
         Guard.ThrowIfNullOrWhitespace(optionName);
 
@@ -198,7 +198,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
+    public RemoteWebDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
         Guard.ThrowIfNullOrWhitespace(optionName);
 
@@ -225,13 +225,13 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     /// <param name="commandTimeout">The maximum amount of time to wait for each command.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverBuilder WithCommandTimeout(TimeSpan commandTimeout)
+    public RemoteWebDriverBuilder WithCommandTimeout(TimeSpan commandTimeout)
     {
         _commandTimeout = commandTimeout;
         return this;
     }
 
-    protected override void OnClone(RemoteDriverBuilder copy)
+    protected override void OnClone(RemoteWebDriverBuilder copy)
     {
         base.OnClone(copy);
 

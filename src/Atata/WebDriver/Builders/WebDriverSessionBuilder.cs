@@ -301,10 +301,10 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// with default <see cref="WebDriverAliases.Remote"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <param name="configure">An action delegate to configure the provided <see cref="RemoteDriverBuilder"/>.</param>
+    /// <param name="configure">An action delegate to configure the provided <see cref="RemoteWebDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
-    public WebDriverSessionBuilder UseRemoteDriver(Action<RemoteDriverBuilder>? configure = null) =>
-        UseDriver(new RemoteDriverBuilder(), configure);
+    public WebDriverSessionBuilder UseRemoteDriver(Action<RemoteWebDriverBuilder>? configure = null) =>
+        UseDriver(new RemoteWebDriverBuilder(), configure);
 
     /// <summary>
     /// Configures an existing or creates a new builder for <see cref="ChromeDriver"/> by the specified alias.
@@ -409,21 +409,21 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <summary>
     /// Configures an existing or creates a new builder for <see cref="RemoteWebDriver"/> by the specified alias.
     /// </summary>
-    /// <param name="configure">An action delegate to configure the provided <see cref="RemoteDriverBuilder"/>.</param>
+    /// <param name="configure">An action delegate to configure the provided <see cref="RemoteWebDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
-    public WebDriverSessionBuilder ConfigureRemoteDriver(Action<RemoteDriverBuilder>? configure = null) =>
+    public WebDriverSessionBuilder ConfigureRemoteDriver(Action<RemoteWebDriverBuilder>? configure = null) =>
         ConfigureRemoteDriver(WebDriverAliases.Remote, configure);
 
     /// <summary>
     /// Configures an existing or creates a new builder for <see cref="RemoteWebDriver"/> by the specified alias.
     /// </summary>
     /// <param name="alias">The driver alias.</param>
-    /// <param name="configure">An action delegate to configure the provided <see cref="RemoteDriverBuilder"/>.</param>
+    /// <param name="configure">An action delegate to configure the provided <see cref="RemoteWebDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
-    public WebDriverSessionBuilder ConfigureRemoteDriver(string alias, Action<RemoteDriverBuilder>? configure = null) =>
+    public WebDriverSessionBuilder ConfigureRemoteDriver(string alias, Action<RemoteWebDriverBuilder>? configure = null) =>
         ConfigureDriver(
             alias,
-            () => new RemoteDriverBuilder().WithAlias(alias),
+            () => new RemoteWebDriverBuilder().WithAlias(alias),
             configure);
 
     /// <summary>
@@ -556,7 +556,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             {
                 edgeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }
-            else if (session.DriverFactory is RemoteDriverBuilder remoteBuilder)
+            else if (session.DriverFactory is RemoteWebDriverBuilder remoteBuilder)
             {
                 remoteBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }
