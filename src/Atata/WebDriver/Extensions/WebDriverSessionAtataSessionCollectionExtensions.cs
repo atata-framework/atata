@@ -1,5 +1,8 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// A set of extension methods for <see cref="AtataSessionCollection"/> to add <see cref="WebDriverSessionBuilder"/> session builders.
+/// </summary>
 public static class WebDriverSessionAtataSessionCollectionExtensions
 {
     /// <summary>
