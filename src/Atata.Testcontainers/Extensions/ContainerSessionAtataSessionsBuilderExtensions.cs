@@ -3,7 +3,7 @@
 namespace Atata;
 
 /// <summary>
-/// A set of extension methods for <see cref="AtataSessionsBuilder"/> to add and configure <see cref="ContainerSessionBuilder"/> session builders.
+/// A set of extension methods for <see cref="AtataSessionsBuilder"/> to add and configure <see cref="ContainerSessionBuilder"/> and <see cref="ContainerSessionBuilder{TContainer}"/> session builders.
 /// </summary>
 public static class ContainerSessionAtataSessionsBuilderExtensions
 {
