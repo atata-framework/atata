@@ -16,7 +16,9 @@ public class NUnitTestContextLogConsumer : TextOutputLogConsumer, IInitializable
     /// <param name="completeMessage">The complete log message to write.</param>
     protected override void Write(string completeMessage)
     {
-        if (TestExecutionContext.CurrentContext == _testExecutionContext)
+        var currentTestExecutionContext = TestExecutionContext.CurrentContext;
+
+        if (currentTestExecutionContext == _testExecutionContext || currentTestExecutionContext is TestExecutionContext.AdhocContext)
             _testExecutionContext.OutWriter.WriteLine(completeMessage);
     }
 
