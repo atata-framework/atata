@@ -317,6 +317,18 @@ internal sealed class LogManager : ILogManager
     private static bool IsBlockLogSection(LogSection logSection) =>
         logSection is AggregateAssertionLogSection or SetupLogSection or StepLogSection;
 
+    private static void HandleExceptionOccurredDuringLogging(Exception exception)
+    {
+        try
+        {
+            Console.WriteLine(exception.ToString());
+        }
+        catch
+        {
+            // Do nothing. Seems like the console is not available, so nowhere to log.
+        }
+    }
+
     private DynamicOuterLogNestingLevelResolver CreateDynamicNestingLevelResolver(
         Func<LogConsumerConfiguration, bool> isEnabledPredicate)
         =>
@@ -385,7 +397,14 @@ internal sealed class LogManager : ILogManager
                 eventInfo.NestingLevel = outerNestingLevel + thisNestingLevel;
                 eventInfo.NestingText = BuildNestingText(eventInfo, consumerItem);
 
-                consumerItem.Consumer.Log(eventInfo);
+                try
+                {
+                    consumerItem.Consumer.Log(eventInfo);
+                }
+                catch (Exception exception)
+                {
+                    HandleExceptionOccurredDuringLogging(exception);
+                }
             }
         }
     }
