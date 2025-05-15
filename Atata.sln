@@ -66,6 +66,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Testcontainers", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Testcontainers.IntegrationTests", "test\Atata.Testcontainers.IntegrationTests\Atata.Testcontainers.IntegrationTests.csproj", "{C55386C1-8B54-4FB9-8473-9786F27996B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.AspNetCore.v8", "src\Atata.AspNetCore.v8\Atata.AspNetCore.v8.csproj", "{AE8790D8-BD93-F1AC-99F1-ACC2D7547666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.AspNetCore.v8.IntegrationTests", "test\Atata.AspNetCore.v8.IntegrationTests\Atata.AspNetCore.v8.IntegrationTests.csproj", "{470C2CC5-CCC0-4D63-9DCA-48E1359D70AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.AspNetCore.v8.TestApp", "test\Atata.AspNetCore.v8.TestApp\Atata.AspNetCore.v8.TestApp.csproj", "{8F9934F7-B953-4117-AD8D-832D8E636F45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -156,6 +162,18 @@ Global
 		{C55386C1-8B54-4FB9-8473-9786F27996B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C55386C1-8B54-4FB9-8473-9786F27996B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C55386C1-8B54-4FB9-8473-9786F27996B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE8790D8-BD93-F1AC-99F1-ACC2D7547666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8790D8-BD93-F1AC-99F1-ACC2D7547666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8790D8-BD93-F1AC-99F1-ACC2D7547666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8790D8-BD93-F1AC-99F1-ACC2D7547666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{470C2CC5-CCC0-4D63-9DCA-48E1359D70AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{470C2CC5-CCC0-4D63-9DCA-48E1359D70AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{470C2CC5-CCC0-4D63-9DCA-48E1359D70AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{470C2CC5-CCC0-4D63-9DCA-48E1359D70AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F9934F7-B953-4117-AD8D-832D8E636F45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F9934F7-B953-4117-AD8D-832D8E636F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F9934F7-B953-4117-AD8D-832D8E636F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F9934F7-B953-4117-AD8D-832D8E636F45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
