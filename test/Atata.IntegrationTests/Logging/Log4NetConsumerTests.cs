@@ -2,7 +2,6 @@
 
 using log4net.Appender;
 using log4net.Config;
-using log4net.Core;
 using log4net.Util;
 
 namespace Atata.IntegrationTests.Logging;
@@ -100,10 +99,8 @@ public sealed class Log4NetConsumerTests : TestSuiteBase
             .WithLoggerName(InfoLoggerName));
 
         // Act // Assert
-        var exception = Assert.Throws<LogException>(() =>
-            builder.Build())!;
-
-        exception.Message.Should().Be("Repository [MissingRepository] is NOT defined.");
+        Assert.DoesNotThrow(() =>
+            builder.Build());
     }
 
     [Test]
