@@ -429,6 +429,12 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     {
     }
 
+    /// <summary>
+    /// Configures the specified <paramref name="session"/> instance with the builder's settings.
+    /// Sets up reporting, variables, state, timeouts, and event subscriptions for the session.
+    /// The method can be overridden in derived classes to provide custom configuration logic.
+    /// </summary>
+    /// <param name="session">The session to configure.</param>
     protected virtual void ConfigureSession(TSession session)
     {
         session.Report = CreateReport(session);
@@ -451,6 +457,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         session.EventBus = new EventBus(session.Context, EventSubscriptions.Items);
     }
 
+    /// <summary>
+    /// Creates a <see cref="IReport{TOwner}"/> for the specified <paramref name="session"/>.
+    /// </summary>
+    /// <param name="session">The session.</param>
+    /// <returns>An <see cref="IReport{TSession}"/> instance for the specified session.</returns>
     protected virtual IReport<TSession> CreateReport(TSession session) =>
         new Report<TSession>(session, session.ExecutionUnit);
 
@@ -471,6 +482,12 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     object ICloneable.Clone() =>
         Clone();
 
+    /// <summary>
+    /// Called when cloning the builder to create a copy.
+    /// Copies the <see cref="Variables"/>, <see cref="State"/>, and <see cref="EventSubscriptions"/> to the <paramref name="copy"/>.
+    /// Can be overridden in derived classes to provide custom cloning logic.
+    /// </summary>
+    /// <param name="copy">The builder copy to configure.</param>
     protected virtual void OnClone(TBuilder copy)
     {
         copy.Variables = new Dictionary<string, object>(Variables);
