@@ -20,7 +20,9 @@ public sealed class AtataLogger : ILogger
 
     private readonly string? _category;
 
-    public AtataLogger(AtataSession session, string sourceName, string? category = null)
+    private readonly MSLogLevel _minLogLevel;
+
+    public AtataLogger(AtataSession session, string sourceName, string? category = null, MSLogLevel minLogLevel = MSLogLevel.Trace)
     {
         Guard.ThrowIfNull(session);
         Guard.ThrowIfNullOrWhitespace(sourceName);
@@ -28,6 +30,7 @@ public sealed class AtataLogger : ILogger
         _session = session;
         _sourceName = sourceName;
         _category = category is null or [] ? null : category;
+        _minLogLevel = minLogLevel;
     }
 
     public IDisposable? BeginScope<TState>(TState state)
@@ -36,7 +39,7 @@ public sealed class AtataLogger : ILogger
         null;
 
     public bool IsEnabled(MSLogLevel logLevel) =>
-        true;
+        logLevel >= _minLogLevel;
 
     public void Log<TState>(
         MSLogLevel logLevel,
@@ -45,6 +48,9 @@ public sealed class AtataLogger : ILogger
         Exception? exception,
         Func<TState, Exception?, string> formatter)
     {
+        if (!IsEnabled(logLevel))
+            return;
+
         LogLevel atataLogLevel = ConvertToAtataLogLevel(logLevel);
         ILogManager logManager = ResolveLogManager();
         string message = formatter(state, exception);

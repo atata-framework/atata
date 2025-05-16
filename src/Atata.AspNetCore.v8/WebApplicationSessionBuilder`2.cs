@@ -30,7 +30,8 @@ public abstract class WebApplicationSessionBuilder<TSession, TBuilder> : AtataSe
     /// Gets or sets a value indicating whether to transmit application logs to Atata.
     /// The default value is <see langword="true"/>.
     /// When <see langword="true"/>, adds an <see cref="AtataLoggerProvider"/> instance,
-    /// with <see cref="SourceNameForAtataLog"/> as Atata log source,
+    /// with <see cref="SourceNameForAtataLog"/> as Atata log source
+    /// and <see cref="MinimumLogLevelForAtataLog"/> as minimum log level,
     /// to the application builder's <see cref="ILoggingBuilder"/>.
     /// </summary>
     public bool TransmitApplicationLogsToAtata { get; set; } = true;
@@ -64,6 +65,7 @@ public abstract class WebApplicationSessionBuilder<TSession, TBuilder> : AtataSe
 
     /// <summary>
     /// Gets or sets the minimum log level for Atata log.
+    /// The default value is <see cref="MSLogLevel.Trace"/>.
     /// </summary>
     public MSLogLevel MinimumLogLevelForAtataLog { get; set; }
 
@@ -181,7 +183,8 @@ public abstract class WebApplicationSessionBuilder<TSession, TBuilder> : AtataSe
     /// Sets a value indicating whether to transmit application logs to Atata.
     /// The default value is <see langword="true"/>.
     /// When <see langword="true"/>, adds an <see cref="AtataLoggerProvider"/> instance,
-    /// with <see cref="SourceNameForAtataLog"/> as Atata log source,
+    /// with <see cref="SourceNameForAtataLog"/> as Atata log source
+    /// and <see cref="MinimumLogLevelForAtataLog"/> as minimum log level,
     /// to the application builder's <see cref="ILoggingBuilder"/>.
     /// </summary>
     /// <param name="transmitLogs">Whether to transmit logs to Atata.</param>
@@ -290,7 +293,7 @@ public abstract class WebApplicationSessionBuilder<TSession, TBuilder> : AtataSe
                 loggingBuilder.SetMinimumLevel(MinimumApplicationLogLevel.Value);
 
             if (TransmitApplicationLogsToAtata)
-                loggingBuilder.AddProvider(new AtataLoggerProvider(session, SourceNameForAtataLog));
+                loggingBuilder.AddProvider(new AtataLoggerProvider(session, SourceNameForAtataLog, MinimumLogLevelForAtataLog));
 
             if (CollectApplicationLogs)
                 loggingBuilder.AddFakeLogging();
