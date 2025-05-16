@@ -158,12 +158,12 @@ public interface ILogManager
 
     /// <summary>
     /// Gets or creates another log manager with the same configuration that additionally sets
-    /// <see cref="LogEventInfo.ExternalSource"/> of a log event with
-    /// the specified <paramref name="externalSource"/>.
+    /// <see cref="LogEventInfo.Source"/> of a log event with
+    /// the specified <paramref name="source"/>.
     /// </summary>
-    /// <param name="externalSource">The external source name.</param>
-    /// <returns>An <see cref="ILogManager"/> instance for the external source.</returns>
-    ILogManager ForExternalSource(string externalSource);
+    /// <param name="source">The source name.</param>
+    /// <returns>An <see cref="ILogManager"/> instance for the source.</returns>
+    ILogManager ForSource(string source);
 
     /// <summary>
     /// Gets or creates another log manager with the same configuration that additionally sets

@@ -100,15 +100,15 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     }
 
     /// <summary>
-    /// Sets a value indicating whether external source log should be embedded
+    /// Sets a value indicating whether source log should be embedded
     /// in <see cref="AtataContext"/> log hierarchy or it should follow its own hierarchy.
     /// The default value is <see langword="false"/>.
     /// </summary>
     /// <param name="enable">Whether to enable embedding.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerBuilder<TLogConsumer> WithEmbedExternalSourceLog(bool enable)
+    public LogConsumerBuilder<TLogConsumer> WithEmbedSourceLog(bool enable)
     {
-        _configuration.ConsumerConfiguration.EmbedExternalSourceLog = enable;
+        _configuration.ConsumerConfiguration.EmbedSourceLog = enable;
         return this;
     }
 

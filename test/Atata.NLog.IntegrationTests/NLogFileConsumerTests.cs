@@ -42,16 +42,16 @@ public sealed class NLogFileConsumerTests : TestSuiteBase
     }
 
     [Test]
-    public void Log_WithExternalSource() =>
-        TestLog(x => x.ForExternalSource("Ext").Trace("Text"), "TRACE {Ext} Text");
+    public void Log_WithSource() =>
+        TestLog(x => x.ForSource("Ext").Trace("Text"), "TRACE {Ext} Text");
 
     [Test]
     public void Log_WithCategory() =>
         TestLog(x => x.ForCategory("Cat").Trace("Text"), "TRACE [Cat] Text");
 
     [Test]
-    public void Log_WithExternalSourceAndCategory() =>
-        TestLog(x => x.ForExternalSource("Ext").ForCategory("Cat").Trace("Text"), "TRACE {Ext} [Cat] Text");
+    public void Log_WithSourceAndCategory() =>
+        TestLog(x => x.ForSource("Ext").ForCategory("Cat").Trace("Text"), "TRACE {Ext} [Cat] Text");
 
     private static void WriteRandomLogMessageAndAssertItInFile(AtataContext context, string filePath)
     {

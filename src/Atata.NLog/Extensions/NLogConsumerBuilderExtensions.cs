@@ -28,7 +28,7 @@ public static class NLogConsumerBuilderExtensions
 
     /// <summary>
     /// Specifies the layout of log event.
-    /// The default value is <c>@"${event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-external-source}'!='':inner={${event-property:log-external-source}\} }${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}"</c>.
+    /// The default value is <c>@"${event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-source}'!='':inner={${event-property:log-source}\} }${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}"</c>.
     /// </summary>
     /// <remarks>
     /// If you want to replace "time elapsed" column in layout with "timestamp", you can replace the value
@@ -47,19 +47,19 @@ public static class NLogConsumerBuilderExtensions
     }
 
     /// <summary>
-    /// Specifies to use separate log files for external sources.
+    /// Specifies to use separate log files for log sources.
     /// The main log file will be "Atata.log".
-    /// External source log file will be "{external_source_name}.log", e.g., "Browser.log".
-    /// Sets <c>"${{event-property:log-external-source:whenEmpty=Atata}}.log"</c> to <see cref="NLogFileConsumer.FileNameTemplate"/>.
+    /// Source log file will be "{source}.log", e.g., "Browser.log", "App.log".
+    /// Sets <c>"${{event-property:log-source:whenEmpty=Atata}}.log"</c> to <see cref="NLogFileConsumer.FileNameTemplate"/>.
     /// Sets <c>@"${event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}"</c> to <see cref="NLogFileConsumer.Layout"/>.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same builder instance.</returns>
-    public static LogConsumerBuilder<NLogFileConsumer> WithSeparateExternalSourceLogFiles(
+    public static LogConsumerBuilder<NLogFileConsumer> WithSeparateSourceLogFiles(
         this LogConsumerBuilder<NLogFileConsumer> builder)
     {
         builder.Consumer.Layout = @"${event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}";
-        builder.Consumer.FileNameTemplate = "${{event-property:log-external-source:whenEmpty=Atata}}.log";
+        builder.Consumer.FileNameTemplate = "${{event-property:log-source:whenEmpty=Atata}}.log";
         return builder;
     }
 }

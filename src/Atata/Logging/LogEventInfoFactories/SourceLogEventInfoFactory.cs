@@ -1,27 +1,27 @@
 ﻿namespace Atata;
 
-internal sealed class ExternalSourceLogEventInfoFactory : ILogEventInfoFactory
+internal sealed class SourceLogEventInfoFactory : ILogEventInfoFactory
 {
     private readonly ILogEventInfoFactory _parentFactory;
 
-    private readonly string _externalSource;
+    private readonly string _source;
 
-    internal ExternalSourceLogEventInfoFactory(
+    internal SourceLogEventInfoFactory(
         ILogEventInfoFactory parentFactory,
-        string externalSource)
+        string source)
     {
         Guard.ThrowIfNull(parentFactory);
-        Guard.ThrowIfNullOrWhitespace(externalSource);
+        Guard.ThrowIfNullOrWhitespace(source);
 
         _parentFactory = parentFactory;
-        _externalSource = externalSource;
+        _source = source;
     }
 
     public LogEventInfo Create(DateTime timestamp, LogLevel level, string? message)
     {
         var eventInfo = _parentFactory.Create(timestamp, level, message);
 
-        eventInfo.ExternalSource = _externalSource;
+        eventInfo.Source = _source;
 
         return eventInfo;
     }

@@ -15,9 +15,9 @@ public sealed class TextOutputLogConsumerTests : TestSuiteBase
     }
 
     [Test]
-    public void Log_WithExternalSource()
+    public void Log_WithSource()
     {
-        CurrentContext.Log.ForExternalSource("Ext").Trace("Text");
+        CurrentContext.Log.ForSource("Ext").Trace("Text");
 
         _logLines[^1].Should().EndWith("TRACE {Ext} Text");
     }
@@ -31,17 +31,17 @@ public sealed class TextOutputLogConsumerTests : TestSuiteBase
     }
 
     [Test]
-    public void Log_WithExternalSourceAndCategory()
+    public void Log_WithSourceAndCategory()
     {
-        CurrentContext.Log.ForExternalSource("Ext").ForCategory("Cat").Trace("Text");
+        CurrentContext.Log.ForSource("Ext").ForCategory("Cat").Trace("Text");
 
         _logLines[^1].Should().EndWith("TRACE {Ext} [Cat] Text");
     }
 
     [Test]
-    public void Log_WithCategoryAndExternalSource()
+    public void Log_WithCategoryAndSource()
     {
-        CurrentContext.Log.ForCategory("Cat").ForExternalSource("Ext").Trace("Text");
+        CurrentContext.Log.ForCategory("Cat").ForSource("Ext").Trace("Text");
 
         _logLines[^1].Should().EndWith("TRACE {Ext} [Cat] Text");
     }

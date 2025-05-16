@@ -65,16 +65,16 @@ public class TextOutputLogConsumer : ILogConsumer
             .Append(Separator)
             .Append(eventInfo.NestingText);
 
-        bool hasExternalSource = eventInfo.ExternalSource?.Length > 0;
+        bool hasSource = eventInfo.Source?.Length > 0;
 
-        if (hasExternalSource)
-            builder.AppendFormat("{{{0}}}", eventInfo.ExternalSource);
+        if (hasSource)
+            builder.AppendFormat("{{{0}}}", eventInfo.Source);
 
         bool hasCategory = eventInfo.Category?.Length > 0;
 
         if (hasCategory)
         {
-            if (hasExternalSource)
+            if (hasSource)
                 builder.Append(Separator);
 
             builder.AppendFormat("[{0}]", eventInfo.Category);
@@ -84,7 +84,7 @@ public class TextOutputLogConsumer : ILogConsumer
 
         if (hasMessage)
         {
-            if (hasCategory || hasExternalSource)
+            if (hasCategory || hasSource)
                 builder.Append(Separator);
 
             builder.Append(eventInfo.Message);
@@ -92,7 +92,7 @@ public class TextOutputLogConsumer : ILogConsumer
 
         if (eventInfo.Exception != null)
         {
-            if (hasMessage || hasCategory || hasExternalSource)
+            if (hasMessage || hasCategory || hasSource)
                 builder.Append(Separator);
 
             builder.Append(eventInfo.Exception.ToString());

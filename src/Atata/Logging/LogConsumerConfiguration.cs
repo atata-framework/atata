@@ -93,11 +93,11 @@ public sealed class LogConsumerConfiguration : ICloneable
     public bool EmbedSessionLog { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether external source log should be embedded
+    /// Gets or sets a value indicating whether source log should be embedded
     /// in <see cref="AtataContext"/> log hierarchy or it should follow its own hierarchy.
     /// The default value is <see langword="false"/>.
     /// </summary>
-    public bool EmbedExternalSourceLog { get; set; }
+    public bool EmbedSourceLog { get; set; }
 
     /// <summary>
     /// Creates a new object that is a copy of the current instance.

@@ -35,10 +35,10 @@ public sealed class LogEventInfo
     public string? Category { get; internal set; }
 
     /// <summary>
-    /// Gets the external source.
+    /// Gets the source name.
     /// Can be <see langword="null"/> by default.
     /// </summary>
-    public string? ExternalSource { get; internal set; }
+    public string? Source { get; internal set; }
 
     /// <summary>
     /// Gets the timestamp of the logging event.
@@ -86,7 +86,7 @@ public sealed class LogEventInfo
     public string? NestingText { get; internal set; }
 
     /// <summary>
-    /// Gets the properties, which includes "log-external-source", "log-category",
+    /// Gets the properties, which includes "time-elapsed", "log-nesting-text", "log-source", "log-category",
     /// and the variables of <see cref="Session"/>/<see cref="Context"/>.
     /// </summary>
     /// <returns>The properties.</returns>
@@ -104,8 +104,8 @@ public sealed class LogEventInfo
             if (NestingText?.Length > 0)
                 yield return new("log-nesting-text", NestingText);
 
-            if (ExternalSource?.Length > 0)
-                yield return new("log-external-source", ExternalSource);
+            if (Source?.Length > 0)
+                yield return new("log-source", Source);
 
             if (Category?.Length > 0)
                 yield return new("log-category", Category);

@@ -4,13 +4,8 @@
 /// Provides an implementation of <see cref="ILogger"/> that integrates Atata logging with Microsoft logging infrastructure.
 /// </summary>
 /// <remarks>
-/// <para>
 /// The <see cref="AtataLogger"/> class adapts Atata's <see cref="ILogManager"/> to the <see cref="ILogger"/> interface,
 /// allowing log messages from Microsoft.Extensions.Logging to be routed to Atata's logging system.
-/// </para>
-/// <para>
-/// It supports external source and category filtering, and converts Microsoft log levels to Atata log levels.
-/// </para>
 /// </remarks>
 public sealed class AtataLogger : ILogger
 {
@@ -72,7 +67,7 @@ public sealed class AtataLogger : ILogger
 
     private ILogManager ResolveLogManager()
     {
-        var logManager = _session.Log.ForExternalSource(_sourceName);
+        var logManager = _session.Log.ForSource(_sourceName);
 
         return _category is null
             ? logManager

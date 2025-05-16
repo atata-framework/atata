@@ -9,7 +9,7 @@ internal sealed class LogManager : ILogManager
 
     private readonly ILogEventInfoFactory _logEventInfoFactory;
 
-    private readonly Lazy<ConcurrentDictionary<string, ILogManager>> _lazyExternalSourceLogManagerMap = new();
+    private readonly Lazy<ConcurrentDictionary<string, ILogManager>> _lazySourceLogManagerMap = new();
 
     private readonly Lazy<ConcurrentDictionary<string, ILogManager>> _lazyCategoryLogManagerMap = new();
 
@@ -192,16 +192,16 @@ internal sealed class LogManager : ILogManager
             new AtataSessionLogEventInfoFactory(_logEventInfoFactory, session),
             CreateDynamicNestingLevelResolver(x => x.EmbedSessionLog));
 
-    public ILogManager ForExternalSource(string externalSource)
+    public ILogManager ForSource(string source)
     {
-        Guard.ThrowIfNullOrWhitespace(externalSource);
+        Guard.ThrowIfNullOrWhitespace(source);
 
-        return _lazyExternalSourceLogManagerMap.Value.GetOrAdd(
-            externalSource,
+        return _lazySourceLogManagerMap.Value.GetOrAdd(
+            source,
             x => new LogManager(
                 _configuration,
-                new ExternalSourceLogEventInfoFactory(_logEventInfoFactory, x),
-                CreateDynamicNestingLevelResolver(x => x.EmbedExternalSourceLog)));
+                new SourceLogEventInfoFactory(_logEventInfoFactory, x),
+                CreateDynamicNestingLevelResolver(x => x.EmbedSourceLog)));
     }
 
     public ILogManager ForCategory(string category)

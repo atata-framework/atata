@@ -81,23 +81,23 @@ public partial class WebDriverSessionBuilderTests
             var logRecords = CurrentLog.GetSnapshot();
             logRecords.Should().ContainSingle(
                 x => x.Level == LogLevel.Debug &&
-                x.ExternalSource == "Browser" &&
+                x.Source == "Browser" &&
                 x.Message!.Contains("console debug log entry"));
             logRecords.Should().ContainSingle(
                 x => x.Level == LogLevel.Info &&
-                x.ExternalSource == "Browser" &&
+                x.Source == "Browser" &&
                 x.Message!.Contains("console info log entry"));
             logRecords.Should().ContainSingle(
                 x => x.Level == LogLevel.Warn &&
-                x.ExternalSource == "Browser" &&
+                x.Source == "Browser" &&
                 x.Message!.Contains("console warn log entry"));
             logRecords.Should().ContainSingle(
                 x => x.Level == LogLevel.Error &&
-                x.ExternalSource == "Browser" &&
+                x.Source == "Browser" &&
                 x.Message!.Contains("console error log entry"));
             logRecords.Should().ContainSingle(
                 x => x.Level == LogLevel.Error &&
-                x.ExternalSource == "Browser" &&
+                x.Source == "Browser" &&
                 x.Message!.Contains("thrown error"));
         }
     }

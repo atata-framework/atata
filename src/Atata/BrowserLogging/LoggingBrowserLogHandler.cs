@@ -10,6 +10,6 @@ internal sealed class LoggingBrowserLogHandler : IBrowserLogHandler
         _session = session;
 
     public void Handle(BrowserLogEntry entry) =>
-        _session.Log?.ForExternalSource(LogSourceName)
+        _session.Log?.ForSource(LogSourceName)
             .Log(entry.UtcTimestamp, entry.Level, entry.Message);
 }

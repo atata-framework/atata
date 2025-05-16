@@ -182,16 +182,16 @@ public class LogManagerTests
     }
 
     [Test]
-    public void ForExternalSource_WhenConsumerEmbedExternalSourceLogIsTrue()
+    public void ForSource_WhenConsumerEmbedSourceLogIsTrue()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedExternalSourceLog = true }]);
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedSourceLog = true }]);
         const string sourceName = "src1";
 
         sut.ExecuteSection(
             "root section",
             () =>
             {
-                var subSut1 = sut.ForExternalSource(sourceName);
+                var subSut1 = sut.ForSource(sourceName);
                 LogStepSectionWithTraceSubSectionContainingTraceAndInfo(subSut1);
 
                 var subSut2 = subSut1.ForCategory("cat1");
@@ -199,28 +199,28 @@ public class LogManagerTests
             });
 
         _consumerSpy.CollectedEvents.Should.ConsistSequentiallyOf(
-            x => x.NestingText == "> " && x.Message == "root section" && x.ExternalSource == null,
-            x => x.NestingText == "- > " && x.Message == "step section" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- - > " && x.Message == "trace sub-section" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- - - " && x.Message == "inner info message" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- - - " && x.Message == "inner trace message" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- - < " && x.Message!.StartsWith("trace sub-section (") && x.ExternalSource == sourceName,
-            x => x.NestingText == "- < " && x.Message!.StartsWith("step section (") && x.ExternalSource == sourceName,
-            x => x.NestingText == "- " && x.Message == "trace for sub-category" && x.ExternalSource == sourceName && x.Category == "cat1",
-            x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.ExternalSource == null);
+            x => x.NestingText == "> " && x.Message == "root section" && x.Source == null,
+            x => x.NestingText == "- > " && x.Message == "step section" && x.Source == sourceName,
+            x => x.NestingText == "- - > " && x.Message == "trace sub-section" && x.Source == sourceName,
+            x => x.NestingText == "- - - " && x.Message == "inner info message" && x.Source == sourceName,
+            x => x.NestingText == "- - - " && x.Message == "inner trace message" && x.Source == sourceName,
+            x => x.NestingText == "- - < " && x.Message!.StartsWith("trace sub-section (") && x.Source == sourceName,
+            x => x.NestingText == "- < " && x.Message!.StartsWith("step section (") && x.Source == sourceName,
+            x => x.NestingText == "- " && x.Message == "trace for sub-category" && x.Source == sourceName && x.Category == "cat1",
+            x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.Source == null);
     }
 
     [Test]
-    public void ForExternalSource_WhenConsumerEmbedExternalSourceLogIsFalse()
+    public void ForSource_WhenConsumerEmbedSourceLogIsFalse()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedExternalSourceLog = false }]);
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedSourceLog = false }]);
         const string sourceName = "src1";
 
         sut.ExecuteSection(
             "root section",
             () =>
             {
-                var subSut1 = sut.ForExternalSource(sourceName);
+                var subSut1 = sut.ForSource(sourceName);
                 LogStepSectionWithTraceSubSectionContainingTraceAndInfo(subSut1);
 
                 subSut1.ForCategory("cat1")
@@ -231,16 +231,16 @@ public class LogManagerTests
             });
 
         _consumerSpy.CollectedEvents.Should.ConsistSequentiallyOf(
-            x => x.NestingText == "> " && x.Message == "root section" && x.ExternalSource == null,
-            x => x.NestingText == "> " && x.Message == "step section" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- > " && x.Message == "trace sub-section" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- - " && x.Message == "inner info message" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- - " && x.Message == "inner trace message" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- < " && x.Message!.StartsWith("trace sub-section (") && x.ExternalSource == sourceName,
-            x => x.NestingText == "< " && x.Message!.StartsWith("step section (") && x.ExternalSource == sourceName,
-            x => x.NestingText == null && x.Message == "trace ext" && x.ExternalSource == sourceName && x.Category == "cat1",
-            x => x.NestingText == "- " && x.Message == "trace non-ext" && x.ExternalSource == null && x.Category == "cat2",
-            x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.ExternalSource == null);
+            x => x.NestingText == "> " && x.Message == "root section" && x.Source == null,
+            x => x.NestingText == "> " && x.Message == "step section" && x.Source == sourceName,
+            x => x.NestingText == "- > " && x.Message == "trace sub-section" && x.Source == sourceName,
+            x => x.NestingText == "- - " && x.Message == "inner info message" && x.Source == sourceName,
+            x => x.NestingText == "- - " && x.Message == "inner trace message" && x.Source == sourceName,
+            x => x.NestingText == "- < " && x.Message!.StartsWith("trace sub-section (") && x.Source == sourceName,
+            x => x.NestingText == "< " && x.Message!.StartsWith("step section (") && x.Source == sourceName,
+            x => x.NestingText == null && x.Message == "trace ext" && x.Source == sourceName && x.Category == "cat1",
+            x => x.NestingText == "- " && x.Message == "trace non-ext" && x.Source == null && x.Category == "cat2",
+            x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.Source == null);
     }
 
     [Test]
