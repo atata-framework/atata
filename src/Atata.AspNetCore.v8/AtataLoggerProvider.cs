@@ -2,6 +2,9 @@
 
 namespace Atata.AspNetCore;
 
+/// <summary>
+/// Provides an implementation of <see cref="ILoggerProvider"/> that integrates Atata logging with the Microsoft logging infrastructure.
+/// </summary>
 public sealed class AtataLoggerProvider : ILoggerProvider
 {
     private readonly AtataSession _session;
