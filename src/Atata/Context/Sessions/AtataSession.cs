@@ -234,6 +234,10 @@ public abstract class AtataSession : IAsyncDisposable
     public void RaiseAssertionWarning(string message, Exception? exception = null) =>
         ExpectationVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
+    /// <summary>
+    /// Asynchronously disposes the session and releases all associated resources.
+    /// </summary>
+    /// <returns>A <see cref="ValueTask"/> object.</returns>
     public async ValueTask DisposeAsync()
     {
         if (!_isDisposed)
@@ -285,6 +289,10 @@ public abstract class AtataSession : IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Performs disposal logic for the session.
+    /// </summary>
+    /// <returns>A <see cref="ValueTask"/> object.</returns>
     protected virtual ValueTask DisposeAsyncCore()
     {
         Context.Sessions.Remove(this);
