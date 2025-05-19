@@ -9,24 +9,24 @@ public class ReportTests : WebDriverSessionTestSuite
         var fatalException = new InvalidOperationException("fatal");
 
         Go.To<OrdinaryPage>()
-            .Report.Trace("tracemessage")
-            .Report.Debug("debugmessage")
-            .Report.Info("infomessage")
-            .Report.Warn("warnmessage")
+            .Report.Trace("trace message")
+            .Report.Debug("debug message")
+            .Report.Info("informational message")
+            .Report.Warn("warning message")
             .Report.Error(errorException)
-            .Report.Error(errorException, "errormessage")
+            .Report.Error(errorException, "error message")
             .Report.Fatal(fatalException)
-            .Report.Fatal(fatalException, "fatalmessage");
+            .Report.Fatal(fatalException, "fatal message");
 
         VerifyLastLogEntries(
-            (LogLevel.Trace, "tracemessage", null),
-            (LogLevel.Debug, "debugmessage", null),
-            (LogLevel.Info, "infomessage", null),
-            (LogLevel.Warn, "warnmessage", null),
+            (LogLevel.Trace, "trace message", null),
+            (LogLevel.Debug, "debug message", null),
+            (LogLevel.Info, "informational message", null),
+            (LogLevel.Warn, "warning message", null),
             (LogLevel.Error, null, errorException),
-            (LogLevel.Error, "errormessage", errorException),
+            (LogLevel.Error, "error message", errorException),
             (LogLevel.Fatal, null, fatalException),
-            (LogLevel.Fatal, "fatalmessage", fatalException));
+            (LogLevel.Fatal, "fatal message", fatalException));
     }
 
     [Test]
