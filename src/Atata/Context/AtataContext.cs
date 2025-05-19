@@ -26,6 +26,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     private readonly Lazy<string> _lazyStringRepresentation;
 
+    private readonly Lazy<string> _lazyShortStringRepresentation;
+
     private readonly AddOnlyList<AtataContext> _childContexts = [];
 
     private Status _status;
@@ -33,6 +35,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     internal AtataContext(AtataContext? parentContext, AtataContextScope? scope, TestInfo testInfo)
     {
         _lazyStringRepresentation = new(ToStringCore, LazyThreadSafetyMode.None);
+        _lazyShortStringRepresentation = new(ToShortStringCore, LazyThreadSafetyMode.None);
 
         ParentContext = parentContext;
         Scope = scope;
@@ -1022,7 +1025,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         List<Exception> exceptions = [];
 
         await Log.ExecuteSectionAsync(
-            new LogSection("Deinitialize AtataContext", LogLevel.Trace),
+            new LogSection($"Deinitialize {ToShortString()}", LogLevel.Trace),
             async () =>
             {
                 try
@@ -1243,13 +1246,15 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     public override string ToString() =>
         _lazyStringRepresentation.Value;
 
+    internal string ToShortString() =>
+        _lazyShortStringRepresentation.Value;
+
     private static string ConvertDateTimeToString(DateTime dateTime) =>
         dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
 
     private string ToStringCore()
     {
-        var builder = new StringBuilder(nameof(AtataContext))
-            .Append(" { Id=")
+        var builder = new StringBuilder("AtataContext { Id=")
             .Append(Id);
 
         if (Test.FullName is not null)
@@ -1260,4 +1265,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         return builder.ToString();
     }
+
+    private string ToShortStringCore() =>
+        $"AtataContext {{ Id={Id} }}";
 }

@@ -728,7 +728,7 @@ public sealed class AtataContextBuilder : ICloneable
         try
         {
             await context.Log.ExecuteSectionAsync(
-                new LogSection("Initialize AtataContext", LogLevel.Trace),
+                new LogSection($"Initialize {context.ToShortString()}", LogLevel.Trace),
                 async () => await DoInitializeContextAsync(context, cancellationToken).ConfigureAwait(false))
                 .ConfigureAwait(false);
         }
