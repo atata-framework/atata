@@ -286,6 +286,10 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             {
                 Out($"ref {memberExpression.Member.Name}");
             }
+            else
+            {
+                Visit(argumentExpression);
+            }
         }
         else if (argumentExpression is ParameterExpression parameterExpression && parameter.ParameterType.IsByRef)
         {

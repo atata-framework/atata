@@ -86,6 +86,8 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => x.Item.Attributes.Checked == null");
         TestPredicate(x => x.Item.Attributes.Checked == nullableBoolIsTrue)
             .Returns("x => x.Item.Attributes.Checked == true");
+        TestPredicate(x => x.Item.Attributes.GetValue<int>(itemName) == 0)
+            .Returns("x => x.Item.Attributes.GetValue<int>(\"VarStr\") == 0");
 
         // Indexer:
         string[] itemArray = ["item"];
