@@ -61,8 +61,9 @@ public class WebApplicationSession : AtataSession
         CreateDefaultClientWithBaseAddressFunction.Invoke(baseAddress, handlers);
 
     /// <inheritdoc/>
-    protected override Task StartAsync(CancellationToken cancellationToken) =>
-        Task.Run(() => StartAction.Invoke(this), cancellationToken);
+    protected override async Task StartAsync(CancellationToken cancellationToken) =>
+        await Task.Run(DoStart, cancellationToken)
+            .ConfigureAwait(false);
 
     /// <summary>
     /// Configures the web host builder for the session.
@@ -82,6 +83,9 @@ public class WebApplicationSession : AtataSession
             await WebApplicationFactoryToDispose.DisposeAsync()
                 .ConfigureAwait(false);
     }
+
+    private void DoStart() =>
+        StartAction.Invoke(this);
 
     private FakeLogCollector? ResolveFakeLogCollector() =>
         Services.GetService<FakeLogCollector>();
