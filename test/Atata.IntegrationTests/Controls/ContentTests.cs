@@ -96,7 +96,7 @@ public class ContentTests : WebDriverSessionTestSuite
     }
 
     [Test]
-    [Platform(Exclude = Platforms.MacOS)]
+    [Platform(Exclude = Platforms.Linux)]
     public void DateTime()
     {
         VerifyEquals(_page.DateTime, new DateTime(2016, 5, 15, 13, 45, 0));
@@ -107,7 +107,7 @@ public class ContentTests : WebDriverSessionTestSuite
     }
 
     [Test]
-    [Platform(Exclude = Platforms.MacOS)]
+    [Platform(Exclude = Platforms.Linux)]
     public void DateTime_WithStandardFormat() =>
         VerifyEquals(_page.DateTimeWithFormat, new DateTime(2009, 6, 15, 13, 45, 0));
 
