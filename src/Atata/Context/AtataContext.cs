@@ -792,7 +792,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     private FileSubject DoAddArtifact(string relativeFilePath, in AddArtifactOptions options, Action<string> fileSaveAction)
     {
-        if (options.PrependNumberToFileName)
+        if (options.PrependArtifactNumberToFileName)
             relativeFilePath = $"{Interlocked.Increment(ref _artifactNumber):D3}-{relativeFilePath}";
 
         string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);

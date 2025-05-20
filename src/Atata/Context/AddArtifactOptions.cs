@@ -22,5 +22,5 @@ public readonly struct AddArtifactOptions
     /// Gets a value indicating whether to prepend artifact number to file name in a form of "001-{file name}".
     /// The default value is <see langword="false"/>.
     /// </summary>
-    public bool PrependNumberToFileName { get; init; }
+    public bool PrependArtifactNumberToFileName { get; init; }
 }
