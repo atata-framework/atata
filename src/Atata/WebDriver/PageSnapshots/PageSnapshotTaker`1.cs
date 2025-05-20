@@ -37,7 +37,14 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
                     FileContentWithExtension fileContent = _snapshotStrategy.TakeSnapshot(_session);
                     string filePath = FormatFilePath(title);
 
-                    return _session.Context.AddArtifact(filePath, fileContent, ArtifactTypes.PageSnapshot);
+                    return _session.Context.AddArtifact(
+                        filePath,
+                        fileContent,
+                        new()
+                        {
+                            ArtifactType = ArtifactTypes.PageSnapshot,
+                            ArtifactTitle = title,
+                        });
                 });
         }
         catch (Exception exception)

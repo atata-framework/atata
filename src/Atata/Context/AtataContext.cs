@@ -32,6 +32,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     private Status _status;
 
+    private int _artifactNumber;
+
     internal AtataContext(AtataContext? parentContext, AtataContextScope? scope, TestInfo testInfo)
     {
         _lazyStringRepresentation = new(ToStringCore, LazyThreadSafetyMode.None);
@@ -688,22 +690,19 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="relativeFilePathWithoutExtension">The relative file path without extension.</param>
     /// <param name="fileContentWithExtension">The file content with extension.</param>
-    /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
-    /// <param name="artifactTitle">The artifact title.</param>
+    /// <param name="options">The artifact adding options.</param>
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
-    public FileSubject AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, string? artifactType = null, string? artifactTitle = null)
+    public FileSubject AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, in AddArtifactOptions options = default)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePathWithoutExtension);
         Guard.ThrowIfNull(fileContentWithExtension);
 
         string relativeFilePath = relativeFilePathWithoutExtension + fileContentWithExtension.Extension;
-        string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
 
-        fileContentWithExtension.Save(absoluteFilePath);
-
-        EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
-
-        return Artifacts.Files[relativeFilePath];
+        return DoAddArtifact(
+            relativeFilePath,
+            options,
+            fileContentWithExtension.Save);
     }
 
     /// <summary>
@@ -711,21 +710,18 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="relativeFilePath">The relative file path.</param>
     /// <param name="fileBytes">The file bytes.</param>
-    /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
-    /// <param name="artifactTitle">The artifact title.</param>
+    /// <param name="options">The artifact adding options.</param>
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
-    public FileSubject AddArtifact(string relativeFilePath, byte[] fileBytes, string? artifactType = null, string? artifactTitle = null)
+    public FileSubject AddArtifact(string relativeFilePath, byte[] fileBytes, in AddArtifactOptions options = default)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileBytes);
 
-        string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
-
-        File.WriteAllBytes(absoluteFilePath, fileBytes);
-
-        EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
-
-        return Artifacts.Files[relativeFilePath];
+        return DoAddArtifact(
+            relativeFilePath,
+            options,
+            absoluteFilePath =>
+                File.WriteAllBytes(absoluteFilePath, fileBytes));
     }
 
     /// <summary>
@@ -733,21 +729,18 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="relativeFilePath">The relative file path.</param>
     /// <param name="fileContent">Content of the file.</param>
-    /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
-    /// <param name="artifactTitle">The artifact title.</param>
+    /// <param name="options">The artifact adding options.</param>
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
-    public FileSubject AddArtifact(string relativeFilePath, string fileContent, string? artifactType = null, string? artifactTitle = null)
+    public FileSubject AddArtifact(string relativeFilePath, string fileContent, in AddArtifactOptions options = default)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileContent);
 
-        string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
-
-        File.WriteAllText(absoluteFilePath, fileContent);
-
-        EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
-
-        return Artifacts.Files[relativeFilePath];
+        return DoAddArtifact(
+            relativeFilePath,
+            options,
+            absoluteFilePath =>
+                File.WriteAllText(absoluteFilePath, fileContent));
     }
 
     /// <summary>
@@ -756,24 +749,23 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="relativeFilePath">The relative file path.</param>
     /// <param name="fileContent">Content of the file.</param>
     /// <param name="encoding">The encoding. Can be <see langword="null"/>.</param>
-    /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
-    /// <param name="artifactTitle">The artifact title.</param>
+    /// <param name="options">The artifact adding options.</param>
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
-    public FileSubject AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, string? artifactType = null, string? artifactTitle = null)
+    public FileSubject AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, in AddArtifactOptions options = default)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileContent);
 
-        string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
-
-        if (encoding is null)
-            File.WriteAllText(absoluteFilePath, fileContent);
-        else
-            File.WriteAllText(absoluteFilePath, fileContent, encoding);
-
-        EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
-
-        return Artifacts.Files[relativeFilePath];
+        return DoAddArtifact(
+            relativeFilePath,
+            options,
+            absoluteFilePath =>
+            {
+                if (encoding is null)
+                    File.WriteAllText(absoluteFilePath, fileContent);
+                else
+                    File.WriteAllText(absoluteFilePath, fileContent, encoding);
+            });
     }
 
     /// <summary>
@@ -781,20 +773,33 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="relativeFilePath">The relative file path.</param>
     /// <param name="stream">The stream to write to the file.</param>
-    /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
-    /// <param name="artifactTitle">The artifact title.</param>
+    /// <param name="options">The artifact adding options.</param>
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
-    public FileSubject AddArtifact(string relativeFilePath, Stream stream, string? artifactType = null, string? artifactTitle = null)
+    public FileSubject AddArtifact(string relativeFilePath, Stream stream, in AddArtifactOptions options = default)
     {
         Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(stream);
 
+        return DoAddArtifact(
+            relativeFilePath,
+            options,
+            absoluteFilePath =>
+            {
+                using FileStream source = File.Create(absoluteFilePath);
+                stream.CopyTo(source);
+            });
+    }
+
+    private FileSubject DoAddArtifact(string relativeFilePath, in AddArtifactOptions options, Action<string> fileSaveAction)
+    {
+        if (options.PrependNumberToFileName)
+            relativeFilePath = $"{Interlocked.Increment(ref _artifactNumber):D3}-{relativeFilePath}";
+
         string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
 
-        using (FileStream source = File.Create(absoluteFilePath))
-            stream.CopyTo(source);
+        fileSaveAction.Invoke(absoluteFilePath);
 
-        EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+        EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, options.ArtifactType, options.ArtifactTitle));
 
         return Artifacts.Files[relativeFilePath];
     }

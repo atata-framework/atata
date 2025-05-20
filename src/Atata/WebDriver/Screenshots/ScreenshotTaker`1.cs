@@ -56,7 +56,14 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
                     FileContentWithExtension fileContent = strategy.TakeScreenshot(_session);
                     string filePath = FormatFilePath(title);
 
-                    return _session.Context.AddArtifact(filePath, fileContent, ArtifactTypes.Screenshot);
+                    return _session.Context.AddArtifact(
+                        filePath,
+                        fileContent,
+                        new()
+                        {
+                            ArtifactType = ArtifactTypes.Screenshot,
+                            ArtifactTitle = title
+                        });
                 });
         }
         catch (Exception exception)

@@ -58,23 +58,23 @@ public static class AtataContextTests
 
         [Test]
         public void WithNullAsRelativeFilePath() =>
-            _sut.Invoking(x => x.AddArtifact(null!, "...", null, null))
+            _sut.Invoking(x => x.AddArtifact(null!, "..."), "AddArtifact(null!, \"...\")")
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
         public void WithNullAsFileContent() =>
-            _sut.Invoking(x => x.AddArtifact("a.txt", (null as string)!, null, null))
+            _sut.Invoking(x => x.AddArtifact("a.txt", (null as string)!), "AddArtifact(\"a.txt\", (null as string)!)")
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
         public void WithFileContent() =>
-            _sut.Act(x => x.AddArtifact("b.txt", "123", null, null))
+            _sut.Act(x => x.AddArtifact("b.txt", "123"), "AddArtifact(...)")
                 .Object.Artifacts.Files["b.txt"].Should.Exist()
                     .ReadAllText().Should.Be("123");
 
         [Test]
         public void WithFileBytes() =>
-            _sut.Act(x => x.AddArtifact("c.txt", Encoding.UTF8.GetBytes("abc"), null, null))
+            _sut.Act(x => x.AddArtifact("c.txt", Encoding.UTF8.GetBytes("abc")), "AddArtifact(...)")
                 .Object.Artifacts.Files["c.txt"].Should.Exist()
                     .ReadAllText().Should.Be("abc");
 
@@ -83,21 +83,21 @@ public static class AtataContextTests
         {
             using var stream = new MemoryStream(Encoding.UTF8.GetBytes("xyz"));
 
-            _sut.Act(x => x.AddArtifact("d.txt", stream, null, null))
+            _sut.Act(x => x.AddArtifact("d.txt", stream), "AddArtifact(\"d.txt\", stream)")
                 .Object.Artifacts.Files["d.txt"].Should.Exist()
                     .ReadAllText().Should.Be("xyz");
         }
 
         [Test]
         public void WithFileContentWithExtension() =>
-            _sut.Act(x => x.AddArtifact("e", FileContentWithExtension.CreateFromText("qwe", ".txt"), null, null))
+            _sut.Act(x => x.AddArtifact("e", FileContentWithExtension.CreateFromText("qwe", ".txt")), "AddArtifact(...)")
                 .Object.Artifacts.Files["e.txt"].Should.Exist()
                     .ReadAllText().Should.Be("qwe");
 
         [TestCase("a/b.txt")]
         [TestCase("a/b/c.txt")]
         public void WithRelativeFilePath(string relativeFilePath) =>
-            _sut.Act(x => x.AddArtifact(relativeFilePath, "123", null, null))
+            _sut.Act(x => x.AddArtifact(relativeFilePath, "123"), "AddArtifact(...)")
                 .Object.Artifacts.Files[relativeFilePath].Should.Exist()
                     .ReadAllText().Should.Be("123");
 
@@ -107,7 +107,7 @@ public static class AtataContextTests
             var handlerActionMock = new Mock<Action<ArtifactAddedEvent>>();
             _sut.Object.EventBus.Subscribe(handlerActionMock.Object);
 
-            _sut.Act(x => x.AddArtifact("f/g.txt", "123", "art type", "art title"));
+            _sut.Act(x => x.AddArtifact("f/g.txt", "123", new() { ArtifactType = "art type", ArtifactTitle = "art title" }), "AddArtifact(...)");
 
             handlerActionMock.Verify(
                 action => action(It.Is<ArtifactAddedEvent>(ev =>

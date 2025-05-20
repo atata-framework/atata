@@ -60,7 +60,7 @@ public class ContainerSession<TContainer> : AtataSession
             async () =>
             {
                 byte[] fileBytes = await Container.ReadFileAsync(containerFilePath, cancellationToken).ConfigureAwait(false);
-                return Context.AddArtifact(destinationFileName, fileBytes, artifactType, artifactTitle);
+                return Context.AddArtifact(destinationFileName, fileBytes, new() { ArtifactType = artifactType, ArtifactTitle = artifactTitle });
             })
             .ConfigureAwait(false);
     }
@@ -130,6 +130,6 @@ public class ContainerSession<TContainer> : AtataSession
     private void SaveLogToArtifacts(string fileNameTemplate, string content)
     {
         string fileName = Variables.FillPathTemplateString(fileNameTemplate);
-        Context.AddArtifact(fileName, content, ArtifactTypes.Log);
+        Context.AddArtifact(fileName, content, new() { ArtifactType = ArtifactTypes.Log });
     }
 }
