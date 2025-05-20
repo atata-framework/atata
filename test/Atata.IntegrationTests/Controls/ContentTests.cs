@@ -78,44 +78,44 @@ public class ContentTests : WebDriverSessionTestSuite
     [Test]
     public void Date()
     {
-        VerifyEquals(_page.Date, new DateTime(2016, 5, 15));
+        VerifyEquals(_page.Date, new(2016, 5, 15));
         VerifyEquals(_page.DateNull, null);
         _page.DateNull.Content.Should.Be(string.Empty);
 
-        VerifyEquals(_page.DateWithFormat, new DateTime(2016, 6, 15));
+        VerifyEquals(_page.DateWithFormat, new(2016, 6, 15));
     }
 
     [Test]
     public void Time()
     {
-        VerifyEquals(_page.Time, new TimeSpan(17, 15, 0));
+        VerifyEquals(_page.Time, new(17, 15, 0));
         VerifyEquals(_page.TimeNull, null);
         _page.TimeNull.Content.Should.Be(string.Empty);
 
-        VerifyEquals(_page.TimeOfDay, new TimeSpan(14, 45, 0));
+        VerifyEquals(_page.TimeOfDay, new(14, 45, 0));
     }
 
     [Test]
     [Platform(Exclude = Platforms.Linux)]
     public void DateTime()
     {
-        VerifyEquals(_page.DateTime, new DateTime(2016, 5, 15, 13, 45, 0));
+        VerifyEquals(_page.DateTime, new(2016, 5, 15, 13, 45, 0));
 
-        _page.DateTime.Should.EqualDate(new DateTime(2016, 5, 15))
-            .DateTime.Should.BeGreater(new DateTime(2016, 5, 15))
-            .DateTime.Should.BeLess(new DateTime(2016, 5, 16));
+        _page.DateTime.Should.EqualDate(new(2016, 5, 15))
+            .DateTime.Should.BeGreater(new(2016, 5, 15))
+            .DateTime.Should.BeLess(new(2016, 5, 16));
     }
 
     [Test]
     [Platform(Exclude = Platforms.Linux)]
     public void DateTime_WithStandardFormat() =>
-        VerifyEquals(_page.DateTimeWithFormat, new DateTime(2009, 6, 15, 13, 45, 0));
+        VerifyEquals(_page.DateTimeWithFormat, new(2009, 6, 15, 13, 45, 0));
 
     [Test]
     public void DateTime_WithCustomFormat()
     {
         var sut = _page.DateTime;
         sut.Metadata.Push(new FormatAttribute("M/d/yyyy h:mm tt"));
-        VerifyEquals(sut, new DateTime(2016, 5, 15, 13, 45, 0));
+        VerifyEquals(sut, new(2016, 5, 15, 13, 45, 0));
     }
 }
