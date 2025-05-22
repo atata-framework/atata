@@ -14,7 +14,7 @@ public partial class WebDriverSessionTests
             var artifact = session.TakePageSnapshot();
 
             artifact!.Should.Exist()
-                .Name.Should.Be($"{session.Id}-01 Input page.mhtml");
+                .Name.Should.Be("001-Input_page.mhtml");
         }
 
         [Test]
@@ -27,7 +27,7 @@ public partial class WebDriverSessionTests
             var artifact = session.TakePageSnapshot("Test");
 
             artifact!.Should.Exist()
-                .Name.Should.Be($"{session.Id}-01 Input page - Test.mhtml");
+                .Name.Should.Be("001-Input_page-Test.mhtml");
         }
 
         [Test]
@@ -39,7 +39,7 @@ public partial class WebDriverSessionTests
             var artifact = session.TakePageSnapshot();
 
             artifact!.Should.Exist()
-                .Name.Should.Be($"{session.Id}-01.mhtml");
+                .Name.Should.Be("001.mhtml");
         }
 
         [Test]
@@ -51,7 +51,7 @@ public partial class WebDriverSessionTests
             var artifact = session.TakePageSnapshot("Test");
 
             artifact!.Should.Exist()
-                .Name.Should.Be($"{session.Id}-01 - Test.mhtml");
+                .Name.Should.Be("001-Test.mhtml");
         }
 
         [Test]
