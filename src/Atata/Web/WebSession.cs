@@ -104,6 +104,12 @@ public abstract class WebSession : AtataSession
         TemporarilyPreservedPageObjectList.Clear();
     }
 
+    protected internal override void OnAssignedToContext()
+    {
+        (ScreenshotTaker as IResetsCounter)?.ResetCounter();
+        (PageSnapshotTaker as IResetsCounter)?.ResetCounter();
+    }
+
     protected internal override void LogConfiguration()
     {
         base.LogConfiguration();

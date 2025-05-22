@@ -1,6 +1,6 @@
 ﻿namespace Atata;
 
-internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
+internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker, IResetsCounter
     where TSession : WebSession
 {
     private readonly IScreenshotStrategy<TSession> _defaultScreenshotStrategy;
@@ -11,6 +11,8 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
 
     private readonly string _filePathTemplate;
 
+    private readonly bool _prependArtifactNumberToFileName;
+
     private readonly TSession _session;
 
     private int _screenshotNumber;
@@ -20,12 +22,14 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
         IScreenshotStrategy<TSession> viewportScreenshotStrategy,
         IScreenshotStrategy<TSession> fullPageScreenshotStrategy,
         string filePathTemplate,
+        bool prependArtifactNumberToFileName,
         TSession session)
     {
         _defaultScreenshotStrategy = defaultScreenshotStrategy;
         _viewportScreenshotStrategy = viewportScreenshotStrategy;
         _fullPageScreenshotStrategy = fullPageScreenshotStrategy;
         _filePathTemplate = filePathTemplate;
+        _prependArtifactNumberToFileName = prependArtifactNumberToFileName;
         _session = session;
     }
 
@@ -40,12 +44,15 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
             _ => TakeScreenshot(title)
         };
 
+    public void ResetCounter() =>
+        Interlocked.Exchange(ref _screenshotNumber, 0);
+
     private FileSubject? TakeScreenshot(IScreenshotStrategy<TSession> strategy, string? title = null)
     {
         if (strategy is null || !_session.IsActive)
             return null;
 
-        _screenshotNumber++;
+        Interlocked.Increment(ref _screenshotNumber);
 
         try
         {
@@ -54,7 +61,9 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
                 () =>
                 {
                     FileContentWithExtension fileContent = strategy.TakeScreenshot(_session);
+
                     string filePath = FormatFilePath(title);
+                    filePath = WebDriverArtifactFileUtils.SanitizeFileName(filePath);
 
                     return _session.Context.AddArtifact(
                         filePath,
@@ -62,7 +71,8 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
                         new()
                         {
                             ArtifactType = ArtifactTypes.Screenshot,
-                            ArtifactTitle = title
+                            ArtifactTitle = title,
+                            PrependArtifactNumberToFileName = _prependArtifactNumberToFileName
                         });
                 });
         }

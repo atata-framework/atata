@@ -5,6 +5,18 @@
 /// </summary>
 public sealed class PageSnapshotsWebDriverSessionBuilder
 {
+    /// <summary>
+    /// The default file name template without session identifier.
+    /// </summary>
+    public const string DefaultFileNameTemplateWithoutSessionId =
+        "{snapshot-pageobjectname}{snapshot-pageobjecttypename:_*}{snapshot-title:-*}";
+
+    /// <summary>
+    /// The default file name template with session identifier.
+    /// </summary>
+    public const string DefaultFileNameTemplateWithSessionId =
+        "{session-id}-" + DefaultFileNameTemplateWithoutSessionId;
+
     private readonly WebDriverSessionBuilder _sessionBuilder;
 
     internal PageSnapshotsWebDriverSessionBuilder(WebDriverSessionBuilder sessionBuilder) =>
@@ -20,10 +32,16 @@ public sealed class PageSnapshotsWebDriverSessionBuilder
     /// <summary>
     /// Gets or sets the page snapshot file name template.
     /// The file name is relative to Artifacts path.
-    /// The default value is <c>"{session-id}-{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
+    /// The default value is <c>"{snapshot-pageobjectname}{snapshot-pageobjecttypename:_*}{snapshot-title:-*}"</c>.
     /// </summary>
     public string FileNameTemplate { get; set; } =
-        "{session-id}-{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}";
+        DefaultFileNameTemplateWithoutSessionId;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to prepend artifact number to file name in a form of "001-{file name}".
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    public bool PrependArtifactNumberToFileName { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether to take a page snapshot on failure.
@@ -66,13 +84,33 @@ public sealed class PageSnapshotsWebDriverSessionBuilder
 
     /// <summary>
     /// Sets the file name template of page snapshots.
-    /// The default value is <c>"{session-id}-{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
+    /// The default value is <c>"{snapshot-pageobjectname}{snapshot-pageobjecttypename:_*}{snapshot-title:-*}"</c>.
     /// </summary>
     /// <param name="fileNameTemplate">The file name template.</param>
     /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
     public WebDriverSessionBuilder UseFileNameTemplate(string fileNameTemplate)
     {
         FileNameTemplate = fileNameTemplate;
+        return _sessionBuilder;
+    }
+
+    /// <summary>
+    /// Sets the file name template of page snapshots including <c>{session-id}</c> variable.
+    /// The set value is <c>"{session-id}-{snapshot-pageobjectname}{snapshot-pageobjecttypename:_*}{snapshot-title:-*}"</c>.
+    /// </summary>
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseFileNameTemplateWithSessionId() =>
+        UseFileNameTemplate(DefaultFileNameTemplateWithSessionId);
+
+    /// <summary>
+    /// Sets a value indicating whether to prepend artifact number to file name in a form of "001-{file name}".
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    /// <param name="enable">Whether to enable.</param>
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UsePrependArtifactNumberToFileName(bool enable)
+    {
+        PrependArtifactNumberToFileName = enable;
         return _sessionBuilder;
     }
 

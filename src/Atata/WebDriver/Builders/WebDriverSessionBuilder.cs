@@ -462,12 +462,14 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             WebDriverViewportScreenshotStrategy.Instance,
             FullPageOrViewportScreenshotStrategy.Instance,
             Screenshots.FileNameTemplate,
+            Screenshots.PrependArtifactNumberToFileName,
             session);
 
     protected override IPageSnapshotTaker CreatePageSnapshotTaker(WebDriverSession session) =>
         new PageSnapshotTaker<WebDriverSession>(
             PageSnapshots.Strategy,
             PageSnapshots.FileNameTemplate,
+            PageSnapshots.PrependArtifactNumberToFileName,
             session);
 
     protected override void OnClone(WebDriverSessionBuilder copy)

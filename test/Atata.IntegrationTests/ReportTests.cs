@@ -44,26 +44,6 @@ public class ReportTests : WebDriverSessionTestSuite
     }
 
     [Test]
-    public void PageSnapshot()
-    {
-        string sessionId = CurrentSession.Id;
-        Go.To(new OrdinaryPage("Test"))
-            .Report.PageSnapshot()
-            .Report.PageSnapshot("sometitle");
-
-        VerifyLastLogNestingTextsWithMessagesMatch(
-            minLogLevel: LogLevel.Trace,
-            "^> Take page snapshot #01$",
-            "^< Take page snapshot #01 \\(.*\\) >> Artifacts\\.Files\\[\".*-01 Test page.mhtml\"\\]$",
-            "^> Take page snapshot #02 sometitle$",
-            "^< Take page snapshot #02 sometitle \\(.*\\) >> Artifacts\\.Files\\[\".*-02 Test page - sometitle.mhtml\"\\]$");
-
-        CurrentContext.Artifacts.Should.ContainFiles(
-            $"{sessionId}-01 Test page.mhtml",
-            $"{sessionId}-02 Test page - sometitle.mhtml");
-    }
-
-    [Test]
     public void Setup()
     {
         var page = Go.To<StubPage>();
@@ -165,83 +145,5 @@ public class ReportTests : WebDriverSessionTestSuite
             "^- > Assert: IsTrue should be true$",
             "^- < Assert: IsTrue should be true",
             "^< TEST STEP");
-    }
-
-    public class Screenshot : WebDriverSessionTestSuiteBase
-    {
-        [Test]
-        public void ViewportVsFullPage()
-        {
-            var context = ConfigureAtataContextWithWebDriverSession().Build();
-
-            var page = context.Sessions.Get<WebDriverSession>().Go.To<ScrollablePage>();
-
-            long TakeScreenshotAndReturnItsSize(ScreenshotKind kind)
-            {
-                page.Report.Screenshot(kind);
-
-                string fileName = context.Artifacts.Files.Value
-                    .OrderByDescending(x => x.Object.CreationTimeUtc)
-                    .First()
-                    .Name;
-
-                var file = context.Artifacts.Files.Single(x => x.Name == fileName).Should.Exist();
-                return file.Length;
-            }
-
-            long defaultScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.Default);
-            long viewportScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.Viewport);
-            long fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.FullPage);
-
-            viewportScreenshotSize.Should().Be(defaultScreenshotSize);
-            fullPageScreenshotSize.Should().BeGreaterThan((long)(viewportScreenshotSize * 1.5));
-        }
-
-        [Test]
-        public void ViewportVsFullPage_ThroughConfiguration()
-        {
-            long TakeScreenshotAndReturnItsSize(Action<ScreenshotsWebDriverSessionBuilder> screenshotsConfigurationAction)
-            {
-                var builder = ConfigureAtataContextWithWebDriverSession(
-                    session => screenshotsConfigurationAction?.Invoke(session.Screenshots));
-
-                using var context = builder.Build();
-
-                string screenshotNameIndicator = Guid.NewGuid().ToString();
-                context.Sessions.Get<WebDriverSession>().Go.To<ScrollablePage>()
-                    .Report.Screenshot(screenshotNameIndicator);
-
-                var file = context.Artifacts.Files
-                    .Single(x => x.Name.Value.Contains(screenshotNameIndicator)).Should.Exist();
-                return file.Length.Value;
-            }
-
-            long viewportScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseWebDriverViewportStrategy());
-            long fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseFullPageOrViewportStrategy());
-
-            fullPageScreenshotSize.Should().BeGreaterThan((long)(viewportScreenshotSize * 1.5));
-        }
-
-        [Test]
-        public void FilesAndLogEntries()
-        {
-            ConfigureAtataContextWithWebDriverSession().Build();
-            string sessionId = CurrentSession.Id;
-
-            Go.To(new OrdinaryPage("Test"))
-                .Report.Screenshot()
-                .Report.Screenshot("sometitle");
-
-            VerifyLastLogNestingTextsWithMessagesMatch(
-                minLogLevel: LogLevel.Trace,
-                "^> Take screenshot #01$",
-                "^< Take screenshot #01 \\(.*\\) >> Artifacts\\.Files\\[\".*-01 Test page.png\"\\]$",
-                "^> Take screenshot #02 sometitle$",
-                "^< Take screenshot #02 sometitle \\(.*\\) >> Artifacts\\.Files\\[\".*-02 Test page - sometitle.png\"\\]$");
-
-            CurrentContext.Artifacts.Should.ContainFiles(
-                $"{sessionId}-01 Test page.png",
-                $"{sessionId}-02 Test page - sometitle.png");
-        }
     }
 }

@@ -9,6 +9,18 @@ namespace Atata;
 /// </summary>
 public sealed class ScreenshotsWebDriverSessionBuilder
 {
+    /// <summary>
+    /// The default file name template without session identifier.
+    /// </summary>
+    public const string DefaultFileNameTemplateWithoutSessionId =
+        "{screenshot-pageobjectname}{screenshot-pageobjecttypename:_*}{screenshot-title:-*}";
+
+    /// <summary>
+    /// The default file name template with session identifier.
+    /// </summary>
+    public const string DefaultFileNameTemplateWithSessionId =
+        "{session-id}-" + DefaultFileNameTemplateWithoutSessionId;
+
     private readonly WebDriverSessionBuilder _sessionBuilder;
 
     internal ScreenshotsWebDriverSessionBuilder(WebDriverSessionBuilder sessionBuilder) =>
@@ -24,10 +36,16 @@ public sealed class ScreenshotsWebDriverSessionBuilder
     /// <summary>
     /// Gets or sets the page screenshot file name template.
     /// The file name is relative to Artifacts path.
-    /// The default value is <c>"{session-id}-{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c>.
+    /// The default value is <c>"{screenshot-pageobjectname}{screenshot-pageobjecttypename:_*}{screenshot-title:-*}"</c>.
     /// </summary>
     public string FileNameTemplate { get; set; } =
-        "{session-id}-{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}";
+        DefaultFileNameTemplateWithoutSessionId;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to prepend artifact number to file name in a form of "001-{file name}".
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    public bool PrependArtifactNumberToFileName { get; set; } = true;
 
     /// <summary>
     /// Gets or sets a value indicating whether to take a screenshot on failure.
@@ -79,13 +97,33 @@ public sealed class ScreenshotsWebDriverSessionBuilder
 
     /// <summary>
     /// Sets the file name template of page screenshots.
-    /// The default value is <c>"{session-id}-{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c>.
+    /// The default value is <c>"{screenshot-pageobjectname}{screenshot-pageobjecttypename:_*}{screenshot-title:-*}"</c>.
     /// </summary>
     /// <param name="fileNameTemplate">The file name template.</param>
     /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
     public WebDriverSessionBuilder UseFileNameTemplate(string fileNameTemplate)
     {
         FileNameTemplate = fileNameTemplate;
+        return _sessionBuilder;
+    }
+
+    /// <summary>
+    /// Sets the file name template of page screenshots including <c>{session-id}</c> variable.
+    /// The set value is <c>"{session-id}-{screenshot-pageobjectname}{screenshot-pageobjecttypename:_*}{screenshot-title:-*}"</c>.
+    /// </summary>
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseFileNameTemplateWithSessionId() =>
+        UseFileNameTemplate(DefaultFileNameTemplateWithSessionId);
+
+    /// <summary>
+    /// Sets a value indicating whether to prepend artifact number to file name in a form of "001-{file name}".
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    /// <param name="enable">Whether to enable.</param>
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UsePrependArtifactNumberToFileName(bool enable)
+    {
+        PrependArtifactNumberToFileName = enable;
         return _sessionBuilder;
     }
 

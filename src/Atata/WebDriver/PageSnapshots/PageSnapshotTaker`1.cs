@@ -1,11 +1,13 @@
 ﻿namespace Atata;
 
-internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
+internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker, IResetsCounter
     where TSession : WebSession
 {
     private readonly IPageSnapshotStrategy<TSession> _snapshotStrategy;
 
     private readonly string _filePathTemplate;
+
+    private readonly bool _prependArtifactNumberToFileName;
 
     private readonly TSession _session;
 
@@ -14,10 +16,12 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
     public PageSnapshotTaker(
         IPageSnapshotStrategy<TSession> snapshotStrategy,
         string filePathTemplate,
+        bool prependArtifactNumberToFileName,
         TSession session)
     {
         _snapshotStrategy = snapshotStrategy;
         _filePathTemplate = filePathTemplate;
+        _prependArtifactNumberToFileName = prependArtifactNumberToFileName;
         _session = session;
     }
 
@@ -26,7 +30,7 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
         if (_snapshotStrategy is null || !_session.IsActive)
             return null;
 
-        _snapshotNumber++;
+        Interlocked.Increment(ref _snapshotNumber);
 
         try
         {
@@ -35,7 +39,9 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
                 () =>
                 {
                     FileContentWithExtension fileContent = _snapshotStrategy.TakeSnapshot(_session);
+
                     string filePath = FormatFilePath(title);
+                    filePath = WebDriverArtifactFileUtils.SanitizeFileName(filePath);
 
                     return _session.Context.AddArtifact(
                         filePath,
@@ -44,6 +50,7 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
                         {
                             ArtifactType = ArtifactTypes.PageSnapshot,
                             ArtifactTitle = title,
+                            PrependArtifactNumberToFileName = _prependArtifactNumberToFileName
                         });
                 });
         }
@@ -53,6 +60,9 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
             return null;
         }
     }
+
+    public void ResetCounter() =>
+        Interlocked.Exchange(ref _snapshotNumber, 0);
 
     private string FormatFilePath(string? title)
     {
