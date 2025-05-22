@@ -14,7 +14,7 @@ public partial class WebDriverSessionTests
             var artifact = session.TakeScreenshot();
 
             artifact!.Should.Exist()
-                .Name.Should.Be($"001-Input_page.png");
+                .Name.Should.Be("001-Input_page.png");
         }
 
         [Test]
@@ -27,7 +27,7 @@ public partial class WebDriverSessionTests
             var artifact = session.TakeScreenshot("Test");
 
             artifact!.Should.Exist()
-                .Name.Should.Be($"001-Input_page-Test.png");
+                .Name.Should.Be("001-Input_page-Test.png");
         }
 
         [Test]
@@ -39,7 +39,7 @@ public partial class WebDriverSessionTests
             var artifact = session.TakeScreenshot();
 
             artifact!.Should.Exist()
-                .Name.Should.Be($"001.png");
+                .Name.Should.Be("001.png");
         }
 
         [Test]
@@ -51,7 +51,7 @@ public partial class WebDriverSessionTests
             var artifact = session.TakeScreenshot("Test");
 
             artifact!.Should.Exist()
-                .Name.Should.Be($"001-Test.png");
+                .Name.Should.Be("001-Test.png");
         }
 
         [Test]
