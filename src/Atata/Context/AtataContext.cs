@@ -694,7 +694,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
     public FileSubject AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, in AddArtifactOptions options = default)
     {
-        Guard.ThrowIfNullOrWhitespace(relativeFilePathWithoutExtension);
+        if (!options.PrependArtifactNumberToFileName)
+            Guard.ThrowIfNullOrWhitespace(relativeFilePathWithoutExtension);
         Guard.ThrowIfNull(fileContentWithExtension);
 
         string relativeFilePath = relativeFilePathWithoutExtension + fileContentWithExtension.Extension;
@@ -714,7 +715,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
     public FileSubject AddArtifact(string relativeFilePath, byte[] fileBytes, in AddArtifactOptions options = default)
     {
-        Guard.ThrowIfNullOrWhitespace(relativeFilePath);
+        if (!options.PrependArtifactNumberToFileName)
+            Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileBytes);
 
         return DoAddArtifact(
@@ -733,7 +735,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
     public FileSubject AddArtifact(string relativeFilePath, string fileContent, in AddArtifactOptions options = default)
     {
-        Guard.ThrowIfNullOrWhitespace(relativeFilePath);
+        if (!options.PrependArtifactNumberToFileName)
+            Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileContent);
 
         return DoAddArtifact(
@@ -753,7 +756,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
     public FileSubject AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, in AddArtifactOptions options = default)
     {
-        Guard.ThrowIfNullOrWhitespace(relativeFilePath);
+        if (!options.PrependArtifactNumberToFileName)
+            Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(fileContent);
 
         return DoAddArtifact(
@@ -777,7 +781,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <returns>A <see cref="FileSubject"/> for added file.</returns>
     public FileSubject AddArtifact(string relativeFilePath, Stream stream, in AddArtifactOptions options = default)
     {
-        Guard.ThrowIfNullOrWhitespace(relativeFilePath);
+        if (!options.PrependArtifactNumberToFileName)
+            Guard.ThrowIfNullOrWhitespace(relativeFilePath);
         Guard.ThrowIfNull(stream);
 
         return DoAddArtifact(
@@ -793,7 +798,16 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     private FileSubject DoAddArtifact(string relativeFilePath, in AddArtifactOptions options, Action<string> fileSaveAction)
     {
         if (options.PrependArtifactNumberToFileName)
-            relativeFilePath = $"{Interlocked.Increment(ref _artifactNumber):D3}-{relativeFilePath}";
+        {
+            int currentArtifactNumber = Interlocked.Increment(ref _artifactNumber);
+            string currentArtifactNumberString = currentArtifactNumber.ToString("D3", CultureInfo.InvariantCulture);
+
+            relativeFilePath = relativeFilePath?.Length > 0
+                ? relativeFilePath[0] != '.'
+                    ? $"{currentArtifactNumberString}-{relativeFilePath}"
+                    : $"{currentArtifactNumberString}{relativeFilePath}"
+                : currentArtifactNumberString;
+        }
 
         string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
 
