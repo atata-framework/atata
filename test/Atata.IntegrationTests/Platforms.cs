@@ -11,4 +11,6 @@ internal static class Platforms
     public const string MacOS = "MacOsX";
 
     public const string WindowsAndLinux = Windows + Delimeter + Linux;
+
+    public const string LinuxAndMacOS = Linux + Delimeter + MacOS;
 }
