@@ -335,6 +335,10 @@ dotnet_diagnostic.S1227.severity = warning
 
 dotnet_diagnostic.S1244.severity = warning
 
+# S1481: Unused local variables should be removed
+# Duplicates IDE0059
+dotnet_diagnostic.S1481.severity = none
+
 dotnet_diagnostic.S1541.severity = warning
 
 dotnet_diagnostic.S1696.severity = warning
@@ -452,6 +456,9 @@ dotnet_diagnostic.IDE0028.severity = warning
 
 # IDE0054: Use compound assignment
 dotnet_diagnostic.IDE0054.severity = none
+
+# IDE0059: Remove unnecessary value assignment
+dotnet_diagnostic.IDE0059.severity = warning
 
 # IDE0062: Make local function 'static'
 dotnet_diagnostic.IDE0062.severity = warning
