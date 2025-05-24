@@ -367,8 +367,6 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseTestSuiteType(Type? testSuiteType)
     {
-        Guard.ThrowIfNull(testSuiteType);
-
         TestSuiteTypeFactory = () => testSuiteType;
         return this;
     }
