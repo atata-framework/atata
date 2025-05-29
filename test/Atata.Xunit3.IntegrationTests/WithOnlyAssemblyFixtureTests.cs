@@ -1,9 +1,19 @@
 ﻿namespace Atata.Xunit3.IntegrationTests;
 
+[Trait("Xunit suite trait 1", "x")]
 public sealed class WithOnlyAssemblyFixtureTests : AtataTestSuite
 {
     protected override void ConfigureTestAtataContext(AtataContextBuilder builder) =>
         builder.UseVariable("custom-test-variable", true);
+
+    [Fact]
+    [Trait("Xunit test trait 1", "x")]
+    [Trait("Xunit test trait 2", "y")]
+    public void Context_Test_Traits() =>
+        Context.Test.Traits.Should().Equal(
+            new TestTrait("Xunit suite trait 1", "x"),
+            new TestTrait("Xunit test trait 1", "x"),
+            new TestTrait("Xunit test trait 2", "y"));
 
     [Fact]
     public void Context_IsCurrent() =>
@@ -18,6 +28,7 @@ public sealed class WithOnlyAssemblyFixtureTests : AtataTestSuite
             Context.Test.SuiteName.Should().Be(nameof(WithOnlyAssemblyFixtureTests));
             Context.Test.SuiteType.Should().Be<WithOnlyAssemblyFixtureTests>();
             Context.Test.FullName.Should().Be($"{GetType().FullName}.{nameof(Context_Test_ForFact)}");
+            Context.Test.Traits.Should().Equal(new TestTrait("Xunit suite trait 1", "x"));
         }
     }
 

@@ -17,13 +17,16 @@ public abstract class AtataTestSuite : AtataFixture
 
     private protected sealed override void ConfigureAtataContext(AtataContextBuilder builder)
     {
-        var testFullName = TestContext.Current.Test!.TestDisplayName;
+        ITest xunitTest = TestContext.Current.Test!;
+        var testFullName = xunitTest.TestDisplayName;
         var testClassType = GetType();
         var testName = testFullName.Replace(testClassType.FullName!, null).TrimStart('.');
         var output = TestContext.Current.TestOutputHelper!;
+        var traits = GetTestTraits(xunitTest);
 
         builder.UseTestName(testName);
         builder.UseTestSuiteType(testClassType);
+        builder.UseTestTraits(traits);
 
         if (CollectionResolver.TryResolveCollectionName(testClassType, out var collectionName))
             builder.UseTestSuiteGroupName(collectionName);
@@ -40,5 +43,25 @@ public abstract class AtataTestSuite : AtataFixture
     /// <param name="builder">The <see cref="AtataContextBuilder"/> used to configure the context.</param>
     protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
+    }
+
+    private static List<TestTrait> GetTestTraits(ITestMetadata testMetadata)
+    {
+        var xunitTraits = testMetadata.Traits;
+
+        if (xunitTraits.Count == 0)
+            return [];
+
+        List<TestTrait> traits = new(xunitTraits.Count);
+
+        foreach (var xunitTrait in xunitTraits)
+        {
+            foreach (string value in xunitTrait.Value)
+            {
+                traits.Add(new TestTrait(xunitTrait.Key, value));
+            }
+        }
+
+        return traits;
     }
 }
