@@ -5,38 +5,60 @@
 /// </summary>
 public sealed class TestInfo : IEquatable<TestInfo>
 {
-    public TestInfo(Type? suiteType, string? suiteName = null, string? suiteGroupName = null)
-        : this(null, suiteType, suiteName, suiteGroupName)
+    public TestInfo(
+        Type? suiteType,
+        string? suiteName = null,
+        string? suiteGroupName = null,
+        IReadOnlyList<TestTrait>? traits = null)
+        : this(null, suiteType, suiteName, suiteGroupName, traits)
     {
     }
 
-    public TestInfo(string? name, Type? suiteType, string? suiteName = null, string? suiteGroupName = null)
+    public TestInfo(
+        string? name,
+        Type? suiteType,
+        string? suiteName = null,
+        string? suiteGroupName = null,
+        IReadOnlyList<TestTrait>? traits = null)
     {
-        Name = name;
-        NameSanitized = name?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
+        bool isNotEmpty = name?.Length > 0
+            || suiteType is not null
+            || suiteName?.Length > 0
+            || suiteGroupName?.Length > 0
+            || traits?.Count > 0;
 
-        SuiteName = suiteName ?? suiteType?.ToStringInShortForm();
-        SuiteType = suiteType;
-        SuiteGroupName = suiteGroupName;
+        IsEmpty = !isNotEmpty;
 
-        if (suiteType is not null)
+        if (isNotEmpty)
         {
-            Namespace = suiteType.Namespace;
-        }
-        else if (suiteName is not null)
-        {
-            int lastIndexOfPeriod = suiteName.LastIndexOf('.');
+            Name = name;
+            NameSanitized = name?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
 
-            if (lastIndexOfPeriod > 0 && lastIndexOfPeriod < suiteName.Length - 1)
+            SuiteName = suiteName ?? suiteType?.ToStringInShortForm();
+            SuiteType = suiteType;
+            SuiteGroupName = suiteGroupName;
+
+            if (suiteType is not null)
             {
-                Namespace = suiteName[..lastIndexOfPeriod];
-                SuiteName = suiteName[(lastIndexOfPeriod + 1)..];
+                Namespace = suiteType.Namespace;
             }
+            else if (suiteName is not null)
+            {
+                int lastIndexOfPeriod = suiteName.LastIndexOf('.');
+
+                if (lastIndexOfPeriod > 0 && lastIndexOfPeriod < suiteName.Length - 1)
+                {
+                    Namespace = suiteName[..lastIndexOfPeriod];
+                    SuiteName = suiteName[(lastIndexOfPeriod + 1)..];
+                }
+            }
+
+            SuiteNameSanitized = SuiteName?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
+
+            FullName = BuildFullName();
         }
 
-        SuiteNameSanitized = SuiteName?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
-
-        FullName = BuildFullName();
+        Traits = traits ?? [];
     }
 
     /// <summary>
@@ -78,6 +100,16 @@ public sealed class TestInfo : IEquatable<TestInfo>
     /// Gets the full name of the test including namespace, test suite name and test name.
     /// </summary>
     public string? FullName { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the test info is empty.
+    /// </summary>
+    public bool IsEmpty { get; }
+
+    /// <summary>
+    /// Gets the traits.
+    /// </summary>
+    public IReadOnlyList<TestTrait> Traits { get; }
 
     public static bool operator ==(TestInfo left, TestInfo right) =>
         EqualityComparer<TestInfo>.Default.Equals(left, right);
@@ -121,12 +153,38 @@ public sealed class TestInfo : IEquatable<TestInfo>
     /// <inheritdoc/>
     public override string ToString()
     {
-        string value = FullName ?? string.Empty;
+        StringBuilder builder = new(FullName);
 
         if (SuiteGroupName is not null)
-            value += $"[{SuiteGroupName}]";
+        {
+            if (builder.Length > 0)
+                builder.Append(' ');
 
-        return value;
+            builder
+                .Append('{')
+                .Append(SuiteGroupName)
+                .Append('}');
+        }
+
+        if (Traits.Count > 0)
+        {
+            if (builder.Length > 0)
+                builder.Append(' ');
+
+            builder.Append('[');
+
+            for (int i = 0; i < Traits.Count; i++)
+            {
+                if (i > 0)
+                    builder.Append(", ");
+
+                builder.Append(Traits[i]);
+            }
+
+            builder.Append(']');
+        }
+
+        return builder.ToString();
     }
 
     /// <inheritdoc/>
@@ -139,7 +197,8 @@ public sealed class TestInfo : IEquatable<TestInfo>
         && Name == other.Name
         && SuiteName == other.SuiteName
         && SuiteType == other.SuiteType
-        && SuiteGroupName == other.SuiteGroupName;
+        && SuiteGroupName == other.SuiteGroupName
+        && Traits.SequenceEqual(other.Traits);
 
     /// <inheritdoc/>
     public override int GetHashCode()

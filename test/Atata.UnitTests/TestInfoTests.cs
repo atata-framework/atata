@@ -2,7 +2,25 @@
 
 public static class TestInfoTests
 {
-    public class BelongsToNamespace
+    public sealed class IsEmpty
+    {
+        [Test]
+        public void WhenAllConstructorParametersAreNull() =>
+            new TestInfo(null)
+                .IsEmpty.Should().BeTrue();
+
+        [Test]
+        public void WhenSuiteTypeIsSet() =>
+            new TestInfo(typeof(TestInfoTests))
+                .IsEmpty.Should().BeFalse();
+
+        [Test]
+        public void WhenTraitsAreSet() =>
+            new TestInfo(null, traits: [new("Some", "trait")])
+                .IsEmpty.Should().BeFalse();
+    }
+
+    public sealed class BelongsToNamespace
     {
         [TestCase("Atata", ExpectedResult = true)]
         [TestCase("Atata.UnitTests", ExpectedResult = true)]
@@ -24,7 +42,7 @@ public static class TestInfoTests
                 .BelongsToNamespace(targetNamespace);
     }
 
-    public class FullName
+    public sealed class FullName
     {
         [Test]
         public void WhenSuiteNameIsNull() =>

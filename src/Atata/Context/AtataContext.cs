@@ -593,10 +593,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         var logMessageBuilder = new StringBuilder($"Starting ")
             .Append(GetScopeNameForLog());
 
-        string? testFullName = Test.FullName;
-
-        if (testFullName is not null)
-            logMessageBuilder.Append(' ').Append(testFullName);
+        if (!Test.IsEmpty)
+            logMessageBuilder.Append(' ').Append(Test);
 
         logMessageBuilder.Append(" at ")
             .Append(ConvertDateTimeToString(StartedAt));
@@ -1276,7 +1274,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         var builder = new StringBuilder("AtataContext { Id=")
             .Append(Id);
 
-        if (Test.FullName is not null)
+        if (!Test.IsEmpty)
             builder.Append(", Test=")
                 .Append(Test);
 
