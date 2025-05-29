@@ -11,6 +11,12 @@ public sealed class TestAtataContextMetadata
         _attributes = attributes;
 
     /// <summary>
+    /// Gets the attributes.
+    /// </summary>
+    public IReadOnlyList<object> Attributes =>
+        _attributes;
+
+    /// <summary>
     /// Gets the <see cref="TestAtataContextMetadata"/> for the specified <paramref name="testMethod"/>.
     /// </summary>
     /// <param name="testMethod">The test method.</param>

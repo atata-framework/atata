@@ -11,6 +11,12 @@ public sealed class TestSuiteAtataContextMetadata
         _attributes = attributes;
 
     /// <summary>
+    /// Gets the attributes.
+    /// </summary>
+    public IReadOnlyList<object> Attributes =>
+        _attributes;
+
+    /// <summary>
     /// Gets the <see cref="TestSuiteAtataContextMetadata"/> for the specified <paramref name="testSuiteType"/>.
     /// </summary>
     /// <param name="testSuiteType">The test suite type.</param>
