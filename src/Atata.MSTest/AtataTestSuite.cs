@@ -76,10 +76,10 @@ public abstract class AtataTestSuite
         var suiteContextMetadata = s_testSuiteDataByTypeName[testClassFullName].Metadata;
         suiteContextMetadata?.ApplyToTestBuilder(builder);
 
-        MethodInfo? method = testClassType.GetMethod(TestContext.ManagedMethod);
+        MethodInfo? testMethod = testClassType.GetMethod(TestContext.ManagedMethod);
 
-        if (method is not null)
-            TestAtataContextMetadata.GetForMethod(method).ApplyToTestBuilder(builder);
+        if (testMethod is not null)
+            ApplyTestMetadata(testMethod, builder);
 
         ConfigureTestAtataContext(builder);
 
@@ -107,8 +107,19 @@ public abstract class AtataTestSuite
     private static TestSuiteAtataContextMetadata GetAndApplySuiteMetadata(Type testClassType, AtataContextBuilder builder)
     {
         var suiteContextMetadata = TestSuiteAtataContextMetadata.GetForType(testClassType);
+
+        builder.UseTestTraits(GetTraits(suiteContextMetadata.Attributes));
         suiteContextMetadata.ApplyToTestSuiteBuilder(builder);
+
         return suiteContextMetadata;
+    }
+
+    private static void ApplyTestMetadata(MethodInfo testMethod, AtataContextBuilder builder)
+    {
+        var testContextMetadata = TestAtataContextMetadata.GetForMethod(testMethod);
+
+        builder.UseTestTraits(GetTraits(testContextMetadata.Attributes));
+        testContextMetadata.ApplyToTestBuilder(builder);
     }
 
     private static void FindAndInvokeSuiteConfigurationMethods(Type testClassType, AtataContextBuilder builder)
@@ -123,6 +134,28 @@ public abstract class AtataTestSuite
         {
             methodData.Method.InvokeStaticAsLambda([builder]);
         }
+    }
+
+    private static List<TestTrait> GetTraits(IEnumerable<object> attributes)
+    {
+        List<TestTrait> traits = [];
+
+        foreach (var attribute in attributes)
+        {
+            if (attribute is TestPropertyAttribute testPropertyAttribute)
+            {
+                traits.Add(new(testPropertyAttribute.Name, testPropertyAttribute.Value));
+            }
+            else if (attribute is TestCategoryBaseAttribute testCategoryBaseAttribute)
+            {
+                foreach (string category in testCategoryBaseAttribute.TestCategories)
+                {
+                    traits.Add(new(TestTrait.CategoryName, category));
+                }
+            }
+        }
+
+        return traits;
     }
 
     private sealed class TestSuiteData
