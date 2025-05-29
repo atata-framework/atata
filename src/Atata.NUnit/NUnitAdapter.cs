@@ -2,6 +2,9 @@
 
 internal static class NUnitAdapter
 {
+    private static readonly HashSet<string> s_internalProperties = new(StringComparer.OrdinalIgnoreCase)
+        { "Author", "ApartmentState", "Description", "IgnoreUntilDate", "LevelOfParallelism", "MaxTime", "Order", "ParallelScope", "Repeat", "RequiresThread", "SetCulture", "SetUICulture", "TestOf", "Timeout" };
+
     internal static Test GetCurrentTest() =>
         TestExecutionContext.CurrentContext.CurrentTest;
 
@@ -77,4 +80,25 @@ internal static class NUnitAdapter
 
     internal static TestResult GetCurrentTestResult() =>
         TestExecutionContext.CurrentContext.CurrentResult;
+
+    internal static IReadOnlyList<TestTrait> GetCurrentTestTraits()
+    {
+        var properties = GetCurrentTest().Properties;
+
+        var keys = properties.Keys;
+        List<TestTrait> traits = [];
+
+        foreach (var key in keys)
+        {
+            if (!s_internalProperties.Contains(key) && properties.TryGet(key, out var values))
+            {
+                foreach (object value in values)
+                {
+                    traits.Add(new TestTrait(key, value?.ToString()));
+                }
+            }
+        }
+
+        return traits;
+    }
 }

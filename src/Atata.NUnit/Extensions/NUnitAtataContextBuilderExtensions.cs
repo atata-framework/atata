@@ -5,7 +5,7 @@ namespace Atata;
 public static class NUnitAtataContextBuilderExtensions
 {
     /// <summary>
-    /// Defines that the name of the test should be taken from the NUnit test.
+    /// Defines that the name of the test should be taken from NUnit test.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -13,7 +13,7 @@ public static class NUnitAtataContextBuilderExtensions
         builder.UseTestName(NUnitAdapter.GetCurrentTestName);
 
     /// <summary>
-    /// Defines that the name of the test suite should be taken from the NUnit test fixture.
+    /// Defines that the name of the test suite should be taken from NUnit test fixture.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -21,12 +21,20 @@ public static class NUnitAtataContextBuilderExtensions
         builder.UseTestSuiteName(NUnitAdapter.GetCurrentTestFixtureName);
 
     /// <summary>
-    /// Defines that the type of the test suite should be taken from the NUnit test fixture.
+    /// Defines that the type of the test suite should be taken from NUnit test fixture.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public static AtataContextBuilder UseNUnitTestSuiteType(this AtataContextBuilder builder) =>
         builder.UseTestSuiteType(NUnitAdapter.GetCurrentTestFixtureType);
+
+    /// <summary>
+    /// Defines that the test traits should be taken from properties of NUnit test or fixture .
+    /// </summary>
+    /// <param name="builder">The builder.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public static AtataContextBuilder UseNUnitTestTraits(this AtataContextBuilder builder) =>
+        builder.UseTestTraits(NUnitAdapter.GetCurrentTestTraits);
 
     /// <summary>
     /// Sets <see cref="NUnitWarningReportStrategy"/> as the strategy for warning assertion reporting.
