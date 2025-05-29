@@ -99,6 +99,11 @@ public sealed class AtataContextBuilder : ICloneable
     public Func<string?>? TestSuiteGroupNameFactory { get; set; }
 
     /// <summary>
+    /// Gets or sets the factory method of the test suite group name.
+    /// </summary>
+    public Func<IReadOnlyList<TestTrait>?>? TestTraitsFactory { get; set; }
+
+    /// <summary>
     /// Gets the base retry timeout.
     /// The default value is <c>5</c> seconds.
     /// </summary>
@@ -396,6 +401,30 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
+    /// Sets the factory method of the test traits.
+    /// </summary>
+    /// <param name="testTraitsFactory">The factory method of the test traits.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseTestTraits(Func<IReadOnlyList<TestTrait>?> testTraitsFactory)
+    {
+        Guard.ThrowIfNull(testTraitsFactory);
+
+        TestTraitsFactory = testTraitsFactory;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the test traits.
+    /// </summary>
+    /// <param name="testTraits">The test traits.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseTestTraits(IReadOnlyList<TestTrait>? testTraits)
+    {
+        TestTraitsFactory = () => testTraits;
+        return this;
+    }
+
+    /// <summary>
     /// Sets the base retry timeout.
     /// The default value is <c>5</c> seconds.
     /// </summary>
@@ -655,7 +684,8 @@ public sealed class AtataContextBuilder : ICloneable
             testName,
             TestSuiteTypeFactory?.Invoke(),
             TestSuiteNameFactory?.Invoke(),
-            TestSuiteGroupNameFactory?.Invoke());
+            TestSuiteGroupNameFactory?.Invoke(),
+            TestTraitsFactory?.Invoke());
 
         AtataContext? parentContext = ParentContext;
 
