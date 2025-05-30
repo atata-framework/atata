@@ -5,6 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>Atata.Xunit.IntegrationTests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Atata.Xunit3\Atata.Xunit3.csproj" />
+    <ProjectReference Include="..\..\src\Atata.Xunit.v3\Atata.Xunit.v3.csproj" />
     <ProjectReference Include="..\..\src\Atata\Atata.csproj" />
     <ProjectReference Include="..\..\src\Atata.NLog\Atata.NLog.csproj" />
   </ItemGroup>

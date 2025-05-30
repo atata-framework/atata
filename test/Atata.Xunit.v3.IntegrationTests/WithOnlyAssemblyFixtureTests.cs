@@ -1,4 +1,4 @@
-﻿namespace Atata.Xunit3.IntegrationTests;
+﻿namespace Atata.Xunit.IntegrationTests;
 
 [Trait("Xunit suite trait 1", "x")]
 public sealed class WithOnlyAssemblyFixtureTests : AtataTestSuite

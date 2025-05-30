@@ -1,4 +1,4 @@
-﻿namespace Atata.Xunit3.IntegrationTests;
+﻿namespace Atata.Xunit.IntegrationTests;
 
 [Collection(SomeCollection.Name)]
 public sealed class WithCollectionAndClassFixturesTests :

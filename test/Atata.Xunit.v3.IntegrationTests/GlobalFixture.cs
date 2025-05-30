@@ -1,8 +1,8 @@
-﻿using Atata.Xunit3.IntegrationTests;
+﻿using Atata.Xunit.IntegrationTests;
 
 [assembly: AssemblyFixture(typeof(GlobalFixture))]
 
-namespace Atata.Xunit3.IntegrationTests;
+namespace Atata.Xunit.IntegrationTests;
 
 public sealed class GlobalFixture : AtataGlobalFixture
 {

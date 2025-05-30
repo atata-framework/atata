@@ -1,4 +1,4 @@
-﻿namespace Atata.Xunit3.IntegrationTests;
+﻿namespace Atata.Xunit.IntegrationTests;
 
 [CollectionDefinition(Name)]
 [Trait("Xunit collection trait 1", "x")]
