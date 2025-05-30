@@ -1,8 +1,12 @@
 ﻿namespace Atata.ExtentReports.IntegrationTests;
 
+[Category("Some suite category")]
+[Property("Some suite property", "abc")]
 public sealed class UsingOwnDriverTests : AtataTestSuite
 {
     [Test]
+    [Category("Some test category")]
+    [Property("Some test property", "ID1234")]
     public void Test1() =>
         Go.To<HomePage>()
             .Report.Screenshot()
