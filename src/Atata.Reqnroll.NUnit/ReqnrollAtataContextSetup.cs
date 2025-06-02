@@ -15,7 +15,7 @@ public static class ReqnrollAtataContextSetup
         Action<AtataContextBuilder, FeatureContext>? configure = null)
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite)
-            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
+            .UseDefaultCancellationToken(TestExecutionContext.CurrentContext.CancellationToken);
 
         builder.LogConsumers.RemoveAll<NUnitTestContextLogConsumer>();
 
@@ -47,7 +47,7 @@ public static class ReqnrollAtataContextSetup
         Action<AtataContextBuilder, FeatureContext, ScenarioContext>? configure = null)
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test)
-            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
+            .UseDefaultCancellationToken(TestExecutionContext.CurrentContext.CancellationToken);
 
         configure?.Invoke(builder, featureContext, scenarioContext);
 

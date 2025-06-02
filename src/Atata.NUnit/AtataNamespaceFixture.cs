@@ -16,7 +16,7 @@ public abstract class AtataNamespaceFixture
     public void SetUpNamespaceAtataContext()
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Namespace)
-            .UseDefaultCancellationToken(TestContext.CurrentContext.CancellationToken);
+            .UseDefaultCancellationToken(TestExecutionContext.CurrentContext.CancellationToken);
 
         ConfigureNamespaceAtataContext(builder);
 
