@@ -4,7 +4,6 @@
 /// Represents a base class for test suites/classes using Atata with NUnit.
 /// Provides setup and tear-down logic for Atata contexts at the suite and test levels.
 /// </summary>
-[Parallelizable(ParallelScope.Self)]
 public abstract class AtataTestSuite
 {
     private readonly ConcurrentDictionary<string, AtataContext> _testIdContextMap = [];
