@@ -7,6 +7,8 @@
 [Parallelizable(ParallelScope.Self)]
 public abstract class AtataTestSuite
 {
+    private readonly ConcurrentDictionary<string, AtataContext> _testIdContextMap = [];
+
     private TestSuiteAtataContextMetadata? _testSuiteContextMetadata;
 
     /// <summary>
@@ -17,7 +19,10 @@ public abstract class AtataTestSuite
     /// <summary>
     /// Gets the <see cref="AtataContext"/> instance for the current test.
     /// </summary>
-    protected AtataContext Context { get; private set; } = null!;
+    protected AtataContext Context =>
+        _testIdContextMap.TryGetValue(TestExecutionContext.CurrentContext.CurrentTest.Id, out var context)
+            ? context
+            : null!;
 
     /// <summary>
     /// Sets up the <see cref="AtataContext"/> for the test suite.
@@ -64,7 +69,10 @@ public abstract class AtataTestSuite
 
         ConfigureTestAtataContext(builder);
 
-        Context = builder.Build();
+        AtataContext context = builder.Build();
+
+        var testId = TestExecutionContext.CurrentContext.CurrentTest.Id;
+        _testIdContextMap[testId] = context;
     }
 
     /// <summary>
