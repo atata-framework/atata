@@ -7,7 +7,7 @@
     <Copyright>© 2016-2025 Yevgeniy Shunevych</Copyright>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AnalysisLevel>8.0-Recommended</AnalysisLevel>
+    <AnalysisLevel>9.0-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup Label="Code analysis packages">
