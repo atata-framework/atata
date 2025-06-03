@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Atata_Reqnroll_NUnit_IntegrationTests</RootNamespace>
   </PropertyGroup>
 
