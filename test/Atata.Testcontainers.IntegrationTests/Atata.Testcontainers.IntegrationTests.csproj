@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
-    <PackageReference Include="Testcontainers.WebDriver" Version="4.4.0" />
+    <PackageReference Include="Testcontainers.WebDriver" Version="4.5.0" />
   </ItemGroup>
 
   <ItemGroup>
