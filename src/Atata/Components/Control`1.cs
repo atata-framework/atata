@@ -122,6 +122,42 @@ public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
     }
 
     /// <summary>
+    /// Performs a long click on the control by
+    /// pressing the control for a specified number of seconds and then releases it.
+    /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+    /// </summary>
+    /// <param name="pressSeconds">The seconds to press the control.</param>
+    /// <returns>The instance of the owner page object.</returns>
+    public TOwner ClickWithHold(double pressSeconds)
+    {
+        Guard.ThrowIfLessThanOrEqualTo(pressSeconds, 0);
+
+        ExecuteTriggers(TriggerEvents.BeforeClick);
+
+        TimeSpan interval = TimeSpan.FromSeconds(pressSeconds);
+
+        Log.ExecuteSection(
+            new ClickWithHoldLogSection(this, interval),
+            () =>
+            {
+                IWebElement element = Scope;
+
+                Log.ExecuteSection(
+                    new ElementClickLogSection(element),
+                    () => new Actions(Driver)
+                        .MoveToElement(element)
+                        .ClickAndHold()
+                        .Pause(interval)
+                        .Release()
+                        .Perform());
+            });
+
+        ExecuteTriggers(TriggerEvents.AfterClick);
+
+        return Owner;
+    }
+
+    /// <summary>
     /// Hovers the control.
     /// Executes an associated with the component <see cref="HoverBehaviorAttribute"/>
     /// that is <see cref="HoversUsingActionsAttribute"/> by default.

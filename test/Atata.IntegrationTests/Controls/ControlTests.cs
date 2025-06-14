@@ -49,6 +49,11 @@ public class ControlTests : WebDriverSessionTestSuite
             .GoTo2Control.ClickAndGo<GoTo2Page>();
 
     [Test]
+    public void ClickWithHold() =>
+        Go.To<BasicControlsPage>()
+            .RawButtonControl.ClickWithHold(.5);
+
+    [Test]
     public void Blur() =>
         Go.To<InputPage>()
             .TelInput.Set("123")
