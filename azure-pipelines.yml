@@ -9,6 +9,10 @@ jobs:
     vmImage: ubuntu-latest
   steps:
   - task: UseDotNet@2
+    displayName: Set up .NET SDK 8
+    inputs:
+      version: '8.x'
+  - task: UseDotNet@2
     displayName: Set up .NET SDK
     inputs:
       version: $(netSdkVersion)
@@ -24,6 +28,10 @@ jobs:
   pool:
     vmImage: ubuntu-latest
   steps:
+  - task: UseDotNet@2
+    displayName: Set up .NET SDK 8
+    inputs:
+      version: '8.x'
   - task: UseDotNet@2
     displayName: Set up .NET SDK
     inputs:
@@ -85,6 +93,10 @@ jobs:
   pool:
     vmImage: $(imageName)
   steps:
+  - task: UseDotNet@2
+    displayName: Set up .NET SDK 8
+    inputs:
+      version: '8.x'
   - task: UseDotNet@2
     displayName: Set up .NET SDK
     inputs:
