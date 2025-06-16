@@ -3,7 +3,6 @@
 /// <summary>
 /// Represents an assertion failure error.
 /// </summary>
-/// <seealso cref="System.Exception" />
 public class AssertionException : Exception
 {
     public AssertionException()
