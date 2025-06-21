@@ -35,7 +35,7 @@ internal static class NLogAdapter
         {
             TimeStamp = eventInfo.Timestamp,
             Level = ConvertLogLevel(eventInfo.Level),
-            Message = eventInfo.Message,
+            Message = eventInfo.Message ?? string.Empty,
             Exception = eventInfo.Exception
         };
 

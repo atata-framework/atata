@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="7.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageReference Include="NLog" Version="5.5.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.9.2" />
   </ItemGroup>
 
