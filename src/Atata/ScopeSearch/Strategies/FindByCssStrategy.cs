@@ -25,7 +25,7 @@ public class FindByCssStrategy : IComponentScopeFindStrategy
                 }
                 else
                 {
-                    throw ElementExceptionFactory.CreateForNotFound(
+                    throw ElementNotFoundException.Create(
                         new SearchFailureData
                         {
                             ElementName = $"{(options.Index.Value + 1).Ordinalize()} matching selector",

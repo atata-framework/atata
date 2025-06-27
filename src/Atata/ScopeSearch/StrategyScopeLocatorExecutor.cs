@@ -28,7 +28,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
                 {
                     XPathComponentScopeFindResult firstResult = xPathResults[0];
 
-                    throw ElementExceptionFactory.CreateForNotFound(
+                    throw ElementNotFoundException.Create(
                         new SearchFailureData
                         {
                             ElementName = $"layer of {executionData.Component.ComponentFullName}",
@@ -104,7 +104,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
                 }
                 else
                 {
-                    throw ElementExceptionFactory.CreateForNotFound(
+                    throw ElementNotFoundException.Create(
                         new SearchFailureData
                         {
                             ElementName = scopeLocateOptions.Component.ComponentFullName,

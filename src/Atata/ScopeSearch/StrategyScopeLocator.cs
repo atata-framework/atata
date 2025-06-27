@@ -27,7 +27,7 @@ public class StrategyScopeLocator : IScopeLocator
 
             if (element == null && !searchOptions.IsSafely)
             {
-                throw ElementExceptionFactory.CreateForNotFound(
+                throw ElementNotFoundException.Create(
                     new SearchFailureData
                     {
                         ElementName = executionData.Component.ComponentFullName,
@@ -97,7 +97,7 @@ public class StrategyScopeLocator : IScopeLocator
 
         if (!searchOptions.IsSafely && !isMissing)
         {
-            throw ElementExceptionFactory.CreateForNotMissing(
+            throw ElementNotMissingException.Create(
                 new SearchFailureData
                 {
                     ElementName = executionData.Component.ComponentFullName,

@@ -34,7 +34,7 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
         }
         else
         {
-            throw ElementExceptionFactory.CreateForNotFound(
+            throw ElementNotFoundException.Create(
                 new SearchFailureData
                 {
                     ElementName = $"by script: {Script}",
@@ -77,7 +77,7 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
                 }
                 else
                 {
-                    throw ElementExceptionFactory.CreateForNotFound(
+                    throw ElementNotFoundException.Create(
                         new SearchFailureData
                         {
                             ElementName = $"{(options.Index.Value + 1).Ordinalize()} by script: {Script}",

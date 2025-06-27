@@ -29,7 +29,7 @@ Features:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atata.WebDriverExtras" Version="3.2.0" />
+    <PackageReference Include="Atata.WebDriverExtras" Version="4.0.0-beta.1" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="PolySharp" Version="1.15.0">

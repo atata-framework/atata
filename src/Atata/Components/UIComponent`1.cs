@@ -143,7 +143,7 @@ return (
 
         if (!searchOptions.IsSafely && element is null)
         {
-            throw ElementExceptionFactory.CreateForNotFound(
+            throw ElementNotFoundException.Create(
                 new SearchFailureData
                 {
                     ElementName = ComponentFullName,

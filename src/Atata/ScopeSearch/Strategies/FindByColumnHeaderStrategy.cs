@@ -46,7 +46,7 @@ public class FindByColumnHeaderStrategy : IComponentScopeFindStrategy
             }
             else
             {
-                throw ElementExceptionFactory.CreateForNotFound(
+                throw ElementNotFoundException.Create(
                     new SearchFailureData
                     {
                         ElementName = $"\"{options.GetTermsAsString()}\" column header",

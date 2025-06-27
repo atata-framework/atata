@@ -24,7 +24,7 @@ public class ControlListScopeLocator : IScopeLocator
 
         if (element is null && !searchOptions.IsSafely)
         {
-            throw ElementExceptionFactory.CreateForNotFound(
+            throw ElementNotFoundException.Create(
                 new SearchFailureData
                 {
                     ElementName = ElementName,
@@ -63,7 +63,7 @@ public class ControlListScopeLocator : IScopeLocator
 
         if (!isMissing && !searchOptions.IsSafely)
         {
-            throw ElementExceptionFactory.CreateForNotMissing(
+            throw ElementNotMissingException.Create(
                 new SearchFailureData
                 {
                     ElementName = ElementName,
