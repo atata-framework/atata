@@ -317,11 +317,11 @@ public class LogManagerTests
     {
         private readonly List<LogEventInfo> _collectedEvents = [];
 
-        public Subject<ReadOnlyCollection<LogEventInfo>> CollectedEvents =>
-            _collectedEvents.ToReadOnly().ToSubject(nameof(CollectedEvents));
+        public Subject<IReadOnlyList<LogEventInfo>> CollectedEvents =>
+            new(_collectedEvents, nameof(CollectedEvents));
 
-        public Subject<ReadOnlyCollection<string>> CollectedEventNestedTextsWithMessages =>
-            _collectedEvents.Select(x => x.NestingText + x.Message).ToReadOnly().ToSubject(nameof(CollectedEventNestedTextsWithMessages));
+        public Subject<IReadOnlyList<string>> CollectedEventNestedTextsWithMessages =>
+            new([.. _collectedEvents.Select(x => x.NestingText + x.Message)], nameof(CollectedEventNestedTextsWithMessages));
 
         public void Log(LogEventInfo eventInfo) =>
             _collectedEvents.Add(eventInfo);
