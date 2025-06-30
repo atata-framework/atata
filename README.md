@@ -6,7 +6,7 @@
 [![Atata Templates](https://img.shields.io/badge/get-Atata_Templates-green.svg?color=4BC21F)](https://marketplace.visualstudio.com/items?itemName=YevgeniyShunevych.AtataTemplates)\
 [![Slack](https://img.shields.io/badge/join-Slack-green.svg?colorB=4EB898)](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
 [![Atata docs](https://img.shields.io/badge/docs-Atata_Framework-orange.svg)](https://atata.io)
-[![Twitter](https://img.shields.io/badge/follow-@AtataFramework-blue.svg)](https://twitter.com/AtataFramework)
+[![X](https://img.shields.io/badge/follow-@AtataFramework-blue.svg)](https://x.com/AtataFramework)
 
 C#/.NET web UI test automation full-featured framework based on Selenium WebDriver.
 It uses a fluent page object pattern;
@@ -141,18 +141,18 @@ Find out more on [Atata Docs](https://atata.io) and on [Getting Started](https:/
 
 You can also check the following tutorials:
 
-* [Atata - C# Web Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework) - an introduction to Atata Framework.
-* [Verification of Page](https://atata.io/tutorials/verification-of-page/) - how to verify web page data using different approaches of Atata Framework.
-* [Verification of Validation Messages](https://atata.io/tutorials/verification-of-validation-messages/) - how to verify validation messages on web pages using Atata Framework.
-* [Handle Confirmation Popups](https://atata.io/tutorials/handle-confirmation-popups/) - how to handle different confirmation popups using Atata Framework.
-* [Multi-Browser Configuration via .runsettings files](https://atata.io/tutorials/multi-browser-configuration-via-runsettings-files/) - how to configure multi-browser tests application using `.runsettings` files.
-* [Reporting to Extent Reports](https://atata.io/tutorials/reporting-to-extentreports/) - how to configure Atata reporting to Extent Reports.
+- [Atata - C# Web Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework) - an introduction to Atata Framework.
+- [Verification of Page](https://atata.io/tutorials/verification-of-page/) - how to verify web page data using different approaches of Atata Framework.
+- [Verification of Validation Messages](https://atata.io/tutorials/verification-of-validation-messages/) - how to verify validation messages on web pages using Atata Framework.
+- [Handle Confirmation Popups](https://atata.io/tutorials/handle-confirmation-popups/) - how to handle different confirmation popups using Atata Framework.
+- [Multi-Browser Configuration via .runsettings files](https://atata.io/tutorials/multi-browser-configuration-via-runsettings-files/) - how to configure multi-browser tests application using `.runsettings` files.
+- [Reporting to Extent Reports](https://atata.io/tutorials/reporting-to-extentreports/) - how to configure Atata reporting to Extent Reports.
 
 ## Community
 
-* Slack: [https://atata-framework.slack.com](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
-* Twitter: https://twitter.com/AtataFramework
-* Stack Overflow: https://stackoverflow.com/questions/tagged/atata
+- Slack: [https://atata-framework.slack.com](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
+- X: https://x.com/AtataFramework
+- Stack Overflow: https://stackoverflow.com/questions/tagged/atata
 
 ## Feedback
 
@@ -166,8 +166,9 @@ or use another [Atata Contact](https://atata.io/contact/) way.
 
 Contact me if you need a help in test automation using Atata Framework, or if you are looking for a quality test automation implementation for your project.
 
-* LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
-* Email: yevgeniy.shunevych@gmail.com
+- LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
+- Email: yevgeniy.shunevych@gmail.com
+- Consulting: https://atata.io/consulting/
 
 ## Contributing
 
