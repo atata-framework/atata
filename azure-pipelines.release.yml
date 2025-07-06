@@ -20,7 +20,7 @@ jobs:
     displayName: Pack
     inputs:
       command: pack
-      packagesToPack: 'src/Atata/*.csproj'
+      packagesToPack: 'src/*/*.csproj'
       configuration: 'Release'
   - task: NuGetCommand@2
     displayName: NuGet push
