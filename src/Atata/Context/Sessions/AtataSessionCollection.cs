@@ -359,7 +359,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     public async Task<TSession> BuildAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
-        (TSession)await BuildAsync(typeof(TSession), sessionName, cancellationToken);
+        (TSession)await BuildAsync(typeof(TSession), sessionName, cancellationToken).ConfigureAwait(false);
 
     /// <summary>
     /// Builds a session of the specified <paramref name="sessionType"/> and <paramref name="sessionName"/>.
@@ -389,7 +389,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     public async ValueTask<TSession> BorrowAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
-        (TSession)await BorrowAsync(typeof(TSession), sessionName, cancellationToken);
+        (TSession)await BorrowAsync(typeof(TSession), sessionName, cancellationToken).ConfigureAwait(false);
 
     /// <summary>
     /// Borrows a session of the specified <paramref name="sessionType"/> with the specified <paramref name="sessionName"/>.
@@ -458,7 +458,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     public async ValueTask<TSession> TakeFromPoolAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
-        (TSession)await TakeFromPoolAsync(typeof(TSession), sessionName, cancellationToken);
+        (TSession)await TakeFromPoolAsync(typeof(TSession), sessionName, cancellationToken).ConfigureAwait(false);
 
     /// <summary>
     /// Takes a session from the pool of the specified <paramref name="sessionType"/> with the specified <paramref name="sessionName"/>.

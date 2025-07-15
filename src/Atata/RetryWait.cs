@@ -123,7 +123,8 @@ public sealed class RetryWait
     {
         Guard.ThrowIfNull(condition);
 
-        return await UntilAsync(_ => condition.Invoke(), cancellationToken);
+        return await UntilAsync(_ => condition.Invoke(), cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc cref="UntilAsync{TInput}(Func{TInput, CancellationToken, Task{bool}}, TInput, CancellationToken)"/>
@@ -131,7 +132,8 @@ public sealed class RetryWait
     {
         Guard.ThrowIfNull(condition);
 
-        return await UntilAsync(_ => condition.Invoke(input), cancellationToken);
+        return await UntilAsync(_ => condition.Invoke(input), cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc cref="UntilAsync(Func{CancellationToken, Task{bool}}, CancellationToken)"/>
@@ -139,7 +141,8 @@ public sealed class RetryWait
     {
         Guard.ThrowIfNull(condition);
 
-        return await UntilAsync(_ => Task.FromResult(condition.Invoke()), cancellationToken);
+        return await UntilAsync(_ => Task.FromResult(condition.Invoke()), cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc cref="UntilAsync{TInput}(Func{TInput, CancellationToken, Task{bool}}, TInput, CancellationToken)"/>
@@ -147,7 +150,8 @@ public sealed class RetryWait
     {
         Guard.ThrowIfNull(condition);
 
-        return await UntilAsync(_ => Task.FromResult(condition.Invoke(input)), cancellationToken);
+        return await UntilAsync(_ => Task.FromResult(condition.Invoke(input)), cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc cref="Until(Func{bool})"/>
@@ -158,7 +162,8 @@ public sealed class RetryWait
     {
         Guard.ThrowIfNull(condition);
 
-        return await UntilAsync(ct => condition.Invoke(input, ct), cancellationToken);
+        return await UntilAsync(ct => condition.Invoke(input, ct), cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc cref="Until(Func{bool})"/>
