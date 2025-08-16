@@ -15,6 +15,7 @@ public class PlainScopeLocator : IScopeLocator
 
         _session = session;
         _by = by;
+        SearchContext = session.Driver;
     }
 
     public PlainScopeLocator(WebDriverSession session, Func<By> byCreator)
@@ -24,29 +25,32 @@ public class PlainScopeLocator : IScopeLocator
 
         _session = session;
         _byCreator = byCreator;
+        SearchContext = session.Driver;
     }
 
     private By By =>
         _by ??= _byCreator!.Invoke();
 
+    public ISearchContext SearchContext { get; set; }
+
     public IWebElement? GetElement(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
         searchOptions ??= new();
 
-        return _session.Driver.GetWithLogging(_session.Log, By.With(searchOptions));
+        return SearchContext.GetWithLogging(_session.Log, By.With(searchOptions));
     }
 
     public IWebElement[] GetElements(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
         searchOptions ??= new();
 
-        return [.. _session.Driver.GetAllWithLogging(_session.Log, By.With(searchOptions))];
+        return [.. SearchContext.GetAllWithLogging(_session.Log, By.With(searchOptions))];
     }
 
     public bool IsMissing(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
         searchOptions ??= new();
 
-        return _session.Driver.Missing(By.With(searchOptions));
+        return SearchContext.Missing(By.With(searchOptions));
     }
 }
