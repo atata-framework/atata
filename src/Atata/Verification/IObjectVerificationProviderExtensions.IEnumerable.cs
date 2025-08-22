@@ -219,7 +219,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count(predicate) == 1,
-            $"contain single {Stringifier.ToString(predicateExpression)} item");
+            $"contain single item {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <inheritdoc cref="ContainSingle{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}})"/>
@@ -235,7 +235,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count(predicate) == 1,
-            $"contain single {Stringifier.ToString(predicateExpression)} item");
+            $"contain single item {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <summary>
@@ -257,7 +257,7 @@ public static partial class IObjectVerificationProviderExtensions
         return verifier.Satisfy(
             actual => actual != null && actual.Count(x => equalityComparer.Equals(x, expectedValue)) == expectedCount,
             VerificationMessage.Of(
-                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} item{(expectedCount != 1 ? "s" : null)}",
+                $"contain exactly {expectedCount} item{(expectedCount != 1 ? "s" : null)} {Stringifier.ToString(expectedValue)}",
                 equalityComparer));
     }
 
@@ -280,7 +280,7 @@ public static partial class IObjectVerificationProviderExtensions
         return verifier.Satisfy(
             actual => actual != null && actual.Count(x => equalityComparer.Equals(x, expectedValue)) == expectedCount,
             VerificationMessage.Of(
-                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} item{(expectedCount != 1 ? "s" : null)}",
+                $"contain exactly {expectedCount} item{(expectedCount != 1 ? "s" : null)} {Stringifier.ToString(expectedValue)}",
                 equalityComparer));
     }
 
@@ -305,7 +305,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count(predicate) == expectedCount,
-            $"contain exactly {expectedCount} {Stringifier.ToString(predicateExpression)} item{(expectedCount != 1 ? "s" : null)}");
+            $"contain exactly {expectedCount} item{(expectedCount != 1 ? "s" : null)} {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <inheritdoc cref="ContainExactly{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, int, Expression{Func{TItem, bool}})"/>
@@ -323,7 +323,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count(predicate) == expectedCount,
-            $"contain exactly {expectedCount} {Stringifier.ToString(predicateExpression)} item{(expectedCount != 1 ? "s" : null)}");
+            $"contain exactly {expectedCount} item{(expectedCount != 1 ? "s" : null)} {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <summary>
@@ -418,7 +418,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Any(predicate),
-            $"contain {Stringifier.ToString(predicateExpression)} item");
+            $"contain item {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <summary>
@@ -439,7 +439,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Any(predicate),
-            $"contain {Stringifier.ToString(predicateExpression)} item");
+            $"contain item {Stringifier.ToString(predicateExpression)}");
     }
 
     public static TOwner Contain<TOwner>(
@@ -902,7 +902,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && DoItemsMatchPredicates((actual as IReadOnlyList<TItem>) ?? actual.ToArray(), predicates),
-            $"consist of {Stringifier.ToString(predicateExpressions)} items");
+            $"consist of items {Stringifier.ToString(predicateExpressions)}");
     }
 
     /// <inheritdoc cref="ConsistOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}}[])"/>
@@ -920,7 +920,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && DoItemsMatchPredicates((actual as IReadOnlyList<TObject>) ?? actual.ToArray(), predicates),
-            $"consist of {Stringifier.ToString(predicateExpressions)} items");
+            $"consist of items {Stringifier.ToString(predicateExpressions)}");
     }
 
     /// <summary>
@@ -941,7 +941,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.All(x => predicate(x)),
-            $"consist only of {Stringifier.ToString(predicateExpression)} items");
+            $"consist only of items {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <inheritdoc cref="ConsistOnlyOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}})"/>
@@ -957,7 +957,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.All(x => predicate(x)),
-            $"consist only of {Stringifier.ToString(predicateExpression)} items");
+            $"consist only of items {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <summary>
@@ -1012,7 +1012,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.All(x => equalityComparer.Equals(x, expected)),
-            VerificationMessage.Of($"consist only of {Stringifier.ToString(expected)} items", equalityComparer));
+            VerificationMessage.Of($"consist only of items {Stringifier.ToString(expected)}", equalityComparer));
     }
 
     /// <inheritdoc cref="ConsistOnlyOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, TItem)"/>
@@ -1026,7 +1026,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.All(x => equalityComparer.Equals(x, expected)),
-            VerificationMessage.Of($"consist only of {Stringifier.ToString(expected)} items", equalityComparer));
+            VerificationMessage.Of($"consist only of items {Stringifier.ToString(expected)}", equalityComparer));
     }
 
     /// <summary>
@@ -1081,7 +1081,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count() == 1 && predicate(actual.Single()),
-            $"consist of single {Stringifier.ToString(predicateExpression)} item");
+            $"consist of single item {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <inheritdoc cref="ConsistOfSingle{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}})"/>
@@ -1097,7 +1097,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count() == 1 && predicate(actual.Single()),
-            $"consist of single {Stringifier.ToString(predicateExpression)} item");
+            $"consist of single item {Stringifier.ToString(predicateExpression)}");
     }
 
     /// <summary>
@@ -1120,7 +1120,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count() == predicates.Length && actual.Select((x, index) => predicates[index](x)).All(x => x),
-            $"consist sequentially of {Stringifier.ToString(predicateExpressions)} items");
+            $"consist sequentially of items {Stringifier.ToString(predicateExpressions)}");
     }
 
     /// <inheritdoc cref="ConsistSequentiallyOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}}[])"/>
@@ -1138,7 +1138,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return verifier.Satisfy(
             actual => actual != null && actual.Count() == predicates.Length && actual.Select((x, index) => predicates[index](x)).All(x => x),
-            $"consist sequentially of {Stringifier.ToString(predicateExpressions)} items");
+            $"consist sequentially of items {Stringifier.ToString(predicateExpressions)}");
     }
 
     private static bool RemoveFromListIfContains<T>(List<T> list, T item, IEqualityComparer<T> equalityComparer)
