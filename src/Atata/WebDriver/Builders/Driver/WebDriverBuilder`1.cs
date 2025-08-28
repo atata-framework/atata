@@ -151,7 +151,10 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     /// When enabled, the default health check function requests <see cref="IWebDriver.Url"/>.
     /// The health check function can be changed by using <see cref="WithInitialHealthCheckFunction(Func{IWebDriver, bool})"/> method.
     /// </summary>
-    /// <param name="enable">Whether to enable an initial health check.</param>
+    /// <param name="enable">
+    /// Whether to enable an initial health check.
+    /// The default value is <see langword="true"/>.
+    /// </param>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithInitialHealthCheck(bool enable = true)
     {

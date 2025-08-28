@@ -34,7 +34,10 @@ public sealed class BrowserLogsWebDriverSessionBuilder
     /// to Atata logging system as "Browser" source.
     /// The default value is <see langword="false"/>.
     /// </summary>
-    /// <param name="enable">Whether to enable logging.</param>
+    /// <param name="enable">
+    /// Whether to enable logging.
+    /// The default value is <see langword="true"/>.
+    /// </param>
     /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
     public WebDriverSessionBuilder UseLog(bool enable = true)
     {
