@@ -15,6 +15,9 @@ public static class CIDetector
     /// </returns>
     public static bool IsRunningOnCI()
     {
+        if (Debugger.IsAttached)
+            return false;
+
         IDictionary variables = Environment.GetEnvironmentVariables();
 
         return variables["CI"]?.ToString()!.Equals("true", StringComparison.OrdinalIgnoreCase) == true
