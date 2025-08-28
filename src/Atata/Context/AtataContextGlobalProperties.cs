@@ -205,6 +205,16 @@ public sealed class AtataContextGlobalProperties
             : DefaultArtifactsRootPathTemplateExcludingRunStart);
 
     /// <summary>
+    /// Sets the default Artifacts Root path template excluding
+    /// <c>"{run-start:yyyyMMddTHHmmss}"</c> folder in the path on CI environment.
+    /// </summary>
+    /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
+    public AtataContextGlobalProperties UseDefaultArtifactsRootPathTemplateExcludingRunStartOnCI() =>
+        UseArtifactsRootPathTemplate(!CIDetector.IsRunningOnCI()
+            ? DefaultArtifactsRootPathTemplate
+            : DefaultArtifactsRootPathTemplateExcludingRunStart);
+
+    /// <summary>
     /// <para>
     /// Sets the path template of the Artifacts Root directory.
     /// The default value is <c>"{basedir}/artifacts/{run-start:yyyyMMddTHHmmss}"</c>.
