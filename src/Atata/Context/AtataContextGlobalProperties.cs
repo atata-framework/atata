@@ -8,15 +8,15 @@
 /// </summary>
 public sealed class AtataContextGlobalProperties
 {
-    [Obsolete("Use DefaultArtifactsRootPathTemplateWithoutRunStartFolder instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use DefaultArtifactsRootPathTemplateExcludingRunStart instead.")] // Obsolete since v4.0.0.
     public const string DefaultArtifactsRootPathTemplateWithoutBuildStartFolder =
         "{basedir}/artifacts";
 
-    public const string DefaultArtifactsRootPathTemplateWithoutRunStartFolder =
+    public const string DefaultArtifactsRootPathTemplateExcludingRunStart =
         "{basedir}/artifacts";
 
     public const string DefaultArtifactsRootPathTemplate =
-        DefaultArtifactsRootPathTemplateWithoutRunStartFolder + "/{run-start:yyyyMMddTHHmmss}";
+        DefaultArtifactsRootPathTemplateExcludingRunStart + "/{run-start:yyyyMMddTHHmmss}";
 
     private AtataContextModeOfCurrent _modeOfCurrent = AtataContextModeOfCurrent.AsyncLocal;
 
@@ -202,7 +202,7 @@ public sealed class AtataContextGlobalProperties
     public AtataContextGlobalProperties UseDefaultArtifactsRootPathTemplateIncludingRunStart(bool include = true) =>
         UseArtifactsRootPathTemplate(include
             ? DefaultArtifactsRootPathTemplate
-            : DefaultArtifactsRootPathTemplateWithoutRunStartFolder);
+            : DefaultArtifactsRootPathTemplateExcludingRunStart);
 
     /// <summary>
     /// <para>
