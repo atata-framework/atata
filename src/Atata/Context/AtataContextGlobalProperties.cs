@@ -194,9 +194,12 @@ public sealed class AtataContextGlobalProperties
     /// Sets the default Artifacts Root path template with optionally
     /// including <c>"{run-start:yyyyMMddTHHmmss}"</c> folder in the path.
     /// </summary>
-    /// <param name="include">Whether to include the <c>"{run-start:yyyyMMddTHHmmss}"</c> folder in the path.</param>
+    /// <param name="include">
+    /// Whether to include the <c>"{run-start:yyyyMMddTHHmmss}"</c> folder in the path.
+    /// The default value is <see langword="true"/>.
+    /// </param>
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
-    public AtataContextGlobalProperties UseDefaultArtifactsRootPathTemplateIncludingRunStart(bool include) =>
+    public AtataContextGlobalProperties UseDefaultArtifactsRootPathTemplateIncludingRunStart(bool include = true) =>
         UseArtifactsRootPathTemplate(include
             ? DefaultArtifactsRootPathTemplate
             : DefaultArtifactsRootPathTemplateWithoutRunStartFolder);
