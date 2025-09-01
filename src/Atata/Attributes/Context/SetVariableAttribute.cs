@@ -28,6 +28,6 @@ public class SetVariableAttribute : AtataContextConfigurationAttribute
     /// </summary>
     public object Value { get; }
 
-    public override void ConfigureAtataContext(AtataContextBuilder builder) =>
+    public override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite) =>
         builder.UseVariable(Key, Value);
 }

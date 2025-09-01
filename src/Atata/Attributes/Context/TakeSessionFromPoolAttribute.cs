@@ -29,7 +29,7 @@ public class TakeSessionFromPoolAttribute : AtataContextConfigurationAttribute
     /// </summary>
     public string? SessionName { get; }
 
-    public override void ConfigureAtataContext(AtataContextBuilder builder)
+    public override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
     {
         builder.Sessions.Configure(
             SessionType,

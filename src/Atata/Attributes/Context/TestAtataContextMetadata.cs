@@ -33,12 +33,13 @@ public sealed class TestAtataContextMetadata
     /// Applies the metadata to the specified <paramref name="builder"/>.
     /// </summary>
     /// <param name="builder">The builder to apply the metadata to.</param>
-    public void ApplyToTestBuilder(AtataContextBuilder builder)
+    /// <param name="testSuite">The test suite object.</param>
+    public void ApplyToTestBuilder(AtataContextBuilder builder, object? testSuite)
     {
         foreach (object attribute in _attributes)
         {
             if (attribute is AtataContextConfigurationAttribute configurationAttribute)
-                configurationAttribute.ConfigureAtataContext(builder);
+                configurationAttribute.ConfigureAtataContext(builder, testSuite);
         }
     }
 }

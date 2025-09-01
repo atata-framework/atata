@@ -10,5 +10,6 @@ public abstract class AtataContextConfigurationAttribute : Attribute
     /// Configures the targeted <see cref="AtataContext"/>.
     /// </summary>
     /// <param name="builder">The builder.</param>
-    public abstract void ConfigureAtataContext(AtataContextBuilder builder);
+    /// <param name="testSuite">The test suite object.</param>
+    public abstract void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite);
 }

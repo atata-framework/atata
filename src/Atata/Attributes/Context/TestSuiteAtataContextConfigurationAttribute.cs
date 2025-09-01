@@ -10,7 +10,8 @@ public abstract class TestSuiteAtataContextConfigurationAttribute : AtataContext
     /// Configures the <see cref="AtataContext"/> of each test.
     /// </summary>
     /// <param name="builder">The builder.</param>
-    public virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
+    /// <param name="testSuite">The test suite object.</param>
+    public virtual void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
     {
     }
 }
