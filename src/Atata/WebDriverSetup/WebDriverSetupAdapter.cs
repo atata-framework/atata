@@ -10,7 +10,7 @@ internal static class WebDriverSetupAdapter
             "AutoSetUpSafelyAsync",
             BindingFlags.Public | BindingFlags.Static);
 
-        Task task = setUpMethod.InvokeStaticAsLambda<Task>(browserNames, cancellationToken);
+        var task = (Task)setUpMethod.Invoke(null, [browserNames, cancellationToken]);
         await task.ConfigureAwait(false);
     }
 }

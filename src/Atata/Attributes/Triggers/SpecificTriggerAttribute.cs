@@ -18,7 +18,7 @@ public abstract class SpecificTriggerAttribute : TriggerAttribute
                 ? declaredMethod.MakeGenericMethod(ownerType)
                 : declaredMethod;
 
-            actualMethod.InvokeAsLambda(this, context);
+            actualMethod.Invoke(this, [context]);
         }
     }
 }
