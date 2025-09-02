@@ -2,56 +2,50 @@
 
 public static class MethodInfoExtensions
 {
-    public static object InvokeStatic(this MethodInfo method, params object?[] args) =>
-        method.Invoke(null, args);
-
-    public static TResult InvokeStatic<TResult>(this MethodInfo method, params object?[] args) =>
-        (TResult)method.Invoke(null, args);
-
-    public static void InvokeAsLambda(this MethodInfo method, object instance, params object?[] args)
+    public static Action CompileToLambda(this MethodInfo method, object? instance, params object?[] args)
     {
         if (instance is null)
         {
-            InvokeStaticAsLambda(method, args);
+            return CompileToStaticLambda(method, args);
         }
         else
         {
             var callExpression = method.ToInstanceMethodCallExpression(instance, args);
 
             var lambda = Expression.Lambda<Action>(callExpression);
-            lambda.Compile().Invoke();
+            return lambda.Compile();
         }
     }
 
-    public static TResult InvokeAsLambda<TResult>(this MethodInfo method, object instance, params object?[] args)
+    public static Func<TResult> CompileToLambda<TResult>(this MethodInfo method, object? instance, params object?[] args)
     {
         if (instance is null)
         {
-            return InvokeStaticAsLambda<TResult>(method, args);
+            return CompileToStaticLambda<TResult>(method, args);
         }
         else
         {
             var callExpression = method.ToInstanceMethodCallExpression(instance, args);
 
             var lambda = Expression.Lambda<Func<TResult>>(callExpression);
-            return lambda.Compile().Invoke();
+            return lambda.Compile();
         }
     }
 
-    public static void InvokeStaticAsLambda(this MethodInfo method, params object?[] args)
+    public static Action CompileToStaticLambda(this MethodInfo method, params object?[] args)
     {
         var callExpression = method.ToStaticMethodCallExpression(args);
 
         var lambda = Expression.Lambda<Action>(callExpression);
-        lambda.Compile().Invoke();
+        return lambda.Compile();
     }
 
-    public static TResult InvokeStaticAsLambda<TResult>(this MethodInfo method, params object?[] args)
+    public static Func<TResult> CompileToStaticLambda<TResult>(this MethodInfo method, params object?[] args)
     {
         var callExpression = method.ToStaticMethodCallExpression(args);
 
         var lambda = Expression.Lambda<Func<TResult>>(callExpression);
-        return lambda.Compile().Invoke();
+        return lambda.Compile();
     }
 
     public static MethodCallExpression ToInstanceMethodCallExpression(this MethodInfo method, object instance, params object?[] args)
