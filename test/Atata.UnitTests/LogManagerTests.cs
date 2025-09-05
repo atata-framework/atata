@@ -11,7 +11,7 @@ public class LogManagerTests
     [Test]
     public void Info_WithSecretString()
     {
-        var sut = CreateSut(
+        using var sut = CreateSut(
             [new LogConsumerConfiguration(_consumerSpy)],
             [new SecretStringToMask("abc123", "***")]);
 
@@ -24,7 +24,7 @@ public class LogManagerTests
     [Test]
     public async Task ExecuteSectionAsync()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
 
         await sut.ExecuteSectionAsync(
             new StepLogSection("step section"),
@@ -47,7 +47,7 @@ public class LogManagerTests
     [Test]
     public async Task ExecuteSectionAsync_WithResult()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
 
         var result = (await sut.ExecuteSectionAsync(
             new StepLogSection("step section"),
@@ -71,7 +71,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsExclude()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude)]);
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
@@ -85,7 +85,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsExclude_AndMinLogLevelIsInfo()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Exclude)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Exclude)]);
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
@@ -97,7 +97,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsIncludeForBlocks()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.IncludeForBlocks)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.IncludeForBlocks)]);
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
@@ -112,7 +112,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsIncludeForBlocks_AndMinLogLevelIsInfo()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.IncludeForBlocks)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.IncludeForBlocks)]);
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
@@ -125,7 +125,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsInclude()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Include)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Include)]);
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
@@ -141,7 +141,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsInclude_AndMinLogLevelIsInfo()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Include)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Include)]);
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
@@ -154,7 +154,7 @@ public class LogManagerTests
     [Test]
     public void ForCategory()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
         const string category1Name = "cat1";
         const string category2Name = "cat2";
 
@@ -184,7 +184,7 @@ public class LogManagerTests
     [Test]
     public void ForSource_WhenConsumerEmbedSourceLogIsTrue()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedSourceLog = true }]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedSourceLog = true }]);
         const string sourceName = "src1";
 
         sut.ExecuteSection(
@@ -213,7 +213,7 @@ public class LogManagerTests
     [Test]
     public void ForSource_WhenConsumerEmbedSourceLogIsFalse()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedSourceLog = false }]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedSourceLog = false }]);
         const string sourceName = "src1";
 
         sut.ExecuteSection(
@@ -246,7 +246,7 @@ public class LogManagerTests
     [Test]
     public void CreateSubLogForCategory()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
+        using var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
         const string category1Name = "cat1";
         const string category2Name = "cat2";
 

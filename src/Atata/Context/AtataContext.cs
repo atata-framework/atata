@@ -1101,8 +1101,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         LogTestFinish(deinitializationStopwatch.Elapsed);
 
-        Variables.Clear();
+        ((IDisposable)Log).Dispose();
         Log = null!;
+        Variables.Clear();
         AssertionResults.Clear();
 
         _status = Status.Disposed;

@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the log manager, an entry point for the Atata logging functionality.
 /// </summary>
-internal sealed class LogManager : ILogManager
+internal sealed class LogManager : ILogManager, IDisposable
 {
     private readonly LogManagerConfiguration _configuration;
 
@@ -317,7 +317,7 @@ internal sealed class LogManager : ILogManager
     private static bool IsBlockLogSection(LogSection logSection) =>
         logSection is AggregateAssertionLogSection or SetupLogSection or StepLogSection;
 
-    private static void HandleExceptionOccurredDuringLogging(Exception exception)
+    private static void ReportException(Exception exception)
     {
         try
         {
@@ -403,7 +403,7 @@ internal sealed class LogManager : ILogManager
                 }
                 catch (Exception exception)
                 {
-                    HandleExceptionOccurredDuringLogging(exception);
+                    ReportException(exception);
                 }
             }
         }
@@ -423,6 +423,24 @@ internal sealed class LogManager : ILogManager
             message = message.Replace(secret.Value, secret.Mask);
 
         return message;
+    }
+
+    public void Dispose()
+    {
+        foreach (var consumerConfiguration in _configuration.ConsumerConfigurations)
+        {
+            if (consumerConfiguration.Consumer is IDisposable disposableConsumer)
+            {
+                try
+                {
+                    disposableConsumer.Dispose();
+                }
+                catch (Exception exception)
+                {
+                    ReportException(exception);
+                }
+            }
+        }
     }
 
     private sealed class ZeroOuterLogNestingLevelResolver : IOuterLogNestingLevelResolver
