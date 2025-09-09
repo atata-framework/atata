@@ -71,10 +71,10 @@ public static class AtataContextParentResolverTests
 
         private static AtataContext CreateContext(AtataContext? parentContext, AtataContextScope? scope, TestInfo testInfo)
         {
-            var context = new AtataContext(parentContext, scope, testInfo)
-            {
-                Log = Mock.Of<ILogManager>()
-            };
+            var context = new AtataContext(parentContext, scope, testInfo);
+
+            context.Log = new LogManager(new([], []), new AtataContextLogEventInfoFactory(context));
+            context.EventBus = new EventBus(context);
 
             parentContext?.AddChildContext(context);
 
