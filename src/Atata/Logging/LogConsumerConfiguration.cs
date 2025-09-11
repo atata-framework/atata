@@ -5,6 +5,10 @@
 /// </summary>
 public sealed class LogConsumerConfiguration : ICloneable
 {
+    private SkipLogCondition _skipCondition;
+
+    private List<PostponedLogEntry>? _postponedLogEntries;
+
     internal LogConsumerConfiguration(
         ILogConsumer consumer)
         : this(consumer, LogLevel.Trace, LogSectionEndOption.Include)
@@ -100,6 +104,48 @@ public sealed class LogConsumerConfiguration : ICloneable
     public bool EmbedSourceLog { get; set; }
 
     /// <summary>
+    /// Gets or sets the condition under which logging should be skipped depending on a test result status.
+    /// The default value is <see cref="SkipLogCondition.None"/>.
+    /// When set to a value other than <see cref="SkipLogCondition.None"/>, log entries are postponed
+    /// until the end of the test item.
+    /// </summary>
+    public SkipLogCondition SkipCondition
+    {
+        get => _skipCondition;
+        set
+        {
+            _skipCondition = value;
+
+            if (value == SkipLogCondition.None)
+                StopPostponing();
+            else if (!IsPostponing)
+                StartPostponing();
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether log entries are being postponed.
+    /// </summary>
+    [MemberNotNullWhen(true, nameof(PostponedLogEntries))]
+    [MemberNotNullWhen(true, nameof(PostponingSyncLock))]
+    internal bool IsPostponing =>
+        _postponedLogEntries is not null;
+
+    internal List<PostponedLogEntry>? PostponedLogEntries =>
+        _postponedLogEntries;
+
+    internal object? PostponingSyncLock { get; private set; }
+
+    internal void StartPostponing()
+    {
+        PostponingSyncLock = new();
+        _postponedLogEntries = [];
+    }
+
+    internal void StopPostponing() =>
+        _postponedLogEntries = null;
+
+    /// <summary>
     /// Creates a new object that is a copy of the current instance.
     /// </summary>
     /// <returns>
@@ -111,6 +157,8 @@ public sealed class LogConsumerConfiguration : ICloneable
 
         if (Consumer is ICloneable cloneableConsumer)
             clone.Consumer = (ILogConsumer)cloneableConsumer.Clone();
+
+        clone._postponedLogEntries = null;
 
         return clone;
     }

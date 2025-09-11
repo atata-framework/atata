@@ -1,6 +1,6 @@
 ﻿namespace Atata.UnitTests;
 
-public class LogManagerTests
+public sealed class LogManagerTests
 {
     private LogConsumerSpy _consumerSpy = null!;
 
@@ -280,6 +280,86 @@ public class LogManagerTests
             x => x.NestingText == "- < " && x.Message!.StartsWith("ForCategory (") && x.Category == category2Name,
             x => x.NestingText == "- < " && x.Message!.StartsWith("CreateSubLogForCategory (") && x.Category == category1Name,
             x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.Category == null);
+    }
+
+    [TestCase(SkipLogCondition.Passed)]
+    [TestCase(SkipLogCondition.PassedOrInconclusive)]
+    [TestCase(SkipLogCondition.PassedOrInconclusiveOrWarning)]
+    public void TryReleasePostponingConsumers_WithFailedStatus_WhenConsumerSkipConditionIs(SkipLogCondition condition)
+    {
+        // Arrange
+        using var sut = CreateSut(
+            [
+                new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude)
+                {
+                    SkipCondition = condition
+                }
+            ]);
+
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
+
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.BeEmpty();
+
+        // Act
+        sut.TryReleasePostponingConsumers(TestResultStatus.Failed);
+
+        // Assert
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.EqualSequence(
+            "step section",
+            "- trace sub-section",
+            "- - inner info message",
+            "- - inner trace message");
+    }
+
+    [TestCase(SkipLogCondition.Passed)]
+    [TestCase(SkipLogCondition.PassedOrInconclusive)]
+    public void TryReleasePostponingConsumers_WithWarningStatus_WhenConsumerSkipConditionIs(SkipLogCondition condition)
+    {
+        // Arrange
+        using var sut = CreateSut(
+            [
+                new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude)
+                {
+                    SkipCondition = condition
+                }
+            ]);
+
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
+
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.BeEmpty();
+
+        // Act
+        sut.TryReleasePostponingConsumers(TestResultStatus.Warning);
+
+        // Assert
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.EqualSequence(
+            "step section",
+            "- trace sub-section",
+            "- - inner info message",
+            "- - inner trace message");
+    }
+
+    [Test]
+    public void TryReleasePostponingConsumers_WithWarningStatus_WhenConsumerSkipConditionIsPassedOrInconclusiveOrWarning()
+    {
+        // Arrange
+        using var sut = CreateSut(
+            [
+                new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude)
+                {
+                    SkipCondition = SkipLogCondition.PassedOrInconclusiveOrWarning
+                }
+            ]);
+
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
+
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.BeEmpty();
+
+        // Act
+        sut.TryReleasePostponingConsumers(TestResultStatus.Warning);
+
+        // Assert
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.BeEmpty();
     }
 
     private static LogManager CreateSut(

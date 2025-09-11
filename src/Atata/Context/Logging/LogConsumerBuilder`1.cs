@@ -113,6 +113,24 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     }
 
     /// <summary>
+    /// Sets the condition under which logging should be skipped depending on a test result status.
+    /// The default value is <see cref="SkipLogCondition.None"/>.
+    /// When set to a value other than <see cref="SkipLogCondition.None"/>, log entries are postponed
+    /// until the end of the test item.
+    /// </summary>
+    /// <param name="skipCondition">
+    /// The condition under which logging should be skipped.
+    /// </param>
+    /// <returns>
+    /// The same builder instance.
+    /// </returns>
+    public LogConsumerBuilder<TLogConsumer> WithSkip(SkipLogCondition skipCondition)
+    {
+        _configuration.ConsumerConfiguration.SkipCondition = skipCondition;
+        return this;
+    }
+
+    /// <summary>
     /// Sets the target scopes for which to apply the log consumer.
     /// The default value is <see cref="AtataContextScopes.All"/>.
     /// </summary>

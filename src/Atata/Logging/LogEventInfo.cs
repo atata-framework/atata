@@ -5,6 +5,8 @@
 /// </summary>
 public sealed class LogEventInfo
 {
+    private KeyValuePair<string, object?>[]? _propertiesSnapshot;
+
     internal LogEventInfo(AtataContext context) =>
         Context = context;
 
@@ -90,7 +92,13 @@ public sealed class LogEventInfo
     /// and the variables of <see cref="Session"/>/<see cref="Context"/>.
     /// </summary>
     /// <returns>The properties.</returns>
-    public IEnumerable<KeyValuePair<string, object?>> GetProperties()
+    public IEnumerable<KeyValuePair<string, object?>> GetProperties() =>
+        _propertiesSnapshot ?? GetPropertiesLazy();
+
+    internal void MakeSnapshotIfItDoesNotExist() =>
+        _propertiesSnapshot ??= [.. GetPropertiesLazy()];
+
+    private IEnumerable<KeyValuePair<string, object?>> GetPropertiesLazy()
     {
         yield return new("time-elapsed", TimeElapsed);
 
@@ -100,15 +108,15 @@ public sealed class LogEventInfo
         {
             foreach (var item in variables)
                 yield return item;
-
-            if (NestingText?.Length > 0)
-                yield return new("log-nesting-text", NestingText);
-
-            if (Source?.Length > 0)
-                yield return new("log-source", Source);
-
-            if (Category?.Length > 0)
-                yield return new("log-category", Category);
         }
+
+        if (NestingText?.Length > 0)
+            yield return new("log-nesting-text", NestingText);
+
+        if (Source?.Length > 0)
+            yield return new("log-source", Source);
+
+        if (Category?.Length > 0)
+            yield return new("log-category", Category);
     }
 }

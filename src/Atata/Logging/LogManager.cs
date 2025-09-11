@@ -393,8 +393,25 @@ internal sealed class LogManager : ILogManager, IDisposable
             {
                 int outerNestingLevel = _outerLogNestingLevelResolver.GetNestingLevel(consumerItem);
                 int thisNestingLevel = _sectionStack.Count(x => x.Level >= consumerItem.MinLevel);
+                int combinedNestingLevel = outerNestingLevel + thisNestingLevel;
 
-                eventInfo.NestingLevel = outerNestingLevel + thisNestingLevel;
+                if (consumerItem.IsPostponing)
+                {
+                    lock (consumerItem.PostponingSyncLock)
+                    {
+                        if (consumerItem.IsPostponing)
+                        {
+                            eventInfo.MakeSnapshotIfItDoesNotExist();
+
+                            PostponedLogEntry postponedLogEntry = new(eventInfo, combinedNestingLevel);
+
+                            consumerItem.PostponedLogEntries.Add(postponedLogEntry);
+                            continue;
+                        }
+                    }
+                }
+
+                eventInfo.NestingLevel = combinedNestingLevel;
                 eventInfo.NestingText = BuildNestingText(eventInfo, consumerItem);
 
                 try
@@ -424,6 +441,46 @@ internal sealed class LogManager : ILogManager, IDisposable
 
         return message;
     }
+
+    internal void TryReleasePostponingConsumers(TestResultStatus testResultStatus)
+    {
+        foreach (var consumerConfiguration in _configuration.ConsumerConfigurations)
+        {
+            if (consumerConfiguration.IsPostponing && ShouldReleasePostponingConsumer(testResultStatus, consumerConfiguration.SkipCondition))
+            {
+                lock (consumerConfiguration.PostponingSyncLock)
+                {
+                    try
+                    {
+                        foreach (var postponedEntry in consumerConfiguration.PostponedLogEntries)
+                        {
+                            LogEventInfo logEvent = postponedEntry.LogEvent;
+
+                            logEvent.NestingLevel = postponedEntry.NestingLevel;
+                            logEvent.NestingText = BuildNestingText(logEvent, consumerConfiguration);
+
+                            consumerConfiguration.Consumer.Log(logEvent);
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        ReportException(exception);
+                    }
+
+                    consumerConfiguration.StopPostponing();
+                }
+            }
+        }
+    }
+
+    private static bool ShouldReleasePostponingConsumer(TestResultStatus testResultStatus, SkipLogCondition skipCondition) =>
+        testResultStatus switch
+        {
+            TestResultStatus.Inconclusive => skipCondition <= SkipLogCondition.Passed,
+            TestResultStatus.Warning => skipCondition <= SkipLogCondition.PassedOrInconclusive,
+            TestResultStatus.Failed => true,
+            _ => false
+        };
 
     public void Dispose()
     {
