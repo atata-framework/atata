@@ -158,7 +158,10 @@ public sealed class LogConsumerConfiguration : ICloneable
         if (Consumer is ICloneable cloneableConsumer)
             clone.Consumer = (ILogConsumer)cloneableConsumer.Clone();
 
-        clone._postponedLogEntries = null;
+        if (SkipCondition == SkipLogCondition.None)
+            clone.StopPostponing();
+        else
+            clone.StartPostponing();
 
         return clone;
     }
