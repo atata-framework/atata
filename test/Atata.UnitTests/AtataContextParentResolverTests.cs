@@ -71,7 +71,7 @@ public static class AtataContextParentResolverTests
 
         private static AtataContext CreateContext(AtataContext? parentContext, AtataContextScope? scope, TestInfo testInfo)
         {
-            var context = new AtataContext(parentContext, scope, testInfo);
+            AtataContext context = new(parentContext, scope, testInfo);
 
             context.Log = new LogManager(new([], []), new AtataContextLogEventInfoFactory(context));
             context.EventBus = new EventBus(context);
