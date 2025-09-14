@@ -114,9 +114,9 @@ public sealed class LogConsumerBuilder<TLogConsumer>
 
     /// <summary>
     /// Sets the condition under which logging should be skipped depending on a test result status.
-    /// The default value is <see cref="SkipLogCondition.None"/>.
-    /// When set to a value other than <see cref="SkipLogCondition.None"/>, log entries are postponed
-    /// until the end of the test item.
+    /// The default value is <see cref="TestResultStatusCondition.None"/>.
+    /// When set to a value other than <see cref="TestResultStatusCondition.None"/>, log entries are postponed
+    /// until the end of the test item, when test result status is resolved.
     /// </summary>
     /// <param name="skipCondition">
     /// The condition under which logging should be skipped.
@@ -124,7 +124,7 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>
     /// The same builder instance.
     /// </returns>
-    public LogConsumerBuilder<TLogConsumer> WithSkip(SkipLogCondition skipCondition)
+    public LogConsumerBuilder<TLogConsumer> WithSkipCondition(TestResultStatusCondition skipCondition)
     {
         _configuration.ConsumerConfiguration.SkipCondition = skipCondition;
         return this;

@@ -5,7 +5,7 @@
 /// </summary>
 public sealed class LogConsumerConfiguration : ICloneable
 {
-    private SkipLogCondition _skipCondition;
+    private TestResultStatusCondition _skipCondition;
 
     private List<PostponedLogEntry>? _postponedLogEntries;
 
@@ -105,18 +105,18 @@ public sealed class LogConsumerConfiguration : ICloneable
 
     /// <summary>
     /// Gets or sets the condition under which logging should be skipped depending on a test result status.
-    /// The default value is <see cref="SkipLogCondition.None"/>.
-    /// When set to a value other than <see cref="SkipLogCondition.None"/>, log entries are postponed
-    /// until the end of the test item.
+    /// The default value is <see cref="TestResultStatusCondition.None"/>.
+    /// When set to a value other than <see cref="TestResultStatusCondition.None"/>, log entries are postponed
+    /// until the end of the test item, when test result status is resolved.
     /// </summary>
-    public SkipLogCondition SkipCondition
+    public TestResultStatusCondition SkipCondition
     {
         get => _skipCondition;
         set
         {
             _skipCondition = value;
 
-            if (value == SkipLogCondition.None)
+            if (value == TestResultStatusCondition.None)
                 StopPostponing();
             else if (!IsPostponing)
                 StartPostponing();
@@ -158,7 +158,7 @@ public sealed class LogConsumerConfiguration : ICloneable
         if (Consumer is ICloneable cloneableConsumer)
             clone.Consumer = (ILogConsumer)cloneableConsumer.Clone();
 
-        if (SkipCondition == SkipLogCondition.None)
+        if (SkipCondition == TestResultStatusCondition.None)
             clone.StopPostponing();
         else
             clone.StartPostponing();

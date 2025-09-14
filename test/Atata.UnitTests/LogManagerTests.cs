@@ -282,10 +282,10 @@ public sealed class LogManagerTests
             x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.Category == null);
     }
 
-    [TestCase(SkipLogCondition.Passed)]
-    [TestCase(SkipLogCondition.PassedOrInconclusive)]
-    [TestCase(SkipLogCondition.PassedOrInconclusiveOrWarning)]
-    public void TryReleasePostponingConsumers_WithFailedStatus_WhenConsumerSkipConditionIs(SkipLogCondition condition)
+    [TestCase(TestResultStatusCondition.Passed)]
+    [TestCase(TestResultStatusCondition.PassedOrInconclusive)]
+    [TestCase(TestResultStatusCondition.PassedOrInconclusiveOrWarning)]
+    public void TryReleasePostponingConsumers_WithFailedStatus_WhenConsumerSkipConditionIs(TestResultStatusCondition condition)
     {
         // Arrange
         using var sut = CreateSut(
@@ -311,9 +311,9 @@ public sealed class LogManagerTests
             "- - inner trace message");
     }
 
-    [TestCase(SkipLogCondition.Passed)]
-    [TestCase(SkipLogCondition.PassedOrInconclusive)]
-    public void TryReleasePostponingConsumers_WithWarningStatus_WhenConsumerSkipConditionIs(SkipLogCondition condition)
+    [TestCase(TestResultStatusCondition.Passed)]
+    [TestCase(TestResultStatusCondition.PassedOrInconclusive)]
+    public void TryReleasePostponingConsumers_WithWarningStatus_WhenConsumerSkipConditionIs(TestResultStatusCondition condition)
     {
         // Arrange
         using var sut = CreateSut(
@@ -347,7 +347,7 @@ public sealed class LogManagerTests
             [
                 new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude)
                 {
-                    SkipCondition = SkipLogCondition.PassedOrInconclusiveOrWarning
+                    SkipCondition = TestResultStatusCondition.PassedOrInconclusiveOrWarning
                 }
             ]);
 

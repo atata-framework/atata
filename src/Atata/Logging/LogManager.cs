@@ -473,11 +473,11 @@ internal sealed class LogManager : ILogManager, IDisposable
         }
     }
 
-    private static bool ShouldReleasePostponingConsumer(TestResultStatus testResultStatus, SkipLogCondition skipCondition) =>
+    private static bool ShouldReleasePostponingConsumer(TestResultStatus testResultStatus, TestResultStatusCondition skipCondition) =>
         testResultStatus switch
         {
-            TestResultStatus.Inconclusive => skipCondition <= SkipLogCondition.Passed,
-            TestResultStatus.Warning => skipCondition <= SkipLogCondition.PassedOrInconclusive,
+            TestResultStatus.Inconclusive => skipCondition <= TestResultStatusCondition.Passed,
+            TestResultStatus.Warning => skipCondition <= TestResultStatusCondition.PassedOrInconclusive,
             TestResultStatus.Failed => true,
             _ => false
         };
