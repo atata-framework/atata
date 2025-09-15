@@ -334,6 +334,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; internal set; } = null!;
 
+    internal TestResultStatusCondition CleanUpArtifactsCondition { get; init; }
+
     /// <summary>
     /// Gets the list of all assertion results.
     /// </summary>
@@ -1084,6 +1086,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
                 Sessions.Dispose();
 
+                CleanUpArtifactsDirectoryIfNeeded();
+
                 try
                 {
                     await EventBus.PublishAsync(new AtataContextDeInitCompletedEvent(this))
@@ -1288,4 +1292,25 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     private string ToShortStringCore() =>
         $"AtataContext {{ Id={Id} }}";
+
+    private void CleanUpArtifactsDirectoryIfNeeded()
+    {
+        if (CleanUpArtifactsCondition != TestResultStatusCondition.None && CleanUpArtifactsCondition.DoesMeet(TestResultStatus))
+            CleanUpArtifactsDirectory();
+    }
+
+    private void CleanUpArtifactsDirectory()
+    {
+        string artifactsPath = ArtifactsPath;
+
+        try
+        {
+            if (Directory.Exists(artifactsPath))
+                Directory.Delete(artifactsPath, recursive: true);
+        }
+        catch (Exception exception)
+        {
+            Log.Warn(exception, $"Could not delete Artifacts directory '{artifactsPath}'.");
+        }
+    }
 }

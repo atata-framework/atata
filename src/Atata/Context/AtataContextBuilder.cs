@@ -197,6 +197,12 @@ public sealed class AtataContextBuilder : ICloneable
     public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; set; } = AtataAssertionFailureReportStrategy.Instance;
 
     /// <summary>
+    /// Gets or sets the condition under which Artifacts directory should be deleted depending on a test result status.
+    /// The default value is <see cref="TestResultStatusCondition.None"/>.
+    /// </summary>
+    public TestResultStatusCondition CleanUpArtifactsCondition { get; set; }
+
+    /// <summary>
     /// Sets the parent context.
     /// </summary>
     /// <param name="parentContext">The parent context.</param>
@@ -635,6 +641,19 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
+    /// Sets the condition under which Artifacts directory should be deleted depending on a test result status.
+    /// The default value is <see cref="TestResultStatusCondition.None"/>.
+    /// </summary>
+    /// <param name="condition">The condition.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseCleanUpArtifactsCondition(TestResultStatusCondition condition)
+    {
+        CleanUpArtifactsCondition = condition;
+
+        return this;
+    }
+
+    /// <summary>
     /// Creates a new clear <see cref="AtataContextBuilder"/> with the same scope arguments.
     /// If this instance is <see cref="AtataContext.BaseConfiguration"/>,
     /// sets the new cleared instance into <see cref="AtataContext.BaseConfiguration"/>.
@@ -707,7 +726,8 @@ public sealed class AtataContextBuilder : ICloneable
             AggregateAssertionExceptionFactory = AggregateAssertionExceptionFactory,
             AggregateAssertionStrategy = AggregateAssertionStrategy ?? AtataAggregateAssertionStrategy.Instance,
             WarningReportStrategy = WarningReportStrategy ?? AtataWarningReportStrategy.Instance,
-            AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance
+            AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance,
+            CleanUpArtifactsCondition = CleanUpArtifactsCondition
         };
 
         context.EventBus = new EventBus(context, EventSubscriptions.GetItemsForScope(Scope));

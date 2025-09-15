@@ -446,7 +446,7 @@ internal sealed class LogManager : ILogManager, IDisposable
     {
         foreach (var consumerConfiguration in _configuration.ConsumerConfigurations)
         {
-            if (consumerConfiguration.IsPostponing && ShouldReleasePostponingConsumer(testResultStatus, consumerConfiguration.SkipCondition))
+            if (consumerConfiguration.IsPostponing && !consumerConfiguration.SkipCondition.DoesMeet(testResultStatus))
             {
                 lock (consumerConfiguration.PostponingSyncLock)
                 {
@@ -472,15 +472,6 @@ internal sealed class LogManager : ILogManager, IDisposable
             }
         }
     }
-
-    private static bool ShouldReleasePostponingConsumer(TestResultStatus testResultStatus, TestResultStatusCondition skipCondition) =>
-        testResultStatus switch
-        {
-            TestResultStatus.Inconclusive => skipCondition <= TestResultStatusCondition.Passed,
-            TestResultStatus.Warning => skipCondition <= TestResultStatusCondition.PassedOrInconclusive,
-            TestResultStatus.Failed => true,
-            _ => false
-        };
 
     public void Dispose()
     {
