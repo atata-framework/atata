@@ -8,6 +8,7 @@ root = true
 [*]
 indent_style = space
 trim_trailing_whitespace = true
+tab_width = 4
 
 # Solution files
 [*.sln]
@@ -78,9 +79,9 @@ dotnet_style_operator_placement_when_wrapping = beginning_of_line
 dotnet_style_object_initializer = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_explicit_tuple_names = true:suggestion
-dotnet_style_null_propagation = true:suggestion
+dotnet_style_null_propagation = true:warning
 dotnet_style_coalesce_expression = true:warning
-dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
 dotnet_style_prefer_inferred_tuple_names = true:suggestion
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
 dotnet_style_prefer_auto_properties = true:silent
@@ -89,7 +90,7 @@ dotnet_style_prefer_conditional_expression_over_return = true:silent
 dotnet_style_prefer_simplified_boolean_expressions = true:warning
 dotnet_style_prefer_compound_assignment = true:warning
 dotnet_style_prefer_simplified_interpolation = true:suggestion
-dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_namespace_match_folder = false:silent
 dotnet_style_allow_multiple_blank_lines_experimental = false:warning
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 
@@ -452,6 +453,8 @@ dotnet_diagnostic.SA1602.severity = none
 
 dotnet_diagnostic.SA1633.severity = none
 
+dotnet_diagnostic.SA1609.severity = none
+
 dotnet_diagnostic.SA1649.severity = none
 
 dotnet_diagnostic.SX1101.severity = warning
@@ -536,7 +539,7 @@ csharp_style_expression_bodied_accessors = true:warning
 csharp_style_pattern_matching_over_is_with_cast_check = true:warning
 csharp_style_pattern_matching_over_as_with_null_check = true:warning
 # Null-checking preferences
-csharp_style_throw_expression = true:suggestion
+csharp_style_throw_expression = true:warning
 csharp_style_conditional_delegate_call = true:warning
 # Modifier preferences
 csharp_preferred_modifier_order = public, private, protected, internal, file, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, required, volatile, async:warning
@@ -551,6 +554,9 @@ csharp_style_inlined_variable_declaration = true:suggestion
 # C# Formatting Rules         #
 ###############################
 
+# Code-block preferences
+csharp_style_prefer_primary_constructors = false:silent
+csharp_prefer_system_threading_lock = true:warning
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -582,7 +588,7 @@ csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:warning
 csharp_style_namespace_declarations = file_scoped:warning
 csharp_style_prefer_method_group_conversion = true:warning
-csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_top_level_statements = true:warning
 csharp_style_expression_bodied_lambdas = true:warning
 csharp_style_expression_bodied_local_functions = true:warning
 csharp_style_prefer_null_check_over_type_check = true:suggestion
