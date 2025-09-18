@@ -141,7 +141,7 @@ Find out more on [Atata Docs](https://atata.io) and on [Getting Started](https:/
 
 You can also check the following tutorials:
 
-- [Atata - C# Web Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework) - an introduction to Atata Framework.
+- [Atata - C# Web Test Automation Framework](https://www.codeproject.com/articles/Atata-New-Test-Automation-Framework) - an introduction to Atata Framework.
 - [Verification of Page](https://atata.io/tutorials/verification-of-page/) - how to verify web page data using different approaches of Atata Framework.
 - [Verification of Validation Messages](https://atata.io/tutorials/verification-of-validation-messages/) - how to verify validation messages on web pages using Atata Framework.
 - [Handle Confirmation Popups](https://atata.io/tutorials/handle-confirmation-popups/) - how to handle different confirmation popups using Atata Framework.
