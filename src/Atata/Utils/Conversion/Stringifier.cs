@@ -67,20 +67,20 @@ public static class Stringifier
     public static string ToString(Expression expression) =>
         $"({ObjectExpressionStringBuilder.ExpressionToString(expression)})";
 
-    public static string ToString(string? value) =>
-        ToString(value as object);
-
     public static string ToString(object? value) =>
+        ToString<object?>(value);
+
+    public static string ToString<T>(T value) =>
         value switch
         {
             null =>
                 NullString,
-            string =>
-                $"\"{value}\"",
-            char =>
-                $"'{value}'",
-            bool =>
-                value.ToString().ToLowerInvariant(),
+            string stringValue =>
+                $"\"{stringValue}\"",
+            char charValue =>
+                $"'{charValue}'",
+            bool boolValue =>
+                boolValue ? "true" : "false",
             IEnumerable enumerableValue =>
                 ToString(enumerableValue),
             Expression expressionValue =>
