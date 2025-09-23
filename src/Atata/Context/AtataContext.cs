@@ -36,8 +36,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     internal AtataContext(AtataContext? parentContext, AtataContextScope? scope, TestInfo testInfo)
     {
-        _lazyStringRepresentation = new(ToStringCore, LazyThreadSafetyMode.None);
-        _lazyShortStringRepresentation = new(ToShortStringCore, LazyThreadSafetyMode.None);
+        _lazyStringRepresentation = new(ToStringCore);
+        _lazyShortStringRepresentation = new(ToShortStringCore);
 
         ParentContext = parentContext;
         Scope = scope;

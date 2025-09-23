@@ -24,7 +24,7 @@ public abstract class AtataSession : IAsyncDisposable
 
     protected AtataSession()
     {
-        _lazyStringRepresentation = new(ToStringCore, LazyThreadSafetyMode.None);
+        _lazyStringRepresentation = new(ToStringCore);
 
         Id = AtataContext.GlobalProperties.IdGenerator.GenerateId();
         ExecutionUnit = new AtataSessionExecutionUnit(this);
