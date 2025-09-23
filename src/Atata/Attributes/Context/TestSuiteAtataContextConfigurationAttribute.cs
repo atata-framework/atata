@@ -11,7 +11,7 @@ public abstract class TestSuiteAtataContextConfigurationAttribute : AtataContext
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <param name="testSuite">The test suite object.</param>
-    public virtual void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
+    protected internal virtual void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
     {
     }
 }

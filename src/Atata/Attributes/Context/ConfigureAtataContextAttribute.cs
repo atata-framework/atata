@@ -89,7 +89,7 @@ public class ConfigureAtataContextAttribute : AtataContextConfigurationAttribute
     /// </summary>
     /// <param name="builder">The <see cref="AtataContextBuilder"/> instance.</param>
     /// <param name="testSuite">The test suite object.</param>
-    public override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
+    protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
     {
         if (TargetType is null && testSuite is null)
             throw new InvalidOperationException($"'{nameof(TargetType)}' must be specified in {GetType().Name}.");

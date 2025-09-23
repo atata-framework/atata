@@ -29,12 +29,12 @@ public class TakeSessionFromPoolAndShareAttribute : TestSuiteAtataContextConfigu
     /// </summary>
     public string? SessionName { get; }
 
-    public override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite) =>
+    protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite) =>
         builder.Sessions.TakeFromPool(
             SessionType,
             x => x.UseName(SessionName).UseSharedMode(true));
 
-    public override void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
+    protected internal override void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
     {
         builder.Sessions.Configure(
             SessionType,
