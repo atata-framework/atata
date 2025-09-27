@@ -381,6 +381,35 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
+    /// Removes all session providers of the specified <paramref name="sessionType"/> and <paramref name="name"/>.
+    /// </summary>
+    /// <param name="sessionType">The type of the session.</param>
+    /// <param name="name">The name of the session provider.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder RemoveAll(Type sessionType, string? name)
+    {
+        _sessionProviders.RemoveAll(x => IsProviderOfSessionTypeAndName(x, sessionType, name));
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Disables all session providers of the specified <paramref name="sessionType"/> and <paramref name="name"/>.
+    /// Sets their <see cref="IAtataSessionProvider.StartScopes"/> property to <see cref="AtataContextScopes.None"/>,
+    /// so that the sessions will not automatically start for any scope.
+    /// </summary>
+    /// <param name="sessionType">The type of the session.</param>
+    /// <param name="name">The name of the session provider.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder DisableAll(Type sessionType, string? name)
+    {
+        foreach (var provider in _sessionProviders)
+            if (IsProviderOfSessionTypeAndName(provider, sessionType, name))
+                provider.StartScopes = AtataContextScopes.None;
+
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
     /// Clears all session providers.
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -402,14 +431,25 @@ public sealed class AtataSessionsBuilder
             _ => false
         };
 
+    private static bool IsProviderOfSessionTypeAndName(IAtataSessionProvider provider, Type sessionType, string? name) =>
+        provider switch
+        {
+            IAtataSessionBuilder builder => IsBuilderOfSessionTypeAndName(builder, sessionType, name),
+            AtataSessionBorrowRequestBuilder borrowRequest => borrowRequest.Type == sessionType && borrowRequest.Name == name,
+            AtataSessionPoolRequestBuilder poolRequest => poolRequest.Type == sessionType && poolRequest.Name == name,
+            _ => false
+        };
+
+    private static bool IsBuilderOfSessionTypeAndName(IAtataSessionBuilder builder, Type sessionType, string? name) =>
+        builder.Name == name && sessionType.IsAssignableFrom(AtataSessionTypeMap.ResolveSessionTypeByBuilderType(builder.GetType()));
+
     private TSessionProvider? GetSessionProviderOrNull<TSessionProvider>(string? name)
         where TSessionProvider : IAtataSessionProvider
         =>
         _sessionProviders.OfType<TSessionProvider>()
             .LastOrDefault(x => x.Name == name);
 
-    private IAtataSessionBuilder? GetSessionBuilderOrNull(Type sessionType, string? name)
-        =>
+    private IAtataSessionBuilder? GetSessionBuilderOrNull(Type sessionType, string? name) =>
         _sessionProviders.OfType<IAtataSessionBuilder>()
-            .LastOrDefault(x => x.Name == name && sessionType.IsAssignableFrom(AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType())));
+            .LastOrDefault(x => IsBuilderOfSessionTypeAndName(x, sessionType, name));
 }
