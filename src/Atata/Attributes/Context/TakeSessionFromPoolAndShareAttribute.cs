@@ -29,18 +29,19 @@ public class TakeSessionFromPoolAndShareAttribute : TestSuiteAtataContextConfigu
     /// </summary>
     public string? SessionName { get; }
 
-    protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite) =>
+    protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
+    {
+        builder.Sessions.DisableAll(SessionType, SessionName);
+
         builder.Sessions.TakeFromPool(
             SessionType,
             x => x.UseName(SessionName).UseSharedMode(true));
+    }
 
     protected internal override void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
     {
-        builder.Sessions.Configure(
-            SessionType,
-            SessionName,
-            x => x.StartScopes = AtataContextScopes.None,
-            ConfigurationMode.ConfigureIfExists);
+        builder.Sessions.DisableAll(SessionType, SessionName);
+
         builder.Sessions.Borrow(SessionType, x => x.Name = SessionName);
     }
 }

@@ -29,7 +29,10 @@ public class StartSessionAndShareAttribute : TestSuiteAtataContextConfigurationA
     /// </summary>
     public string? SessionName { get; }
 
-    protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite) =>
+    protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
+    {
+        builder.Sessions.DisableAll(SessionType, SessionName);
+
         builder.Sessions.Configure(
             SessionType,
             SessionName,
@@ -39,14 +42,12 @@ public class StartSessionAndShareAttribute : TestSuiteAtataContextConfigurationA
                 x.Mode = AtataSessionMode.Shared;
             },
             ConfigurationMode.ConfigureOrAdd);
+    }
 
     protected internal override void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
     {
-        builder.Sessions.Configure(
-            SessionType,
-            SessionName,
-            x => x.StartScopes = AtataContextScopes.None,
-            ConfigurationMode.ConfigureIfExists);
+        builder.Sessions.DisableAll(SessionType, SessionName);
+
         builder.Sessions.Borrow(SessionType, x => x.Name = SessionName);
     }
 }

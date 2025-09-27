@@ -29,10 +29,14 @@ public class StartSessionAttribute : AtataContextConfigurationAttribute
     /// </summary>
     public string? SessionName { get; }
 
-    protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite) =>
+    protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
+    {
+        builder.Sessions.DisableAll(SessionType, SessionName);
+
         builder.Sessions.Configure(
             SessionType,
             SessionName,
             x => x.StartScopes = AtataContextScopes.All,
             ConfigurationMode.ConfigureOrAdd);
+    }
 }
