@@ -161,13 +161,38 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     }
 
     /// <summary>
-    /// Sets the <see cref="Mode"/> value for a session.
+    /// Sets the session mode to <see cref="AtataSessionMode.Own"/> (the default mode).
     /// </summary>
-    /// <param name="mode">The mode.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseMode(AtataSessionMode mode)
+    public TBuilder UseAsOwn()
     {
-        Mode = mode;
+        Mode = AtataSessionMode.Own;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the session mode to <see cref="AtataSessionMode.Shared"/>.
+    /// </summary>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseAsShared()
+    {
+        Mode = AtataSessionMode.Shared;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the session mode to <see cref="AtataSessionMode.Pool"/> and optionally configures the session pool.
+    /// </summary>
+    /// <param name="configure">
+    /// An optional action to configure the <see cref="AtataSessionPoolBuilder"/> for the session pool.
+    /// </param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseAsPool(Action<AtataSessionPoolBuilder>? configure = null)
+    {
+        Mode = AtataSessionMode.Pool;
+
+        configure?.Invoke(new(this));
+
         return (TBuilder)this;
     }
 

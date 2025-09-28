@@ -202,7 +202,7 @@ public static partial class WebDriverSessionTests
             public void ScreenshotCounterResetsWhenSessionIsPassedToAnotherContext()
             {
                 using (var parentContext = ConfigureAtataContextWithWebDriverSession(
-                    x => x.UseMode(AtataSessionMode.Shared))
+                    x => x.UseAsShared())
                     .Build())
                 {
                     var session = parentContext.Sessions.Get<WebDriverSession>();

@@ -271,7 +271,7 @@ public static class AtataSessionsBuilderTests
             await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseName("some")
-                    .UseMode(AtataSessionMode.Shared))
+                    .UseAsShared())
                 .BuildAsync();
 
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
@@ -288,7 +288,7 @@ public static class AtataSessionsBuilderTests
             // Arrange
             await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
-                    .UseMode(AtataSessionMode.Shared))
+                    .UseAsShared())
                 .BuildAsync();
 
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
@@ -306,7 +306,7 @@ public static class AtataSessionsBuilderTests
             await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseName("some1")
-                    .UseMode(AtataSessionMode.Shared))
+                    .UseAsShared())
                 .BuildAsync();
 
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
@@ -324,7 +324,7 @@ public static class AtataSessionsBuilderTests
             await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseName("some")
-                    .UseMode(AtataSessionMode.Shared))
+                    .UseAsShared())
                 .BuildAsync();
 
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
@@ -340,7 +340,7 @@ public static class AtataSessionsBuilderTests
         {
             // Arrange
             await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
-                .Sessions.Add<FakeSessionBuilder>(x => x.UseMode(AtataSessionMode.Shared))
+                .Sessions.Add<FakeSessionBuilder>(x => x.UseAsShared())
                 .BuildAsync();
 
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
@@ -393,7 +393,7 @@ public static class AtataSessionsBuilderTests
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseName("some")
-                    .UseMode(AtataSessionMode.Pool))
+                    .UseAsPool())
                 .Sessions.TakeFromPool<FakeSession>();
 
             // Act // Assert
@@ -406,7 +406,7 @@ public static class AtataSessionsBuilderTests
             // Arrange
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
-                    .UseMode(AtataSessionMode.Pool))
+                    .UseAsPool())
                 .Sessions.TakeFromPool<FakeSession>(x => x.Name = "some");
 
             // Act // Assert
@@ -420,7 +420,7 @@ public static class AtataSessionsBuilderTests
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseName("some1")
-                    .UseMode(AtataSessionMode.Pool))
+                    .UseAsPool())
                 .Sessions.TakeFromPool<FakeSession>(x => x.Name = "some2");
 
             // Act // Assert
@@ -434,7 +434,7 @@ public static class AtataSessionsBuilderTests
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseName("some")
-                    .UseMode(AtataSessionMode.Pool))
+                    .UseAsPool())
                 .Sessions.TakeFromPool<FakeSession2>(x => x.Name = "some");
 
             // Act // Assert
@@ -448,7 +448,7 @@ public static class AtataSessionsBuilderTests
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseName("some")
-                    .UseMode(AtataSessionMode.Pool))
+                    .UseAsPool())
                 .Sessions.TakeFromPool<FakeSession>(x => x.Name = "some");
 
             // Act
@@ -470,7 +470,7 @@ public static class AtataSessionsBuilderTests
         {
             // Arrange
             await using var parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
-                .Sessions.Add<FakeSessionBuilder>(x => x.UseMode(AtataSessionMode.Pool))
+                .Sessions.Add<FakeSessionBuilder>(x => x.UseAsPool())
                 .BuildAsync();
 
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
