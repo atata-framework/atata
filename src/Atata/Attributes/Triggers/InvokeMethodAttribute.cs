@@ -25,7 +25,7 @@ public class InvokeMethodAttribute : TriggerAttribute
         MethodInfo method = methodOwner.GetType()
             .GetMethodWithThrowOnError(MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
-        method.Invoke(
+        method.InvokeWithExceptionUnwrapping(
             method.IsStatic ? null : methodOwner,
             []);
     }

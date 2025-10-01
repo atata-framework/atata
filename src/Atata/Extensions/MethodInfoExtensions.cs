@@ -1,7 +1,22 @@
-﻿namespace Atata;
+﻿using System.Runtime.ExceptionServices;
+
+namespace Atata;
 
 public static class MethodInfoExtensions
 {
+    public static object? InvokeWithExceptionUnwrapping(this MethodInfo method, object? instance, params object?[] args)
+    {
+        try
+        {
+            return method.Invoke(instance, args);
+        }
+        catch (TargetInvocationException exception) when (exception.InnerException is not null)
+        {
+            ExceptionDispatchInfo.Capture(exception.InnerException).Throw();
+            return null; // This line will never be reached, but is required to satisfy the compiler.
+        }
+    }
+
     public static Action CompileToLambda(this MethodInfo method, object? instance, params object?[] args)
     {
         if (instance is null)

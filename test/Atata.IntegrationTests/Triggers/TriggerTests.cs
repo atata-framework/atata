@@ -19,6 +19,16 @@ public class TriggerTests : WebDriverSessionTestSuite
     }
 
     [Test]
+    public void AddToMetadata_ToControl_WhenMethodThrows()
+    {
+        _page.PerformWithoutTriggers.Metadata.Add(new InvokeMethodAttribute(nameof(TriggersPage.ThrowInvalidOperationException), TriggerEvents.BeforeClick));
+
+        Assert.That(
+            _page.PerformWithoutTriggers.Click,
+            Throws.InvalidOperationException);
+    }
+
+    [Test]
     public void AddToMetadata_ToDynamicControl()
     {
         _page.DynamicInput.Metadata.Add(new LogInfoAttribute("AfterGet-Lowest", TriggerEvents.AfterGet, TriggerPriority.Lowest));

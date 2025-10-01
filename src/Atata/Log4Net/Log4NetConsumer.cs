@@ -99,17 +99,17 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
         if (RepositoryName != null)
         {
             return GetGetLoggerMethod(typeof(string), typeof(string))
-                .Invoke(null, [RepositoryName, loggerName]);
+                .InvokeWithExceptionUnwrapping(null, [RepositoryName, loggerName])!;
         }
         else if (RepositoryAssembly != null)
         {
             return GetGetLoggerMethod(typeof(Assembly), typeof(string))
-                .Invoke(null, [RepositoryAssembly, loggerName]);
+                .InvokeWithExceptionUnwrapping(null, [RepositoryAssembly, loggerName])!;
         }
         else
         {
             return GetGetLoggerMethod(typeof(string))
-                .Invoke(null, [loggerName]);
+                .InvokeWithExceptionUnwrapping(null, [loggerName])!;
         }
     }
 }

@@ -76,6 +76,9 @@ public class TriggersPage : Page<_>
     public static void OnStaticInit() =>
         s_isOnInitInvoked = true;
 
+    public static void ThrowInvalidOperationException() =>
+        throw new InvalidOperationException("Hello!");
+
     public void OnBeforePerform() =>
         IsBeforePerformInvoked = true;
 

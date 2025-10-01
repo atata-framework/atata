@@ -18,7 +18,7 @@ public abstract class SpecificTriggerAttribute : TriggerAttribute
                 ? declaredMethod.MakeGenericMethod(ownerType)
                 : declaredMethod;
 
-            actualMethod.Invoke(this, [context]);
+            actualMethod.InvokeWithExceptionUnwrapping(this, [context]);
         }
     }
 }

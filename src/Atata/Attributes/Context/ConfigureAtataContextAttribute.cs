@@ -114,6 +114,6 @@ public class ConfigureAtataContextAttribute : AtataContextConfigurationAttribute
             ? [builder]
             : [builder, .. MethodParameters];
 
-        method.Invoke(instance, methodParameters);
+        method.InvokeWithExceptionUnwrapping(instance, methodParameters);
     }
 }
