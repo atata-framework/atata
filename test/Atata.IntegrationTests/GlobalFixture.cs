@@ -5,7 +5,7 @@ using Atata.WebDriverSetup;
 namespace Atata.IntegrationTests;
 
 [SetUpFixture]
-public class SetUpFixture
+public class GlobalFixture
 {
     private CliCommand _dotnetRunCommand;
 
