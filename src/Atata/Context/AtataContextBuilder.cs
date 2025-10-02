@@ -825,23 +825,23 @@ public sealed class AtataContextBuilder : ICloneable
         context.Log.Trace($"Set: Culture={culture.Name}");
     }
 
-    [Obsolete("Instead use EventSubscriptions.Add(SetUpWebDriversForUseEventHandler.Instance) for global AtataContextBuilder before build. " +
-        "Alternatively use EventSubscriptions.Add(new SetUpWebDriversEventHandler(BrowserNames...)) to specify driver names explicitly.")] // Obsolete since v4.0.0.
+    [Obsolete("Instead use SetUpWebDriversForUse() for global AtataContextBuilder before build. " +
+        "Alternatively use SetUpWebDrivers(BrowserNames...) to specify driver names explicitly.")] // Obsolete since v4.0.0.
     public void AutoSetUpDriverToUse() =>
         throw new NotSupportedException();
 
-    [Obsolete("Instead use EventSubscriptions.Add(SetUpWebDriversForUseEventHandler.Instance) for global AtataContextBuilder before build. " +
-        "Alternatively use EventSubscriptions.Add(new SetUpWebDriversEventHandler(BrowserNames...)) to specify driver names explicitly.")] // Obsolete since v4.0.0.
+    [Obsolete("Instead use SetUpWebDriversForUse() for global AtataContextBuilder before build. " +
+        "Alternatively use SetUpWebDrivers(BrowserNames...) to specify driver names explicitly.")] // Obsolete since v4.0.0.
     public Task AutoSetUpDriverToUseAsync() =>
         throw new NotSupportedException();
 
-    [Obsolete("Instead use EventSubscriptions.Add(SetUpWebDriversConfiguredEventHandler.Instance) for global AtataContextBuilder before build. " +
-        "Alternatively use EventSubscriptions.Add(new SetUpWebDriversEventHandler(BrowserNames...)) to specify driver names explicitly.")] // Obsolete since v4.0.0.
+    [Obsolete("Instead use SetUpWebDriversConfigured() for global AtataContextBuilder before build. " +
+        "Alternatively use SetUpWebDrivers(BrowserNames...) to specify driver names explicitly.")] // Obsolete since v4.0.0.
     public void AutoSetUpConfiguredDrivers() =>
         throw new NotSupportedException();
 
-    [Obsolete("Instead use EventSubscriptions.Add(SetUpWebDriversConfiguredEventHandler.Instance) for global AtataContextBuilder before build. " +
-        "Alternatively use EventSubscriptions.Add(new SetUpWebDriversEventHandler(BrowserNames...)) to specify driver names explicitly.")] // Obsolete since v4.0.0.
+    [Obsolete("Instead use SetUpWebDriversConfigured() for global AtataContextBuilder before build. " +
+        "Alternatively use SetUpWebDrivers(BrowserNames...) to specify driver names explicitly.")] // Obsolete since v4.0.0.
     public Task AutoSetUpConfiguredDriversAsync() =>
         throw new NotSupportedException();
 
