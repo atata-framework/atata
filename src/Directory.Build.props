@@ -2,6 +2,7 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
   
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
@@ -16,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Release'">
-    <PackageReference Include="SauceControl.InheritDoc" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="SauceControl.InheritDoc" Version="2.0.2" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

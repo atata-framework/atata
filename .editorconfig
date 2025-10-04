@@ -478,6 +478,9 @@ dotnet_diagnostic.IDE0062.severity = warning
 # IDE0066: Convert switch statement to expression
 dotnet_diagnostic.IDE0066.severity = warning
 
+# IDE0076: Remove invalid global 'SuppressMessageAttribute'
+dotnet_diagnostic.IDE0076.severity = warning
+
 # IDE0078: Use pattern matching
 dotnet_diagnostic.IDE0078.severity = warning
 
