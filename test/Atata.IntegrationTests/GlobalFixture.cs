@@ -10,10 +10,14 @@ public class GlobalFixture
     private CliCommand _dotnetRunCommand;
 
     [OneTimeSetUp]
-    public async Task GlobalSetUpAsync() =>
+    public async Task GlobalSetUpAsync()
+    {
+        ThreadPool.SetMinThreads(Environment.ProcessorCount * 4, Environment.ProcessorCount);
+
         await Task.WhenAll(
             DriverSetup.AutoSetUpAsync(BrowserNames.Chrome),
             Task.Run(SetUpTestApp));
+    }
 
     private static bool IsTestAppRunning() =>
         Array.Exists(
