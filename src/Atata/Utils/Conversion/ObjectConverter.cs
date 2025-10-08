@@ -2,8 +2,11 @@
 
 public class ObjectConverter : IObjectConverter
 {
+    public const string DefaultAssemblyNamePatternToFindTypes =
+        @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+|testhost$|(?i:testcentric\..+)|(?i:nunit)|(?i:xunit))";
+
     public string AssemblyNamePatternToFindTypes { get; set; } =
-        @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
+        DefaultAssemblyNamePatternToFindTypes;
 
     public TDestination? Convert<TDestination>(object? sourceValue) =>
         (TDestination?)Convert(sourceValue, typeof(TDestination));

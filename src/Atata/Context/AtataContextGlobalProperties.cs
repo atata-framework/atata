@@ -26,7 +26,7 @@ public sealed class AtataContextGlobalProperties
 
     private Lazy<DirectorySubject> _lazyArtifactsRoot;
 
-    private string _assemblyNamePatternToFindTypes = @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
+    private string _assemblyNamePatternToFindTypes = Atata.ObjectConverter.DefaultAssemblyNamePatternToFindTypes;
 
     internal AtataContextGlobalProperties()
     {
@@ -150,10 +150,11 @@ public sealed class AtataContextGlobalProperties
         new TestInfoBasedHierarchicalArtifactsPathFactory();
 
     /// <summary>
-    /// Gets or sets the assembly name pattern that is used to filter assemblies to find types in them
+    /// Gets or sets the assembly name pattern that is used to filter assemblies to find types in them,
     /// such as events, event handlers, attributes, components, etc.
-    /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>,
-    /// which filters non-system assemblies.
+    /// The default value is
+    /// <c>@"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+|testhost$|(?i:testcentric\..+)|(?i:nunit)|(?i:xunit))"</c>,
+    /// which excludes system and some well known assemblies.
     /// </summary>
     public string AssemblyNamePatternToFindTypes
     {
@@ -329,8 +330,9 @@ public sealed class AtataContextGlobalProperties
     /// <summary>
     /// Sets the assembly name regex pattern that is used to filter assemblies to find types in them,
     /// such as events, event handlers, attributes, components, etc.
-    /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>,
-    /// which filters non-system assemblies.
+    /// The default value is
+    /// <c>@"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+|testhost$|(?i:testcentric\..+)|(?i:nunit)|(?i:xunit))"</c>,
+    /// which excludes system and some well known assemblies.
     /// </summary>
     /// <param name="pattern">The assembly name regex pattern.</param>
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
