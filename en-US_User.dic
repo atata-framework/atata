@@ -2,6 +2,7 @@ app
 Atata
 autocomplete
 awaitable
+casted
 CDP
 checkbox
 checkboxes
@@ -18,6 +19,7 @@ deinitialize
 deinitialized
 deinitializes
 deinitializing
+dev
 dropdown
 enum
 enums
@@ -53,11 +55,14 @@ screenshot
 screenshots
 serializer
 sessionless
+stdout
+stderr
 stringifier
 sudo
 Summernote
 sut
 SVG
+teardown
 templated
 thru
 timestamp
@@ -67,6 +72,7 @@ unescaped
 uninstall
 uninstalls
 unsubscribe
+uri
 username
 UTC
 utils
@@ -75,3 +81,4 @@ viewport
 Vue
 wildcard
 wildcards
+Xunit

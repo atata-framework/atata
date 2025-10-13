@@ -9,7 +9,7 @@ Any issues or questions can also be targeted to any communication channel define
 
 ### Development Prerequisites
 
-- Visual Studio 2022 or JetBrains Raider.
+- Visual Studio 2022 or JetBrains Rider.
 
 ### Setting Up For Development
 
@@ -26,7 +26,7 @@ Please follow the rules during development:
 
 - Fix (or suppress in rare cases) all code analysis warnings.
 - Ensure that newly added public classes and members have XML documentation comments.
-  This does not apply to classes in test projects. 
+  This does not apply to classes in test projects.
 - Run all tests in order to ensure the changes don't break anything.
 - Try to add/update tests respectively.
 - Follow [Semantic Versioning 2.0](https://semver.org/) during the source changes.
