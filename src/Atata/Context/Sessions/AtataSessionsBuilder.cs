@@ -234,7 +234,7 @@ public sealed class AtataSessionsBuilder
 
         if (sessionBuilder is null)
         {
-            sessionBuilder = ActivatorEx.CreateInstance<IAtataSessionBuilder>(sessionType);
+            sessionBuilder = CreateSessionBuilderBySessionType(sessionType);
             sessionBuilder.StartScopes = _defaultStartScopes;
             sessionBuilder.Name = name;
 
@@ -444,6 +444,16 @@ public sealed class AtataSessionsBuilder
     {
         _sessionProviders.Clear();
         return _atataContextBuilder;
+    }
+
+    private static IAtataSessionBuilder CreateSessionBuilderBySessionType(Type sessionType)
+    {
+        MethodInfo factoryMethod = sessionType.GetMethodWithThrowOnError(
+            "CreateBuilder",
+            BindingFlags.Public | BindingFlags.Static,
+            Type.EmptyTypes);
+
+        return (IAtataSessionBuilder)factoryMethod.InvokeWithExceptionUnwrapping(null)!;
     }
 
     private static bool DoesSessionStartScopeSatisfyContextScope(AtataContextScopes? sessionStartScopes, AtataContextScope? scope) =>

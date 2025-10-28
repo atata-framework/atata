@@ -4,4 +4,6 @@ public sealed class FakeSession : AtataSession
 {
     protected internal override Task StartAsync(CancellationToken cancellationToken) =>
         Task.CompletedTask;
+
+    public static FakeSessionBuilder CreateBuilder() => new();
 }

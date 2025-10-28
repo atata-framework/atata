@@ -217,6 +217,24 @@ public static class AtataSessionsBuilderTests
             call.Should().ThrowExactly<AtataSessionBuilderNotFoundException>()
                 .WithMessage("Failed to find session builder for FakeSession { Name=some2 }.");
         }
+
+        [Test]
+        public void WhenThereIsNoBuilder_WithConfigureOrAddMode()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+
+            // Act
+            sut.Configure(typeof(FakeSession), "some", x => x.Mode = AtataSessionMode.Pool, ConfigurationMode.ConfigureOrAdd);
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) =>
+                    x.Name == "some"
+                    && x.StartScopes == AtataContextScopes.TestSuite
+                    && x.Mode == AtataSessionMode.Pool);
+        }
     }
 
     public sealed class RemoveAll
