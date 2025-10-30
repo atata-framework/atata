@@ -9,7 +9,7 @@
 /// Parent dictionary can also be a <see cref="StateHierarchicalDictionary"/>,
 /// which allows building of multi-level dictionaries.
 /// </summary>
-public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string, object?>
+public sealed class StateHierarchicalDictionary : ObjectHierarchicalDictionary<string>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="StateHierarchicalDictionary"/> class.
@@ -44,19 +44,6 @@ public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string,
         Get<TValue>(ResolveTypeKey<TValue>());
 
     /// <summary>
-    /// Gets the value associated with the specified key.
-    /// </summary>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <param name="key">The key of the value to get.</param>
-    /// <returns>
-    /// The value associated with the specified key.
-    /// If the specified key is not found, the method throws a <see cref="KeyNotFoundException"/>.
-    /// </returns>
-    /// <exception cref="KeyNotFoundException">The given key '{key}' was not present in the dictionary.</exception>
-    public TValue Get<TValue>(string key) =>
-        (TValue)this[key]!;
-
-    /// <summary>
     /// Gets the value that is associated with the <typeparamref name="TValue"/> type full name as a key.
     /// </summary>
     /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -72,22 +59,6 @@ public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string,
     public bool TryGetValue<TValue>([MaybeNullWhen(false)] out TValue value) =>
         TryGetValue(ResolveTypeKey<TValue>(), out value);
 
-    /// <inheritdoc cref="HierarchicalDictionary{TKey, TValue}.TryGetValue(TKey, out TValue)"/>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    public bool TryGetValue<TValue>(string key, [MaybeNullWhen(false)] out TValue value)
-    {
-        if (base.TryGetValue(key, out object? result))
-        {
-            value = (TValue)result!;
-            return true;
-        }
-        else
-        {
-            value = default;
-            return false;
-        }
-    }
-
     /// <summary>
     /// Sets the value associated with the <typeparamref name="TValue"/> type full name as a key.
     /// </summary>
@@ -95,13 +66,4 @@ public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string,
     /// <param name="value">The value.</param>
     public void Set<TValue>(TValue value) =>
         Set(ResolveTypeKey<TValue>(), value);
-
-    /// <summary>
-    /// Sets the value associated with the specified key.
-    /// </summary>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <param name="key">The key.</param>
-    /// <param name="value">The value.</param>
-    public void Set<TValue>(string key, TValue value) =>
-        this[key] = value;
 }

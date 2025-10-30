@@ -10,7 +10,7 @@
 /// Parent dictionary can also be a <see cref="VariableHierarchicalDictionary"/>,
 /// which allows building of multi-level dictionaries.
 /// </summary>
-public sealed class VariableHierarchicalDictionary : HierarchicalDictionary<string, object?>
+public sealed class VariableHierarchicalDictionary : ObjectHierarchicalDictionary<string>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VariableHierarchicalDictionary"/> class.
