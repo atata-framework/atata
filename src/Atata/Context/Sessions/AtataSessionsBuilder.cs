@@ -342,20 +342,6 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
-    /// Removes a session provider by the specified <typeparamref name="TSessionProvider"/> type
-    /// and <paramref name="name"/>.
-    /// </summary>
-    /// <typeparam name="TSessionProvider">The type of the session provider.</typeparam>
-    /// <param name="name">The name of the session provider.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Remove<TSessionProvider>(string? name)
-        where TSessionProvider : IAtataSessionProvider
-    {
-        _sessionProviders.RemoveAll(x => x is TSessionProvider && x.Name == name);
-        return _atataContextBuilder;
-    }
-
-    /// <summary>
     /// Removes the specified session provider.
     /// </summary>
     /// <param name="sessionProvider">The session provider.</param>
@@ -381,27 +367,100 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
+    /// Removes all session providers of the specified <typeparamref name="TSessionProvider"/> type and <paramref name="name"/>.
+    /// </summary>
+    /// <typeparam name="TSessionProvider">The type of the session provider.</typeparam>
+    /// <param name="name">The name of the session.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder RemoveAll<TSessionProvider>(string? name)
+        where TSessionProvider : IAtataSessionProvider
+    {
+        _sessionProviders.RemoveAll(x => x is TSessionProvider && x.Name == name);
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Removes all session providers of the specified <typeparamref name="TSession"/> regardless of name.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder RemoveAllBySessionType<TSession>() =>
+        RemoveAllBySessionType(typeof(TSession));
+
+    /// <summary>
     /// Removes all session providers of the specified <paramref name="sessionType"/> regardless of name.
     /// </summary>
     /// <param name="sessionType">The type of the session.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder RemoveAll(Type sessionType)
+    public AtataContextBuilder RemoveAllBySessionType(Type sessionType)
     {
         _sessionProviders.RemoveAll(x => IsProviderOfSessionType(x, sessionType));
         return _atataContextBuilder;
     }
 
     /// <summary>
+    /// Removes all session providers of the specified <typeparamref name="TSession"/> and <paramref name="name"/>.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="name">The name of the session.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder RemoveAllBySessionType<TSession>(string? name) =>
+        RemoveAllBySessionType(typeof(TSession), name);
+
+    /// <summary>
     /// Removes all session providers of the specified <paramref name="sessionType"/> and <paramref name="name"/>.
     /// </summary>
     /// <param name="sessionType">The type of the session.</param>
-    /// <param name="name">The name of the session provider.</param>
+    /// <param name="name">The name of the session.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder RemoveAll(Type sessionType, string? name)
+    public AtataContextBuilder RemoveAllBySessionType(Type sessionType, string? name)
     {
         _sessionProviders.RemoveAll(x => x.Name == name && IsProviderOfSessionType(x, sessionType));
         return _atataContextBuilder;
     }
+
+    /// <summary>
+    /// Disables all session providers of the specified <typeparamref name="TSessionProvider"/> type.
+    /// Sets their <see cref="IAtataSessionProvider.StartScopes"/> property to <see cref="AtataContextScopes.None"/>,
+    /// so that the sessions will not automatically start for any scope.
+    /// </summary>
+    /// <typeparam name="TSessionProvider">The type of the session provider.</typeparam>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder DisableAll<TSessionProvider>()
+    {
+        foreach (var provider in _sessionProviders)
+            if (provider is TSessionProvider)
+                provider.StartScopes = AtataContextScopes.None;
+
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Disables all session providers of the specified <typeparamref name="TSessionProvider"/> type and <paramref name="name"/>.
+    /// Sets their <see cref="IAtataSessionProvider.StartScopes"/> property to <see cref="AtataContextScopes.None"/>,
+    /// so that the sessions will not automatically start for any scope.
+    /// </summary>
+    /// <typeparam name="TSessionProvider">The type of the session provider.</typeparam>
+    /// <param name="name">The name of the session.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder DisableAll<TSessionProvider>(string? name)
+    {
+        foreach (var provider in _sessionProviders)
+            if (provider is TSessionProvider && provider.Name == name)
+                provider.StartScopes = AtataContextScopes.None;
+
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Disables all session providers of the specified <typeparamref name="TSession"/> regardless of name.
+    /// Sets their <see cref="IAtataSessionProvider.StartScopes"/> property to <see cref="AtataContextScopes.None"/>,
+    /// so that the sessions will not automatically start for any scope.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder DisableAllBySessionType<TSession>() =>
+        DisableAllBySessionType(typeof(TSession));
 
     /// <summary>
     /// Disables all session providers of the specified <paramref name="sessionType"/> regardless of name.
@@ -410,7 +469,7 @@ public sealed class AtataSessionsBuilder
     /// </summary>
     /// <param name="sessionType">The type of the session.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder DisableAll(Type sessionType)
+    public AtataContextBuilder DisableAllBySessionType(Type sessionType)
     {
         foreach (var provider in _sessionProviders)
             if (IsProviderOfSessionType(provider, sessionType))
@@ -420,14 +479,25 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
+    /// Disables all session providers of the specified <typeparamref name="TSession"/> and <paramref name="name"/>.
+    /// Sets their <see cref="IAtataSessionProvider.StartScopes"/> property to <see cref="AtataContextScopes.None"/>,
+    /// so that the sessions will not automatically start for any scope.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="name">The name of the session.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder DisableAllBySessionType<TSession>(string? name) =>
+        DisableAllBySessionType(typeof(TSession), name);
+
+    /// <summary>
     /// Disables all session providers of the specified <paramref name="sessionType"/> and <paramref name="name"/>.
     /// Sets their <see cref="IAtataSessionProvider.StartScopes"/> property to <see cref="AtataContextScopes.None"/>,
     /// so that the sessions will not automatically start for any scope.
     /// </summary>
     /// <param name="sessionType">The type of the session.</param>
-    /// <param name="name">The name of the session provider.</param>
+    /// <param name="name">The name of the session.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder DisableAll(Type sessionType, string? name)
+    public AtataContextBuilder DisableAllBySessionType(Type sessionType, string? name)
     {
         foreach (var provider in _sessionProviders)
             if (provider.Name == name && IsProviderOfSessionType(provider, sessionType))

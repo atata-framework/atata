@@ -31,7 +31,7 @@ public class StartSessionAttribute : AtataContextConfigurationAttribute
 
     protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
     {
-        builder.Sessions.DisableAll(SessionType, SessionName);
+        builder.Sessions.DisableAllBySessionType(SessionType, SessionName);
 
         builder.Sessions.Configure(
             SessionType,

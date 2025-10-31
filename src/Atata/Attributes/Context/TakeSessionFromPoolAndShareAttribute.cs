@@ -31,7 +31,7 @@ public class TakeSessionFromPoolAndShareAttribute : TestSuiteAtataContextConfigu
 
     protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
     {
-        builder.Sessions.DisableAll(SessionType, SessionName);
+        builder.Sessions.DisableAllBySessionType(SessionType, SessionName);
 
         builder.Sessions.TakeFromPool(
             SessionType,
@@ -40,7 +40,7 @@ public class TakeSessionFromPoolAndShareAttribute : TestSuiteAtataContextConfigu
 
     protected internal override void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
     {
-        builder.Sessions.DisableAll(SessionType, SessionName);
+        builder.Sessions.DisableAllBySessionType(SessionType, SessionName);
 
         builder.Sessions.Borrow(SessionType, x => x.Name = SessionName);
     }

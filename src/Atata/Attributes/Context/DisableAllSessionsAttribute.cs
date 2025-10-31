@@ -24,5 +24,5 @@ public class DisableAllSessionsAttribute : AtataContextConfigurationAttribute
     public Type SessionType { get; }
 
     protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite) =>
-        builder.Sessions.DisableAll(SessionType);
+        builder.Sessions.DisableAllBySessionType(SessionType);
 }
