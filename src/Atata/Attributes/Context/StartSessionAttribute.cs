@@ -36,7 +36,6 @@ public class StartSessionAttribute : AtataContextConfigurationAttribute
         builder.Sessions.Configure(
             SessionType,
             SessionName,
-            x => x.StartScopes = AtataContextScopes.All,
-            ConfigurationMode.ConfigureOrAdd);
+            x => x.StartScopes = AtataContextScopes.All);
     }
 }

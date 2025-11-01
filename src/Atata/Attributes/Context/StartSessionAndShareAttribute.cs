@@ -40,8 +40,7 @@ public class StartSessionAndShareAttribute : TestSuiteAtataContextConfigurationA
             {
                 x.StartScopes = AtataContextScopes.TestSuite;
                 x.Mode = AtataSessionMode.Shared;
-            },
-            ConfigurationMode.ConfigureOrAdd);
+            });
     }
 
     protected internal override void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
