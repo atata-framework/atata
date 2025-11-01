@@ -209,7 +209,7 @@ public sealed class WebDriverSessionNavigator
     private T To<T>(T? pageObject, GoOptions options)
         where T : PageObject<T>
     {
-        SetContextAsCurrent();
+        SetSessionAsCurrent();
 
         var currentPageObject = _session.PageObject;
 
@@ -383,7 +383,7 @@ public sealed class WebDriverSessionNavigator
     /// <param name="url">The URL.</param>
     public void ToUrl(string url)
     {
-        SetContextAsCurrent();
+        SetSessionAsCurrent();
 
         Uri absoluteUrl = CreateAbsoluteUriForNavigation(url);
 
@@ -431,7 +431,7 @@ public sealed class WebDriverSessionNavigator
         _session.IsNavigated = true;
     }
 
-    private void SetContextAsCurrent() =>
+    private void SetSessionAsCurrent() =>
         _session.SetAsCurrent();
 
     private sealed class GoOptions
