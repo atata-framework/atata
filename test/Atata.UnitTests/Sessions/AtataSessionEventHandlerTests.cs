@@ -26,6 +26,7 @@ public sealed class AtataSessionEventHandlerTests
     {
         // Arrange
         AtataSession? session = null;
+        AtataContext? context = null;
 
         var builder = AtataContext.CreateDefaultNonScopedBuilder()
             .Sessions.Add<FakeSessionBuilder>(x => x
@@ -34,6 +35,7 @@ public sealed class AtataSessionEventHandlerTests
                     eventData =>
                     {
                         session = eventData.Session;
+                        context = session.Context;
                         throw new InvalidOperationException("Intentional exception.");
                     }));
 
@@ -43,5 +45,11 @@ public sealed class AtataSessionEventHandlerTests
 
         session.Should().NotBeNull();
         session.IsActive.Should().BeFalse();
+
+        context.Should().NotBeNull();
+        context.IsActive.Should().BeFalse();
+        context.TestResultStatus.Should().Be(TestResultStatus.Failed);
+        context.LastLoggedException.Should().BeOfType<InvalidOperationException>()
+            .Which.Message.Should().Be("Intentional exception.");
     }
 }

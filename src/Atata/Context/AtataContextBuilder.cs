@@ -782,7 +782,9 @@ public sealed class AtataContextBuilder : ICloneable
         }
         catch (Exception exception)
         {
+            context.TestResultStatus = TestResultStatus.Failed;
             context.Log.Error(exception, "AtataContext initialization failed.");
+            context.LastLoggedException = exception;
             await context.DisposeAsync().ConfigureAwait(false);
             throw;
         }
