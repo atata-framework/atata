@@ -418,6 +418,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
             IsShareable = Mode == AtataSessionMode.Shared
         };
 
+        try
+        {
         session.AssignToOwnerContext(context);
 
         await session.Log.ExecuteSectionAsync(
@@ -440,6 +442,22 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
             }).ConfigureAwait(false);
 
         return session;
+    }
+        catch (Exception exception)
+        {
+            (session.Log ?? context.Log).Error(exception, "Failed to build session.");
+
+            try
+            {
+                await session.DisposeAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                // Swallow disposal exception to not hide the original one.
+            }
+
+            throw;
+        }
     }
 
     async Task<AtataSession> IAtataSessionBuilder.BuildAsync(CancellationToken cancellationToken) =>
