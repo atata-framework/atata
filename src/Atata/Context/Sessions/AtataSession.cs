@@ -12,6 +12,7 @@
 /// It provides access to various session-specific properties, such as logging, reporting, variables, and state.
 /// </para>
 /// </remarks>
+[DebuggerDisplay("{ToString(),nq}")]
 public abstract class AtataSession : IAsyncDisposable
 {
     internal const int DefaultPoolInitialCapacity = 0;
