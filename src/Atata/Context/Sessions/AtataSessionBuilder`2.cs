@@ -9,6 +9,7 @@
 /// This class provides methods to configure various aspects of an Atata session,
 /// such as mode, timeouts, variables, state, event subscriptions, etc.
 /// </remarks>
+[DebuggerDisplay("{ToString(),nq}")]
 public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBuilder
     where TSession : AtataSession, new()
     where TBuilder : AtataSessionBuilder<TSession, TBuilder>
@@ -507,6 +508,21 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <returns>An <see cref="IReport{TSession}"/> instance for the specified session.</returns>
     protected virtual IReport<TSession> CreateReport(TSession session) =>
         new Report<TSession>(session, session.ExecutionUnit);
+
+    /// <summary>
+    /// Returns a string that represents the current session builder.
+    /// </summary>
+    /// <returns>
+    /// A <see langword="string"/> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+        string typeName = GetType().ToStringInShortForm();
+
+        return Name?.Length > 0
+            ? $"{typeName} {{ Name={Name} }}"
+            : typeName;
+    }
 
     /// <summary>
     /// Creates a copy of the current builder.
