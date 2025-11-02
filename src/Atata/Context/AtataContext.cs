@@ -3,6 +3,7 @@
 /// <summary>
 /// Represents the context of a test scope (test, test suite, global test context).
 /// </summary>
+[DebuggerDisplay("{ToString(),nq}")]
 public sealed class AtataContext : IDisposable, IAsyncDisposable
 {
     /// <summary>
