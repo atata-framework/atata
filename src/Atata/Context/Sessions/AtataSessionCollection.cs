@@ -557,11 +557,17 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
 
         try
         {
-            if (_sessionLinkedListOderedByCurrentUsage.First.Value != session)
+            LinkedListNode<AtataSession>? firstNode = _sessionLinkedListOderedByCurrentUsage.First;
+
+            if (firstNode is not null && firstNode.Value != session)
             {
-                var node = _sessionLinkedListOderedByCurrentUsage.Find(session);
-                _sessionLinkedListOderedByCurrentUsage.Remove(node);
-                _sessionLinkedListOderedByCurrentUsage.AddFirst(node);
+                LinkedListNode<AtataSession>? targetNode = _sessionLinkedListOderedByCurrentUsage.Find(session);
+
+                if (targetNode is not null)
+                {
+                    _sessionLinkedListOderedByCurrentUsage.Remove(targetNode);
+                    _sessionLinkedListOderedByCurrentUsage.AddFirst(targetNode);
+                }
             }
         }
         finally
