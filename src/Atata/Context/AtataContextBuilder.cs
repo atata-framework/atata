@@ -203,6 +203,17 @@ public sealed class AtataContextBuilder : ICloneable
     public TestResultStatusCondition CleanUpArtifactsCondition { get; set; }
 
     /// <summary>
+    /// Configures this builder by action delegate.
+    /// </summary>
+    /// <param name="configure">An action delegate to configure the <see cref="AtataContextBuilder"/>.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Use(Action<AtataContextBuilder> configure)
+    {
+        configure?.Invoke(this);
+        return this;
+    }
+
+    /// <summary>
     /// Sets the parent context.
     /// </summary>
     /// <param name="parentContext">The parent context.</param>
