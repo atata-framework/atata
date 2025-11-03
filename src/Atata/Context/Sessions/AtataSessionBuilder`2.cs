@@ -125,6 +125,19 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     public AtataSessionEventSubscriptionsBuilder<TBuilder> EventSubscriptions { get; private set; }
 
     /// <summary>
+    /// Configures this builder by action delegate.
+    /// </summary>
+    /// <param name="configure">An action delegate to configure the <typeparamref name="TBuilder"/>.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder Use(Action<TBuilder> configure)
+    {
+        TBuilder thisCasted = (TBuilder)this;
+
+        configure?.Invoke(thisCasted);
+        return thisCasted;
+    }
+
+    /// <summary>
     /// Sets the <see cref="Name"/> value for a session.
     /// </summary>
     /// <param name="name">The name.</param>
