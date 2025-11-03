@@ -379,14 +379,12 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     {
         if (Mode == AtataSessionMode.Pool)
         {
-            context.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
-
             await context.Sessions.StartPoolAsync(this, cancellationToken)
                 .ConfigureAwait(false);
         }
         else
         {
-            await BuildAsync(cancellationToken)
+            await BuildAsync(context, cancellationToken)
                 .ConfigureAwait(false);
         }
     }
