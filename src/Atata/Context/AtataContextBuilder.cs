@@ -217,7 +217,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// Sets the parent context.
     /// </summary>
     /// <param name="parentContext">The parent context.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseParentContext(AtataContext? parentContext)
     {
         if (Scope == AtataContextScope.Global)
@@ -534,7 +534,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
     /// </summary>
     /// <param name="culture">The culture.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseCulture(CultureInfo culture)
     {
         Culture = culture;
@@ -546,7 +546,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
     /// </summary>
     /// <param name="cultureName">The name of the culture.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseCulture(string cultureName) =>
         UseCulture(CultureInfo.GetCultureInfo(cultureName));
 
@@ -571,7 +571,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// The default value is an instance of <see cref="AtataAssertionExceptionFactory"/>.
     /// </summary>
     /// <param name="factory">The assertion exception factory.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseAssertionExceptionFactory(IAssertionExceptionFactory factory)
     {
         AssertionExceptionFactory = factory;
@@ -599,7 +599,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// The default value is an instance of <see cref="AtataAggregateAssertionExceptionFactory"/>.
     /// </summary>
     /// <param name="factory">The aggregate assertion exception factory.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseAggregateAssertionExceptionFactory(IAggregateAssertionExceptionFactory factory)
     {
         AggregateAssertionExceptionFactory = factory;
@@ -619,7 +619,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// Sets the aggregate assertion strategy.
     /// </summary>
     /// <param name="strategy">The aggregate assertion strategy.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseAggregateAssertionStrategy(IAggregateAssertionStrategy strategy)
     {
         AggregateAssertionStrategy = strategy;
@@ -631,7 +631,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// Sets the strategy for warning assertion reporting.
     /// </summary>
     /// <param name="strategy">The warning report strategy.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseWarningReportStrategy(IWarningReportStrategy strategy)
     {
         WarningReportStrategy = strategy;
@@ -643,7 +643,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// Sets the strategy for assertion failure reporting.
     /// </summary>
     /// <param name="strategy">The assertion failure reporting strategy.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseAssertionFailureReportStrategy(IAssertionFailureReportStrategy strategy)
     {
         AssertionFailureReportStrategy = strategy;
