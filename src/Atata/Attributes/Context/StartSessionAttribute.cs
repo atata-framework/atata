@@ -29,6 +29,12 @@ public class StartSessionAttribute : AtataContextConfigurationAttribute
     /// </summary>
     public string? SessionName { get; }
 
+    /// <summary>
+    /// Gets or sets the number of sessions to start.
+    /// The default value is <c>1</c>.
+    /// </summary>
+    public int Count { get; set; } = 1;
+
     protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
     {
         builder.Sessions.DisableAllBySessionType(SessionType, SessionName);
@@ -36,6 +42,10 @@ public class StartSessionAttribute : AtataContextConfigurationAttribute
         builder.Sessions.Configure(
             SessionType,
             SessionName,
-            x => x.StartScopes = AtataContextScopes.All);
+            x =>
+            {
+                x.StartScopes = AtataContextScopes.All;
+                x.StartCount = Count;
+            });
     }
 }

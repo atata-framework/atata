@@ -29,19 +29,36 @@ public class TakeSessionFromPoolAndShareAttribute : TestSuiteAtataContextConfigu
     /// </summary>
     public string? SessionName { get; }
 
+    /// <summary>
+    /// Gets or sets the number of sessions to take from pool and share.
+    /// The default value is <c>1</c>.
+    /// </summary>
+    public int Count { get; set; } = 1;
+
     protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
     {
         builder.Sessions.DisableAllBySessionType(SessionType, SessionName);
 
         builder.Sessions.TakeFromPool(
             SessionType,
-            x => x.UseName(SessionName).UseSharedMode(true));
+            x =>
+            {
+                x.Name = SessionName;
+                x.SharedMode = true;
+                x.StartCount = Count;
+            });
     }
 
     protected internal override void ConfigureTestAtataContext(AtataContextBuilder builder, object? testSuite)
     {
         builder.Sessions.DisableAllBySessionType(SessionType, SessionName);
 
-        builder.Sessions.Borrow(SessionType, x => x.Name = SessionName);
+        builder.Sessions.Borrow(
+            SessionType,
+            x =>
+            {
+                x.Name = SessionName;
+                x.StartCount = Count;
+            });
     }
 }

@@ -380,6 +380,46 @@ public static class AtataSessionsBuilderTests
             parentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
         }
 
+        [Test]
+        public async Task Multiple_WhenParentContextContainsEnoughSharedSessions()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseAsShared()
+                    .UseStartCount(3))
+                .BuildAsync();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .Sessions.Borrow<FakeSession>(x => x.UseStartCount(3));
+
+            // Act
+            await using AtataContext context = await contextBuilder.BuildAsync();
+
+            // Assert
+            context.Sessions.OfType<FakeSession>()
+                .Should().HaveCount(3);
+        }
+
+        [Test]
+        public async Task Multiple_WhenParentContextDoesNotContainEnoughSharedSessions()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseAsShared()
+                    .UseStartCount(2))
+                .BuildAsync();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .Sessions.Borrow<FakeSession>(x => x.UseStartCount(3));
+
+            // Act // Assert
+            await AssertContextBuildFailureBecauseOfNotFoundSessionToBorrowAsync(contextBuilder);
+        }
+
         private static async Task AssertContextBuildFailureBecauseOfNotFoundSessionToBorrowAsync(AtataContextBuilder contextBuilder)
         {
             // Act
@@ -508,6 +548,53 @@ public static class AtataSessionsBuilderTests
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEquivalentTo([session]);
             parentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
+        }
+
+        [Test]
+        public async Task Multiple_WhenParentContextPoolContainsEnoughSessions()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseAsPool(x => x
+                        .WithInitialCapacity(2)
+                        .WithMaxCapacity(3)))
+                .BuildAsync();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .Sessions.TakeFromPool<FakeSession>(x => x.UseStartCount(3));
+
+            // Act
+            await using AtataContext context = await contextBuilder.BuildAsync();
+
+            // Assert
+            context.Sessions.OfType<FakeSession>()
+                .Should().HaveCount(3);
+        }
+
+        [Test]
+        public async Task Multiple_WhenParentContextPoolDoesNotContainEnoughSessions()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseSessionWaitingTimeout(TimeSpan.FromMilliseconds(100))
+                    .UseAsPool(x => x
+                        .WithInitialCapacity(2)
+                        .WithMaxCapacity(2)))
+                .BuildAsync();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .Sessions.TakeFromPool<FakeSession>(x => x.UseStartCount(3));
+
+            // Act
+            var call = contextBuilder.Invoking(x => x.BuildAsync());
+
+            // Assert
+            await call.Should().ThrowExactlyAsync<TimeoutException>()
+                .WithMessage("Timed out after * waiting for FakeSession from a session pool.");
         }
 
         private static async Task AssertContextBuildFailureBecauseOfNotFoundSessionPoolAsync(AtataContextBuilder contextBuilder)

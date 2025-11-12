@@ -31,6 +31,23 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <inheritdoc/>
     public AtataContextScopes? StartScopes { get; set; }
 
+    /// <summary>
+    /// Gets or sets the count of sessions to build on startup.
+    /// The default value is <c>1</c>.
+    /// Applies when <see cref="Mode"/> is set to
+    /// <see cref="AtataSessionMode.Own"/> or <see cref="AtataSessionMode.Shared"/>.
+    /// </summary>
+    public int StartCount { get; set; } = 1;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to build multiple sessions in parallel on startup
+    /// when <see cref="StartCount"/> is more than <c>1</c>.
+    /// The default value is <see langword="true"/>.
+    /// Applies when <see cref="Mode"/> is set to
+    /// <see cref="AtataSessionMode.Own"/> or <see cref="AtataSessionMode.Shared"/>.
+    /// </summary>
+    public bool StartMultipleInParallel { get; set; } = true;
+
     /// <inheritdoc/>
     public AtataSessionMode Mode { get; set; }
 
@@ -171,6 +188,30 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         StartScopes = start
             ? AtataContextScopes.All
             : AtataContextScopes.None;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the <see cref="StartCount"/> value.
+    /// </summary>
+    /// <param name="count">The count of sessions to build on startup.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseStartCount(int count)
+    {
+        Guard.ThrowIfLessThan(count, 1);
+
+        StartCount = count;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the <see cref="StartMultipleInParallel"/> value.
+    /// </summary>
+    /// <param name="enable">Enables parallel session build if set to <see langword="true"/>.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseStartMultipleInParallel(bool enable)
+    {
+        StartMultipleInParallel = enable;
         return (TBuilder)this;
     }
 
@@ -377,14 +418,26 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
     async Task IAtataSessionProvider.StartAsync(AtataContext context, CancellationToken cancellationToken)
     {
+        ValidateConfiguration();
+
         if (Mode == AtataSessionMode.Pool)
         {
             await context.Sessions.StartPoolAsync(this, cancellationToken)
                 .ConfigureAwait(false);
         }
+        else if (StartCount == 1 || Mode == AtataSessionMode.Pool)
+        {
+            await BuildSessionAsync(context, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        else if (StartMultipleInParallel)
+        {
+            await BuildSessionsInParallelAsync(context, cancellationToken)
+                .ConfigureAwait(false);
+        }
         else
         {
-            await BuildAsync(context, cancellationToken)
+            await BuildSessionsSequentiallyAsync(context, cancellationToken)
                 .ConfigureAwait(false);
         }
     }
@@ -398,7 +451,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         {
             assignToContext.SetToDefaultCancellationTokenWhenDefault(ref cancellationToken);
 
-            return await BuildAsync(assignToContext, cancellationToken).ConfigureAwait(false);
+            return await BuildSessionAsync(assignToContext, cancellationToken).ConfigureAwait(false);
         }
         else if (Mode is not (AtataSessionMode.Own or AtataSessionMode.Shared))
         {
@@ -419,10 +472,29 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         }
     }
 
-    private async Task<TSession> BuildAsync(AtataContext context, CancellationToken cancellationToken)
+    private async Task BuildSessionsInParallelAsync(AtataContext context, CancellationToken cancellationToken)
     {
-        ValidateConfiguration();
+        var buildTasks = new Task<TSession>[StartCount];
 
+        for (int i = 0; i < StartCount; i++)
+        {
+            var task = BuildSessionAsync(context, cancellationToken);
+            buildTasks[i] = task;
+        }
+
+        await Task.WhenAll(buildTasks).ConfigureAwait(false);
+    }
+
+    private async Task BuildSessionsSequentiallyAsync(AtataContext context, CancellationToken cancellationToken)
+    {
+        for (int i = 0; i < StartCount; i++)
+        {
+            await BuildSessionAsync(context, cancellationToken).ConfigureAwait(false);
+        }
+    }
+
+    private async Task<TSession> BuildSessionAsync(AtataContext context, CancellationToken cancellationToken)
+    {
         TSession session = new()
         {
             Name = Name,
@@ -432,29 +504,29 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
         try
         {
-        session.AssignToOwnerContext(context);
+            session.AssignToOwnerContext(context);
 
-        await session.Log.ExecuteSectionAsync(
-            new AtataSessionInitLogSection(session),
-            async () =>
-            {
-                ConfigureSession(session);
+            await session.Log.ExecuteSectionAsync(
+                new AtataSessionInitLogSection(session),
+                async () =>
+                {
+                    ConfigureSession(session);
 
-                await session.EventBus.PublishAsync(new AtataSessionInitStartedEvent(session), cancellationToken)
-                    .ConfigureAwait(false);
+                    await session.EventBus.PublishAsync(new AtataSessionInitStartedEvent(session), cancellationToken)
+                        .ConfigureAwait(false);
 
-                session.LogConfiguration();
+                    session.LogConfiguration();
 
-                await session.StartAsync(cancellationToken).ConfigureAwait(false);
+                    await session.StartAsync(cancellationToken).ConfigureAwait(false);
 
-                await session.EventBus.PublishAsync(new AtataSessionInitCompletedEvent(session), cancellationToken)
-                    .ConfigureAwait(false);
-                await session.EventBus.PublishAsync(new AtataSessionAssignedToContextEvent(session), cancellationToken)
-                    .ConfigureAwait(false);
-            }).ConfigureAwait(false);
+                    await session.EventBus.PublishAsync(new AtataSessionInitCompletedEvent(session), cancellationToken)
+                        .ConfigureAwait(false);
+                    await session.EventBus.PublishAsync(new AtataSessionAssignedToContextEvent(session), cancellationToken)
+                        .ConfigureAwait(false);
+                }).ConfigureAwait(false);
 
-        return session;
-    }
+            return session;
+        }
         catch (Exception exception)
         {
             (session.Log ?? context.Log).Error(exception, "Failed to build session.");
@@ -482,6 +554,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// </summary>
     protected virtual void ValidateConfiguration()
     {
+        if (StartCount < 1)
+            throw new AtataSessionBuilderValidationException(
+                $"Start count {StartCount} should be a positive value.");
     }
 
     /// <summary>

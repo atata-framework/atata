@@ -30,7 +30,8 @@ public sealed class AtataSessionPoolRequestBuilder : AtataSessionRequestBuilder<
         return this;
     }
 
-    protected override async Task StartAsync(AtataContext context, CancellationToken cancellationToken)
+    /// <inheritdoc/>
+    protected override async Task RequestSessionAsync(AtataContext context, CancellationToken cancellationToken)
     {
         AtataSession session = await context.Sessions.TakeFromPoolAsync(Type, Name, cancellationToken)
             .ConfigureAwait(false);

@@ -40,6 +40,56 @@ public static class AtataSessionBuilderTests
         }
     }
 
+    public sealed class StartCount
+    {
+        [Test]
+        public async Task WithInvalidValue([Values(0, -1)] int count)
+        {
+            // Arrange
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .StartCount = count);
+
+            // Act
+            var call = contextBuilder.Invoking(x => x.BuildAsync());
+
+            // Assert
+            await call.Should().ThrowExactlyAsync<AtataSessionBuilderValidationException>()
+                .WithMessage($"Start count {count} should be a positive value.");
+        }
+
+        [Test]
+        public async Task WithValidValue([Values(1, 2, 5, 7)] int count)
+        {
+            // Arrange
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .StartCount = count);
+
+            // Act
+            using AtataContext context = await contextBuilder.BuildAsync();
+
+            // Assert
+            context.Sessions.Should().HaveCount(count);
+        }
+
+        [Test]
+        public async Task With3_ThenBuild1More()
+        {
+            // Arrange
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .StartCount = 3);
+
+            // Act
+            using AtataContext context = await contextBuilder.BuildAsync();
+            await context.Sessions.BuildAsync<FakeSession>();
+
+            // Assert
+            context.Sessions.Should().HaveCount(4);
+        }
+    }
+
     public sealed class Build
     {
         [Test]

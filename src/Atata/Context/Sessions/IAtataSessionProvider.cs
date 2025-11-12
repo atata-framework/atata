@@ -17,6 +17,19 @@ public interface IAtataSessionProvider : ICloneable
     AtataContextScopes? StartScopes { get; set; }
 
     /// <summary>
+    /// Gets or sets the count of start sessions.
+    /// The default value is <c>1</c>.
+    /// </summary>
+    int StartCount { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to start multiple sessions in parallel
+    /// when <see cref="StartCount"/> is more than <c>1</c>.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    bool StartMultipleInParallel { get; set; }
+
+    /// <summary>
     /// Starts a session within the specified <paramref name="context"/>.
     /// </summary>
     /// <param name="context">The context.</param>

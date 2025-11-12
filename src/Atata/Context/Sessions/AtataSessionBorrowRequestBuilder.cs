@@ -10,7 +10,8 @@ public sealed class AtataSessionBorrowRequestBuilder : AtataSessionRequestBuilde
     {
     }
 
-    protected override async Task StartAsync(AtataContext context, CancellationToken cancellationToken) =>
+    /// <inheritdoc/>
+    protected override async Task RequestSessionAsync(AtataContext context, CancellationToken cancellationToken) =>
         await context.Sessions.BorrowAsync(Type, Name, cancellationToken)
             .ConfigureAwait(false);
 }

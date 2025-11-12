@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// An exception that occurs during the validation of an Atata session builder.
+/// An exception that occurs during validation of Atata session builder.
 /// </summary>
 public class AtataSessionBuilderValidationException : Exception
 {
