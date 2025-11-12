@@ -427,6 +427,7 @@ public sealed class AtataSessionsBuilder
     /// <typeparam name="TSessionProvider">The type of the session provider.</typeparam>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder DisableAll<TSessionProvider>()
+        where TSessionProvider : IAtataSessionProvider
     {
         foreach (var provider in _sessionProviders)
             if (provider is TSessionProvider)
@@ -444,6 +445,7 @@ public sealed class AtataSessionsBuilder
     /// <param name="name">The name of the session.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder DisableAll<TSessionProvider>(string? name)
+        where TSessionProvider : IAtataSessionProvider
     {
         foreach (var provider in _sessionProviders)
             if (provider is TSessionProvider && provider.Name == name)
