@@ -287,8 +287,6 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Borrow(Type sessionType, Action<AtataSessionBorrowRequestBuilder>? configure = null)
     {
-        Guard.ThrowIfNot<AtataSession>(sessionType);
-
         AtataSessionBorrowRequestBuilder sessionRequestBuilder = new(sessionType)
         {
             StartScopes = _defaultStartScopes
@@ -334,8 +332,6 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder TakeFromPool(Type sessionType, Action<AtataSessionPoolRequestBuilder>? configure = null)
     {
-        Guard.ThrowIfNot<AtataSession>(sessionType);
-
         AtataSessionPoolRequestBuilder sessionRequestBuilder = new(sessionType)
         {
             StartScopes = _defaultStartScopes
