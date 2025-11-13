@@ -11,6 +11,8 @@ public class AddOnlyList<T> : IReadOnlyList<T>
 {
     private readonly List<T> _innerList;
 
+    private volatile int _count;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="AddOnlyList{T}"/> class
     /// that is empty and has the default initial capacity.
@@ -25,8 +27,11 @@ public class AddOnlyList<T> : IReadOnlyList<T>
     /// </summary>
     /// <param name="collection">The collection.</param>
     /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
-    public AddOnlyList(IEnumerable<T> collection) =>
+    public AddOnlyList(IEnumerable<T> collection)
+    {
         _innerList = [.. collection];
+        _count = _innerList.Count;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddOnlyList{T}"/> class
@@ -41,7 +46,7 @@ public class AddOnlyList<T> : IReadOnlyList<T>
     /// Gets the number of elements in the list.
     /// </summary>
     public int Count =>
-        _innerList.Count;
+        _count;
 
     /// <summary>
     /// Gets the element at the specified index.
@@ -68,13 +73,14 @@ public class AddOnlyList<T> : IReadOnlyList<T>
         lock (_innerList)
         {
             _innerList.Add(item);
+            _count++;
         }
     }
 
     /// <inheritdoc/>
     public IEnumerator<T> GetEnumerator()
     {
-        for (int i = 0; i < _innerList.Count; i++)
+        for (int i = 0; i < _count; i++)
         {
             yield return _innerList[i];
         }
