@@ -373,7 +373,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         EnsureNotDisposed();
 
         var builder = _sessionBuilders.Find(x => x.Name == sessionName && AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType()) == sessionType)
-            ?? throw AtataSessionBuilderNotFoundException.BySessionType(sessionType, sessionName, _context);
+            ?? throw AtataSessionBuilderNotFoundException.BySessionTypeAndName(sessionType, sessionName, _context);
 
         return await builder.BuildAsync(cancellationToken)
             .ConfigureAwait(false);

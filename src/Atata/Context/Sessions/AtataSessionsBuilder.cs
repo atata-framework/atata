@@ -151,9 +151,11 @@ public sealed class AtataSessionsBuilder
     /// <param name="configure">An action delegate to configure the provided <see cref="IAtataSessionBuilder"/>.</param>
     /// <param name="mode">The configuration mode, which is <see cref="ConfigurationMode.ConfigureOrThrow"/> by default.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Configure(Type sessionType, string? name, Action<IAtataSessionBuilder> configure, ConfigurationMode mode = default)
+    public AtataContextBuilder Configure(Type? sessionType, string? name, Action<IAtataSessionBuilder> configure, ConfigurationMode mode = default)
     {
-        Guard.ThrowIfNull(sessionType);
+        if (sessionType is null && name is null)
+            throw CreateArgumentExceptionForNullSessionTypeAndName();
+
         Guard.ThrowIfNull(configure);
 
         switch (mode)
@@ -183,10 +185,10 @@ public sealed class AtataSessionsBuilder
         configure.Invoke(sessionBuilder);
     }
 
-    private void ConfigureOrThrow(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
+    private void ConfigureOrThrow(Type? sessionType, string? name, Action<IAtataSessionBuilder> configure)
     {
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name)
-            ?? throw AtataSessionBuilderNotFoundException.BySessionType(sessionType, name);
+            ?? throw AtataSessionBuilderNotFoundException.BySessionTypeAndName(sessionType, name);
 
         configure.Invoke(sessionBuilder);
     }
@@ -200,7 +202,7 @@ public sealed class AtataSessionsBuilder
             configure.Invoke(sessionBuilder);
     }
 
-    private void ConfigureIfExists(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
+    private void ConfigureIfExists(Type? sessionType, string? name, Action<IAtataSessionBuilder> configure)
     {
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name);
 
@@ -228,12 +230,15 @@ public sealed class AtataSessionsBuilder
         }
     }
 
-    private void ConfigureOrAdd(Type sessionType, string? name, Action<IAtataSessionBuilder>? configure = null)
+    private void ConfigureOrAdd(Type? sessionType, string? name, Action<IAtataSessionBuilder>? configure = null)
     {
         var sessionBuilder = GetSessionBuilderOrNull(sessionType, name);
 
         if (sessionBuilder is null)
         {
+            if (sessionType is null)
+                throw new ArgumentNullException(nameof(sessionType), "Cannot create session builder without session type name.");
+
             sessionBuilder = CreateSessionBuilderBySessionType(sessionType);
             sessionBuilder.StartScopes = _defaultStartScopes;
             sessionBuilder.Name = name;
@@ -393,7 +398,7 @@ public sealed class AtataSessionsBuilder
         else if (name is not null)
             return RemoveAllBySessionName(name);
         else
-            throw new ArgumentException($"Either '{nameof(sessionType)}' or '{nameof(name)}' should be not null.");
+            throw CreateArgumentExceptionForNullSessionTypeAndName();
     }
 
     /// <summary>
@@ -498,7 +503,7 @@ public sealed class AtataSessionsBuilder
         else if (name is not null)
             return DisableAllBySessionName(name);
         else
-            throw new ArgumentException($"Either '{nameof(sessionType)}' or '{nameof(name)}' should be not null.");
+            throw CreateArgumentExceptionForNullSessionTypeAndName();
     }
 
     /// <summary>
@@ -581,6 +586,9 @@ public sealed class AtataSessionsBuilder
         return _atataContextBuilder;
     }
 
+    private static ArgumentException CreateArgumentExceptionForNullSessionTypeAndName() =>
+        new($"Either 'sessionType' or 'name' should be not null.");
+
     private static IAtataSessionBuilder CreateSessionBuilderBySessionType(Type sessionType)
     {
         MethodInfo factoryMethod = sessionType.GetMethodWithThrowOnError(
@@ -621,7 +629,8 @@ public sealed class AtataSessionsBuilder
         _sessionProviders.OfType<TSessionProvider>()
             .LastOrDefault(x => x.Name == name);
 
-    private IAtataSessionBuilder? GetSessionBuilderOrNull(Type sessionType, string? name) =>
-        _sessionProviders.OfType<IAtataSessionBuilder>()
-            .LastOrDefault(x => x.Name == name && IsBuilderOfSessionType(x, sessionType));
+    private IAtataSessionBuilder? GetSessionBuilderOrNull(Type? sessionType, string? name) =>
+        sessionType is null
+            ? Builders.LastOrDefault(x => x.Name == name)
+            : Builders.LastOrDefault(x => x.Name == name && IsBuilderOfSessionType(x, sessionType));
 }

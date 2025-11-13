@@ -19,10 +19,23 @@ public class AtataSessionBuilderNotFoundException : Exception
     {
     }
 
-    internal static AtataSessionBuilderNotFoundException BySessionType(Type sessionType, string? sessionName, AtataContext? context = null)
+    internal static AtataSessionBuilderNotFoundException BySessionTypeAndName(Type? sessionType, string? sessionName, AtataContext? context = null)
     {
-        var messageBuilder = new StringBuilder("Failed to find session builder for ")
-            .Append(AtataSession.BuildTypedName(sessionType, sessionName));
+        StringBuilder messageBuilder = new("Failed to find session builder");
+
+        if (sessionType is not null)
+        {
+            messageBuilder
+                .Append(" for ")
+                .Append(AtataSession.BuildTypedName(sessionType, sessionName));
+        }
+        else if (sessionName is not null)
+        {
+            messageBuilder
+                .Append(" by name \"")
+                .Append(sessionName)
+                .Append('"');
+        }
 
         if (context is not null)
             messageBuilder.Append(" in ").Append(context);
