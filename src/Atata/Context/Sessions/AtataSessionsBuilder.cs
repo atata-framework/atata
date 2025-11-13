@@ -253,16 +253,16 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
-    /// Creates a request to borrow a session of the specified <typeparamref name="TSession"/> type with the specified <paramref name="sessionName"/>,
+    /// Creates a request to borrow a session of the specified <typeparamref name="TSession"/> type with the specified <paramref name="name"/>,
     /// adds it to the session providers list.
     /// </summary>
     /// <typeparam name="TSession">The type of the session to borrow.</typeparam>
-    /// <param name="sessionName">The name of the session.</param>
+    /// <param name="name">The name of the session.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Borrow<TSession>(string? sessionName)
+    public AtataContextBuilder Borrow<TSession>(string? name)
         where TSession : AtataSession
         =>
-        Borrow<TSession>(x => x.Name = sessionName);
+        Borrow<TSession>(x => x.Name = name);
 
     /// <summary>
     /// Creates a request to borrow a session of the specified <typeparamref name="TSession"/> type,
@@ -298,16 +298,16 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
-    /// Creates a request to take a session from the pool of the specified <typeparamref name="TSession"/> type with the specified <paramref name="sessionName"/>,
+    /// Creates a request to take a session from the pool of the specified <typeparamref name="TSession"/> type with the specified <paramref name="name"/>,
     /// adds it to the session providers list.
     /// </summary>
     /// <typeparam name="TSession">The type of the session to take from the pool.</typeparam>
-    /// <param name="sessionName">The name of the session.</param>
+    /// <param name="name">The name of the session.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder TakeFromPool<TSession>(string? sessionName)
+    public AtataContextBuilder TakeFromPool<TSession>(string? name)
         where TSession : AtataSession
         =>
-        TakeFromPool<TSession>(x => x.Name = sessionName);
+        TakeFromPool<TSession>(x => x.Name = name);
 
     /// <summary>
     /// Creates a request to take a session from the pool of the specified <typeparamref name="TSession"/> type,
