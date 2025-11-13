@@ -380,6 +380,23 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
+    /// Removes all session providers by the specified <paramref name="sessionType"/> and <paramref name="name"/>.
+    /// At least one of the parameters should be not null.
+    /// </summary>
+    /// <param name="sessionType">The type of the session.</param>
+    /// <param name="name">The name of the session.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder RemoveAll(Type? sessionType, string? name)
+    {
+        if (sessionType is not null)
+            return RemoveAllBySessionType(sessionType, name);
+        else if (name is not null)
+            return RemoveAllBySessionName(name);
+        else
+            throw new ArgumentException($"Either '{nameof(sessionType)}' or '{nameof(name)}' should be not null.");
+    }
+
+    /// <summary>
     /// Removes all session providers of the specified <typeparamref name="TSession"/> regardless of name.
     /// </summary>
     /// <typeparam name="TSession">The type of the session.</typeparam>
