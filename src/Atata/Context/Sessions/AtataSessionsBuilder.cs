@@ -611,8 +611,8 @@ public sealed class AtataSessionsBuilder
         provider switch
         {
             IAtataSessionBuilder builder => IsBuilderOfSessionType(builder, sessionType),
-            AtataSessionBorrowRequestBuilder borrowRequest => borrowRequest.Type == sessionType,
-            AtataSessionPoolRequestBuilder poolRequest => poolRequest.Type == sessionType,
+            AtataSessionBorrowRequestBuilder borrowRequest => sessionType.IsAssignableFrom(borrowRequest.Type),
+            AtataSessionPoolRequestBuilder poolRequest => sessionType.IsAssignableFrom(poolRequest.Type),
             _ => false
         };
 
