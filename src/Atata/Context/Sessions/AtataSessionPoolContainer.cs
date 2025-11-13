@@ -2,40 +2,53 @@
 
 internal sealed class AtataSessionPoolContainer : IEnumerable<AtataSessionPool>
 {
-    private readonly Dictionary<PoolKey, AtataSessionPool> _poolsMap = [];
+    private AddOnlyList<PoolItem> _poolItems = [];
 
     IEnumerator IEnumerable.GetEnumerator() =>
         GetEnumerator();
 
     public IEnumerator<AtataSessionPool> GetEnumerator()
     {
-        foreach (AtataSessionPool pool in _poolsMap.Values)
-            yield return pool;
+        foreach (PoolItem item in _poolItems)
+            yield return item.Pool;
     }
 
     internal AtataSessionPool AddPool(IAtataSessionBuilder sessionBuilder)
     {
         Type sessionType = AtataSessionTypeMap.ResolveSessionTypeByBuilderType(sessionBuilder.GetType());
+        string? sessionName = sessionBuilder.Name;
 
-        PoolKey key = new(sessionType, sessionBuilder.Name);
+        if (TryGetPool(sessionType, sessionName, out _))
+            throw new InvalidOperationException($"Cannot add a session pool. Such pool for {AtataSession.BuildTypedName(sessionType, sessionName)} already exists.");
+
         AtataSessionPool pool = new(sessionBuilder, sessionBuilder.PoolMaxCapacity);
-        _poolsMap.Add(key, pool);
+        _poolItems.Add(new(pool, sessionType, sessionName));
 
         return pool;
     }
 
     internal bool TryGetPool(
-        Type sessionType,
+        Type? sessionType,
         string? sessionName,
         [NotNullWhen(true)] out AtataSessionPool? pool)
     {
-        PoolKey key = new(sessionType, sessionName);
+        for (int i = _poolItems.Count - 1; i >= 0; i--)
+        {
+            PoolItem item = _poolItems[i];
 
-        return _poolsMap.TryGetValue(key, out pool);
+            if (item.SessionName == sessionName && (sessionType is null || sessionType.IsAssignableFrom(item.SessionType)))
+            {
+                pool = item.Pool;
+                return true;
+            }
+        }
+
+        pool = null;
+        return false;
     }
 
     internal void Clear() =>
-        _poolsMap.Clear();
+        _poolItems = [];
 
-    private readonly record struct PoolKey(Type SessionType, string? SessionName);
+    private readonly record struct PoolItem(AtataSessionPool Pool, Type SessionType, string? SessionName);
 }
