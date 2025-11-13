@@ -483,6 +483,25 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
+    /// Disables all session providers by the specified <paramref name="sessionType"/> and <paramref name="name"/>.
+    /// Sets their <see cref="IAtataSessionProvider.StartScopes"/> property to <see cref="AtataContextScopes.None"/>,
+    /// so that the sessions will not automatically start for any scope.
+    /// At least one of the parameters should be not null.
+    /// </summary>
+    /// <param name="sessionType">The type of the session.</param>
+    /// <param name="name">The name of the session.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder DisableAll(Type? sessionType, string? name)
+    {
+        if (sessionType is not null)
+            return DisableAllBySessionType(sessionType, name);
+        else if (name is not null)
+            return DisableAllBySessionName(name);
+        else
+            throw new ArgumentException($"Either '{nameof(sessionType)}' or '{nameof(name)}' should be not null.");
+    }
+
+    /// <summary>
     /// Disables all session providers of the specified <typeparamref name="TSession"/> regardless of name.
     /// Sets their <see cref="IAtataSessionProvider.StartScopes"/> property to <see cref="AtataContextScopes.None"/>,
     /// so that the sessions will not automatically start for any scope.
