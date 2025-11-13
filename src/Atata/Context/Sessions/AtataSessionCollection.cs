@@ -372,7 +372,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     {
         EnsureNotDisposed();
 
-        var builder = _sessionBuilders.Find(x => x.Name == sessionName && AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType()) == sessionType)
+        var builder = _sessionBuilders.Find(x => x.Name == sessionName && sessionType.IsAssignableFrom(AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType())))
             ?? throw AtataSessionBuilderNotFoundException.BySessionTypeAndName(sessionType, sessionName, _context);
 
         return await builder.BuildAsync(cancellationToken)
@@ -441,7 +441,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
             currentContext = currentContext.ParentContext;
 
             foreach (var session in currentContext.Sessions)
-                if (session.IsShareable && session.Name == sessionName && session.GetType() == sessionType)
+                if (session.IsShareable && session.Name == sessionName && sessionType.IsInstanceOfType(session))
                     return session;
         }
 
