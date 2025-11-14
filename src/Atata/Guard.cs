@@ -34,6 +34,17 @@ internal static class Guard
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static void ThrowIfBothNull<T1, T2>(
+        T1 argument1,
+        T2 argument2,
+        [CallerArgumentExpression(nameof(argument1))] string? param1Name = null,
+        [CallerArgumentExpression(nameof(argument2))] string? param2Name = null)
+    {
+        if (argument1 is null && argument2 is null)
+            throw new ArgumentNullException($"Both '{param1Name}' and '{param2Name}' values cannot be null.", null as Exception);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void ThrowIfNullOrWhitespace([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
         if (argument is null)
