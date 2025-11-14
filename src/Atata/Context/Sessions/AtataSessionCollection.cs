@@ -362,6 +362,23 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         (TSession)await BuildAsync(typeof(TSession), sessionName, cancellationToken).ConfigureAwait(false);
 
     /// <summary>
+    /// Builds a session of the specified <paramref name="sessionName"/>.
+    /// </summary>
+    /// <param name="sessionName">The name of the session.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A <see cref="ValueTask{TResult}"/> of <see cref="AtataSession"/> object.</returns>
+    public async Task<AtataSession> BuildAsync(string sessionName, CancellationToken cancellationToken = default)
+    {
+        EnsureNotDisposed();
+
+        var builder = _sessionBuilders.Find(x => x.Name == sessionName)
+            ?? throw AtataSessionBuilderNotFoundException.BySessionTypeAndName(null, sessionName, _context);
+
+        return await builder.BuildAsync(cancellationToken)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Builds a session of the specified <paramref name="sessionType"/> and <paramref name="sessionName"/>.
     /// </summary>
     /// <param name="sessionType">The type of the session.</param>
