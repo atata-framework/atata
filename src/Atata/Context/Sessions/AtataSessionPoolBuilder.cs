@@ -33,17 +33,4 @@ public sealed class AtataSessionPoolBuilder
         _sessionBuilder.PoolMaxCapacity = capacity;
         return this;
     }
-
-    /// <summary>
-    /// Sets a value indicating whether to fill the session pool in parallel
-    /// when the pool initial capacity is more than <c>1</c>.
-    /// The default value is <see langword="true"/>.
-    /// </summary>
-    /// <param name="enable">Enables parallel filling if set to <see langword="true"/>.</param>
-    /// <returns>The same <see cref="AtataSessionPoolBuilder"/> instance.</returns>
-    public AtataSessionPoolBuilder WithFillInParallel(bool enable)
-    {
-        _sessionBuilder.PoolFillInParallel = enable;
-        return this;
-    }
 }

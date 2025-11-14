@@ -25,14 +25,6 @@ public interface IAtataSessionBuilder : IAtataSessionProvider
     int PoolInitialCapacity { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to fill the session pool in parallel
-    /// when <see cref="PoolInitialCapacity"/> is more than <c>1</c>.
-    /// The default value is <see langword="true"/>.
-    /// Applies when <see cref="Mode"/> is set to <see cref="AtataSessionMode.Pool"/>.
-    /// </summary>
-    bool PoolFillInParallel { get; set; }
-
-    /// <summary>
     /// Gets or sets the session pool maximum capacity.
     /// The default value is <see cref="int.MaxValue"/>.
     /// Applies when <see cref="Mode"/> is set to <see cref="AtataSessionMode.Pool"/>.

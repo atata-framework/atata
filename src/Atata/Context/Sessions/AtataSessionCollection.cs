@@ -293,7 +293,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         {
             await _context.Log.ExecuteSectionAsync(
                 new LogSection($"Initialize {poolAsString}", LogLevel.Trace),
-                async () => await pool.FillAsync(sessionBuilder.PoolInitialCapacity, sessionBuilder.PoolFillInParallel, cancellationToken)
+                async () => await pool.FillAsync(sessionBuilder.PoolInitialCapacity, sessionBuilder.StartMultipleInParallel, cancellationToken)
                     .ConfigureAwait(false))
                 .ConfigureAwait(false);
         }

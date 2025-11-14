@@ -41,10 +41,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
     /// <summary>
     /// Gets or sets a value indicating whether to build multiple sessions in parallel on startup
-    /// when <see cref="StartCount"/> is more than <c>1</c>.
+    /// when <see cref="StartCount"/> is more than <c>1</c>;
+    /// or in case of pool mode, when <see cref="PoolInitialCapacity"/> is more than <c>1</c>.
     /// The default value is <see langword="true"/>.
-    /// Applies when <see cref="Mode"/> is set to
-    /// <see cref="AtataSessionMode.Own"/> or <see cref="AtataSessionMode.Shared"/>.
     /// </summary>
     public bool StartMultipleInParallel { get; set; } = true;
 
@@ -58,10 +57,6 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <inheritdoc/>
     public int PoolMaxCapacity { get; set; } =
         AtataSession.DefaultPoolMaxCapacity;
-
-    /// <inheritdoc/>
-    public bool PoolFillInParallel { get; set; } =
-        true;
 
     /// <summary>
     /// Gets the variables dictionary.

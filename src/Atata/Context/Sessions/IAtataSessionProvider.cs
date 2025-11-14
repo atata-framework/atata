@@ -23,8 +23,7 @@ public interface IAtataSessionProvider : ICloneable
     int StartCount { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to start multiple sessions in parallel
-    /// when <see cref="StartCount"/> is more than <c>1</c>.
+    /// Gets or sets a value indicating whether to start multiple sessions in parallel.
     /// The default value is <see langword="true"/>.
     /// </summary>
     bool StartMultipleInParallel { get; set; }
