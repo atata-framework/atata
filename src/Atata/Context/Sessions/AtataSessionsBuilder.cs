@@ -253,18 +253,6 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
-    /// Creates a request to borrow a session of the specified <typeparamref name="TSession"/> type with the specified <paramref name="name"/>,
-    /// adds it to the session providers list.
-    /// </summary>
-    /// <typeparam name="TSession">The type of the session to borrow.</typeparam>
-    /// <param name="name">The name of the session.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Borrow<TSession>(string? name)
-        where TSession : AtataSession
-        =>
-        Borrow<TSession>(x => x.Name = name);
-
-    /// <summary>
     /// Creates a request to borrow a session of the specified <typeparamref name="TSession"/> type,
     /// calls <paramref name="configure"/> delegate,
     /// adds it to the session providers list.
@@ -275,7 +263,20 @@ public sealed class AtataSessionsBuilder
     public AtataContextBuilder Borrow<TSession>(Action<AtataSessionBorrowRequestBuilder>? configure = null)
         where TSession : AtataSession
         =>
-        Borrow(typeof(TSession), configure);
+        Borrow(typeof(TSession), null, configure);
+
+    /// <summary>
+    /// Creates a request to borrow a session of the specified <typeparamref name="TSession"/> type with the specified <paramref name="name"/>,
+    /// adds it to the session providers list.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session to borrow.</typeparam>
+    /// <param name="name">The name of the session.</param>
+    /// <param name="configure">An action delegate to configure the <see cref="AtataSessionBorrowRequestBuilder"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Borrow<TSession>(string? name, Action<AtataSessionBorrowRequestBuilder>? configure = null)
+        where TSession : AtataSession
+        =>
+        Borrow(typeof(TSession), name, configure);
 
     /// <summary>
     /// Creates a request to borrow a session of the specified <paramref name="sessionType"/>,
@@ -285,10 +286,37 @@ public sealed class AtataSessionsBuilder
     /// <param name="sessionType">The type of the session to borrow.</param>
     /// <param name="configure">An action delegate to configure the <see cref="AtataSessionBorrowRequestBuilder"/>.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Borrow(Type sessionType, Action<AtataSessionBorrowRequestBuilder>? configure = null)
+    public AtataContextBuilder Borrow(Type sessionType, Action<AtataSessionBorrowRequestBuilder>? configure = null) =>
+        Borrow(sessionType, null, configure);
+
+    /// <summary>
+    /// Creates a request to borrow a session by the specified <paramref name="name"/>,
+    /// calls <paramref name="configure"/> delegate,
+    /// adds it to the session providers list.
+    /// </summary>
+    /// <param name="name">The name of the session.</param>
+    /// <param name="configure">An action delegate to configure the <see cref="AtataSessionBorrowRequestBuilder"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Borrow(string name, Action<AtataSessionBorrowRequestBuilder>? configure = null) =>
+        Borrow(null, name, configure);
+
+    /// <summary>
+    /// Creates a request to borrow a session of the specified <paramref name="sessionType"/> and <paramref name="name"/>,
+    /// calls <paramref name="configure"/> delegate,
+    /// adds it to the session providers list.
+    /// </summary>
+    /// <param name="sessionType">The type of the session to borrow.</param>
+    /// <param name="name">The name of the session.</param>
+    /// <param name="configure">An action delegate to configure the <see cref="AtataSessionBorrowRequestBuilder"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Borrow(Type? sessionType, string? name, Action<AtataSessionBorrowRequestBuilder>? configure = null)
     {
-        AtataSessionBorrowRequestBuilder sessionRequestBuilder = new(sessionType)
+        if (sessionType is null && name is null)
+            throw CreateArgumentExceptionForNullSessionTypeAndName();
+
+        AtataSessionBorrowRequestBuilder sessionRequestBuilder = new(sessionType ?? typeof(AtataSession))
         {
+            Name = name,
             StartScopes = _defaultStartScopes
         };
         configure?.Invoke(sessionRequestBuilder);

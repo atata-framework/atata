@@ -56,10 +56,7 @@ public class StartSessionAndShareAttribute : TestSuiteAtataContextConfigurationA
 
         builder.Sessions.Borrow(
             SessionType,
-            x =>
-            {
-                x.Name = SessionName;
-                x.StartCount = Count;
-            });
+            SessionName,
+            x => x.StartCount = Count);
     }
 }
