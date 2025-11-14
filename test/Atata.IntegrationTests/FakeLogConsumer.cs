@@ -36,6 +36,14 @@ public sealed class FakeLogConsumer : ILogConsumer
         }
     }
 
+    public LogEventInfo[] GetSnapshot(LogLevel minLogLevel)
+    {
+        lock (_records)
+        {
+            return [.. _records.Where(x => x.Level >= minLogLevel)];
+        }
+    }
+
     public LogEventInfo[] GetSnapshot(int countFromEnd) =>
         GetSnapshot(LogLevel.Trace, countFromEnd);
 

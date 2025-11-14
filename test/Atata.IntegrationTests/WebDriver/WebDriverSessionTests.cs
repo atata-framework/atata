@@ -134,6 +134,8 @@ public static partial class WebDriverSessionTests
                     context.Sessions.Get<WebDriverSession>().Go.To<ScrollablePage>()
                         .Report.Screenshot(screenshotNameIndicator);
 
+                    CurrentLog.GetSnapshot(LogLevel.Warn).Should().BeEmpty();
+
                     var file = context.Artifacts.Files
                         .Single(x => x.Name.Value.Contains(screenshotNameIndicator)).Should.Exist();
                     return file.Length.Value;
