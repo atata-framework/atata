@@ -14,6 +14,8 @@ public class GlobalFixture
     {
         ThreadPool.SetMinThreads(Environment.ProcessorCount * 4, Environment.ProcessorCount);
 
+        AtataContext.GlobalProperties.UseRootNamespaceOf<GlobalFixture>();
+
         await Task.WhenAll(
             DriverSetup.AutoSetUpAsync(BrowserNames.Chrome),
             Task.Run(SetUpTestApp));
