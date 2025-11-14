@@ -41,9 +41,9 @@ public class TakeSessionFromPoolAndShareAttribute : TestSuiteAtataContextConfigu
 
         builder.Sessions.TakeFromPool(
             SessionType,
+            SessionName,
             x =>
             {
-                x.Name = SessionName;
                 x.SharedMode = true;
                 x.StartCount = Count;
             });

@@ -41,10 +41,7 @@ public class TakeSessionFromPoolAttribute : AtataContextConfigurationAttribute
 
         builder.Sessions.TakeFromPool(
             SessionType,
-            x =>
-            {
-                x.Name = SessionName;
-                x.StartCount = Count;
-            });
+            SessionName,
+            x => x.StartCount = Count);
     }
 }

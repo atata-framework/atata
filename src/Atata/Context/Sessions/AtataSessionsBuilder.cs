@@ -298,18 +298,6 @@ public sealed class AtataSessionsBuilder
     }
 
     /// <summary>
-    /// Creates a request to take a session from the pool of the specified <typeparamref name="TSession"/> type with the specified <paramref name="name"/>,
-    /// adds it to the session providers list.
-    /// </summary>
-    /// <typeparam name="TSession">The type of the session to take from the pool.</typeparam>
-    /// <param name="name">The name of the session.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder TakeFromPool<TSession>(string? name)
-        where TSession : AtataSession
-        =>
-        TakeFromPool<TSession>(x => x.Name = name);
-
-    /// <summary>
     /// Creates a request to take a session from the pool of the specified <typeparamref name="TSession"/> type,
     /// calls <paramref name="configure"/> delegate,
     /// adds it to the session providers list.
@@ -320,7 +308,20 @@ public sealed class AtataSessionsBuilder
     public AtataContextBuilder TakeFromPool<TSession>(Action<AtataSessionPoolRequestBuilder>? configure = null)
         where TSession : AtataSession
         =>
-        TakeFromPool(typeof(TSession), configure);
+        TakeFromPool(typeof(TSession), null, configure);
+
+    /// <summary>
+    /// Creates a request to take a session from the pool of the specified <typeparamref name="TSession"/> type with the specified <paramref name="name"/>,
+    /// adds it to the session providers list.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session to take from the pool.</typeparam>
+    /// <param name="name">The name of the session.</param>
+    /// <param name="configure">An action delegate to configure the <see cref="AtataSessionPoolRequestBuilder"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder TakeFromPool<TSession>(string? name, Action<AtataSessionPoolRequestBuilder>? configure = null)
+        where TSession : AtataSession
+        =>
+        TakeFromPool(typeof(TSession), name, configure);
 
     /// <summary>
     /// Creates a request to take a session from the pool of the specified <paramref name="sessionType"/>,
@@ -330,10 +331,37 @@ public sealed class AtataSessionsBuilder
     /// <param name="sessionType">The type of the session to take from the pool.</param>
     /// <param name="configure">An action delegate to configure the <see cref="AtataSessionPoolRequestBuilder"/>.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder TakeFromPool(Type sessionType, Action<AtataSessionPoolRequestBuilder>? configure = null)
+    public AtataContextBuilder TakeFromPool(Type sessionType, Action<AtataSessionPoolRequestBuilder>? configure = null) =>
+        TakeFromPool(sessionType, null, configure);
+
+    /// <summary>
+    /// Creates a request to take a session from the pool by the specified <paramref name="name"/>,
+    /// calls <paramref name="configure"/> delegate,
+    /// adds it to the session providers list.
+    /// </summary>
+    /// <param name="name">The name of the session.</param>
+    /// <param name="configure">An action delegate to configure the <see cref="AtataSessionPoolRequestBuilder"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder TakeFromPool(string name, Action<AtataSessionPoolRequestBuilder>? configure = null) =>
+        TakeFromPool(null, name, configure);
+
+    /// <summary>
+    /// Creates a request to take a session from the pool of the specified <paramref name="sessionType"/> and <paramref name="name"/>,
+    /// calls <paramref name="configure"/> delegate,
+    /// adds it to the session providers list.
+    /// </summary>
+    /// <param name="sessionType">The type of the session to take from the pool.</param>
+    /// <param name="name">The name of the session.</param>
+    /// <param name="configure">An action delegate to configure the <see cref="AtataSessionPoolRequestBuilder"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder TakeFromPool(Type? sessionType, string? name, Action<AtataSessionPoolRequestBuilder>? configure = null)
     {
-        AtataSessionPoolRequestBuilder sessionRequestBuilder = new(sessionType)
+        if (sessionType is null && name is null)
+            throw CreateArgumentExceptionForNullSessionTypeAndName();
+
+        AtataSessionPoolRequestBuilder sessionRequestBuilder = new(sessionType ?? typeof(AtataSession))
         {
+            Name = name,
             StartScopes = _defaultStartScopes
         };
         configure?.Invoke(sessionRequestBuilder);
