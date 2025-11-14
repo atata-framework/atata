@@ -17,14 +17,17 @@ public class WaitingPage : Page<_>
     public ButtonDelegate<_> ButtonWithoutWait { get; private set; }
 
     [Term("Wait")]
+    [ClicksUsingScript]
     [WaitForElement(WaitBy.Class, "processing-block")]
     public ButtonDelegate<_> ButtonWithMissingOrHiddenWait { get; private set; }
 
     [Term("Wait")]
+    [ClicksUsingScript]
     [WaitForElement(WaitBy.Class, "processing-block", Until.VisibleThenHidden)]
     public ButtonDelegate<_> ButtonWithVisibleAndHiddenWait { get; private set; }
 
     [Term("Wait")]
+    [ClicksUsingScript]
     [WaitForElement(WaitBy.Css, ".nonexistent-block", Until.VisibleThenMissing, PresenceTimeout = 3, ThrowOnPresenceFailure = false)]
     public ButtonDelegate<_> ButtonWithVisibleThenMissingWait { get; private set; }
 
@@ -34,6 +37,7 @@ public class WaitingPage : Page<_>
     public ButtonDelegate<_> ButtonWithVisibleThenMissingNonExistentWait { get; private set; }
 
     [Term("Wait")]
+    [ClicksUsingScript]
     [WaitForElement(WaitBy.Class, "result-block", Until.HiddenThenVisible)]
     public ButtonDelegate<_> ButtonWithHiddenAndVisibleWait { get; private set; }
 
