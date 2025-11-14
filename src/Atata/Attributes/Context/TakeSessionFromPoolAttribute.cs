@@ -9,6 +9,17 @@ public class TakeSessionFromPoolAttribute : AtataContextConfigurationAttribute
     /// <summary>
     /// Initializes a new instance of the <see cref="TakeSessionFromPoolAttribute"/> class.
     /// </summary>
+    /// <param name="sessionName">Name of the session.</param>
+    public TakeSessionFromPoolAttribute(string sessionName)
+    {
+        Guard.ThrowIfNull(sessionName);
+
+        SessionName = sessionName;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TakeSessionFromPoolAttribute"/> class.
+    /// </summary>
     /// <param name="sessionType">Type of the session.</param>
     /// <param name="sessionName">Name of the session. Can be <see langword="null"/>.</param>
     public TakeSessionFromPoolAttribute(Type sessionType, string? sessionName = null)
@@ -22,7 +33,7 @@ public class TakeSessionFromPoolAttribute : AtataContextConfigurationAttribute
     /// <summary>
     /// Gets the type of the session.
     /// </summary>
-    public Type SessionType { get; }
+    public Type? SessionType { get; }
 
     /// <summary>
     /// Gets the name of the session.
@@ -37,7 +48,7 @@ public class TakeSessionFromPoolAttribute : AtataContextConfigurationAttribute
 
     protected internal override void ConfigureAtataContext(AtataContextBuilder builder, object? testSuite)
     {
-        builder.Sessions.DisableAllBySessionType(SessionType, SessionName);
+        builder.Sessions.DisableAll(SessionType, SessionName);
 
         builder.Sessions.TakeFromPool(
             SessionType,
