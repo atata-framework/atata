@@ -29,6 +29,7 @@ public class WaitingPage : Page<_>
     public ButtonDelegate<_> ButtonWithVisibleThenMissingWait { get; private set; }
 
     [Term("Wait")]
+    [ClicksUsingScript]
     [WaitForElement(WaitBy.Css, ".nonexistent-block", Until.VisibleThenMissing, PresenceTimeout = 1)]
     public ButtonDelegate<_> ButtonWithVisibleThenMissingNonExistentWait { get; private set; }
 
