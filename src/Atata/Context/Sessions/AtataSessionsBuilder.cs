@@ -153,9 +153,7 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Configure(Type? sessionType, string? name, Action<IAtataSessionBuilder> configure, ConfigurationMode mode = default)
     {
-        if (sessionType is null && name is null)
-            throw CreateArgumentExceptionForNullSessionTypeAndName();
-
+        Guard.ThrowIfBothNull(sessionType, name);
         Guard.ThrowIfNull(configure);
 
         switch (mode)
@@ -311,8 +309,7 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Borrow(Type? sessionType, string? name, Action<AtataSessionBorrowRequestBuilder>? configure = null)
     {
-        if (sessionType is null && name is null)
-            throw CreateArgumentExceptionForNullSessionTypeAndName();
+        Guard.ThrowIfBothNull(sessionType, name);
 
         AtataSessionBorrowRequestBuilder sessionRequestBuilder = new(sessionType ?? typeof(AtataSession))
         {
@@ -384,8 +381,7 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder TakeFromPool(Type? sessionType, string? name, Action<AtataSessionPoolRequestBuilder>? configure = null)
     {
-        if (sessionType is null && name is null)
-            throw CreateArgumentExceptionForNullSessionTypeAndName();
+        Guard.ThrowIfBothNull(sessionType, name);
 
         AtataSessionPoolRequestBuilder sessionRequestBuilder = new(sessionType ?? typeof(AtataSession))
         {
@@ -445,12 +441,11 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder RemoveAll(Type? sessionType, string? name)
     {
-        if (sessionType is not null)
-            return RemoveAllBySessionType(sessionType, name);
-        else if (name is not null)
-            return RemoveAllBySessionName(name);
-        else
-            throw CreateArgumentExceptionForNullSessionTypeAndName();
+        Guard.ThrowIfBothNull(sessionType, name);
+
+        return sessionType is not null
+            ? RemoveAllBySessionType(sessionType, name)
+            : RemoveAllBySessionName(name!);
     }
 
     /// <summary>
@@ -550,12 +545,11 @@ public sealed class AtataSessionsBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder DisableAll(Type? sessionType, string? name)
     {
-        if (sessionType is not null)
-            return DisableAllBySessionType(sessionType, name);
-        else if (name is not null)
-            return DisableAllBySessionName(name);
-        else
-            throw CreateArgumentExceptionForNullSessionTypeAndName();
+        Guard.ThrowIfBothNull(sessionType, name);
+
+        return sessionType is not null
+            ? DisableAllBySessionType(sessionType, name)
+            : DisableAllBySessionName(name!);
     }
 
     /// <summary>
@@ -637,9 +631,6 @@ public sealed class AtataSessionsBuilder
         _sessionProviders.Clear();
         return _atataContextBuilder;
     }
-
-    private static ArgumentException CreateArgumentExceptionForNullSessionTypeAndName() =>
-        new($"Either 'sessionType' or 'name' should be not null.");
 
     private static IAtataSessionBuilder CreateSessionBuilderBySessionType(Type sessionType)
     {
