@@ -466,6 +466,17 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         Current ?? throw AtataContextNotFoundException.ForCurrentIsNull();
 
     /// <summary>
+    /// Tries to get the current <see cref="AtataContext"/> instance.
+    /// </summary>
+    /// <param name="context">The current context.</param>
+    /// <returns><see langword="true"/> if the current context is present; otherwise, <see langword="false"/>.</returns>
+    public static bool TryGetCurrent([NotNullWhen(true)] out AtataContext? context)
+    {
+        context = Current;
+        return context is not null;
+    }
+
+    /// <summary>
     /// Presets the current asynchronous local box when current mode is <see cref="AtataContextModeOfCurrent.AsyncLocalBoxed"/>.
     /// </summary>
     public static void PresetCurrentAsyncLocalBox()
