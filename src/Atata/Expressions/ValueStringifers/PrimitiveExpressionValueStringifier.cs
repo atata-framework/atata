@@ -1,10 +1,12 @@
 ﻿namespace Atata;
 
-internal class PrimitiveExpressionValueStringifier : IExpressionValueStringifier
+internal sealed class PrimitiveExpressionValueStringifier : IExpressionValueStringifier
 {
-    public bool CanHandle(Type type) =>
+    bool IExpressionValueStringifier.CanHandle(Type type) =>
         type.IsPrimitive;
 
-    public string Handle(object value) =>
-        value.ToString();
+    string IExpressionValueStringifier.Handle(object value) =>
+        value is IFormattable formattableValue
+            ? formattableValue.ToString(null, CultureInfo.InvariantCulture)
+            : value.ToString();
 }
