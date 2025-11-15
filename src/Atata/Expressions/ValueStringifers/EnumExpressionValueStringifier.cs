@@ -1,10 +1,10 @@
 ﻿namespace Atata;
 
-internal class EnumExpressionValueStringifier : IExpressionValueStringifier
+internal sealed class EnumExpressionValueStringifier : IExpressionValueStringifier
 {
-    public bool CanHandle(Type type) =>
+    bool IExpressionValueStringifier.CanHandle(Type type) =>
         type.IsEnum;
 
-    public string Handle(object value) =>
+    string IExpressionValueStringifier.Handle(object value) =>
         ((Enum)value).ToExpressionValueString();
 }
