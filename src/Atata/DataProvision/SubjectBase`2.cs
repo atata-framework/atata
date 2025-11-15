@@ -291,6 +291,20 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     }
 
     /// <summary>
+    /// Executes the specified arrangement <paramref name="action"/>.
+    /// </summary>
+    /// <param name="action">The action.</param>
+    /// <returns>The same subject instance.</returns>
+    public TSubject Arrange(Action<TObject> action)
+    {
+        Guard.ThrowIfNull(action);
+
+        action.Invoke(Object);
+
+        return Owner;
+    }
+
+    /// <summary>
     /// Executes the specified <paramref name="actionExpression"/>.
     /// Appends the text representation of the <paramref name="actionExpression"/> to the <c>ProviderName</c> property of this instance.
     /// </summary>
