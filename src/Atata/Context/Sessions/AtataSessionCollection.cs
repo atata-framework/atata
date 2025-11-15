@@ -44,7 +44,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     }
 
     /// <summary>
-    /// Gets a session of <typeparamref name="TSession"/> type in this collection.
+    /// Gets a session of <typeparamref name="TSession"/> type despite the name in this collection.
     /// In case of multiple sessions of the <typeparamref name="TSession"/> type,
     /// returns the one that was used/added last.
     /// </summary>
@@ -58,7 +58,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
 
     /// <summary>
     /// Gets a session of <typeparamref name="TSession"/> type with the specified index
-    /// among sessions in this collection of the <typeparamref name="TSession"/> type.
+    /// among sessions in this collection of the <typeparamref name="TSession"/> type ordered by adding.
     /// </summary>
     /// <typeparam name="TSession">The type of the session.</typeparam>
     /// <param name="index">The index.</param>
@@ -93,7 +93,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
                 _context);
 
     /// <summary>
-    /// Gets a session of <typeparamref name="TSession"/> type in this and ancestral context collections.
+    /// Gets a session of <typeparamref name="TSession"/> type despite the name in this and ancestral context collections.
     /// In case of multiple sessions of the <typeparamref name="TSession"/> type,
     /// returns the one that was used/added last.
     /// </summary>
@@ -130,7 +130,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     }
 
     /// <summary>
-    /// Tries to get a session of <typeparamref name="TSession"/> type in this collection.
+    /// Tries to get a session of <typeparamref name="TSession"/> type despite the name in this collection.
     /// In case of multiple sessions of the <typeparamref name="TSession"/> type,
     /// returns the one that was used/added last.
     /// </summary>
@@ -161,7 +161,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     }
 
     /// <summary>
-    /// Tries to get a session of <typeparamref name="TSession"/> type in this and ancestral context collections.
+    /// Tries to get a session of <typeparamref name="TSession"/> type despite the name in this and ancestral context collections.
     /// In case of multiple sessions of the <typeparamref name="TSession"/> type,
     /// returns the one that was used/added last.
     /// </summary>
@@ -192,7 +192,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     }
 
     /// <summary>
-    /// Determines whether a session of <typeparamref name="TSession"/> type is in this collection.
+    /// Determines whether a session of <typeparamref name="TSession"/> type despite the name is in this collection.
     /// </summary>
     /// <typeparam name="TSession">The type of the session.</typeparam>
     /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
@@ -213,7 +213,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         GetOrNull<TSession>(name) is not null;
 
     /// <summary>
-    /// Determines whether a session of <typeparamref name="TSession"/> type is in this and ancestral context collections.
+    /// Determines whether a session of <typeparamref name="TSession"/> type despite the name is in this and ancestral context collections.
     /// </summary>
     /// <typeparam name="TSession">The type of the session.</typeparam>
     /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
