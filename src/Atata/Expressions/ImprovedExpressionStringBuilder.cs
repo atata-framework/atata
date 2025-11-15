@@ -12,6 +12,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         new CharExpressionValueStringifier(),
         new PrimitiveExpressionValueStringifier(),
         new EnumExpressionValueStringifier(),
+        new DecimalExpressionValueStringifier(),
         new TypeExpressionValueStringifier()
     ];
 
