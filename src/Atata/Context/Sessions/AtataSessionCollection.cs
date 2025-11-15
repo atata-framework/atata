@@ -261,6 +261,81 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     }
 
     /// <summary>
+    /// Configures existing nameless <typeparamref name="TSessionBuilder"/> session builder.
+    /// In case of multiple session builders matching, configures the first one.
+    /// In case of missing session builder, throws <see cref="AtataSessionBuilderNotFoundException"/>.
+    /// </summary>
+    /// <typeparam name="TSessionBuilder">The type of the session builder to configure.</typeparam>
+    /// <param name="configure">An action delegate to configure the <typeparamref name="TSessionBuilder"/>.</param>
+    /// <returns>The existing <typeparamref name="TSessionBuilder"/> instance.</returns>
+    public TSessionBuilder ConfigureBuilder<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
+        where TSessionBuilder : IAtataSessionBuilder
+        =>
+        ConfigureBuilder(null, configure);
+
+    /// <summary>
+    /// Configures existing <typeparamref name="TSessionBuilder"/> session builder that has the specified <paramref name="sessionName"/>.
+    /// In case of multiple session builders matching, configures the first one.
+    /// In case of missing session builder, throws <see cref="AtataSessionBuilderNotFoundException"/>.
+    /// </summary>
+    /// <typeparam name="TSessionBuilder">The type of the session builder to configure.</typeparam>
+    /// <param name="sessionName">The name of the session.</param>
+    /// <param name="configure">An action delegate to configure the <typeparamref name="TSessionBuilder"/>.</param>
+    /// <returns>The existing <typeparamref name="TSessionBuilder"/> instance.</returns>
+    public TSessionBuilder ConfigureBuilder<TSessionBuilder>(string? sessionName, Action<TSessionBuilder>? configure = null)
+        where TSessionBuilder : IAtataSessionBuilder
+    {
+        EnsureNotDisposed();
+
+        var sessionBuilder = _sessionBuilders.OfType<TSessionBuilder>().FirstOrDefault(x => x.Name == sessionName)
+           ?? throw AtataSessionBuilderNotFoundException.ByBuilderType(typeof(TSessionBuilder), sessionName, _context);
+
+        configure?.Invoke(sessionBuilder);
+
+        return sessionBuilder;
+    }
+
+    /// <summary>
+    /// Creates a copy for configuration of existing nameless <typeparamref name="TSessionBuilder"/> session builder.
+    /// In case of multiple session builders matching, takes the first one.
+    /// In case of missing session builder, throws <see cref="AtataSessionBuilderNotFoundException"/>.
+    /// </summary>
+    /// <typeparam name="TSessionBuilder">The type of the session builder to configure.</typeparam>
+    /// <param name="configure">An action delegate to configure the <typeparamref name="TSessionBuilder"/>.</param>
+    /// <returns>The existing <typeparamref name="TSessionBuilder"/> instance.</returns>
+    public TSessionBuilder ConfigureBuilderCopy<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
+        where TSessionBuilder : IAtataSessionBuilder
+        =>
+        ConfigureBuilderCopy(null, configure);
+
+    /// <summary>
+    /// Creates a copy for configuration of existing <typeparamref name="TSessionBuilder"/> session builder that has the specified <paramref name="sessionName"/>.
+    /// In case of multiple session builders matching, takes the first one.
+    /// In case of missing session builder, throws <see cref="AtataSessionBuilderNotFoundException"/>.
+    /// </summary>
+    /// <typeparam name="TSessionBuilder">The type of the session builder to configure.</typeparam>
+    /// <param name="sessionName">The name of the session.</param>
+    /// <param name="configure">An action delegate to configure the <typeparamref name="TSessionBuilder"/>.</param>
+    /// <returns>The existing <typeparamref name="TSessionBuilder"/> instance.</returns>
+    public TSessionBuilder ConfigureBuilderCopy<TSessionBuilder>(string? sessionName, Action<TSessionBuilder>? configure = null)
+        where TSessionBuilder : IAtataSessionBuilder
+    {
+        EnsureNotDisposed();
+
+        var exisitngSessionBuilder = _sessionBuilders.OfType<TSessionBuilder>().FirstOrDefault(x => x.Name == sessionName)
+           ?? throw AtataSessionBuilderNotFoundException.ByBuilderType(typeof(TSessionBuilder), sessionName, _context);
+
+        var newSessionBuilder = (TSessionBuilder)exisitngSessionBuilder.Clone();
+        newSessionBuilder.TargetContext = _context;
+
+        configure?.Invoke(newSessionBuilder);
+
+        _sessionBuilders.Add(newSessionBuilder);
+
+        return newSessionBuilder;
+    }
+
+    /// <summary>
     /// Starts a pool of sessions of the specified <typeparamref name="TSessionBuilder"/> type.
     /// </summary>
     /// <typeparam name="TSessionBuilder">The type of the session.</typeparam>
