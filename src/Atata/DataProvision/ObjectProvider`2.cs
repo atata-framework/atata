@@ -124,13 +124,42 @@ public abstract class ObjectProvider<TObject, TOwner> :
         new(this, _executionUnit);
 
     /// <summary>
-    /// Resolves the current <see cref="AtataContext"/> instance.
+    /// Resolves the associated or current <see cref="AtataContext"/> instance.
     /// Throws <see cref="AtataContextNotFoundException"/> if an execution unit was not specified
     /// and <see cref="AtataContext.Current"/> is <see langword="null"/>.
     /// </summary>
     /// <returns>An <see cref="AtataContext"/> instance.</returns>
     protected AtataContext ResolveAtataContext() =>
         _executionUnit?.Context ?? AtataContext.ResolveCurrent();
+
+    /// <summary>
+    /// Gets the associated or current <see cref="AtataContext"/> instance or <see langword="null"/>.
+    /// </summary>
+    /// <returns>An <see cref="AtataContext"/> instance.</returns>
+    protected AtataContext? GetAtataContextOrNull() =>
+        _executionUnit?.Context ?? AtataContext.Current;
+
+    /// <summary>
+    /// Tries to get the associated or current <see cref="AtataContext"/> instance.
+    /// </summary>
+    /// <param name="context">The current context.</param>
+    /// <returns><see langword="true"/> if the associated or current context is present; otherwise, <see langword="false"/>.</returns>
+    protected bool TryGetAtataContext([NotNullWhen(true)] out AtataContext? context)
+    {
+        context = GetAtataContextOrNull();
+        return context is not null;
+    }
+
+    /// <summary>
+    /// Tries to get the associated or current context's <see cref="ILogManager"/> instance.
+    /// </summary>
+    /// <param name="logManager">The current log.</param>
+    /// <returns><see langword="true"/> if the associated or current context is present; otherwise, <see langword="false"/>.</returns>
+    protected bool TryGetLog([NotNullWhen(true)] out ILogManager? logManager)
+    {
+        logManager = _executionUnit?.Log ?? AtataContext.Current?.Log;
+        return logManager is not null;
+    }
 
     public override string ToString() =>
         ProviderName;
