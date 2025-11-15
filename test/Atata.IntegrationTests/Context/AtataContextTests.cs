@@ -58,13 +58,13 @@ public static class AtataContextTests
 
         [Test]
         public void WithNullAsRelativeFilePath() =>
-            _sut.Invoking(x => x.AddArtifact(null!, "..."), "AddArtifact(null!, \"...\")")
-                .Should.Throw<ArgumentNullException>();
+            _sut.Invoking(x => x.AddArtifact(null!, "...", default))
+                .Should.ThrowExactly<ArgumentNullException>();
 
         [Test]
         public void WithNullAsFileContent() =>
-            _sut.Invoking(x => x.AddArtifact("a.txt", (null as string)!), "AddArtifact(\"a.txt\", (null as string)!)")
-                .Should.Throw<ArgumentNullException>();
+            _sut.Invoking(x => x.AddArtifact("a.txt", (null as string)!, default))
+                .Should.ThrowExactly<ArgumentNullException>();
 
         [Test]
         public void WithFileContent() =>
