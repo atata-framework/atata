@@ -1,10 +1,10 @@
 ﻿namespace Atata;
 
-internal class StringExpressionValueStringifier : IExpressionValueStringifier
+internal sealed class StringExpressionValueStringifier : IExpressionValueStringifier
 {
-    public bool CanHandle(Type type) =>
+    bool IExpressionValueStringifier.CanHandle(Type type) =>
         type == typeof(string);
 
-    public string Handle(object value) =>
+    string IExpressionValueStringifier.Handle(object value) =>
         $"\"{value}\"";
 }
