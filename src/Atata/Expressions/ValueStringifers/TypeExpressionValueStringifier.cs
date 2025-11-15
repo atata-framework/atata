@@ -2,9 +2,9 @@
 
 internal sealed class TypeExpressionValueStringifier : IExpressionValueStringifier
 {
-    public bool CanHandle(Type type) =>
+    bool IExpressionValueStringifier.CanHandle(Type type) =>
         type == typeof(Type);
 
-    public string Handle(object value) =>
+    string IExpressionValueStringifier.Handle(object value) =>
         $"typeof({((Type)value).ToStringInShortForm()})";
 }
