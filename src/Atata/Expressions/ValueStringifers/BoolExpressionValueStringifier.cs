@@ -1,10 +1,10 @@
 ﻿namespace Atata;
 
-internal class BoolExpressionValueStringifier : IExpressionValueStringifier
+internal sealed class BoolExpressionValueStringifier : IExpressionValueStringifier
 {
-    public bool CanHandle(Type type) =>
+    bool IExpressionValueStringifier.CanHandle(Type type) =>
         type == typeof(bool);
 
-    public string Handle(object value) =>
-        value.ToString().ToLowerInvariant();
+    string IExpressionValueStringifier.Handle(object value) =>
+        value is true ? "true" : "false";
 }
