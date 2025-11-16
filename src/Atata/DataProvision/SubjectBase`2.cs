@@ -410,7 +410,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(action);
         Guard.ThrowIfNull(actionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new LazyObjectSource<Action, TObject>(this, x => () => action.Invoke(x)),
             actionName,
@@ -443,7 +443,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(function);
         Guard.ThrowIfNull(functionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new LazyObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
             functionName,
@@ -478,7 +478,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(function);
         Guard.ThrowIfNull(functionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new LazyObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
             functionName,
@@ -511,7 +511,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(function);
         Guard.ThrowIfNull(functionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new LazyObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
             functionName,
@@ -546,7 +546,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(function);
         Guard.ThrowIfNull(functionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new LazyObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
             functionName,
@@ -579,7 +579,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(action);
         Guard.ThrowIfNull(actionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new DynamicObjectSource<Action, TObject>(this, x => () => action.Invoke(x)),
             actionName,
@@ -612,7 +612,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(function);
         Guard.ThrowIfNull(functionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new DynamicObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
             functionName,
@@ -647,7 +647,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(function);
         Guard.ThrowIfNull(functionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new DynamicObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
             functionName,
@@ -680,7 +680,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(function);
         Guard.ThrowIfNull(functionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new DynamicObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
             functionName,
@@ -715,7 +715,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         Guard.ThrowIfNull(function);
         Guard.ThrowIfNull(functionName);
 
-        return new ActionProvider<TSubject>(
+        return new(
             (TSubject)this,
             new DynamicObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
             functionName,
