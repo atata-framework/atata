@@ -4,6 +4,8 @@ public class ObjectVerificationProvider<TObject, TOwner> :
     VerificationProvider<ObjectVerificationProvider<TObject, TOwner>, TOwner>,
     IObjectVerificationProvider<TObject, TOwner>
 {
+    private const string ThrowFailureMessagePrefix = "execution of ";
+
     public ObjectVerificationProvider(IObjectProvider<TObject, TOwner> objectProvider, IAtataExecutionUnit? executionUnit)
         : base(executionUnit) =>
         ObjectProvider = objectProvider;
@@ -98,7 +100,8 @@ public class ObjectVerificationProvider<TObject, TOwner> :
             {
                 string actualMessage = exception is null ? "no exception" : exception.ToString();
 
-                string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
+                string failureMessage = ThrowFailureMessagePrefix +
+                    VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
 
                 Strategy.ReportFailure(ExecutionUnit, failureMessage, null);
             }
@@ -135,7 +138,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
 
         public TOwner Throw()
         {
-            string expectedMessage = $"throw exception";
+            string expectedMessage = "throw exception";
 
             void ExecuteVerification()
             {
@@ -167,7 +170,8 @@ public class ObjectVerificationProvider<TObject, TOwner> :
                 {
                     string actualMessage = exception!.ToString();
 
-                    string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
+                    string failureMessage = ThrowFailureMessagePrefix +
+                        VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
 
                     Strategy.ReportFailure(ExecutionUnit, failureMessage, null);
                 }
