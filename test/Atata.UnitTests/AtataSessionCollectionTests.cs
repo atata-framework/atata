@@ -159,6 +159,27 @@ public sealed class AtataSessionCollectionTests
     }
 
     [Test]
+    public void ConfigureAllBuilders_WhenDoesNotExist() =>
+        _sut.Invoking(x => x.ConfigureAllBuilders<FakeSessionBuilder>(x => x.UseStart(false)))
+            .Should.Not.Throw();
+
+    [Test]
+    public void ConfigureAllBuilders_WithName_WhenDoesNotExist()
+    {
+        _sut.Arrange(x =>
+        {
+            x.Add<FakeSessionBuilder>(x => x.Name = "A");
+            x.Add<FakeSessionBuilder>(x => x.Name = "B");
+        });
+
+        _sut.Act(x => x
+            .ConfigureAllBuilders<FakeSessionBuilder>(x => x.UseSessionWaitingTimeout(TimeSpan.FromSeconds(12))));
+
+        _sut.ValueOf(x => x.Builders)
+            .Should.ContainExactly(2, x => x.SessionWaitingTimeout == TimeSpan.FromSeconds(12));
+    }
+
+    [Test]
     public void ConfigureBuilder_WhenDoesNotExist()
     {
         _sut.Arrange(x => x

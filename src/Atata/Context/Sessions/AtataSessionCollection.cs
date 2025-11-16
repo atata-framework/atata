@@ -267,6 +267,22 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     }
 
     /// <summary>
+    /// Configures existing <typeparamref name="TSessionBuilder"/> session builders.
+    /// </summary>
+    /// <typeparam name="TSessionBuilder">The type of the session builder to configure.</typeparam>
+    /// <param name="configure">An action delegate to configure the <typeparamref name="TSessionBuilder"/>.</param>
+    public void ConfigureAllBuilders<TSessionBuilder>(Action<TSessionBuilder> configure)
+        where TSessionBuilder : IAtataSessionBuilder
+    {
+        EnsureNotDisposed();
+
+        Guard.ThrowIfNull(configure);
+
+        foreach (var sessionBuilder in _sessionBuilders.OfType<TSessionBuilder>())
+            configure.Invoke(sessionBuilder);
+    }
+
+    /// <summary>
     /// Configures existing nameless <typeparamref name="TSessionBuilder"/> session builder.
     /// In case of multiple session builders matching, configures the first one.
     /// In case of missing session builder, throws <see cref="AtataSessionBuilderNotFoundException"/>.
