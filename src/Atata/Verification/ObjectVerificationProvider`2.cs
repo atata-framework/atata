@@ -48,12 +48,12 @@ public class ObjectVerificationProvider<TObject, TOwner> :
     private Subject<TException> Throw<TException>(bool exactly, string? messageWildcardPattern)
         where TException : Exception
     {
-        StringBuilder expectedMessageBuilder = new("throw ");
+        StringBuilder expectedMessageBuilder = new("throw exception ");
 
         if (exactly)
             expectedMessageBuilder.Append("exactly ");
 
-        expectedMessageBuilder.Append("exception of ")
+        expectedMessageBuilder.Append("of ")
             .Append(typeof(TException).FullName)
             .Append(" type");
 
