@@ -10,6 +10,7 @@ public class ObjectExpressionStringBuilderTests
         {
             TestCaseData data = new(expression);
             items.Add(data);
+            data.SetArgDisplayNames($"tc#{items.Count:d2}");
             return data;
         }
 
