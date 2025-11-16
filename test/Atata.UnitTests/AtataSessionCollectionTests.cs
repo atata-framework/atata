@@ -10,7 +10,7 @@ public sealed class AtataSessionCollectionTests
     public async Task SetUpAsync()
     {
         _context = await AtataContext.CreateDefaultNonScopedBuilder().BuildAsync();
-        _sut = new(new AtataSessionCollection(_context));
+        _sut = new AtataSessionCollection(_context).ToSutDisposableSubject();
     }
 
     [TearDown]
@@ -156,5 +156,111 @@ public sealed class AtataSessionCollectionTests
 
         _sut.ResultOf(x => x.Contains<FakeSession2>("A"))
             .Should.BeFalse();
+    }
+
+    [Test]
+    public void ConfigureBuilder_WhenDoesNotExist()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>(x => x.Name = "A"));
+
+        _sut.Invoking(x => x.ConfigureBuilder<FakeSessionBuilder>(null))
+            .Should.ThrowExactly<AtataSessionBuilderNotFoundException>(
+                "Failed to find FakeSessionBuilder in AtataContext { * }.");
+    }
+
+    [Test]
+    public void ConfigureBuilder_WithName_WhenDoesNotExist()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>(x => x.Name = "A"));
+
+        _sut.Invoking(x => x.ConfigureBuilder<FakeSessionBuilder>("B", null))
+            .Should.ThrowExactly<AtataSessionBuilderNotFoundException>(
+                "Failed to find FakeSessionBuilder { Name=B } in AtataContext { * }.");
+    }
+
+    [Test]
+    public void ConfigureBuilder_WhenExists()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>());
+
+        _sut.ResultOf(x => x.ConfigureBuilder<FakeSessionBuilder>(null))
+            .Should.Not.BeNull();
+        _sut.ValueOf(x => x.Builders)
+            .Should.ContainSingle();
+    }
+
+    [Test]
+    public void ConfigureBuilder_WithName_WhenExists()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>(x => x.Name = "A"));
+
+        _sut.ResultOf(x => x.ConfigureBuilder<FakeSessionBuilder>("A", null))
+            .Should.Not.BeNull();
+        _sut.ValueOf(x => x.Builders)
+            .Should.ContainSingle();
+    }
+
+    [Test]
+    public void ConfigureBuilderCopy_WhenDoesNotExist()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>(x => x.Name = "A"));
+
+        _sut.Invoking(x => x.ConfigureBuilderCopy<FakeSessionBuilder>(null))
+            .Should.ThrowExactly<AtataSessionBuilderNotFoundException>(
+                "Failed to find FakeSessionBuilder in AtataContext { * }.");
+    }
+
+    [Test]
+    public void ConfigureBuilderCopy_WithName_WhenDoesNotExist()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>(x => x.Name = "A"));
+
+        _sut.Invoking(x => x.ConfigureBuilderCopy<FakeSessionBuilder>("B", null))
+            .Should.ThrowExactly<AtataSessionBuilderNotFoundException>(
+                "Failed to find FakeSessionBuilder { Name=B } in AtataContext { * }.");
+    }
+
+    [Test]
+    public void ConfigureBuilderCopy_WhenExists()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>());
+
+        _sut.ResultOf(x => x.ConfigureBuilderCopy<FakeSessionBuilder>(null))
+            .Should.Not.BeNull();
+        _sut.ValueOf(x => x.Builders)
+            .Should.ContainExactly(2, x => x is FakeSessionBuilder && x.Name == null);
+    }
+
+    [Test]
+    public void ConfigureBuilderCopy_WithName_WhenExists()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>(x => x.Name = "A"));
+
+        _sut.ResultOf(x => x.ConfigureBuilderCopy<FakeSessionBuilder>("A", null))
+            .Should.Not.BeNull();
+        _sut.ValueOf(x => x.Builders)
+            .Should.ContainExactly(2, x => x is FakeSessionBuilder && x.Name == "A");
+    }
+
+    [Test]
+    public void ConfigureBuilderCopy_WithName_WhenExists_ChangeName()
+    {
+        _sut.Arrange(x => x
+            .Add<FakeSessionBuilder>(x => x.Name = "A"));
+
+        _sut.ResultOf(x => x.ConfigureBuilderCopy<FakeSessionBuilder>("A", x => x.UseName("B")))
+            .Should.Not.BeNull();
+        _sut.ValueOf(x => x.Builders)
+            .Should.ConsistSequentiallyOf(
+                x => x is FakeSessionBuilder && x.Name == "A",
+                x => x is FakeSessionBuilder && x.Name == "B");
     }
 }
