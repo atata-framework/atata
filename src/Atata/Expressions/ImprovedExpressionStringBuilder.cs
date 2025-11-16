@@ -137,20 +137,26 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
     protected override Expression VisitMember(MemberExpression node)
     {
-        if (node.Member is FieldInfo)
+        if (node.Member is FieldInfo field)
         {
             if (CanStringifyValue(node.Type))
             {
                 object value = Expression.Lambda(node).Compile().DynamicInvoke();
 
                 if (TryStringifyValue(value, node.Type, out string? valueAsString))
-                {
                     Out(valueAsString);
-                    return node;
-                }
+            }
+            else if (field.IsStatic && !field.IsPrivate)
+            {
+                OutType(field.DeclaringType);
+                Out('.');
+                Out(node.Member.Name);
+            }
+            else
+            {
+                Out(node.Member.Name);
             }
 
-            Out(node.Member.Name);
             return node;
         }
 
@@ -450,13 +456,12 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
     protected override Expression VisitConstant(ConstantExpression node)
     {
-        if (TryStringifyValue(node.Value, node.Type, out string? valueAsString))
-        {
-            Out(valueAsString);
-            return node;
-        }
+        // TryStringifyValue covers all possible constant non-default values including null.
+        if (!TryStringifyValue(node.Value, node.Type, out string? valueAsString))
+            valueAsString = "default";
 
-        return base.VisitConstant(node);
+        Out(valueAsString);
+        return node;
     }
 
     public override string ToString() =>

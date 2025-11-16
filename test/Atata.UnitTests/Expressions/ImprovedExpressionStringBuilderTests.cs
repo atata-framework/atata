@@ -52,6 +52,8 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => !x.Item.Attributes.Checked");
         TestPredicate(x => x.Item.Attributes.Checked == true)
             .Returns("x => x.Item.Attributes.Checked == true");
+        TestPredicate(x => x.Item.FloatValue >= float.Pi)
+            .Returns("x => x.Item.FloatValue >= 3.1415927");
 
         // Operators:
         TestIntOperation(x => x % 2)
@@ -71,6 +73,8 @@ public static class ImprovedExpressionStringBuilderTests
         ValueProvider<string, object>? valueItem = null;
         bool? nullableBool = null;
         bool? nullableBoolIsTrue = true;
+        TimeSpan timeSpan = new(1, 2, 3);
+        float floatVariable = 1.23f;
 
         TestPredicate(x => x.Item == itemName)
             .Returns("x => x.Item == \"VarStr\"");
@@ -88,6 +92,10 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => x.Item.Attributes.Checked == true");
         TestPredicate(x => x.Item.Attributes.GetValue<int>(itemName) == 0)
             .Returns("x => x.Item.Attributes.GetValue<int>(\"VarStr\") == 0");
+        TestPredicate(x => x.Item.TimeSpanValue == timeSpan)
+            .Returns("x => x.Item.TimeSpanValue == timeSpan");
+        TestPredicate(x => x.Item.FloatValue > floatVariable)
+            .Returns("x => x.Item.FloatValue > 1.23");
 
         // Indexer:
         string[] itemArray = ["item"];
@@ -176,6 +184,8 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("(x, i) => i >= 0 && Equals(x, null)");
 
         // Object construction:
+        TestModelSelector(x => new Guid("C2423F71-3A05-4428-8BD1-C092E2984717"))
+            .Returns("x => new Guid(\"C2423F71-3A05-4428-8BD1-C092E2984717\")");
         TestModelSelector(x => new TestModel())
             .Returns("x => new ImprovedExpressionStringBuilderTests.TestModel()");
         TestModelSelector(x => new TestModel(x.Name))
@@ -192,6 +202,10 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => new { Name = x.Name, Id = 0 }");
         TestModelSelector(x => new Dictionary<int, string>())
             .Returns("x => new Dictionary<int, string>()");
+        TestModelSelector(x => new TestStruct { Value = 9 })
+            .Returns("x => new ImprovedExpressionStringBuilderTests.TestStruct { Value = 9 }");
+        TestModelSelector(x => new TestRecordStruct(9))
+            .Returns("x => new ImprovedExpressionStringBuilderTests.TestRecordStruct(9)");
 
         // Array construction:
         TestModelSelector(x => new[] { new { x.Name }, new { Name = "nm" } })
@@ -199,15 +213,47 @@ public static class ImprovedExpressionStringBuilderTests
         TestModelSelector(x => new object[] { x.Name, 1 })
             .Returns("x => [x.Name, 1]");
 
-        // Other:
-        TestModelSelector(x => (object)x as List<int>)
-            .Returns("x => x as List<int>");
+        // Static readonly fields:
+        TestModelSelector(x => Guid.Empty)
+            .Returns("x => Guid.Empty");
+        TestModelSelector(x => TimeSpan.Zero)
+            .Returns("x => TimeSpan.Zero");
+
+        // Numeric literals:
+        TestModelSelector(x => 1.23m)
+            .Returns("x => 1.23");
+        TestModelSelector(x => 1.234f)
+            .Returns("x => 1.234");
+        TestModelSelector(x => 1.2345d)
+            .Returns("x => 1.2345");
+        TestModelSelector(x => (Half)6)
+            .Returns("x => 6");
+        TestModelSelector(x => (nint)41)
+            .Returns("x => 41");
+
+        // Default values:
         TestModelSelector(x => default(int))
             .Returns("x => 0");
+        TestModelSelector(x => default(decimal))
+            .Returns("x => 0");
+        TestModelSelector(x => default(bool))
+            .Returns("x => false");
+        TestModelSelector(x => default(Guid))
+            .Returns("x => default");
+        TestModelSelector(x => default(TimeSpan))
+            .Returns("x => default");
+        TestModelSelector(x => default(TestStruct))
+            .Returns("x => default");
+        TestModelSelector(x => default(TestRecordStruct))
+            .Returns("x => default");
         TestModelSelector(x => default(List<int>))
             .Returns("x => null");
         TestModelSelector(x => typeof(List<int>))
             .Returns("x => typeof(List<int>)");
+
+        // Other:
+        TestModelSelector(x => (object)x as List<int>)
+            .Returns("x => x as List<int>");
 
         return items;
     }
@@ -215,6 +261,13 @@ public static class ImprovedExpressionStringBuilderTests
     [TestCaseSource(nameof(GetExpressionTestCases))]
     public static string ExpressionToString(Expression expression) =>
         ImprovedExpressionStringBuilder.ExpressionToString(expression);
+
+    public struct TestStruct
+    {
+        public int Value { get; set; }
+    }
+
+    public readonly record struct TestRecordStruct(int Value);
 
     public static class StaticClass
     {
@@ -254,6 +307,10 @@ public static class ImprovedExpressionStringBuilderTests
         public TestItemAttributes Attributes { get; private set; } = null!;
 
         public string Value { get; private set; } = string.Empty;
+
+        public TimeSpan TimeSpanValue { get; } = TimeSpan.Zero;
+
+        public float FloatValue { get; } = 1.23f;
 
         public static implicit operator string?(TestItem? item) =>
             item?.ToString();
