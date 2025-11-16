@@ -135,33 +135,49 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return node;
     }
 
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     protected override Expression VisitMember(MemberExpression node)
     {
-        if (node.Member is FieldInfo field)
+        if (node.Member is FieldInfo field && !DoesMemberExpressionHasParameterRoot(node))
         {
             if (CanStringifyValue(node.Type))
             {
-                object value = Expression.Lambda(node).Compile().DynamicInvoke();
+                try
+                {
+                    object value = Expression.Lambda(node).Compile().DynamicInvoke();
 
-                if (TryStringifyValue(value, node.Type, out string? valueAsString))
-                    Out(valueAsString);
+                    if (TryStringifyValue(value, node.Type, out string? valueAsString))
+                        Out(valueAsString);
+
+                    return node;
+                }
+                catch (Exception exception)
+                {
+                    // Just proceed to base member visit.
+                    Debug.Fail(exception.ToString());
+                }
             }
             else if (field.IsStatic && !field.IsPrivate)
             {
                 OutType(field.DeclaringType);
                 Out('.');
                 Out(node.Member.Name);
+                return node;
             }
             else
             {
                 Out(node.Member.Name);
+                return node;
             }
-
-            return node;
         }
 
         return base.VisitMember(node);
     }
+
+    private static bool DoesMemberExpressionHasParameterRoot(MemberExpression node) =>
+        node.Expression is MemberExpression parentMember
+            ? DoesMemberExpressionHasParameterRoot(parentMember)
+            : node.Expression is ParameterExpression;
 
     private static bool IsParameterExpression(Expression expression) =>
         expression switch

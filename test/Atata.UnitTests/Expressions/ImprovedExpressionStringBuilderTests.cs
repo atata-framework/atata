@@ -54,6 +54,10 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => x.Item.Attributes.Checked == true");
         TestPredicate(x => x.Item.FloatValue >= float.Pi)
             .Returns("x => x.Item.FloatValue >= 3.1415927");
+        TestPredicate(x => x.IntField > 1)
+            .Returns("x => x.IntField > 1");
+        TestPredicate(x => x.Item.IntField >= 1)
+            .Returns("x => x.Item.IntField >= 1");
 
         // Operators:
         TestIntOperation(x => x % 2)
@@ -251,6 +255,14 @@ public static class ImprovedExpressionStringBuilderTests
         TestModelSelector(x => typeof(List<int>))
             .Returns("x => typeof(List<int>)");
 
+        // Value tuple:
+        (int A, string B) valueTupleVariable = (1, "One");
+
+        TestModelSelector(x => valueTupleVariable)
+            .Returns("x => valueTupleVariable");
+        TestPredicate(x => x.UseValueTuple(valueTupleVariable))
+            .Returns("x => x.UseValueTuple(valueTupleVariable)");
+
         // Other:
         TestModelSelector(x => (object)x as List<int>)
             .Returns("x => x as List<int>");
@@ -289,6 +301,10 @@ public static class ImprovedExpressionStringBuilderTests
 
     public abstract class TestComponent
     {
+#pragma warning disable CA1051, IDE1006, SA1401
+        public int IntField = 9;
+#pragma warning restore CA1051, IDE1006, SA1401
+
         public TestItem Item { get; private set; } = null!;
 
         public TestItem Item2 { get; private set; } = null!;
@@ -300,10 +316,16 @@ public static class ImprovedExpressionStringBuilderTests
         public abstract bool TryGetValue(string key, out int value);
 
         public abstract bool UseRefValue(string key, ref int value);
+
+        public abstract bool UseValueTuple((int A, string B) value);
     }
 
     public class TestItem
     {
+#pragma warning disable CA1051, IDE1006, SA1401
+        public int IntField = 10;
+#pragma warning restore CA1051, IDE1006, SA1401
+
         public TestItemAttributes Attributes { get; private set; } = null!;
 
         public string Value { get; private set; } = string.Empty;
