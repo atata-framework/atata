@@ -253,7 +253,7 @@ public static class SubjectTests
             exception!.Message.Should().StartWith(
                 string.Join(
                     Environment.NewLine,
-                    "Wrong subject.Add(null, 0)",
+                    "Wrong execution of subject.Add(null, 0)",
                     "Expected: should throw exception of System.InvalidOperationException type",
                     "  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')"));
         }
@@ -268,7 +268,7 @@ public static class SubjectTests
             exception!.Message.Should().StartWith(
                 string.Join(
                     Environment.NewLine,
-                    "Wrong subject.Add(\"d\", 4)",
+                    "Wrong execution of subject.Add(\"d\", 4)",
                     "Expected: should throw exception of System.InvalidOperationException type",
                     "  Actual: no exception"));
         }
@@ -283,7 +283,7 @@ public static class SubjectTests
             exception!.Message.Should().StartWith(
                 string.Join(
                     Environment.NewLine,
-                    "Wrong subject.Add(null, 0)",
+                    "Wrong execution of subject.Add(null, 0)",
                     "Expected: should not throw exception",
                     "  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')"));
         }
