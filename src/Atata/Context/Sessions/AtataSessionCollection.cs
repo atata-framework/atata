@@ -29,6 +29,12 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         _sessionListOrderedByAdding.Count;
 
     /// <summary>
+    /// Gets the collection of <see cref="IAtataSessionBuilder"/>.
+    /// </summary>
+    public IReadOnlyList<IAtataSessionBuilder> Builders =>
+        _sessionBuilders;
+
+    /// <summary>
     /// Gets the <see cref="AtataSession"/> at the specified index.
     /// </summary>
     /// <param name="index">The index.</param>
