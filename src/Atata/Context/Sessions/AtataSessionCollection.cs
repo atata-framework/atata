@@ -328,10 +328,10 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
     {
         EnsureNotDisposed();
 
-        var exisitngSessionBuilder = _sessionBuilders.OfType<TSessionBuilder>().FirstOrDefault(x => x.Name == sessionName)
+        var existingSessionBuilder = _sessionBuilders.OfType<TSessionBuilder>().FirstOrDefault(x => x.Name == sessionName)
            ?? throw AtataSessionBuilderNotFoundException.ByBuilderType(typeof(TSessionBuilder), sessionName, _context);
 
-        var newSessionBuilder = (TSessionBuilder)exisitngSessionBuilder.Clone();
+        var newSessionBuilder = (TSessionBuilder)existingSessionBuilder.Clone();
         newSessionBuilder.TargetContext = _context;
 
         configure?.Invoke(newSessionBuilder);
