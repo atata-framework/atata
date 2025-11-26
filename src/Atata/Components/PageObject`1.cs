@@ -2,7 +2,8 @@
 
 /// <summary>
 /// Represents the base class for the page objects.
-/// Also executes <see cref="TriggerEvents.Init"/> and <see cref="TriggerEvents.DeInit"/> triggers.
+/// Also executes triggers: <see cref="TriggerEvents.Init"/>, <see cref="TriggerEvents.DeInit"/>,
+/// <see cref="TriggerEvents.PageObjectTransitionIn"/>, and <see cref="TriggerEvents.PageObjectTransitionOut"/>.
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
 public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject
@@ -202,11 +203,25 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
         OnInitCompleted();
         Session.EventBus.Publish(new PageObjectInitCompletedEvent(this));
-
-        OnVerify();
     }
 
-    protected virtual void OnVerify()
+    internal void CompleteTransitionIn()
+    {
+        ExecuteTriggers(TriggerEvents.PageObjectTransitionIn);
+
+        OnTransitionIn();
+        Session.EventBus.Publish(new PageObjectTransitionInCompletedEvent(this));
+    }
+
+    protected internal virtual void OnVerify()
+    {
+    }
+
+    protected virtual void OnTransitionIn()
+    {
+    }
+
+    protected virtual void OnTransitionOut()
     {
     }
 
@@ -749,6 +764,14 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             (Action)(() => Script.Execute(script)));
 
         return (TOwner)this;
+    }
+
+    void IPageObject.TransitionOut()
+    {
+        ExecuteTriggers(TriggerEvents.PageObjectTransitionOut);
+
+        OnTransitionOut();
+        Session.EventBus.Publish(new PageObjectTransitionOutCompletedEvent(this));
     }
 
     void IPageObject.DeInit()

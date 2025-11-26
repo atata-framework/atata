@@ -6,6 +6,8 @@ using _ = TriggersPage;
 [VerifyTitle]
 [VerifyH1]
 [InvokeMethod(nameof(OnStaticInit), TriggerEvents.Init)]
+[LogInfo("PageObjectTransitionIn-Medium", TriggerEvents.PageObjectTransitionIn)]
+[LogInfo("PageObjectTransitionOut-Medium", TriggerEvents.PageObjectTransitionOut)]
 [LogInfo("BeforeGet-Medium", TriggerEvents.BeforeGet, TargetAllChildren = true)]
 [LogInfo("AfterGet-Medium", TriggerEvents.AfterGet, TargetAllChildren = true)]
 public class TriggersPage : Page<_>

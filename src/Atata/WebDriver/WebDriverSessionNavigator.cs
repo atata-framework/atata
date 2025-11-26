@@ -250,6 +250,7 @@ public sealed class WebDriverSessionNavigator
             });
 
         pageObject.CompleteInit();
+        pageObject.OnVerify();
 
         return pageObject;
     }
@@ -275,6 +276,11 @@ public sealed class WebDriverSessionNavigator
                 _session.TemporarilyPreservedPageObjectList.Add(currentPageObject);
             }
         }
+
+        bool isTransition = options.IsTransition;
+
+        if (isTransition)
+            ((IPageObject)currentPageObject).TransitionOut();
 
         ((IPageObject)currentPageObject).DeInit();
 
@@ -321,6 +327,12 @@ public sealed class WebDriverSessionNavigator
 
         if (!isReturnedFromTemporary)
             nextPageObject.CompleteInit();
+
+        if (isTransition)
+            nextPageObject.CompleteTransitionIn();
+
+        if (!isReturnedFromTemporary)
+            nextPageObject.OnVerify();
 
         return nextPageObject;
     }
@@ -436,16 +448,22 @@ public sealed class WebDriverSessionNavigator
 
     private sealed class GoOptions
     {
-        public string? Url { get; set; }
+        public string? Url { get; init; }
 
-        public Func<string>? WindowNameResolver { get; set; }
+        public Func<string>? WindowNameResolver { get; init; }
 
-        public WindowType? NewWindowType { get; set; }
+        public WindowType? NewWindowType { get; init; }
 
-        public bool Navigate { get; set; }
+        public bool Navigate { get; init; }
 
-        public bool Temporarily { get; set; }
+        public bool Temporarily { get; init; }
 
-        public string? NavigationTarget { get; set; }
+        public string? NavigationTarget { get; init; }
+
+        public bool IsTransition =>
+            NewWindowType is null
+            && WindowNameResolver is null
+            && !Navigate
+            && Url is null or [];
     }
 }

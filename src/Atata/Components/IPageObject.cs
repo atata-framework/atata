@@ -7,5 +7,7 @@ internal interface IPageObject
     TPageObject SwitchToRoot<TPageObject>(TPageObject? rootPageObject = null)
         where TPageObject : PageObject<TPageObject>;
 
+    void TransitionOut();
+
     void DeInit();
 }

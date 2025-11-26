@@ -320,7 +320,7 @@ return (
             }
         }
 
-        if (on is TriggerEvents.Init or TriggerEvents.DeInit)
+        if (on is TriggerEvents.Init or TriggerEvents.DeInit or TriggerEvents.PageObjectTransitionIn or TriggerEvents.PageObjectTransitionOut)
             foreach (UIComponent<TOwner> child in Controls)
                 child.ExecuteTriggers(on);
     }

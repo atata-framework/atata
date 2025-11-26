@@ -22,84 +22,98 @@ public enum TriggerEvents
     DeInit = 1 << 1,
 
     /// <summary>
+    /// Occurs when a page object transition in is completed.
+    /// That is, navigation to the current page object occurred in the same browser tab
+    /// by interacting with the previous page object, rather than by directly navigating to a URL.
+    /// </summary>
+    PageObjectTransitionIn = 1 << 2,
+
+    /// <summary>
+    /// Occurs when a page object transition out is completed.
+    /// That is, navigation to the next page object occurred in the same browser tab
+    /// by interacting with the current page object, rather than by directly navigating to a URL.
+    /// </summary>
+    PageObjectTransitionOut = 1 << 3,
+
+    /// <summary>
     /// Occurs before any access to the component.
     /// </summary>
-    BeforeAccess = 1 << 2,
+    BeforeAccess = 1 << 4,
 
     /// <summary>
     /// Occurs after any access to the component.
     /// </summary>
-    AfterAccess = 1 << 3,
+    AfterAccess = 1 << 5,
 
     /// <summary>
     /// Occurs before the value is taken from the control.
     /// </summary>
-    BeforeGet = 1 << 4,
+    BeforeGet = 1 << 6,
 
     /// <summary>
     /// Occurs after the value is taken from the control.
     /// </summary>
-    AfterGet = 1 << 5,
+    AfterGet = 1 << 7,
 
     /// <summary>
     /// Occurs before the value is set to the control.
     /// </summary>
-    BeforeSet = 1 << 6,
+    BeforeSet = 1 << 8,
 
     /// <summary>
     /// Occurs after the value is set to the control.
     /// </summary>
-    AfterSet = 1 << 7,
+    AfterSet = 1 << 9,
 
     /// <summary>
     /// Occurs before the click on the control.
     /// </summary>
-    BeforeClick = 1 << 8,
+    BeforeClick = 1 << 10,
 
     /// <summary>
     /// Occurs after the click on the control.
     /// </summary>
-    AfterClick = 1 << 9,
+    AfterClick = 1 << 11,
 
     /// <summary>
     /// Occurs before the hover on the control.
     /// </summary>
-    BeforeHover = 1 << 10,
+    BeforeHover = 1 << 12,
 
     /// <summary>
     /// Occurs after the hover on the control.
     /// </summary>
-    AfterHover = 1 << 11,
+    AfterHover = 1 << 13,
 
     /// <summary>
     /// Occurs before the control gets the focus.
     /// </summary>
-    BeforeFocus = 1 << 12,
+    BeforeFocus = 1 << 14,
 
     /// <summary>
     /// Occurs after the control gets the focus.
     /// </summary>
-    AfterFocus = 1 << 13,
+    AfterFocus = 1 << 15,
 
     /// <summary>
     /// Occurs before the control loses the focus.
     /// </summary>
-    BeforeBlur = 1 << 14,
+    BeforeBlur = 1 << 16,
 
     /// <summary>
     /// Occurs after the control loses the focus.
     /// </summary>
-    AfterBlur = 1 << 15,
+    AfterBlur = 1 << 17,
 
     /// <summary>
     /// Occurs before the scrolling to control.
     /// </summary>
-    BeforeScroll = 1 << 16,
+    BeforeScroll = 1 << 18,
 
     /// <summary>
     /// Occurs after the scrolling to control.
     /// </summary>
-    AfterScroll = 1 << 17,
+    AfterScroll = 1 << 19,
 
     /// <summary>
     /// The combination of <see cref="BeforeGet"/> and <see cref="BeforeSet"/>.

@@ -106,7 +106,7 @@ public class TriggerTests : WebDriverSessionTestSuite
         VerifyInputEvents(TriggerEvents.BeforeClick, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterClick);
 
         _page.GoTo1.ClickAndGo();
-        VerifyInputEvents(TriggerEvents.DeInit);
+        VerifyInputEvents(TriggerEvents.PageObjectTransitionOut, TriggerEvents.DeInit);
     }
 
     private void VerifyInputEvents(params TriggerEvents[] triggerEvents)
