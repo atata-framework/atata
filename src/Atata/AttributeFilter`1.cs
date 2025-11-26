@@ -1,6 +1,6 @@
 ﻿namespace Atata;
 
-public class AttributeFilter<TAttribute>
+public sealed class AttributeFilter<TAttribute>
 {
     /// <summary>
     /// Gets the attribute levels to search at.
