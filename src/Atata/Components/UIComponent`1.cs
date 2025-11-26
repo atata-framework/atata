@@ -116,7 +116,7 @@ return (
     internal List<IClearsCache> CacheClearableComponentParts { get; } = [];
 
     /// <summary>
-    /// Called upon initialization before the <see cref="TriggerEvents.Init"/> triggers are executed.
+    /// Called during initialization, before the <see cref="TriggerEvents.Init"/> triggers are executed.
     /// Calls <see cref="OnInit"/> method for all child controls.
     /// </summary>
     protected virtual void OnInit()
