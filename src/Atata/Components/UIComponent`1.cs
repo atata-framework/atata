@@ -286,37 +286,45 @@ return (
     /// Executes the triggers.
     /// </summary>
     /// <param name="on">The event to trigger.</param>
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     protected void ExecuteTriggers(TriggerEvents on)
     {
         if (on == TriggerEvents.None || _currentDeniedTriggers.Contains(on))
             return;
 
-        var orderedTriggers = Metadata.GetAll<TriggerAttribute>().OrderBy(x => x.Priority).ToArray();
+        var allTriggers = Metadata.GetAll<TriggerAttribute>().ToList();
 
-        if (orderedTriggers.Length > 0)
+        // In most cases for majority of components there will be no triggers at all.
+        if (allTriggers.Count > 0)
         {
-            if (DenyTriggersMap.Values.TryGetValue(on, out TriggerEvents[] denyTriggers))
-                _currentDeniedTriggers.AddRange(denyTriggers);
+            // Apply filter only when there are some triggers.
+            allTriggers.RemoveAll(x => !x.On.HasFlag(on));
 
-            try
+            if (allTriggers.Count > 0)
             {
-                var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
+                if (DenyTriggersMap.Values.TryGetValue(on, out TriggerEvents[] denyTriggers))
+                    _currentDeniedTriggers.AddRange(denyTriggers);
 
-                TriggerContext<TOwner>? triggerContext = null;
-
-                foreach (TriggerAttribute trigger in triggers)
+                try
                 {
-                    triggerContext ??= new(on, this);
+                    IEnumerable<TriggerAttribute> triggersToExecute = allTriggers.Count > 1
+                        ? allTriggers.OrderBy(x => x.Priority)
+                        : allTriggers;
 
-                    Log.ExecuteSection(
-                        new ExecuteTriggerLogSection(this, trigger, on),
-                        () => trigger.Execute(triggerContext));
+                    TriggerContext<TOwner>? triggerContext = new(on, this);
+
+                    foreach (TriggerAttribute trigger in triggersToExecute)
+                    {
+                        Log.ExecuteSection(
+                            new ExecuteTriggerLogSection(this, trigger, on),
+                            () => trigger.Execute(triggerContext));
+                    }
                 }
-            }
-            finally
-            {
-                if (denyTriggers != null)
-                    _currentDeniedTriggers.RemoveAll(x => denyTriggers.Contains(x));
+                finally
+                {
+                    if (denyTriggers != null)
+                        _currentDeniedTriggers.RemoveAll(x => denyTriggers.Contains(x));
+                }
             }
         }
 
