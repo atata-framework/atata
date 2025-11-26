@@ -156,7 +156,7 @@ public class UIComponentMetadata
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <returns>The first attribute found or <see langword="null"/>.</returns>
     public TAttribute Get<TAttribute>() =>
-        Get<TAttribute>(null);
+        GetAll<TAttribute>().FirstOrDefault();
 
     /// <summary>
     /// Gets the first attribute of the specified type or <see langword="null"/> if no such attribute is found.
@@ -172,8 +172,12 @@ public class UIComponentMetadata
     /// </summary>
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <returns>The sequence of attributes found.</returns>
-    public IEnumerable<TAttribute> GetAll<TAttribute>() =>
-        GetAll<TAttribute>(null);
+    public IEnumerable<TAttribute> GetAll<TAttribute>()
+    {
+        var attributeSets = GetAllAttributeSets();
+
+        return FilterAttributeSets<TAttribute>(attributeSets);
+    }
 
     /// <summary>
     /// Gets the sequence of attributes of the specified type.
@@ -190,6 +194,16 @@ public class UIComponentMetadata
         var attributeSets = GetAllAttributeSets(filter.Levels);
 
         return FilterAttributeSets(attributeSets, filter);
+    }
+
+    private IEnumerable<AttributeSearchSet> GetAllAttributeSets()
+    {
+        yield return _declaredAttributeSet;
+        yield return _parentDeclaredAttributeSet;
+        yield return _parentComponentAttributeSet;
+        yield return _assemblyAttributeSet;
+        yield return _globalAttributeSet;
+        yield return _componentAttributeSet;
     }
 
     private IEnumerable<AttributeSearchSet> GetAllAttributeSets(AttributeLevels level)
@@ -223,28 +237,39 @@ public class UIComponentMetadata
         yield return _componentAttributeSet;
     }
 
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(
         IEnumerable<AttributeSearchSet> attributeSets,
-        AttributeFilter<TAttribute> filter)
+        AttributeFilter<TAttribute>? filter = null)
     {
         bool shouldFilterByTarget = typeof(MulticastAttribute).IsAssignableFrom(typeof(TAttribute));
 
         foreach (AttributeSearchSet set in attributeSets)
         {
-            var query = set.Attributes.OfType<TAttribute>();
+            if (set.Attributes.Count > 0)
+            {
+                var query = set.Attributes.OfType<TAttribute>();
 
-            if (shouldFilterByTarget)
-                query = FilterAndOrderByTarget(query, filter, set.TargetFilterOptions);
+                if (query.Any())
+                {
+                    if (shouldFilterByTarget)
+                        query = FilterAndOrderByTarget(query, filter?.TargetAttributeType, set.TargetFilterOptions);
 
-            foreach (var predicate in filter.Predicates)
-                query = query.Where(predicate);
+                    if (filter is not null)
+                        foreach (var predicate in filter.Predicates)
+                            query = query.Where(predicate);
 
-            foreach (TAttribute attribute in query)
-                yield return attribute;
+                    foreach (TAttribute attribute in query)
+                        yield return attribute;
+                }
+            }
         }
     }
 
-    private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes, AttributeFilter<TAttribute> filter, AttributeTargetFilterOptions targetFilterOptions)
+    private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(
+        IEnumerable<TAttribute> attributes,
+        Type? targetAttributeType,
+        AttributeTargetFilterOptions targetFilterOptions)
     {
         if (targetFilterOptions == AttributeTargetFilterOptions.None)
             return [];
@@ -263,28 +288,23 @@ public class UIComponentMetadata
             .Where(x => x.TargetRank.HasValue)
             .ToArray();
 
-        if (filter.TargetAttributeType is not null && typeof(AttributeSettingsAttribute).IsAssignableFrom(typeof(TAttribute)))
-        {
-            return rankedQuery
+        return targetAttributeType is not null && typeof(AttributeSettingsAttribute).IsAssignableFrom(typeof(TAttribute))
+            ? rankedQuery
                 .Select(x => new
                 {
                     x.Attribute,
                     x.TargetRank,
-                    TargetAttributeRank = ((AttributeSettingsAttribute)x.Attribute).CalculateTargetAttributeRank(filter.TargetAttributeType)
+                    TargetAttributeRank = ((AttributeSettingsAttribute)x.Attribute).CalculateTargetAttributeRank(targetAttributeType)
                 })
                 .Where(x => x.TargetAttributeRank.HasValue)
                 .OrderByDescending(x => x.TargetRank!.Value)
                 .ThenByDescending(x => x.TargetAttributeRank!.Value)
                 .Select(x => x.Attribute)
-                .Cast<TAttribute>();
-        }
-        else
-        {
-            return rankedQuery
+                .Cast<TAttribute>()
+            : rankedQuery
                 .OrderByDescending(x => x.TargetRank!.Value)
                 .Select(x => x.Attribute)
                 .Cast<TAttribute>();
-        }
     }
 
     /// <summary>
