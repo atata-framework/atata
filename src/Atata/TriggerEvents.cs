@@ -7,17 +7,17 @@
 public enum TriggerEvents
 {
     /// <summary>
-    /// None of the events.
+    /// No events.
     /// </summary>
     None = 0,
 
     /// <summary>
-    /// Occurs upon the page object initialization.
+    /// Occurs during page object initialization.
     /// </summary>
     Init = 1 << 0,
 
     /// <summary>
-    /// Occurs upon the page object deinitialization.
+    /// Occurs during page object deinitialization.
     /// </summary>
     DeInit = 1 << 1,
 
@@ -46,72 +46,72 @@ public enum TriggerEvents
     AfterAccess = 1 << 5,
 
     /// <summary>
-    /// Occurs before the value is taken from the control.
+    /// Occurs before a value is retrieved from the control.
     /// </summary>
     BeforeGet = 1 << 6,
 
     /// <summary>
-    /// Occurs after the value is taken from the control.
+    /// Occurs after a value is retrieved from the control.
     /// </summary>
     AfterGet = 1 << 7,
 
     /// <summary>
-    /// Occurs before the value is set to the control.
+    /// Occurs before a value is set to the control.
     /// </summary>
     BeforeSet = 1 << 8,
 
     /// <summary>
-    /// Occurs after the value is set to the control.
+    /// Occurs after a value is set to the control.
     /// </summary>
     AfterSet = 1 << 9,
 
     /// <summary>
-    /// Occurs before the click on the control.
+    /// Occurs before clicking the control.
     /// </summary>
     BeforeClick = 1 << 10,
 
     /// <summary>
-    /// Occurs after the click on the control.
+    /// Occurs after clicking the control.
     /// </summary>
     AfterClick = 1 << 11,
 
     /// <summary>
-    /// Occurs before the hover on the control.
+    /// Occurs before hovering over the control.
     /// </summary>
     BeforeHover = 1 << 12,
 
     /// <summary>
-    /// Occurs after the hover on the control.
+    /// Occurs after hovering over the control.
     /// </summary>
     AfterHover = 1 << 13,
 
     /// <summary>
-    /// Occurs before the control gets the focus.
+    /// Occurs before the control receives focus.
     /// </summary>
     BeforeFocus = 1 << 14,
 
     /// <summary>
-    /// Occurs after the control gets the focus.
+    /// Occurs after the control receives focus.
     /// </summary>
     AfterFocus = 1 << 15,
 
     /// <summary>
-    /// Occurs before the control loses the focus.
+    /// Occurs before the control loses focus.
     /// </summary>
     BeforeBlur = 1 << 16,
 
     /// <summary>
-    /// Occurs after the control loses the focus.
+    /// Occurs after the control loses focus.
     /// </summary>
     AfterBlur = 1 << 17,
 
     /// <summary>
-    /// Occurs before the scrolling to control.
+    /// Occurs before scrolling to the control.
     /// </summary>
     BeforeScroll = 1 << 18,
 
     /// <summary>
-    /// Occurs after the scrolling to control.
+    /// Occurs after scrolling to the control.
     /// </summary>
     AfterScroll = 1 << 19,
 
@@ -131,12 +131,12 @@ public enum TriggerEvents
     BeforeClickOrFocus = BeforeClick | BeforeFocus,
 
     /// <summary>
-    /// The combination of <see cref="BeforeClick"/>, <see cref="BeforeHover"/> and <see cref="BeforeFocus"/>.
+    /// The combination of <see cref="BeforeClick"/>, <see cref="BeforeHover"/>, and <see cref="BeforeFocus"/>.
     /// </summary>
     BeforeClickOrHoverOrFocus = BeforeClick | BeforeHover | BeforeFocus,
 
     /// <summary>
-    /// The combination of <see cref="BeforeClick"/>, <see cref="BeforeGet"/>, <see cref="BeforeSet"/>, <see cref="BeforeFocus"/>, <see cref="BeforeBlur"/> and <see cref="BeforeScroll"/>.
+    /// The combination of <see cref="BeforeClick"/>, <see cref="BeforeGet"/>, <see cref="BeforeSet"/>, <see cref="BeforeFocus"/>, <see cref="BeforeBlur"/>, and <see cref="BeforeScroll"/>.
     /// </summary>
     BeforeAnyAction = BeforeClick | BeforeGet | BeforeSet | BeforeFocus | BeforeBlur | BeforeScroll,
 
@@ -156,12 +156,12 @@ public enum TriggerEvents
     AfterClickOrFocus = AfterClick | AfterFocus,
 
     /// <summary>
-    /// The combination of <see cref="AfterClick"/>, <see cref="AfterHover"/> and <see cref="AfterFocus"/>.
+    /// The combination of <see cref="AfterClick"/>, <see cref="AfterHover"/>, and <see cref="AfterFocus"/>.
     /// </summary>
     AfterClickOrHoverOrFocus = AfterClick | AfterHover | AfterFocus,
 
     /// <summary>
-    /// The combination of <see cref="AfterClick"/>, <see cref="AfterGet"/>, <see cref="AfterSet"/>, <see cref="AfterFocus"/>, <see cref="AfterBlur"/> and <see cref="AfterScroll"/>.
+    /// The combination of <see cref="AfterClick"/>, <see cref="AfterGet"/>, <see cref="AfterSet"/>, <see cref="AfterFocus"/>, <see cref="AfterBlur"/>, and <see cref="AfterScroll"/>.
     /// </summary>
     AfterAnyAction = AfterClick | AfterGet | AfterSet | AfterFocus | AfterBlur | AfterScroll,
 
