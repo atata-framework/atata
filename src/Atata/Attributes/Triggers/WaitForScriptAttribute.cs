@@ -43,9 +43,10 @@ public abstract class WaitForScriptAttribute : WaitingTriggerAttribute
         void OnExecute()
         {
             RetryWait wait = new(TimeSpan.FromSeconds(Timeout), TimeSpan.FromSeconds(RetryInterval));
+            wait.IgnoreAllExceptions();
 
             bool isCompleted = wait.Until(
-                () => context.Component.Script.Execute<bool>(script).Value);
+                () => context.Component.Script.Execute<bool?>(script).Value == true);
 
             if (!isCompleted)
             {
