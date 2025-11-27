@@ -7,7 +7,7 @@
 /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
 [ControlDefinition("input[@type='file']", Visibility = Visibility.Any, ComponentTypeName = "file input")]
 [SetsValueUsingSendKeys]
-[ClearsValueUsingClearMethodOrScript]
+[ClearsValueUsingClearMethodOrScript(IncludeFocusScript = false)]
 public class FileInput<TOwner> : Input<string, TOwner>
     where TOwner : PageObject<TOwner>
 {

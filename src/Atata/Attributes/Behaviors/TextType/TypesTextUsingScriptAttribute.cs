@@ -2,11 +2,22 @@
 
 /// <summary>
 /// Represents the behavior for control text typing by executing
-/// <c>HTMLElement.value += '{value}'; HTMLElement.dispatchEvent(new Event('change'));</c> JavaScript.
+/// <c>HTMLElement.focus(); HTMLElement.value += '{value}'; HTMLElement.dispatchEvent(new Event('change'));</c> JavaScript.
 /// </summary>
 public class TypesTextUsingScriptAttribute : TextTypeBehaviorAttribute
 {
+    /// <summary>
+    /// Gets or sets a value indicating whether to include <c>HTMLElement.focus();</c> JavaScript.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    public bool IncludeFocusScript { get; set; } = true;
+
     /// <inheritdoc/>
-    public override void Execute<TOwner>(IUIComponent<TOwner> component, string value) =>
-        component.Script.AddValueAndDispatchChangeEvent(value);
+    public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)
+    {
+        if (IncludeFocusScript)
+            component.Script.FocusAddValueAndDispatchChangeEvent(value);
+        else
+            component.Script.AddValueAndDispatchChangeEvent(value);
+    }
 }
