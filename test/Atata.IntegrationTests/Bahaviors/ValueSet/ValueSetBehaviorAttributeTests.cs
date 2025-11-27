@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Bahaviors;
 
-public class ValueSetBehaviorAttributeTests : WebDriverSessionTestSuite
+public sealed class ValueSetBehaviorAttributeTests : WebDriverSessionTestSuite
 {
     private const string InitialValue = "abc";
 
@@ -8,11 +8,24 @@ public class ValueSetBehaviorAttributeTests : WebDriverSessionTestSuite
 
     private static TestCaseData[] Source =>
     [
-        new TestCaseData(new SetsValueUsingClearAndTypeBehaviorsAttribute()).Returns(SetValue),
-        new TestCaseData(new SetsValueUsingClearAndSendKeysAttribute()).Returns(SetValue),
-        new TestCaseData(new SetsValueUsingScriptAttribute()).Returns(SetValue),
-        new TestCaseData(new SetsValueUsingCharByCharTypingAttribute()).Returns(InitialValue + SetValue),
-        new TestCaseData(new SetsValueUsingSendKeysAttribute()).Returns(InitialValue + SetValue)
+        new TestCaseData(new SetsValueUsingClearAndTypeBehaviorsAttribute())
+            .SetArgDisplayNames(nameof(SetsValueUsingClearAndTypeBehaviorsAttribute))
+            .Returns(SetValue),
+        new TestCaseData(new SetsValueUsingClearAndSendKeysAttribute())
+            .SetArgDisplayNames(nameof(SetsValueUsingClearAndSendKeysAttribute))
+            .Returns(SetValue),
+        new TestCaseData(new SetsValueUsingScriptAttribute { IncludeFocusScript = true })
+            .SetArgDisplayNames($"{nameof(SetsValueUsingScriptAttribute)} {{ IncludeFocusScript = true }}")
+            .Returns(SetValue),
+        new TestCaseData(new SetsValueUsingScriptAttribute { IncludeFocusScript = false })
+            .SetArgDisplayNames($"{nameof(SetsValueUsingScriptAttribute)} {{ IncludeFocusScript = false }}")
+            .Returns(SetValue),
+        new TestCaseData(new SetsValueUsingCharByCharTypingAttribute())
+            .SetArgDisplayNames(nameof(SetsValueUsingCharByCharTypingAttribute))
+            .Returns(InitialValue + SetValue),
+        new TestCaseData(new SetsValueUsingSendKeysAttribute())
+            .SetArgDisplayNames(nameof(SetsValueUsingSendKeysAttribute))
+            .Returns(InitialValue + SetValue)
     ];
 
     [TestCaseSource(nameof(Source))]
