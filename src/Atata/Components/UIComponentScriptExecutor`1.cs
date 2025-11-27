@@ -7,6 +7,15 @@
 public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     where TOwner : PageObject<TOwner>
 {
+    private const string DispatchElementChangeEventScript =
+        "arguments[0].dispatchEvent(new Event('change'));";
+
+    private const string FocusElementScript =
+        "arguments[0].focus();";
+
+    private const string SetElementValueScript =
+        "arguments[0].value = arguments[1];";
+
     internal UIComponentScriptExecutor(IUIComponent<TOwner> component)
     {
         Component = component;
@@ -164,7 +173,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner SetValue(string value) =>
         ExecuteAgainst(
-            "arguments[0].value = arguments[1];",
+            SetElementValueScript,
             value ?? string.Empty);
 
     /// <summary>
@@ -203,8 +212,8 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner SetValueAndDispatchChangeEvent(string value) =>
         ExecuteAgainst(
-            "arguments[0].value = arguments[1];" +
-            "arguments[0].dispatchEvent(new Event('change'));",
+            SetElementValueScript +
+            DispatchElementChangeEventScript,
             value ?? string.Empty);
 
     /// <summary>
@@ -226,7 +235,55 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
         ExecuteAgainst(
             "var currentValue = arguments[0].value;" +
             "arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];" +
-            "arguments[0].dispatchEvent(new Event('change'));",
+            DispatchElementChangeEventScript,
+            value ?? string.Empty);
+
+    /// <summary>
+    /// <para>
+    /// Sets focus to the <see cref="UIComponent.Scope"/> element of the current component,
+    /// sets the value, and dispatches 'change' event.
+    /// </para>
+    /// <para>
+    /// Executable script:
+    /// </para>
+    /// <code>
+    /// arguments[0].focus();
+    /// arguments[0].value = arguments[1];
+    /// arguments[0].dispatchEvent(new Event('change'));
+    /// </code>
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>An instance of the owner page object.</returns>
+    public TOwner FocusSetValueAndDispatchChangeEvent(string value) =>
+        ExecuteAgainst(
+            FocusElementScript +
+            SetElementValueScript +
+            DispatchElementChangeEventScript,
+            value ?? string.Empty);
+
+    /// <summary>
+    /// <para>
+    /// Sets focus to the <see cref="UIComponent.Scope"/> element of the current component,
+    /// adds the specified value to the current value of the element, and dispatches 'change' event.
+    /// </para>
+    /// <para>
+    /// Executable script:
+    /// </para>
+    /// <code>
+    /// var currentValue = arguments[0].value;
+    /// arguments[0].focus();
+    /// arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];
+    /// arguments[0].dispatchEvent(new Event('change'));
+    /// </code>
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>An instance of the owner page object.</returns>
+    public TOwner FocusAddValueAndDispatchChangeEvent(string value) =>
+        ExecuteAgainst(
+            "var currentValue = arguments[0].value;" +
+            FocusElementScript +
+            "arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];" +
+            DispatchElementChangeEventScript,
             value ?? string.Empty);
 
     /// <summary>
@@ -279,7 +336,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </summary>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner Focus() =>
-        ExecuteAgainst("arguments[0].focus();");
+        ExecuteAgainst(FocusElementScript);
 
     /// <summary>
     /// <para>
