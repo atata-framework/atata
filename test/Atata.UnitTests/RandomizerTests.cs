@@ -1,6 +1,6 @@
 ﻿namespace Atata.UnitTests;
 
-public class RandomizerTests
+public sealed class RandomizerTests
 {
     [TestCase(null, 1)]
     [TestCase(null, 5)]
@@ -26,5 +26,7 @@ public class RandomizerTests
     [TestCase("s{0}", 1)]
     [TestCase("start{0}end", 8)]
     public void GetString_ThrowsArgumentException(string format, int length) =>
-        Assert.Throws<ArgumentException>(() => Randomizer.GetString(format, length));
+        Assert.That(
+            () => Randomizer.GetString(format, length),
+            Throws.InstanceOf<ArgumentException>());
 }
