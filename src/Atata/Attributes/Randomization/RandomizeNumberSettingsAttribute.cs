@@ -5,12 +5,18 @@
 /// </summary>
 public class RandomizeNumberSettingsAttribute : MulticastAttribute
 {
+    internal const decimal DefaultMin = 0m;
+
+    internal const decimal DefaultMax = 100m;
+
+    internal const int DefaultPrecision = 0;
+
     public RandomizeNumberSettingsAttribute(int min = 0, int max = 100)
         : this((decimal)min, max, 0)
     {
     }
 
-    public RandomizeNumberSettingsAttribute(double min, double max, int precision = 0)
+    public RandomizeNumberSettingsAttribute(double min, double max, int precision = DefaultPrecision)
         : this((decimal)min, (decimal)max, precision)
     {
     }

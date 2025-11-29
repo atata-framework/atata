@@ -53,10 +53,13 @@ public static class ValueRandomizer
     {
         if (!TryRandomizeOneOfIncluded(metadata, out T value))
         {
-            var attribute = metadata.Get<RandomizeNumberSettingsAttribute>()
-                ?? new RandomizeNumberSettingsAttribute();
+            var attribute = metadata.Get<RandomizeNumberSettingsAttribute>();
 
-            decimal valueAsDecimal = Randomizer.GetDecimal(attribute.Min, attribute.Max, attribute.Precision);
+            decimal valueAsDecimal = Randomizer.GetDecimal(
+                attribute?.Min ?? RandomizeNumberSettingsAttribute.DefaultMin,
+                attribute?.Max ?? RandomizeNumberSettingsAttribute.DefaultMax,
+                attribute?.Precision ?? RandomizeNumberSettingsAttribute.DefaultPrecision);
+
             value = (T)Convert.ChangeType(valueAsDecimal, typeof(T));
         }
 
