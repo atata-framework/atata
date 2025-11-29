@@ -39,10 +39,11 @@ public static class ValueRandomizer
     {
         if (!TryRandomizeOneOfIncluded(metadata, out string value))
         {
-            var attribute = metadata.Get<RandomizeStringSettingsAttribute>()
-                ?? new RandomizeStringSettingsAttribute();
+            var attribute = metadata.Get<RandomizeStringSettingsAttribute>();
 
-            value = Randomizer.GetString(attribute.Format, attribute.NumberOfCharacters);
+            value = Randomizer.GetString(
+                attribute?.Format ?? RandomizeStringSettingsAttribute.DefaultFormat,
+                attribute?.NumberOfCharacters ?? RandomizeStringSettingsAttribute.DefaultNumberOfCharacters);
         }
 
         return value;

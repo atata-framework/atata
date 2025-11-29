@@ -5,7 +5,11 @@
 /// </summary>
 public class RandomizeStringSettingsAttribute : MulticastAttribute
 {
-    public RandomizeStringSettingsAttribute(string format = "{0}", int numberOfCharacters = 15)
+    internal const string DefaultFormat = "{0}";
+
+    internal const int DefaultNumberOfCharacters = 15;
+
+    public RandomizeStringSettingsAttribute(string format = DefaultFormat, int numberOfCharacters = DefaultNumberOfCharacters)
     {
         Format = format;
         NumberOfCharacters = numberOfCharacters;
