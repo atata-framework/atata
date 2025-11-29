@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the UI component metadata which consists of component name, type, attributes, etc.
 /// </summary>
-public class UIComponentMetadata
+public sealed class UIComponentMetadata
 {
     private static readonly PageObjectDefinitionAttribute s_defaultPageObjectDefinitionAttribute =
         new();
