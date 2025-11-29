@@ -4,7 +4,7 @@ public abstract class OptionList<TValue, TOwner> : EditableField<TValue, TOwner>
     where TOwner : PageObject<TOwner>
 {
     public FindItemAttribute FindItemAttribute =>
-        Metadata.Get<FindItemAttribute>();
+        GetAttributeOrThrow<FindItemAttribute>();
 
     protected IItemElementFindStrategy ItemElementFindStrategy =>
         FindItemAttribute.CreateStrategy(this, Metadata);

@@ -220,7 +220,7 @@ public class FindingTests : WebDriverSessionTestSuite
     public void WithTimeout(double timeout)
     {
         var sut = _page.MissingOptionById;
-        sut.Metadata.Get<FindAttribute>().Timeout = timeout;
+        sut.Metadata.Get<FindAttribute>()!.Timeout = timeout;
 
         using (StopwatchAsserter.WithinSeconds(timeout))
             Assert.Throws<ElementNotFoundException>(() =>

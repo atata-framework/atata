@@ -39,7 +39,7 @@ public class Select<TValue, TOwner> : EditableField<TValue, TOwner>
     /// By default uses <see cref="SelectsOptionByTextAttribute"/>.
     /// </summary>
     protected internal SelectOptionBehaviorAttribute SelectOptionBehavior =>
-        Metadata.Get<SelectOptionBehaviorAttribute>();
+        GetAttributeOrThrow<SelectOptionBehaviorAttribute>();
 
     protected override TValue GetValue() =>
         SelectedOption.Value;

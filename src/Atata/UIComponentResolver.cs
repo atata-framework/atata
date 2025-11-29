@@ -289,7 +289,7 @@ public static class UIComponentResolver
 
     private static string? GetControlNameFromNameAttribute(UIComponentMetadata metadata)
     {
-        NameAttribute nameAttribute = metadata.Get<NameAttribute>();
+        NameAttribute? nameAttribute = metadata.Get<NameAttribute>();
 
         return nameAttribute is not null && !string.IsNullOrWhiteSpace(nameAttribute.Value)
             ? nameAttribute.Value

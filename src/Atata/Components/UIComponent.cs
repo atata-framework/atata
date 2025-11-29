@@ -258,8 +258,10 @@ public abstract class UIComponent
                 Session.ElementFindTimeout));
     }
 
-    protected TAttribute GetAttributeOrThrow<TAttribute>() =>
+    protected TAttribute GetAttributeOrThrow<TAttribute>()
+        where TAttribute : notnull
+        =>
         Metadata.TryGet<TAttribute>(out var attribute)
-        ? attribute
-        : throw AttributeNotFoundException.Create(typeof(TAttribute), ComponentFullName);
+            ? attribute
+            : throw AttributeNotFoundException.Create(typeof(TAttribute), ComponentFullName);
 }

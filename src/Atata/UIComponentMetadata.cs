@@ -5,6 +5,9 @@
 /// </summary>
 public class UIComponentMetadata
 {
+    private static readonly PageObjectDefinitionAttribute s_defaultPageObjectDefinitionAttribute =
+        new();
+
     private static readonly ControlDefinitionAttribute s_defaultControlDefinitionAttribute =
         new() { ComponentTypeName = "control" };
 
@@ -65,8 +68,8 @@ public class UIComponentMetadata
     /// </summary>
     public UIComponentDefinitionAttribute ComponentDefinitionAttribute =>
         ParentComponentType is null
-            ? Get<PageObjectDefinitionAttribute>()
-            : (Get<ControlDefinitionAttribute>() as UIComponentDefinitionAttribute ?? s_defaultControlDefinitionAttribute);
+            ? (Get<PageObjectDefinitionAttribute>() ?? s_defaultPageObjectDefinitionAttribute)
+            : (Get<ControlDefinitionAttribute>() ?? s_defaultControlDefinitionAttribute);
 
     internal List<Attribute> DeclaredAttributesList => _declaredAttributeSet.Attributes;
 
@@ -135,7 +138,9 @@ public class UIComponentMetadata
     /// </summary>
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <returns><see langword="true"/> if contains; otherwise, <see langword="false"/>.</returns>
-    public bool Contains<TAttribute>() =>
+    public bool Contains<TAttribute>()
+        where TAttribute : notnull
+        =>
         Get<TAttribute>() is not null;
 
     /// <summary>
@@ -144,7 +149,8 @@ public class UIComponentMetadata
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <param name="attribute">The attribute.</param>
     /// <returns><see langword="true"/> if attribute is found; otherwise, <see langword="false"/>.</returns>
-    public bool TryGet<TAttribute>(out TAttribute attribute)
+    public bool TryGet<TAttribute>([NotNullWhen(true)] out TAttribute? attribute)
+        where TAttribute : notnull
     {
         attribute = Get<TAttribute>();
         return attribute is not null;
@@ -155,7 +161,9 @@ public class UIComponentMetadata
     /// </summary>
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <returns>The first attribute found or <see langword="null"/>.</returns>
-    public TAttribute Get<TAttribute>() =>
+    public TAttribute? Get<TAttribute>()
+        where TAttribute : notnull
+        =>
         GetAll<TAttribute>().FirstOrDefault();
 
     /// <summary>
@@ -164,7 +172,9 @@ public class UIComponentMetadata
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <param name="filterConfiguration">The filter configuration function.</param>
     /// <returns>The first attribute found or <see langword="null"/>.</returns>
-    public TAttribute Get<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>>? filterConfiguration) =>
+    public TAttribute? Get<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>>? filterConfiguration)
+        where TAttribute : notnull
+        =>
         GetAll(filterConfiguration).FirstOrDefault();
 
     /// <summary>
@@ -173,6 +183,7 @@ public class UIComponentMetadata
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <returns>The sequence of attributes found.</returns>
     public IEnumerable<TAttribute> GetAll<TAttribute>()
+        where TAttribute : notnull
     {
         var attributeSets = GetAllAttributeSets();
 
@@ -186,6 +197,7 @@ public class UIComponentMetadata
     /// <param name="filterConfiguration">The filter configuration function.</param>
     /// <returns>The sequence of attributes found.</returns>
     public IEnumerable<TAttribute> GetAll<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>>? filterConfiguration)
+        where TAttribute : notnull
     {
         AttributeFilter<TAttribute> defaultFilter = new AttributeFilter<TAttribute>();
 
@@ -405,7 +417,7 @@ public class UIComponentMetadata
         GetDefinedFindAttribute()
             ?? GetDefaultFindAttribute();
 
-    private FindAttribute GetDefinedFindAttribute() =>
+    private FindAttribute? GetDefinedFindAttribute() =>
         Get<FindAttribute>(filter => filter.Where(x => x.As == FindAs.Scope));
 
     private FindAttribute GetDefaultFindAttribute()
