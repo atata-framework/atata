@@ -13,19 +13,14 @@ public static class Randomizer
     public const string DefaultStringCharSet = "abcdefghijklmnopqrstuvwxyz";
 
     /// <summary>
-    /// Gets the random string.
+    /// Gets a random string.
     /// </summary>
     /// <param name="format">The format, that can contain <c>{0}</c> for random value insertion.</param>
     /// <param name="length">The length.</param>
-    /// <returns>The random string.</returns>
-    /// <exception cref="ArgumentException">
-    /// The length should be positive.
-    /// Or the length of string is not greater than the format length.
-    /// </exception>
+    /// <returns>A random string.</returns>
     public static string GetString(string format = "{0}", int length = DefaultStringLength)
     {
-        if (length < 1)
-            throw new ArgumentException($"The {nameof(length)} should be positive.", nameof(length));
+        Guard.ThrowIfLessThan(length, 1);
 
         string normalizedFormat = NormalizeStringFormat(format);
 
@@ -34,7 +29,7 @@ public static class Randomizer
         if (randomPartLength <= 0)
             throw new ArgumentException($"The {nameof(length)} {length} of string is not greater than the \"{format}\" {nameof(format)} length.", nameof(length));
 
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new();
 
         for (int i = 0; i < randomPartLength; i++)
         {
