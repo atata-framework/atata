@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls.Inputs;
 
-public class NumberInputTests : WebDriverSessionTestSuite
+public sealed class NumberInputTests : WebDriverSessionTestSuite
 {
     private InputPage _page;
 
@@ -27,5 +27,16 @@ public class NumberInputTests : WebDriverSessionTestSuite
 
         sut.SetRandom(out intNumber);
         sut.Should.Be(intNumber);
+    }
+
+    [Test]
+    public void TypeRandom()
+    {
+        var sut = _page.NumberInput;
+
+        sut.TypeRandom(out decimal value1);
+        sut.TypeRandom(out decimal value2);
+
+        sut.Should.Be(decimal.Parse(value1.ToString() + value2.ToString()));
     }
 }

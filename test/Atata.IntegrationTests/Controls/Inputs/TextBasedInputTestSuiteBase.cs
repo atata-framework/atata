@@ -9,10 +9,13 @@ public abstract class TextBasedInputTestSuiteBase : WebDriverSessionTestSuite
 
     protected abstract Input<string, InputPage> ResolveSut(InputPage page);
 
+    protected Input<string, InputPage> ResolveSut() =>
+        ResolveSut(_page);
+
     [Test]
     public void Interact()
     {
-        var sut = ResolveSut(_page);
+        var sut = ResolveSut();
 
         VerifyEquals(sut, string.Empty);
 

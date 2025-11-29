@@ -94,6 +94,49 @@ public class EditableTextField<TValue, TOwner> : EditableField<TValue, TOwner>, 
     }
 
     /// <summary>
+    /// Types (appends) the random text value.
+    /// For value generation uses randomization attributes, for example:
+    /// <see cref="RandomizeStringSettingsAttribute"/>, <see cref="RandomizeNumberSettingsAttribute"/>, <see cref="RandomizeIncludeAttribute"/>, etc.
+    /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+    /// </summary>
+    /// <returns>The instance of the owner page object.</returns>
+    public TOwner TypeRandom() =>
+        TypeRandom(out _);
+
+    /// <summary>
+    /// Types (appends) the random text value and invokes <paramref name="callback"/>.
+    /// For value generation uses randomization attributes, for example:
+    /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+    /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+    /// </summary>
+    /// <param name="callback">The callback to be invoked after the value is typed.</param>
+    /// <returns>The instance of the owner page object.</returns>
+    public TOwner TypeRandom(Action<TValue> callback)
+    {
+        TypeRandom(out TValue value);
+        callback?.Invoke(value);
+        return Owner;
+    }
+
+    /// <summary>
+    /// Types (appends) the random text value and records it to <paramref name="value"/> parameter.
+    /// For value generation uses randomization attributes, for example:
+    /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+    /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+    /// </summary>
+    /// <param name="value">The generated value.</param>
+    /// <returns>The instance of the owner page object.</returns>
+    public TOwner TypeRandom([NotNull] out TValue value)
+    {
+        value = GenerateRandomValue();
+        string? valueAsString = ConvertValueToStringUsingSetFormat(value);
+
+        return valueAsString?.Length > 0
+            ? Type(valueAsString)
+            : Owner;
+    }
+
+    /// <summary>
     /// Types the text value by executing <see cref="TextTypeBehaviorAttribute" /> behavior.
     /// </summary>
     /// <param name="text">The text to type.</param>
