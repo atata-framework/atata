@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="azure-pipelines.codecoverage.runsettings" />
+    <File Path="azure-pipelines.release.yml" />
+    <File Path="azure-pipelines.runsettings" />
+    <File Path="azure-pipelines.yml" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="en-US_User.dic" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/src/">
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/GenerateControlDelegates.ps1" />
+    <File Path="src/GenerateDriverAtataContextBuilders.ps1" />
+    <File Path="src/GenerateHeadingVerificationTriggers.ps1" />
+  </Folder>
+  <Project Path="src/Atata/Atata.csproj" />
+  <Project Path="test/Atata.Benchmarks/Atata.Benchmarks.csproj" />
+  <Project Path="test/Atata.IntegrationTests/Atata.IntegrationTests.csproj" />
+  <Project Path="test/Atata.TestApp/Atata.TestApp.csproj" />
+  <Project Path="test/Atata.UnitTests/Atata.UnitTests.csproj" />
+</Solution>
