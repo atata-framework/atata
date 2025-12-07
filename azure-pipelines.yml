@@ -16,7 +16,7 @@ jobs:
     displayName: Build solution with code analysis
     inputs:
       command: build
-      projects: '*.sln'
+      projects: '*.slnx'
       arguments: -c $(buildConfiguration) -warnaserror
 
 - job: RunTestsOnUbuntu
@@ -32,7 +32,7 @@ jobs:
     displayName: Build solution
     inputs:
       command: build
-      projects: '*.sln'
+      projects: '*.slnx'
       arguments: -c $(buildConfiguration) -p:RunAnalyzers=false
   - task: DotNetCoreCLI@2
     displayName: Install dotnet-coverage
@@ -93,7 +93,7 @@ jobs:
     displayName: Build solution
     inputs:
       command: build
-      projects: '*.sln'
+      projects: '*.slnx'
       arguments: -c $(buildConfiguration) -p:RunAnalyzers=false
   - task: DotNetCoreCLI@2
     displayName: Run unit tests
