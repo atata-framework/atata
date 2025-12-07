@@ -17,7 +17,7 @@ In order to set up this project for further contributing do the following:
 
 - Fork the repository.
 - Clone the forked repository locally.
-- Open `.sln` file located in the root of the repository.
+- Open `.slnx` file located in the root of the repository.
 - Run tests through IDE or with `dotnet test` command.
 
 ### Development
