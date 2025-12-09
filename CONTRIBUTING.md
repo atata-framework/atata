@@ -9,7 +9,7 @@ Any issues or questions can also be targeted to any communication channel define
 
 ### Development Prerequisites
 
-- Visual Studio 2022 or JetBrains Rider.
+- Visual Studio 2026 or JetBrains Rider.
 
 ### Setting Up For Development
 
@@ -17,7 +17,7 @@ In order to set up this project for further contributing do the following:
 
 - Fork the repository.
 - Clone the forked repository locally.
-- Open `.sln` file located in the root of the repository.
+- Open `.slnx` file located in the root of the repository.
 - Run tests through IDE or with `dotnet test` command.
 
 ### Development
