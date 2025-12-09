@@ -1,6 +1,6 @@
 variables:
   buildConfiguration: 'Release'
-  netSdkVersion: '8.x'
+  netSdkVersion: '10.x'
 
 jobs:
 - job: BuildAndRunCodeAnalysis
@@ -72,7 +72,7 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       artifactName: Artifacts-ubuntu-latest
-      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net8.0/artifacts
+      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net10.0/artifacts
 
 - job: RunTestsOnWindowsAndMacOS
   displayName: Run tests on 
@@ -115,4 +115,4 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       artifactName: Artifacts-$(imageName)
-      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net8.0/artifacts
+      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net10.0/artifacts
