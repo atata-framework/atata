@@ -68,6 +68,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <summary>
     /// Gets or sets the current context.
     /// </summary>
+    [SuppressMessage("Style", "IDE0031:Use null propagation")]
     public static AtataContext? Current
     {
         get => GlobalProperties.ModeOfCurrent switch

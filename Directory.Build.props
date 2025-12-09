@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup>
-    <LangVersion>13.0</LangVersion>
+    <LangVersion>14.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Authors>Yevgeniy Shunevych</Authors>
@@ -10,7 +10,7 @@
     <Copyright>© 2016-2025 Yevgeniy Shunevych</Copyright>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AnalysisLevel>9.0-Recommended</AnalysisLevel>
+    <AnalysisLevel>10.0-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup Label="Code analysis packages">

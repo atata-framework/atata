@@ -93,7 +93,7 @@ public static class TypeFinder
 
         if (declaringTypeNames.Length > 0)
         {
-            matchingTypes = FilterByDeclaringTypeNames(matchingTypes, declaringTypeNames.Reverse());
+            matchingTypes = FilterByDeclaringTypeNames(matchingTypes, declaringTypeNames.AsEnumerable().Reverse());
         }
 
         if (pureTypeName.Contains(GenericTypeSeparator))

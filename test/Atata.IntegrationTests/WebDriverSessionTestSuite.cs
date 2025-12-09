@@ -39,10 +39,7 @@ public abstract class WebDriverSessionTestSuite : WebDriverSessionTestSuiteBase
 
     private void CleanPreservedDriver()
     {
-        if (PreservedDriver is not null)
-        {
-            PreservedDriver.Dispose();
-            PreservedDriver = null;
-        }
+        PreservedDriver?.Dispose();
+        PreservedDriver = null;
     }
 }
