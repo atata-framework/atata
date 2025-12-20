@@ -135,7 +135,7 @@ public static class UIComponentResolver
             var navigableGenericArguments = navigableInterfaceType.GetGenericArguments();
 
             var clickAndGoMethod = typeof(INavigableExtensions)
-                .GetMethod(nameof(INavigableExtensions.ClickAndGo))
+                .GetMethodWithThrowOnError(nameof(INavigableExtensions.ClickAndGo))
                 .MakeGenericMethod(navigableGenericArguments);
 
             return Delegate.CreateDelegate(property.PropertyType, component, clickAndGoMethod);
@@ -501,8 +501,11 @@ public static class UIComponentResolver
     private static string NormalizeTypeName(Type type)
     {
         string typeName = type.Name;
-        return typeName.Contains("`")
-            ? typeName[..typeName.IndexOf('`')]
+
+        int indexOfBacktick = typeName.IndexOf('`');
+
+        return indexOfBacktick != -1
+            ? typeName[..indexOfBacktick]
             : typeName;
     }
 

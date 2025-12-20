@@ -20,7 +20,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
             if (xPathResults.Length == 0)
                 return xPathResults;
 
-            IWebElement element = xPathResults.Select(x => x.Get()).FirstOrDefault(x => x != null);
+            IWebElement? element = xPathResults.Select(x => x.Get()).FirstOrDefault(x => x is not null);
 
             if (element is null)
             {

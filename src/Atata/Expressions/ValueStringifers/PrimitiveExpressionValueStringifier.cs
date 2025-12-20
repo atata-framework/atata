@@ -8,5 +8,5 @@ internal sealed class PrimitiveExpressionValueStringifier : IExpressionValueStri
     string IExpressionValueStringifier.Handle(object value) =>
         value is IFormattable formattableValue
             ? formattableValue.ToString(null, CultureInfo.InvariantCulture)
-            : value.ToString();
+            : value.ToString() ?? string.Empty;
 }

@@ -217,7 +217,7 @@ internal sealed class LogManager : ILogManager, IDisposable
     }
 
     public ILogManager ForCategory<TCategory>() =>
-        ForCategory(typeof(TCategory).FullName);
+        ForCategory(typeof(TCategory).FullName!);
 
     public ILogManager CreateSubLog()
     {

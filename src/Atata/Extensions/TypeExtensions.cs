@@ -37,7 +37,16 @@ public static class TypeExtensions
         }
     }
 
-    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, params Type[] types)
+    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name)
+    {
+        Guard.ThrowIfNull(type);
+        Guard.ThrowIfNullOrWhitespace(name);
+
+        return type.GetMethod(name)
+            ?? throw new MissingMethodException(type.FullName, name);
+    }
+
+    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, Type[] types)
     {
         Guard.ThrowIfNull(type);
         Guard.ThrowIfNullOrWhitespace(name);
@@ -55,7 +64,7 @@ public static class TypeExtensions
             ?? throw new MissingMethodException(type.FullName, name);
     }
 
-    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags, params Type[] types)
+    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags, Type[] types)
     {
         Guard.ThrowIfNull(type);
         Guard.ThrowIfNullOrWhitespace(name);

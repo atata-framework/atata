@@ -18,7 +18,7 @@ public static class AssemblyFinder
     {
         var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-        return allAssemblies.FirstOrDefault(x => x.GetName().Name.Equals(assemblyName, StringComparison.OrdinalIgnoreCase))
+        return allAssemblies.FirstOrDefault(x => assemblyName.Equals(x.GetName().Name, StringComparison.OrdinalIgnoreCase))
             ?? throw AssemblyNotFoundException.For(assemblyName);
     }
 

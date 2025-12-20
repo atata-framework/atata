@@ -23,9 +23,9 @@ public class StrategyScopeLocator : IScopeLocator
 
         if (xPathResults.Length > 0)
         {
-            IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).FirstOrDefault(x => x != null);
+            IWebElement? element = xPathResults.Select(x => x.Get(xPathCondition)).FirstOrDefault(x => x is not null);
 
-            if (element == null && !searchOptions.IsSafely)
+            if (element is null && !searchOptions.IsSafely)
             {
                 throw ElementNotFoundException.Create(
                     new SearchFailureData

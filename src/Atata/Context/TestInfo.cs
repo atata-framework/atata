@@ -204,10 +204,10 @@ public sealed class TestInfo : IEquatable<TestInfo>
     public override int GetHashCode()
     {
         var hashCode = -316253196;
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(Name);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(SuiteName);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<Type?>.Default.GetHashCode(SuiteType);
-        hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(SuiteGroupName);
+        hashCode = (hashCode * -1521134295) + Name?.GetHashCode() ?? 0;
+        hashCode = (hashCode * -1521134295) + SuiteName?.GetHashCode() ?? 0;
+        hashCode = (hashCode * -1521134295) + SuiteType?.GetHashCode() ?? 0;
+        hashCode = (hashCode * -1521134295) + SuiteGroupName?.GetHashCode() ?? 0;
         return hashCode;
     }
 }

@@ -13,7 +13,7 @@ public static class SpecialKeys
         {
             FieldInfo[] fields = typeof(Keys).GetFields(BindingFlags.Static | BindingFlags.Public);
             return fields
-                .Select(x => new NameValuePair(x.Name, ((string)x.GetValue(null))[0]))
+                .Select(x => new NameValuePair(x.Name, ((string)x.GetValue(null)!)[0]))
                 .Distinct(new NameValuePairComparer())
                 .ToDictionary(x => x.Value, x => x.Name);
         }

@@ -45,6 +45,7 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     /// </summary>
     public string? LoggerName { get; set; }
 
+    [SuppressMessage("Usage", "CA2263:Prefer generic overload when type is known")]
     private static Dictionary<LogLevel, dynamic> CreateLogLevelsMap()
     {
         Dictionary<LogLevel, dynamic> logLevelsMap = [];

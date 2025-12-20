@@ -179,14 +179,6 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             ? DoesMemberExpressionHasParameterRoot(parentMember)
             : node.Expression is ParameterExpression;
 
-    private static bool IsParameterExpression(Expression expression) =>
-        expression switch
-        {
-            ParameterExpression => true,
-            MemberExpression memberExpression => IsParameterExpression(memberExpression.Expression),
-            _ => false
-        };
-
     protected override Expression VisitMemberInit(MemberInitExpression node)
     {
         VisitNewKnownType(node.NewExpression, alwaysAddParentheses: false);
@@ -212,7 +204,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
         if (node.Method.IsStatic && !isExtensionMethod && node.Method.DeclaringType != typeof(object))
         {
-            OutType(node.Method.DeclaringType);
+            OutType(node.Method.DeclaringType!);
             Out('.');
         }
         else if (IsIndexer(node))
@@ -373,14 +365,14 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return node;
     }
 
-    private void OutArguments(ReadOnlyCollection<Expression> argumentExpressions, ReadOnlyCollection<MemberInfo> members)
+    private void OutArguments(ReadOnlyCollection<Expression> argumentExpressions, ReadOnlyCollection<MemberInfo>? members)
     {
         for (int i = 0; i < argumentExpressions.Count; i++)
         {
             if (i > 0)
                 Out(", ");
 
-            if (members != null)
+            if (members?.Count > i)
             {
                 Out(members[i].Name);
                 Out(" = ");
@@ -429,7 +421,10 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
     private BinaryExpression VisitEnumComparison(BinaryExpression node)
     {
-        Type? enumType = ((node.Left as UnaryExpression) ?? (node.Right as UnaryExpression))?.Operand.Type;
+        UnaryExpression unaryExpression = (node.Left as UnaryExpression) ?? (node.Right as UnaryExpression)
+            ?? throw new ArgumentException("Invalid node. Expected Left or Right to be UnaryExpression.", nameof(node));
+
+        Type enumType = unaryExpression.Operand.Type;
 
         return VisitComparisonWithConvert(
             node,
@@ -440,7 +435,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
     {
         void OutPart(Expression part)
         {
-            if (part is ConstantExpression constantExpression)
+            if (part is ConstantExpression { Value: not null } constantExpression)
                 Out(valueConverter.Invoke(constantExpression.Value));
             else
                 Visit(part);
