@@ -12,7 +12,7 @@ public static class EnumExtensions
         catch (Exception exception)
         {
             throw new ArgumentException(
-                "Cannot add '{0}' value to '{1}' of enumerated type '{2}'.".FormatWith(source, flag, source.GetType().FullName),
+                $"Cannot add '{flag}' value to '{source}' of enumerated type '{source.GetType()!.FullName}'.",
                 exception);
         }
     }

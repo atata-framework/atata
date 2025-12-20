@@ -145,7 +145,7 @@ public static class ValueRandomizer
         Type type = typeof(T);
         type = Nullable.GetUnderlyingType(type) ?? type;
 
-        if (s_randomizers.TryGetValue(type, out RandomizeFunc randomizeFunction))
+        if (s_randomizers.TryGetValue(type, out RandomizeFunc? randomizeFunction))
         {
             return (T)randomizeFunction(metadata);
         }

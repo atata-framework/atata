@@ -29,7 +29,7 @@ public class ObjectConverter : IObjectConverter
         if (destinationType.IsAssignableFrom(sourceValueType) || underlyingDestinationType.IsAssignableFrom(sourceValueType))
             return sourceValue;
         if (destinationType.IsArray)
-            return ConvertToArray(sourceValue, destinationType.GetElementType());
+            return ConvertToArray(sourceValue, destinationType.GetElementType()!);
         if (TryConvertToEnumerable(sourceValue, destinationType, out object? result))
             return result;
         if (underlyingDestinationType.IsEnum)
@@ -69,7 +69,7 @@ public class ObjectConverter : IObjectConverter
             ? CreateEnumerable(
                 typeof(ReadOnlyCollection<>).MakeGenericType(type.GetGenericArguments()[0]),
                 sourceEnumerable)
-            : Activator.CreateInstance(type, sourceEnumerable);
+            : Activator.CreateInstance(type, sourceEnumerable)!;
 
     private static object ConvertToEnum(Type enumType, object value) =>
         value is string stringValue
@@ -79,7 +79,7 @@ public class ObjectConverter : IObjectConverter
     private static TimeSpan ConvertToTimeSpan(object value) =>
         value is double or int or float
             ? TimeSpan.FromSeconds(System.Convert.ToDouble(value))
-            : TimeSpan.Parse(value.ToString(), CultureInfo.InvariantCulture);
+            : TimeSpan.Parse(value.ToString() ?? string.Empty, CultureInfo.InvariantCulture);
 
     private static bool TryGetIEnumerableElementType(Type type, [NotNullWhen(true)] out Type? elementType)
     {

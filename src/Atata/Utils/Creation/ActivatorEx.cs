@@ -10,7 +10,7 @@ public static class ActivatorEx
     {
         Guard.ThrowIfNullOrEmpty(typeName);
 
-        Type type = Type.GetType(typeName, true);
+        Type type = Type.GetType(typeName, true)!;
 
         return CreateInstance<T>(type);
     }

@@ -20,8 +20,7 @@ public static class ExpressionExtensions
     /// <returns>The member information.</returns>
     public static MemberInfo ExtractMember(this Expression expression)
     {
-        if (expression is null)
-            throw new ArgumentNullException(nameof(expression));
+        Guard.ThrowIfNull(expression);
 
         if (expression is LambdaExpression lambdaExpression)
         {

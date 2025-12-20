@@ -24,7 +24,7 @@ internal class BodyExpressionPart
     public override string ToString()
     {
         string result = _subParts.Select(x => x.ToString())
-            .Where(x => x.Length > 0)
+            .Where(x => x?.Length > 0)
             .Aggregate(new StringBuilder(), (b, x) => b.Append(x))
             .ToString();
 

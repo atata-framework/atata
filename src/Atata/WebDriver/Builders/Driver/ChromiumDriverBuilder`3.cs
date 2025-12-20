@@ -76,7 +76,7 @@ public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
     protected static void ReplaceLocalhostInDebuggerAddress(ICapabilities capabilities, string optionsCapabilityName)
     {
         if (capabilities.GetCapability(optionsCapabilityName) is Dictionary<string, object> chromiumOptions
-            && chromiumOptions.TryGetValue("debuggerAddress", out object debuggerAddressObject)
+            && chromiumOptions.TryGetValue("debuggerAddress", out object? debuggerAddressObject)
             && debuggerAddressObject is string debuggerAddress
             && debuggerAddress.Contains("localhost:"))
         {

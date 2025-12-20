@@ -144,7 +144,7 @@ public static partial class IObjectVerificationProviderExtensions
     private static IObjectVerificationProvider<TObject, TOwner> GetNegationVerificationProvider<TObject, TOwner>(IObjectVerificationProvider<TObject, TOwner> verificationProvider) =>
         verificationProvider is ObjectVerificationProvider<TObject, TOwner> objectVerificationProvider
             ? objectVerificationProvider.Not
-            : (IObjectVerificationProvider<TObject, TOwner>)verificationProvider.GetType().GetPropertyWithThrowOnError("Not").GetValue(verificationProvider);
+            : (IObjectVerificationProvider<TObject, TOwner>)verificationProvider.GetType().GetPropertyWithThrowOnError("Not").GetValue(verificationProvider)!;
 
     [Obsolete("Use Be(...) instead.")] // Obsolete since v4.0.0.
     public static TOwner Equal<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)

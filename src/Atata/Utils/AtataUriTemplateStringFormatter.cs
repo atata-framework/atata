@@ -21,7 +21,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
 
     public static AtataUriTemplateStringFormatter Default { get; } = new();
 
-    public object? GetFormat(Type formatType) =>
+    public object? GetFormat(Type? formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;
 
     public string Format(string? format, object? arg, IFormatProvider? formatProvider)
@@ -32,7 +32,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
         var processingResult = ProcessFormat(format);
 
         object argument = processingResult.EncodeFirst
-            ? processingResult.EncodeFunction.Invoke(arg.ToString())
+            ? processingResult.EncodeFunction.Invoke(arg.ToString() ?? string.Empty)
             : arg;
 
         string origin = _templateFormatter.Format(processingResult.LeftFormat, argument, formatProvider);

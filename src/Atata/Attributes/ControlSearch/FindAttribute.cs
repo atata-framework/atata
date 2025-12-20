@@ -118,7 +118,7 @@ public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
         Type strategyType = ResolveStrategy(metadata);
         object[] strategyArguments = [.. GetStrategyArguments()];
 
-        return (IComponentScopeFindStrategy)Activator.CreateInstance(strategyType, strategyArguments);
+        return (IComponentScopeFindStrategy)Activator.CreateInstance(strategyType, strategyArguments)!;
     }
 
     protected virtual IEnumerable<object> GetStrategyArguments()

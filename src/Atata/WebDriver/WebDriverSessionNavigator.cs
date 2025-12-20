@@ -368,7 +368,7 @@ public sealed class WebDriverSessionNavigator
 
         TPageObject? pageObjectReferenceCopy = pageObject;
 
-        TPageObject foundPageObject = pageObject is null
+        TPageObject? foundPageObject = pageObject is null
             ? tempPageObjectsEnumerable.FirstOrDefault(x => x.GetType() == typeof(TPageObject))
             : tempPageObjectsEnumerable.FirstOrDefault(x => x == pageObjectReferenceCopy);
 

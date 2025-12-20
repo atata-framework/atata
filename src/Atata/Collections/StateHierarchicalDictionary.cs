@@ -29,7 +29,7 @@ public sealed class StateHierarchicalDictionary : ObjectHierarchicalDictionary<s
     /// <typeparam name="T">The type.</typeparam>
     /// <returns>A key.</returns>
     public static string ResolveTypeKey<T>() =>
-        typeof(T).FullName;
+        typeof(T).FullName!;
 
     /// <summary>
     /// Gets the value associated with the <typeparamref name="TValue"/> type full name as a key.

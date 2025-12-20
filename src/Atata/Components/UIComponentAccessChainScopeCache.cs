@@ -10,7 +10,7 @@ public class UIComponentAccessChainScopeCache
     {
         scope = null;
 
-        return _accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap)
+        return _accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement>? visibiltyElementMap)
             && visibiltyElementMap.TryGetValue(visibility, out scope);
     }
 
@@ -27,7 +27,7 @@ public class UIComponentAccessChainScopeCache
     {
         if (IsActive)
         {
-            if (!_accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap))
+            if (!_accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement>? visibiltyElementMap))
             {
                 visibiltyElementMap = [];
                 _accessChainItems.Add(component, visibiltyElementMap);

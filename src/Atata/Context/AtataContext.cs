@@ -834,7 +834,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     private string BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(string relativeFilePath)
     {
         string absoluteFilePath = Path.Combine(ArtifactsPath, relativeFilePath);
-        string directoryPath = Path.GetDirectoryName(absoluteFilePath);
+        string directoryPath = Path.GetDirectoryName(absoluteFilePath)!;
 
         if (!Directory.Exists(directoryPath))
             Directory.CreateDirectory(directoryPath);

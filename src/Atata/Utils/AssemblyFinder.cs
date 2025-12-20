@@ -64,9 +64,13 @@ public static class AssemblyFinder
         }
         else
         {
-            Regex regex = new Regex(assemblyNamePattern);
+            Regex regex = new(assemblyNamePattern);
 
-            return [.. allAssemblies.Where(x => regex.IsMatch(x.GetName().Name))];
+            return [.. allAssemblies.Where(x =>
+            {
+                string? name = x.GetName().Name;
+                return name is not null && regex.IsMatch(name);
+            })];
         }
     }
 }

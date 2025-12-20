@@ -302,7 +302,7 @@ return (
 
             if (allTriggers.Count > 0)
             {
-                if (DenyTriggersMap.Values.TryGetValue(on, out TriggerEvents[] denyTriggers))
+                if (DenyTriggersMap.Values.TryGetValue(on, out TriggerEvents[]? denyTriggers))
                     _currentDeniedTriggers.AddRange(denyTriggers);
 
                 try

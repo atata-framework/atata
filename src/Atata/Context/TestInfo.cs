@@ -188,11 +188,11 @@ public sealed class TestInfo : IEquatable<TestInfo>
     }
 
     /// <inheritdoc/>
-    public override bool Equals(object obj) =>
+    public override bool Equals(object? obj) =>
         obj is TestInfo castedObj && Equals(castedObj);
 
     /// <inheritdoc/>
-    public bool Equals(TestInfo other) =>
+    public bool Equals(TestInfo? other) =>
         other is not null
         && Name == other.Name
         && SuiteName == other.SuiteName

@@ -11,9 +11,12 @@ internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFor
 
     public static AtataTemplateStringFormatter Default { get; } = new();
 
-    public object? GetFormat(Type formatType) =>
-        formatType == typeof(ICustomFormatter) ? this : null;
+    public object? GetFormat(Type? formatType) =>
+        formatType == typeof(ICustomFormatter)
+            ? this
+            : null;
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     public string Format(string? format, object? arg, IFormatProvider? formatProvider)
     {
         if (arg is null)
@@ -31,7 +34,7 @@ internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFor
             }
             else
             {
-                string argumentAsString = arg as string ?? arg.ToString();
+                string argumentAsString = arg as string ?? arg.ToString() ?? string.Empty;
 
                 if (_argumentHandler is not null)
                     argumentAsString = _argumentHandler.Invoke(argumentAsString);
@@ -41,7 +44,7 @@ internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFor
         }
         else
         {
-            string argumentAsString = arg as string ?? arg.ToString();
+            string argumentAsString = arg as string ?? arg.ToString() ?? string.Empty;
 
             return _argumentHandler is null
                 ? argumentAsString

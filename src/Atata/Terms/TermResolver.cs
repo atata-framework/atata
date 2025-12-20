@@ -44,7 +44,7 @@ public static class TermResolver
 
                 if (specificFormat == null)
                     return TimeSpan.Parse(stringValue, opt.Culture);
-                else if (specificFormat.Contains("t"))
+                else if (specificFormat.Contains('t'))
                     return DateTime.ParseExact(stringValue, specificFormat, opt.Culture).TimeOfDay;
                 else
                     return TimeSpan.ParseExact(stringValue, specificFormat, opt.Culture);
@@ -53,7 +53,7 @@ public static class TermResolver
             {
                 string? specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                return specificFormat != null && specificFormat.Contains("t")
+                return specificFormat?.Contains('t') is true
                     ? FormatValue(
                         DateTime.Today.Add(v).ToString(specificFormat, opt.Culture),
                         opt.Format,
@@ -156,7 +156,7 @@ public static class TermResolver
             return [FormatStringValue(stringValue, termOptions)];
         else if (value is Enum enumValue)
             return GetEnumTerms(enumValue, termOptions);
-        else if (s_typeTermConverters.TryGetValue(value.GetType(), out TermConverter termConverter) && termConverter.ToStringConverter is not null)
+        else if (s_typeTermConverters.TryGetValue(value.GetType(), out TermConverter? termConverter) && termConverter.ToStringConverter is not null)
             return [termConverter.ToStringConverter(value, termOptions)];
         else
             return [FormatValue(value, termOptions.Format, termOptions.Culture)];
@@ -176,10 +176,10 @@ public static class TermResolver
         else if (value is IFormattable formattableValue)
             return formattableValue.ToString(format, culture);
         else
-            return value.ToString();
+            return value.ToString() ?? string.Empty;
     }
 
-    private static bool IsComplexStringFormat(string? format) =>
+    private static bool IsComplexStringFormat([NotNullWhen(true)] string? format) =>
         format is not null && format.Contains("{0");
 
     private static string RetrieveValueFromString(string value, string? format) =>
@@ -290,7 +290,7 @@ public static class TermResolver
         }
         else if (value?.Length > 0)
         {
-            return s_typeTermConverters.TryGetValue(underlyingType, out TermConverter termConverter)
+            return s_typeTermConverters.TryGetValue(underlyingType, out TermConverter? termConverter)
                 ? termConverter.FromStringConverter(value, termOptions)
                 : Convert.ChangeType(RetrieveValuePart(value, termOptions.Format), underlyingType, termOptions.Culture);
         }

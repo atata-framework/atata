@@ -140,12 +140,8 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
             : ConvertStringToValue(value);
     }
 
-    public override bool Equals(object obj)
-    {
-        if (obj == null)
-            return false;
-
-        return obj switch
+    public override bool Equals(object? obj) =>
+        obj switch
         {
             Field<TValue, TOwner> objAsField =>
                 ReferenceEquals(this, objAsField),
@@ -153,9 +149,8 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
                 Equals(objAsValue),
             _ => false
         };
-    }
 
-    public bool Equals(TValue other)
+    public bool Equals(TValue? other)
     {
         TValue value = Get();
         return Equals(value, other);

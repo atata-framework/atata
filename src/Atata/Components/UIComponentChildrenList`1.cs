@@ -36,7 +36,7 @@ public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
     {
         Guard.ThrowIfNullOrWhitespace(propertyName);
 
-        TControl control = _component.Controls.OfType<TControl>().FirstOrDefault(x => x.Metadata.Name == propertyName);
+        TControl? control = _component.Controls.OfType<TControl>().FirstOrDefault(x => x.Metadata.Name == propertyName);
 
         if (control is not null)
             return control;

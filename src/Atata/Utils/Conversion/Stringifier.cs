@@ -91,7 +91,7 @@ public static class Stringifier
 
     private static string AnyObjectToString(object value)
     {
-        string valueAsString = value.ToString();
+        string valueAsString = value.ToString() ?? string.Empty;
 
         return valueAsString.Contains('\n')
             ? ReplaceNewLines(valueAsString)
@@ -178,7 +178,7 @@ public static class Stringifier
 
     private static void PrintSimplifiedTypeName(Type type, Queue<Type>? genericArgumentTypeQueue, StringBuilder outputBuilder)
     {
-        Type declaringType = type.DeclaringType;
+        Type? declaringType = type.DeclaringType;
 
         if (declaringType is not null)
         {
@@ -226,7 +226,7 @@ public static class Stringifier
         else
         {
             outputBuilder.Append(
-                declaringType is null && s_typeNamesInAliasForm.TryGetValue(type, out string cachedName)
+                declaringType is null && s_typeNamesInAliasForm.TryGetValue(type, out string? cachedName)
                     ? cachedName
                     : name);
         }

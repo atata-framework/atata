@@ -228,7 +228,7 @@ public sealed class LogConsumersBuilder
         }
     }
 
-    private ScopeLimitedLogConsumerConfiguration GetConfigurationOrNull<TLogConsumer>()
+    private ScopeLimitedLogConsumerConfiguration? GetConfigurationOrNull<TLogConsumer>()
         where TLogConsumer : ILogConsumer
         =>
         _configurations.LastOrDefault(x => x.ConsumerConfiguration.Consumer is TLogConsumer);

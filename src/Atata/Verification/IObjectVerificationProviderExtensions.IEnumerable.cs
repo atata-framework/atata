@@ -357,9 +357,10 @@ public static partial class IObjectVerificationProviderExtensions
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
         return verifier.Satisfy(
-            actual => actual != null && verifier.IsNegation
-                ? actual.Intersect(expected, equalityComparer).Any()
-                : actual.Intersect(expected, equalityComparer).Count() == expected.Distinct(equalityComparer).Count(),
+            actual => actual is not null
+                && (verifier.IsNegation
+                    ? actual.Intersect(expected, equalityComparer).Any()
+                    : actual.Intersect(expected, equalityComparer).Count() == expected.Distinct(equalityComparer).Count()),
             VerificationMessage.Of($"contain {Stringifier.ToStringInFormOfOneOrMany(expected)}", equalityComparer));
     }
 
@@ -394,9 +395,10 @@ public static partial class IObjectVerificationProviderExtensions
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
         return verifier.Satisfy(
-            actual => actual != null && verifier.IsNegation
-                ? actual.Intersect(expected, equalityComparer).Any()
-                : actual.Intersect(expected, equalityComparer).Count() == expected.Distinct(equalityComparer).Count(),
+            actual => actual is not null
+                && (verifier.IsNegation
+                    ? actual.Intersect(expected, equalityComparer).Any()
+                    : actual.Intersect(expected, equalityComparer).Count() == expected.Distinct(equalityComparer).Count()),
             VerificationMessage.Of($"contain {Stringifier.ToStringInFormOfOneOrMany(expected)}", equalityComparer));
     }
 
@@ -459,9 +461,10 @@ public static partial class IObjectVerificationProviderExtensions
         var predicate = match.GetPredicate(verifier.ResolveStringComparison());
 
         return verifier.Satisfy(
-            actual => actual != null && verifier.IsNegation
-                ? expected.Any(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue)))
-                : expected.All(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue))),
+            actual => actual is not null
+                && (verifier.IsNegation
+                    ? expected.Any(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue)))
+                    : expected.All(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue)))),
             VerificationMessage.Of(
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}",
                 verifier.ResolveEqualityComparer<string>()));
@@ -484,9 +487,10 @@ public static partial class IObjectVerificationProviderExtensions
         var predicate = match.GetPredicate(verifier.ResolveStringComparison());
 
         return verifier.Satisfy(
-            actual => actual != null && verifier.IsNegation
-                ? expected.Any(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue)))
-                : expected.All(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue))),
+            actual => actual != null
+                && (verifier.IsNegation
+                    ? expected.Any(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue)))
+                    : expected.All(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue)))),
             VerificationMessage.Of(
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}",
                 verifier.ResolveEqualityComparer<string>()));

@@ -12,5 +12,5 @@ internal sealed class TypeBasedAggregateAssertionExceptionFactory : IAggregateAs
     }
 
     public Exception Create(IEnumerable<AssertionResult> results) =>
-        (Exception)Activator.CreateInstance(_exceptionType, results);
+        (Exception)Activator.CreateInstance(_exceptionType, results)!;
 }

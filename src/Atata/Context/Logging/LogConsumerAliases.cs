@@ -61,7 +61,7 @@ public static class LogConsumerAliases
     {
         Guard.ThrowIfNullOrWhitespace(typeNameOrAlias);
 
-        return s_aliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<ILogConsumer> factory)
+        return s_aliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<ILogConsumer>? factory)
             ? factory()
             : ActivatorEx.CreateInstance<ILogConsumer>(typeNameOrAlias);
     }
@@ -86,8 +86,8 @@ public static class LogConsumerAliases
 
     private static ConstructorInfo GetDefaultTypeConstructor(string typeName)
     {
-        Type type = Type.GetType(typeName, true);
+        Type type = Type.GetType(typeName, true)!;
 
-        return type.GetConstructor([]);
+        return type.GetConstructor([])!;
     }
 }

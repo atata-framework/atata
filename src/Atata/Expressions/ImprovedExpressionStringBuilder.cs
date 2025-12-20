@@ -74,7 +74,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return s_expressionValueStringifiers.Any(x => x.CanHandle(underlyingType));
     }
 
-    private static bool TryStringifyValue(object value, Type valueType, [NotNullWhen(true)] out string? result)
+    private static bool TryStringifyValue(object? value, Type valueType, [NotNullWhen(true)] out string? result)
     {
         if (value is null)
         {
@@ -144,7 +144,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             {
                 try
                 {
-                    object value = Expression.Lambda(node).Compile().DynamicInvoke();
+                    object? value = Expression.Lambda(node).Compile().DynamicInvoke();
 
                     if (TryStringifyValue(value, node.Type, out string? valueAsString))
                         Out(valueAsString);
@@ -159,7 +159,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             }
             else if (field.IsStatic && !field.IsPrivate)
             {
-                OutType(field.DeclaringType);
+                OutType(field.DeclaringType!);
                 Out('.');
                 Out(node.Member.Name);
                 return node;

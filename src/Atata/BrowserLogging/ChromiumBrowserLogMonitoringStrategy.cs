@@ -52,7 +52,7 @@ internal sealed class ChromiumBrowserLogMonitoringStrategy : IBrowserLogMonitori
         ExtractAndHandleLogs();
     }
 
-    private void OnLog(object sender, EventArgs e) =>
+    private void OnLog(object? sender, EventArgs e) =>
         ExtractAndHandleLogs();
 
     private void ExtractAndHandleLogs()

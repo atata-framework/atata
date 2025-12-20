@@ -26,14 +26,13 @@ public static class SpecialKeys
 
     public static string Replace(string keys)
     {
-        if (keys is null)
-            throw new ArgumentNullException(nameof(keys));
+        Guard.ThrowIfNull(keys);
 
         StringBuilder? builder = null;
 
         for (int i = 0; i < keys.Length; i++)
         {
-            if (ValueNameMap.TryGetValue(keys[i], out string specialKeyName))
+            if (ValueNameMap.TryGetValue(keys[i], out string? specialKeyName))
             {
                 builder ??= new(keys, 0, i, keys.Length + 12);
 
@@ -65,8 +64,16 @@ public static class SpecialKeys
 
     private sealed class NameValuePairComparer : IEqualityComparer<NameValuePair>
     {
-        public bool Equals(NameValuePair x, NameValuePair y) =>
-            Equals(x.Value, y.Value);
+        public bool Equals(NameValuePair? x, NameValuePair? y)
+        {
+            if (x is null && y is null)
+                return true;
+
+            if (x is null || y is null)
+                return false;
+
+            return Equals(x.Value, y.Value);
+        }
 
         public int GetHashCode(NameValuePair obj) =>
             obj.Value.GetHashCode();

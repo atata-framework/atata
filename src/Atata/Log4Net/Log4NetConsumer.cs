@@ -48,7 +48,7 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     private static Dictionary<LogLevel, dynamic> CreateLogLevelsMap()
     {
         Dictionary<LogLevel, dynamic> logLevelsMap = [];
-        Type logLevelType = Type.GetType("log4net.Core.Level,log4net", true);
+        Type logLevelType = Type.GetType("log4net.Core.Level,log4net", true)!;
 
         foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
         {
@@ -56,19 +56,19 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
                 level.ToString(),
                 BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField);
 
-            logLevelsMap[level] = levelField.GetValue(null);
+            logLevelsMap[level] = levelField.GetValue(null)!;
         }
 
         return logLevelsMap;
     }
 
     private static dynamic GetThreadContextProperties() =>
-        Type.GetType("log4net.ThreadContext,log4net", true)
+        Type.GetType("log4net.ThreadContext,log4net", true)!
             .GetPropertyWithThrowOnError("Properties", BindingFlags.Public | BindingFlags.Static)
-            .GetStaticValue();
+            .GetValue(null)!;
 
     private static MethodInfo GetGetLoggerMethod(params Type[] argumentTypes) =>
-        Type.GetType("log4net.LogManager,log4net", true)
+        Type.GetType("log4net.LogManager,log4net", true)!
             .GetMethodWithThrowOnError("GetLogger", BindingFlags.Public | BindingFlags.Static, argumentTypes);
 
     protected override void OnLog(LogEventInfo eventInfo)
@@ -87,7 +87,7 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
 
     protected override dynamic GetLogger()
     {
-        string loggerName = LoggerName ?? GetType().FullName;
+        string loggerName = LoggerName ?? GetType().FullName!;
 
         dynamic log = GetLog(loggerName);
 

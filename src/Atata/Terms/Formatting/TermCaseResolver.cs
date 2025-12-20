@@ -45,7 +45,7 @@ public static class TermCaseResolver
         if (termCase == TermCase.None)
             return string.Concat(words);
 
-        if (s_formatters.TryGetValue(termCase, out FormatterItem formatterItem))
+        if (s_formatters.TryGetValue(termCase, out FormatterItem? formatterItem))
         {
             string formattedValue = formatterItem.Formatter.Format(words, culture);
 

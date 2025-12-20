@@ -48,13 +48,13 @@ public static class IEnumerableProviderExtensions
         return value;
     }
 
-    public static TSource ElementAtOrDefault<TSource, TOwner>(
+    public static TSource? ElementAtOrDefault<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source,
         int index)
     {
         Guard.ThrowIfNull(source);
 
-        TSource value = source.Object.ElementAtOrDefault(index);
+        TSource? value = source.Object.ElementAtOrDefault(index);
 
         (value as IHasProviderName)?.SetProviderName($"ElementAtOrDefault({index})");
 
@@ -89,19 +89,19 @@ public static class IEnumerableProviderExtensions
         return value;
     }
 
-    public static TSource FirstOrDefault<TSource, TOwner>(
+    public static TSource? FirstOrDefault<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source)
     {
         Guard.ThrowIfNull(source);
 
-        TSource value = source.Object.FirstOrDefault();
+        TSource? value = source.Object.FirstOrDefault();
 
         (value as IHasProviderName)?.SetProviderName("FirstOrDefault()");
 
         return value;
     }
 
-    public static TSource FirstOrDefault<TSource, TOwner>(
+    public static TSource? FirstOrDefault<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
@@ -110,7 +110,7 @@ public static class IEnumerableProviderExtensions
 
         var predicateFunction = predicate.Compile();
 
-        TSource value = source.Object.FirstOrDefault(predicateFunction);
+        TSource? value = source.Object.FirstOrDefault(predicateFunction);
 
         (value as IHasProviderName)?.SetProviderName($"FirstOrDefault({ConvertToString(predicate)})");
 
@@ -145,19 +145,19 @@ public static class IEnumerableProviderExtensions
         return value;
     }
 
-    public static TSource LastOrDefault<TSource, TOwner>(
+    public static TSource? LastOrDefault<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source)
     {
         Guard.ThrowIfNull(source);
 
-        TSource value = source.Object.LastOrDefault();
+        TSource? value = source.Object.LastOrDefault();
 
         (value as IHasProviderName)?.SetProviderName("LastOrDefault()");
 
         return value;
     }
 
-    public static TSource LastOrDefault<TSource, TOwner>(
+    public static TSource? LastOrDefault<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
@@ -166,7 +166,7 @@ public static class IEnumerableProviderExtensions
 
         var predicateFunction = predicate.Compile();
 
-        TSource value = source.Object.LastOrDefault(predicateFunction);
+        TSource? value = source.Object.LastOrDefault(predicateFunction);
 
         (value as IHasProviderName)?.SetProviderName($"LastOrDefault({ConvertToString(predicate)})");
 
@@ -227,19 +227,19 @@ public static class IEnumerableProviderExtensions
         return value;
     }
 
-    public static TSource SingleOrDefault<TSource, TOwner>(
+    public static TSource? SingleOrDefault<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source)
     {
         Guard.ThrowIfNull(source);
 
-        TSource value = source.Object.SingleOrDefault();
+        TSource? value = source.Object.SingleOrDefault();
 
         (value as IHasProviderName)?.SetProviderName("SingleOrDefault()");
 
         return value;
     }
 
-    public static TSource SingleOrDefault<TSource, TOwner>(
+    public static TSource? SingleOrDefault<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
     {
@@ -248,7 +248,7 @@ public static class IEnumerableProviderExtensions
 
         var predicateFunction = predicate.Compile();
 
-        TSource value = source.Object.SingleOrDefault(predicateFunction);
+        TSource? value = source.Object.SingleOrDefault(predicateFunction);
 
         (value as IHasProviderName)?.SetProviderName($"SingleOrDefault({ConvertToString(predicate)})");
 

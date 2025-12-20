@@ -12,5 +12,5 @@ internal sealed class TypeBasedAssertionExceptionFactory : IAssertionExceptionFa
     }
 
     public Exception Create(string message, Exception? innerException) =>
-        (Exception)Activator.CreateInstance(_exceptionType, message, innerException);
+        (Exception)Activator.CreateInstance(_exceptionType, message, innerException)!;
 }

@@ -42,12 +42,13 @@ public static class UIComponentResolver
             InitComponentTypeMembers(component, type);
     }
 
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
     private static IEnumerable<Type> GetAllInheritedTypes(Type type)
     {
-        Type typeToCheck = type;
+        Type? typeToCheck = type;
 
         while (
-            typeToCheck != typeof(UIComponent) &&
+            typeToCheck is not null && typeToCheck != typeof(UIComponent) &&
             (!typeToCheck.IsGenericType || (typeToCheck.GetGenericTypeDefinition() != typeof(UIComponent<>) && typeToCheck.GetGenericTypeDefinition() != typeof(PageObject<>))))
         {
             yield return typeToCheck;
@@ -172,7 +173,7 @@ public static class UIComponentResolver
     {
         Type delegateGenericTypeDefinition = delegateType.GetGenericTypeDefinition();
 
-        if (s_delegateControlsTypeMapping.TryGetValue(delegateGenericTypeDefinition, out Type controlGenericTypeDefinition))
+        if (s_delegateControlsTypeMapping.TryGetValue(delegateGenericTypeDefinition, out Type? controlGenericTypeDefinition))
         {
             Type[] genericArguments = delegateType.GetGenericArguments();
             return controlGenericTypeDefinition.MakeGenericType(genericArguments);
@@ -449,7 +450,7 @@ public static class UIComponentResolver
 
     private static string ResolvePageObjectNameFromMetadata(Type type)
     {
-        NameAttribute nameAttribute = GetClassAttributes(type).OfType<NameAttribute>().FirstOrDefault();
+        NameAttribute? nameAttribute = GetClassAttributes(type).OfType<NameAttribute>().FirstOrDefault();
 
         return nameAttribute?.Value?.Length > 0
             ? nameAttribute.Value
@@ -533,7 +534,7 @@ public static class UIComponentResolver
     {
         Guard.ThrowIfNull(controlDelegate);
 
-        if (s_delegateControls.TryGetValue(controlDelegate, out UIComponent control))
+        if (s_delegateControls.TryGetValue(controlDelegate, out UIComponent? control))
             return (Control<TOwner>)control;
         else
             throw new ArgumentException($"Failed to find mapped control by specified '{nameof(controlDelegate)}'.", nameof(controlDelegate));
@@ -547,7 +548,7 @@ public static class UIComponentResolver
         if (!property.PropertyType.IsSubclassOfRawGeneric(typeof(Control<>)))
             throw new InvalidOperationException($"Incorrect type of \"{controlName}\" property.");
 
-        return (Control<TOwner>)property.GetValue(parent);
+        return (Control<TOwner>)property.GetValue(parent)!;
     }
 
     public static void CleanUpPageObjects(IEnumerable<UIComponent> pageObjects)

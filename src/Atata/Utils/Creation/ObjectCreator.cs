@@ -129,9 +129,9 @@ public class ObjectCreator : IObjectCreator
         if (valuePair.Key != null)
             return valuePair;
         else if (parameter.IsOptional)
-            return new(parameter.Name, parameter.DefaultValue);
+            return new(parameter.Name!, parameter.DefaultValue);
         else if (parameter.GetCustomAttributes(true).Any(attr => attr is ParamArrayAttribute))
-            return new(parameter.Name, null);
+            return new(parameter.Name!, null);
         else
             throw new InvalidOperationException($"Failed to find \"{parameter.Name}\" required constructor parameter value.");
     }

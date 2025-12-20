@@ -10,7 +10,7 @@ internal static class PortUtils
         using Socket portSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         IPEndPoint socketEndPoint = new IPEndPoint(IPAddress.Any, 0);
         portSocket.Bind(socketEndPoint);
-        return ((IPEndPoint)portSocket.LocalEndPoint).Port;
+        return ((IPEndPoint)portSocket.LocalEndPoint!).Port;
     }
 
     internal static int FindFreePortExcept(IReadOnlyList<int> portsToIgnore)

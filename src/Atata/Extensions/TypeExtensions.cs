@@ -120,7 +120,7 @@ public static class TypeExtensions
 
     private static int? GetDepthOfInheritanceOfRegularType(Type type, Type baseType)
     {
-        Type typeToCheck = type;
+        Type? typeToCheck = type;
 
         for (int depth = 0; typeToCheck is not null; depth++)
         {
@@ -156,7 +156,7 @@ public static class TypeExtensions
         if (genericType is null)
             return null;
 
-        Type typeToCheck = type;
+        Type? typeToCheck = type;
         int depth = 0;
 
         while (typeToCheck is not null && typeToCheck != typeof(object))

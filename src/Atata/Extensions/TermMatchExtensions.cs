@@ -43,7 +43,7 @@ public static class TermMatchExtensions
     public static Func<string, string, bool> GetPredicate(this TermMatch match, StringComparison stringComparison) =>
         match switch
         {
-            TermMatch.Contains => (text, term) => text != null && text.IndexOf(term, stringComparison) != -1,
+            TermMatch.Contains => (text, term) => text != null && text.Contains(term, stringComparison),
             TermMatch.Equals => (text, term) => text != null && text.Equals(term, stringComparison),
             TermMatch.StartsWith => (text, term) => text != null && text.StartsWith(term, stringComparison),
             TermMatch.EndsWith => (text, term) => text != null && text.EndsWith(term, stringComparison),

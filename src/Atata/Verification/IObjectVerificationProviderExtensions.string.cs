@@ -21,7 +21,7 @@ public static partial class IObjectVerificationProviderExtensions
         Guard.ThrowIfNull(expected);
 
         return verifier.Satisfy(
-            actual => actual is not null && actual.IndexOf(expected, verifier.ResolveStringComparison()) != -1,
+            actual => actual is not null && actual.Contains(expected, verifier.ResolveStringComparison()),
             VerificationMessage.Of("contain {0}", verifier.ResolveEqualityComparer<string>()),
             expected);
     }
@@ -31,7 +31,7 @@ public static partial class IObjectVerificationProviderExtensions
         Guard.ThrowIfNull(expected);
 
         return verifier.Satisfy(
-            actual => actual is not null && actual.IndexOf(expected, DefaultIgnoreCaseComparison) != -1,
+            actual => actual is not null && actual.Contains(expected, DefaultIgnoreCaseComparison),
             "contain {0} ignoring case",
             expected);
     }
@@ -159,7 +159,7 @@ public static partial class IObjectVerificationProviderExtensions
         StringComparison stringComparison = verifier.ResolveStringComparison();
 
         return verifier.Satisfy(
-            actual => actual != null && expected.All(x => actual.IndexOf(x, stringComparison) != -1),
+            actual => actual is not null && expected.All(x => actual.Contains(x, stringComparison)),
             VerificationMessage.Of(message, verifier.ResolveEqualityComparer<string>()),
             expected);
     }

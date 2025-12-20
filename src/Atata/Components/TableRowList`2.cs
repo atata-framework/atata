@@ -38,5 +38,5 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
     }
 
     protected static string CreateItemInnerXPathByCellValues(params string[] values) =>
-        string.Join(" and ", values.Select(x => "td[{0}]".FormatWith(TermMatch.Contains.CreateXPathCondition(x))));
+        string.Join(" and ", values.Select(x => $"td[{TermMatch.Contains.CreateXPathCondition(x)}]"));
 }

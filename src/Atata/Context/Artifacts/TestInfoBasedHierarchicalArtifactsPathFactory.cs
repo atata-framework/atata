@@ -130,7 +130,7 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
     {
         string path = context.ArtifactsRelativePath;
 
-        return _hasSuiteSubFolderName && path.EndsWith(_suiteSubFolderPathEnding, StringComparison.Ordinal)
+        return _hasSuiteSubFolderName && path.EndsWith(_suiteSubFolderPathEnding!, StringComparison.Ordinal)
             ? path[..^_suiteSubFolderPathEnding!.Length]
             : path;
     }

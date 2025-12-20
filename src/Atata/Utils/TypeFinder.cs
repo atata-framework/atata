@@ -57,7 +57,7 @@ public static class TypeFinder
             : DoFind(typeName);
     }
 
-    private static Type FindAmongTypes(string typeName, IEnumerable<Type> typesToFindAmong)
+    private static Type? FindAmongTypes(string typeName, IEnumerable<Type> typesToFindAmong)
     {
         string pureTypeName;
         string? namespacePart = null;
@@ -151,7 +151,7 @@ public static class TypeFinder
     {
         Regex regex = new($@"(^|.+\.){namespacePart}$", RegexOptions.IgnoreCase);
 
-        return types.Where(x => regex.IsMatch(x.Namespace));
+        return types.Where(x => x.Namespace is not null && regex.IsMatch(x.Namespace));
     }
 
     private static Regex CreateRegexForNameConsideringGeneric(string typeName) =>

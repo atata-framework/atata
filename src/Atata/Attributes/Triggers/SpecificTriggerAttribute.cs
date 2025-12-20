@@ -9,8 +9,9 @@ public abstract class SpecificTriggerAttribute : TriggerAttribute
 
     protected internal sealed override void Execute<TOwner>(TriggerContext<TOwner> context)
     {
-        MethodInfo declaredMethod = GetType().GetMethod("Execute", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-        if (declaredMethod != null)
+        MethodInfo? declaredMethod = GetType().GetMethod("Execute", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+        if (declaredMethod is not null)
         {
             Type ownerType = context.Component.Owner.GetType();
 
