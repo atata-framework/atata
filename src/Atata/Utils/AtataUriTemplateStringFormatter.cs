@@ -9,7 +9,9 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
         new()
         {
             ["noescape"] = x => x,
+#pragma warning disable SYSLIB0013 // Type or member is obsolete
             ["uriescape"] = Uri.EscapeUriString,
+#pragma warning restore SYSLIB0013 // Type or member is obsolete
             ["dataescape"] = Uri.EscapeDataString,
         };
 
