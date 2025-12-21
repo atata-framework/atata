@@ -121,7 +121,7 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         int index)
         =>
-        source.ValueOf(
+        source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(
             x => x.ElementAtOrDefault(index),
             $"ElementAtOrDefault({index})");
 
@@ -146,7 +146,7 @@ public static class IObjectProviderEnumerableExtensions
     public static ValueProvider<TSource?, TOwner> FirstOrDefault<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
         =>
-        source.ValueOf(x => x.FirstOrDefault(), "FirstOrDefault()");
+        source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(x => x.FirstOrDefault(), "FirstOrDefault()");
 
     public static ValueProvider<TSource?, TOwner> FirstOrDefault<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
@@ -156,7 +156,7 @@ public static class IObjectProviderEnumerableExtensions
 
         var predicateFunction = predicate.Compile();
 
-        return source.ValueOf(
+        return source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(
             x => x.FirstOrDefault(predicateFunction),
             $"FirstOrDefault({ConvertToString(predicate)})");
     }
@@ -182,7 +182,7 @@ public static class IObjectProviderEnumerableExtensions
     public static ValueProvider<TSource?, TOwner> LastOrDefault<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
         =>
-        source.ValueOf(x => x.LastOrDefault(), "LastOrDefault()");
+        source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(x => x.LastOrDefault(), "LastOrDefault()");
 
     public static ValueProvider<TSource?, TOwner> LastOrDefault<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
@@ -192,7 +192,7 @@ public static class IObjectProviderEnumerableExtensions
 
         var predicateFunction = predicate.Compile();
 
-        return source.ValueOf(
+        return source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(
             x => x.LastOrDefault(predicateFunction),
             $"LastOrDefault({ConvertToString(predicate)})");
     }
@@ -223,7 +223,7 @@ public static class IObjectProviderEnumerableExtensions
 
         var predicateFunction = predicate.Compile();
 
-        return source.ValueOf(
+        return source.ValueOf<IEnumerable<TSource>, TResult?, TOwner>(
             x => x.Max(predicateFunction),
             $"Max({ConvertToString(predicate)})");
     }
@@ -231,7 +231,7 @@ public static class IObjectProviderEnumerableExtensions
     public static ValueProvider<TSource?, TOwner> Max<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
         =>
-        source.ValueOf(
+        source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(
             x => x.Max(),
             "Max()");
 
@@ -243,7 +243,7 @@ public static class IObjectProviderEnumerableExtensions
 
         var predicateFunction = predicate.Compile();
 
-        return source.ValueOf(
+        return source.ValueOf<IEnumerable<TSource>, TResult?, TOwner>(
             x => x.Min(predicateFunction),
             $"Min({ConvertToString(predicate)})");
     }
@@ -251,7 +251,7 @@ public static class IObjectProviderEnumerableExtensions
     public static ValueProvider<TSource?, TOwner> Min<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
         =>
-        source.ValueOf(
+        source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(
             x => x.Min(),
             "Min()");
 
@@ -302,7 +302,7 @@ public static class IObjectProviderEnumerableExtensions
     public static ValueProvider<TSource?, TOwner> SingleOrDefault<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
         =>
-        source.ValueOf(x => x.SingleOrDefault(), "SingleOrDefault()");
+        source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(x => x.SingleOrDefault(), "SingleOrDefault()");
 
     public static ValueProvider<TSource?, TOwner> SingleOrDefault<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
@@ -312,7 +312,7 @@ public static class IObjectProviderEnumerableExtensions
 
         var predicateFunction = predicate.Compile();
 
-        return source.ValueOf(
+        return source.ValueOf<IEnumerable<TSource>, TSource?, TOwner>(
             x => x.SingleOrDefault(predicateFunction),
             $"SingleOrDefault({ConvertToString(predicate)})");
     }
