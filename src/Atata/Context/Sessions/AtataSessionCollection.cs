@@ -812,9 +812,6 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         return totalCount;
     }
 
-    private void EnsureNotDisposed()
-    {
-        if (_isDisposed)
-            throw new ObjectDisposedException(GetType().FullName);
-    }
+    private void EnsureNotDisposed() =>
+        Guard.ThrowIfDisposed(_isDisposed, this);
 }

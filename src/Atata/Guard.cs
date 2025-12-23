@@ -175,6 +175,22 @@ internal static class Guard
                 $"Type {argument.FullName} is not {(argument.IsClass && expectedType.IsClass ? "inherited from" : "assignable to")} {expectedType.FullName}.", paramName);
     }
 
+    [StackTraceHidden]
+    [SuppressMessage("Maintainability", "CA1513:Use ObjectDisposedException throw helper")]
+    internal static void ThrowIfDisposed([DoesNotReturnIf(true)] bool condition, object instance)
+    {
+        if (condition)
+            throw new ObjectDisposedException(instance.GetType().FullName);
+    }
+
+    [StackTraceHidden]
+    [SuppressMessage("Maintainability", "CA1513:Use ObjectDisposedException throw helper")]
+    internal static void ThrowIfDisposed([DoesNotReturnIf(true)] bool condition, Type type)
+    {
+        if (condition)
+            throw new ObjectDisposedException(type.FullName);
+    }
+
     internal static ArgumentException CreateArgumentExceptionForUnsupportedValue<T>(
         T argument,
         [CallerArgumentExpression(nameof(argument))] string? paramName = null)

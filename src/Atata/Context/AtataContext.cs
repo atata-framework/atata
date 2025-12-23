@@ -1273,11 +1273,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             _ => "unknown"
         };
 
-    private void EnsureNotDisposed()
-    {
-        if (_status == Status.Disposed)
-            throw new ObjectDisposedException(GetType().FullName);
-    }
+    private void EnsureNotDisposed() =>
+        Guard.ThrowIfDisposed(_status == Status.Disposed, this);
 
     /// <inheritdoc/>
     public override string ToString() =>
