@@ -175,7 +175,11 @@ internal static class Guard
                 $"Type {argument.FullName} is not {(argument.IsClass && expectedType.IsClass ? "inherited from" : "assignable to")} {expectedType.FullName}.", paramName);
     }
 
+#if NET8_0_OR_GREATER
     [StackTraceHidden]
+#else
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [SuppressMessage("Maintainability", "CA1513:Use ObjectDisposedException throw helper")]
     internal static void ThrowIfDisposed([DoesNotReturnIf(true)] bool condition, object instance)
     {
@@ -183,7 +187,11 @@ internal static class Guard
             throw new ObjectDisposedException(instance.GetType().FullName);
     }
 
+#if NET8_0_OR_GREATER
     [StackTraceHidden]
+#else
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [SuppressMessage("Maintainability", "CA1513:Use ObjectDisposedException throw helper")]
     internal static void ThrowIfDisposed([DoesNotReturnIf(true)] bool condition, Type type)
     {
