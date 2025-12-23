@@ -2,7 +2,11 @@
 
 internal static class Guard
 {
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [return: NotNull]
     internal static T ReturnOrThrowIfNull<T>([NotNull] T argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
@@ -10,7 +14,11 @@ internal static class Guard
         return argument;
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [return: NotNull]
     internal static string ReturnOrThrowIfNullOrWhitespace([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
@@ -18,7 +26,11 @@ internal static class Guard
         return argument;
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     [return: NotNull]
     internal static string ReturnOrThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
@@ -26,14 +38,22 @@ internal static class Guard
         return argument;
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfNull<T>([NotNull] T argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
         if (argument is null)
             throw new ArgumentNullException(paramName);
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfBothNull<T1, T2>(
         T1 argument1,
         T2 argument2,
@@ -44,7 +64,11 @@ internal static class Guard
             throw new ArgumentNullException($"Both '{param1Name}' and '{param2Name}' values cannot be null.", null as Exception);
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfNullOrWhitespace([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
         if (argument is null)
@@ -54,7 +78,11 @@ internal static class Guard
             throw new ArgumentException("Value cannot be an empty string or composed entirely of whitespace.", paramName);
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
         if (argument is null)
@@ -64,7 +92,11 @@ internal static class Guard
             throw new ArgumentException("Value cannot be an empty string.", paramName);
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfNullOrEmpty<T>([NotNull] IEnumerable<T> argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
         if (argument is null)
@@ -78,7 +110,11 @@ internal static class Guard
             throw new ArgumentException("Value cannot be empty.", paramName);
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfGreaterThan<T>(T argument, T other, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : IComparable<T>
     {
@@ -86,7 +122,11 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, argument, $"Value cannot be greater than {other}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfGreaterThan<T>(T? argument, T other, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : struct, IComparable<T>
     {
@@ -94,7 +134,11 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, argument, $"Value cannot be greater than {other}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfGreaterThanOrEqualTo<T>(T argument, T other, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : IComparable<T>
     {
@@ -102,7 +146,11 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, argument, $"Value cannot be greater than or equal to {other}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfGreaterThanOrEqualTo<T>(T? argument, T other, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : struct, IComparable<T>
     {
@@ -110,7 +158,11 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, argument, $"Value cannot be greater than or equal to {other}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfLessThan<T>(T argument, T other, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : IComparable<T>
     {
@@ -118,7 +170,11 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, argument, $"Value cannot be less than {other}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfLessThan<T>(T? argument, T other, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : struct, IComparable<T>
     {
@@ -126,7 +182,11 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, argument, $"Value cannot be less than {other}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfLessThanOrEqualTo<T>(T argument, T other, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : IComparable<T>
     {
@@ -134,7 +194,11 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, argument, $"Value cannot be less than or equal to {other}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfLessThanOrEqualTo<T>(T? argument, T other, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         where T : struct, IComparable<T>
     {
@@ -142,28 +206,44 @@ internal static class Guard
             throw new ArgumentOutOfRangeException(paramName, argument, $"Value cannot be less than or equal to {other}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfIndexIsNegative(int index)
     {
         if (index < 0)
             throw new ArgumentOutOfRangeException(nameof(index), index, "Index was out of range. Must be non-negative.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfIndexIsGreaterOrEqualTo(int index, int size)
     {
         if (index >= size)
             throw new ArgumentOutOfRangeException(nameof(index), index, $"Index was out of range. Must be less than the size of the collection, which is {size}.");
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfIndexIsNegativeOrGreaterOrEqualTo(int index, int size)
     {
         ThrowIfIndexIsNegative(index);
         ThrowIfIndexIsGreaterOrEqualTo(index, size);
     }
 
+#if NET8_0_OR_GREATER
+    [StackTraceHidden]
+#else
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
     internal static void ThrowIfNot<T>([NotNull] Type argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
     {
         ThrowIfNull(argument, paramName);
