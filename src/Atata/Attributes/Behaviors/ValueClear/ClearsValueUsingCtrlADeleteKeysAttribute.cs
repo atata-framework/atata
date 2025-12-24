@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control value clearing by performing "Ctrl+A, Delete" ("Cmd+A, Delete" on macOS) keyboard shortcut.
@@ -12,7 +10,11 @@ public class ClearsValueUsingCtrlADeleteKeysAttribute : ValueClearBehaviorAttrib
     {
         var scopeElement = component.Scope;
 
-        var platformSpecificKey = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? Keys.Command : Keys.Control;
+#if NETFRAMEWORK
+        string platformSpecificKey = Keys.Control;
+#else
+        string platformSpecificKey = OperatingSystem.IsMacOS() ? Keys.Command : Keys.Control;
+#endif
 
         component.Owner.Driver.Perform(x => x
             .KeyDown(scopeElement, platformSpecificKey)
