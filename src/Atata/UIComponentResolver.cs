@@ -128,9 +128,9 @@ public static class UIComponentResolver
     private static Delegate CreateDelegatePropertyDelegate<TOwner>(PropertyInfo property, UIComponent<TOwner> component)
         where TOwner : PageObject<TOwner>
     {
-        Type navigableInterfaceType = component.GetType().GetGenericInterfaceType(typeof(INavigable<,>));
+        Type? navigableInterfaceType = component.GetType().GetGenericInterfaceType(typeof(INavigable<,>));
 
-        if (navigableInterfaceType != null)
+        if (navigableInterfaceType is not null)
         {
             var navigableGenericArguments = navigableInterfaceType.GetGenericArguments();
 
