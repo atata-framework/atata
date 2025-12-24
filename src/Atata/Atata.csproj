@@ -7,8 +7,6 @@
     <Description>
 C#/.NET web UI test automation full-featured framework based on Selenium WebDriver.
 
-The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.
-
 Atata on GitHub: https://github.com/atata-framework/atata
 Atata Framework documentation: https://atata.io
 
@@ -22,6 +20,8 @@ Features:
 - Configurable.  Defines the default component search strategies as well as additional settings. Atata.Configuration.Json provides flexible JSON configurations.
 - Reporting/Logging. Built-in customizable logging; screenshots and snapshots capturing functionality.
 - Extensible. Atata.HtmlValidation adds HTML page validation. Atata.Bootstrap and Atata.KendoUI provide extra components.
+
+The package targets .NET 8.0 and .NET Framework 4.6.2.
     </Description>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageId>Atata</PackageId>
