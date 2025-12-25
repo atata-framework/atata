@@ -59,10 +59,16 @@ public static class AtataSessionEventSubscriptionsBuilderTests
                         x => x.EventType == typeof(TestEvent) && x.EventHandler != null);
 
         [Test]
+        [SuppressMessage("Major Code Smell", "S103:Lines should not be too long")]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1114:Parameter list should follow declaration")]
         public void TwoGenericParameters_WithInvalidEventHandlerType() =>
             _sut.Invoking(x => x.Add<TestEvent, TestEvent>())
                 .Should.ThrowExactly<ArgumentException>(
+#if NETFRAMEWORK
+                    $"'eventHandlerType' of {typeof(TestEvent).FullName} type doesn't implement Atata.IEventHandler`1[*] or Atata.IAsyncEventHandler`1[*].{Environment.NewLine}Parameter name: eventHandlerType");
+#else
                     $"'eventHandlerType' of {typeof(TestEvent).FullName} type doesn't implement Atata.IEventHandler`1[*] or Atata.IAsyncEventHandler`1[*]. (Parameter 'eventHandlerType')");
+#endif
 
         [Test]
         public void TwoGenericParameters_WithSyncEventHandlerType() =>

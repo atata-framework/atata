@@ -53,8 +53,10 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => !x.Item.Attributes.Checked");
         TestPredicate(x => x.Item.Attributes.Checked == true)
             .Returns("x => x.Item.Attributes.Checked == true");
+#if NET8_0_OR_GREATER
         TestPredicate(x => x.Item.FloatValue >= float.Pi)
             .Returns("x => x.Item.FloatValue >= 3.1415927");
+#endif
         TestPredicate(x => x.IntField > 1)
             .Returns("x => x.IntField > 1");
         TestPredicate(x => x.Item.IntField >= 1)
@@ -231,8 +233,10 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => 1.234");
         TestModelSelector(x => 1.2345d)
             .Returns("x => 1.2345");
+#if NET8_0_OR_GREATER
         TestModelSelector(x => (Half)6)
             .Returns("x => 6");
+#endif
         TestModelSelector(x => (nint)41)
             .Returns("x => 41");
 

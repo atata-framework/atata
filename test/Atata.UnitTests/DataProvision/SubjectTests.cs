@@ -255,7 +255,7 @@ public static class SubjectTests
                     Environment.NewLine,
                     "Wrong execution of subject.Add(null, 0)",
                     "Expected: should throw exception of System.InvalidOperationException type",
-                    "  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')"));
+                    "  Actual: System.ArgumentNullException: Value cannot be null."));
         }
 
         [Test]
@@ -285,7 +285,7 @@ public static class SubjectTests
                     Environment.NewLine,
                     "Wrong execution of subject.Add(null, 0)",
                     "Expected: should not throw exception",
-                    "  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')"));
+                    "  Actual: System.ArgumentNullException: Value cannot be null."));
         }
 
         [Test]
