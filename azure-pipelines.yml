@@ -46,7 +46,7 @@ jobs:
     inputs:
       command: test
       projects: 'test/*/*.UnitTests.csproj'
-      arguments: -c $(buildConfiguration) -s "azure-pipelines.codecoverage.runsettings" --no-build
+      arguments: -c $(buildConfiguration) -s "azure-pipelines.codecoverage.runsettings" --no-build -f net10.0
   - task: DotNetCoreCLI@2
     displayName: Run integration tests
     condition: succeededOrFailed()
@@ -80,8 +80,10 @@ jobs:
     matrix:
       Windows:
         imageName: windows-latest
+        unitTestsTargetFramework: net462
       macOS:
         imageName: macOS-latest
+        unitTestsTargetFramework: net10.0
   pool:
     vmImage: $(imageName)
   steps:
@@ -101,7 +103,7 @@ jobs:
     inputs:
       command: test
       projects: 'test/*/*UnitTests.csproj'
-      arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build
+      arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build -f $(unitTestsTargetFramework)
   - task: DotNetCoreCLI@2
     displayName: Run integration tests
     condition: succeededOrFailed()
