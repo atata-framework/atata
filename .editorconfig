@@ -523,8 +523,11 @@ dotnet_diagnostic.IDE0303.severity = warning
 # IDE0304: Use collection expression for builder
 dotnet_diagnostic.IDE0304.severity = warning
 
-# IDE0305: Use collection initializers
+# IDE0305: Use collection expression for fluent
 dotnet_diagnostic.IDE0305.severity = warning
+
+# IDE0306: Use collection expression for new
+dotnet_diagnostic.IDE0306.severity = warning
 
 # IDE1005: Use conditional delegate call
 dotnet_diagnostic.IDE1005.severity = warning
@@ -590,6 +593,7 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
+# Other preferences
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:warning
 csharp_style_namespace_declarations = file_scoped:warning
@@ -597,22 +601,30 @@ csharp_style_prefer_method_group_conversion = true:warning
 csharp_style_prefer_top_level_statements = true:warning
 csharp_style_expression_bodied_lambdas = true:warning
 csharp_style_expression_bodied_local_functions = true:warning
-csharp_style_prefer_null_check_over_type_check = true:suggestion
-csharp_style_prefer_index_operator = true:suggestion
-csharp_style_prefer_range_operator = true:suggestion
+csharp_style_prefer_null_check_over_type_check = true:warning
+csharp_style_prefer_index_operator = true:warning
+csharp_style_prefer_range_operator = true:warning
 csharp_style_implicit_object_creation_when_type_is_apparent = true:warning
 csharp_style_prefer_tuple_swap = true:suggestion
 csharp_style_prefer_utf8_string_literals = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_style_unused_value_expression_statement_preference = discard_variable:silent
 csharp_prefer_static_local_function = true:warning
-csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
-csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
-csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true:silent
+csharp_style_allow_embedded_statements_on_same_line_experimental = false:warning
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:warning
+csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = false:warning
 csharp_style_prefer_switch_expression = true:warning
 csharp_style_prefer_pattern_matching = true:warning
 csharp_style_prefer_not_pattern = true:warning
-csharp_style_prefer_extended_property_pattern = true:suggestion
+csharp_style_prefer_extended_property_pattern = true:warning
+csharp_style_prefer_simple_property_accessors = true:warning
+dotnet_style_prefer_collection_expression = when_types_loosely_match:warning
+csharp_style_prefer_implicitly_typed_lambda_expression = true:warning
+csharp_style_prefer_unbound_generic_type_in_nameof = true:warning
+csharp_prefer_static_anonymous_function = true:warning
+csharp_style_prefer_readonly_struct = true:warning
+csharp_style_prefer_readonly_struct_member = true:warning
+csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:warning
 
 ###############################
 # VB Coding Conventions       #

@@ -26,7 +26,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
     public CheckBoxList()
     {
         if (!typeof(TValue).IsEnum)
-            throw new InvalidOperationException($"Incorrect generic parameter '{typeof(TValue).FullName}' type. {nameof(CheckBoxList<TValue, TOwner>)} control supports only Enum types.");
+            throw new InvalidOperationException($"Incorrect generic parameter '{typeof(TValue).FullName}' type. {nameof(CheckBoxList<,>)} control supports only Enum types.");
     }
 
     protected delegate bool ClickItemPredicate(bool isInValue, bool isSelected);
