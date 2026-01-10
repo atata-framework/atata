@@ -17,10 +17,10 @@ One of the key ideas of the framework is to provide a simple and intuitive synta
 A page object implementation requires as less code as possible.
 You can describe a page object class without any methods and only have a set of properties marked with attributes representing page components.
 
-*The package targets .NET 8.0 and .NET Framework 4.6.2.*
-
 - **[What's new in v3.8.0](https://atata.io/blog/2025/12/11/atata-3.8.0-released/)**
 - **[Migrating to Atata 3](https://atata.io/upgrade/to-atata-3/)**
+
+*The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.*
 
 ## Features
 
