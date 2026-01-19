@@ -3,6 +3,7 @@ app
 Atata
 autocomplete
 awaitable
+buildtransitive
 casted
 CDP
 checkbox
@@ -12,8 +13,10 @@ CLI
 clickable
 combobox
 concat
+contentfiles
 CSS
 Ctrl
+customizable
 dasherize
 deinitialization
 deinitialize
@@ -84,6 +87,7 @@ utils
 validator
 viewport
 Vue
+webdriver
 wildcard
 wildcards
 Xunit
