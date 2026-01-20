@@ -1,6 +1,6 @@
 ﻿namespace Atata;
 
-public static class SizeVerificationProviderExtensions
+public static partial class IObjectVerificationProviderExtensions
 {
     public static TOwner BeGreater<TOwner>(
         this IObjectVerificationProvider<Size, TOwner> verifier,
