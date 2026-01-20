@@ -37,7 +37,7 @@ The package targets .NET 8.0 and .NET Framework 4.6.2.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Selenium.WebDriver" Version="4.39.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.40.0" />
   </ItemGroup>
   
   <ItemGroup>
