@@ -315,6 +315,16 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.ConsistOnlyOf(x => x > 1));
     }
 
+    public sealed class Be_string : ExtensionMethodTestSuite<Uri, Be_string>
+    {
+        static Be_string() =>
+            For(new Uri("https://atata.io/"))
+                .Pass(should => should.Be("https://atata.io/"))
+                .Fail(should => should.Be((null as string)!))
+                .Fail(should => should.Be(string.Empty))
+                .Fail(should => should.Be("https://atata.io"));
+    }
+
     public abstract class ExtensionMethodTestSuite<TObject, TTestSuite>
         where TTestSuite : ExtensionMethodTestSuite<TObject, TTestSuite>
     {
