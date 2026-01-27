@@ -5,6 +5,17 @@ namespace Atata.UnitTests.Utils;
 
 public sealed class PortUtilsTests
 {
+    public sealed class FindAvailablePort
+    {
+        [Test]
+        public void WhenReturnsSuccessfully()
+        {
+            int result = PortUtils.FindAvailablePort();
+
+            result.Should().BePositive();
+        }
+    }
+
     public sealed class IsPortAvailable
     {
         [Test]
