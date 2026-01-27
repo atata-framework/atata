@@ -5,7 +5,7 @@ namespace Atata;
 
 internal static class PortUtils
 {
-    internal static int FindFreePort()
+    internal static int FindAvailablePort()
     {
         using Socket portSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         IPEndPoint socketEndPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -13,11 +13,11 @@ internal static class PortUtils
         return ((IPEndPoint)portSocket.LocalEndPoint!).Port;
     }
 
-    internal static int FindFreePortExcept(IReadOnlyList<int> portsToIgnore)
+    internal static int FindAvailablePortExcept(IReadOnlyList<int> portsToIgnore)
     {
         for (int i = 0; i < 500; i++)
         {
-            int port = FindFreePort();
+            int port = FindAvailablePort();
 
             if (!portsToIgnore.Contains(port))
                 return port;

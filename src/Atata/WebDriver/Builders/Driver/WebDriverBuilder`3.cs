@@ -83,7 +83,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     {
         if (_portsToIgnore.Contains(service.Port))
         {
-            service.Port = PortUtils.FindFreePortExcept(_portsToIgnore);
+            service.Port = PortUtils.FindAvailablePortExcept(_portsToIgnore);
         }
     }
 
