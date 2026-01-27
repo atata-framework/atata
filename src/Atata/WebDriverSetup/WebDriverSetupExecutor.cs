@@ -19,7 +19,7 @@ internal static class WebDriverSetupExecutor
     }
 
     internal static bool CanExecuteInParallelWithSessionsBuild(AtataContext context, AtataContextBuilder contextBuilder, IEnumerable<string> browserNames) =>
-        !contextBuilder.Sessions.GetProvidersForScope(context.Scope)
+        !contextBuilder.Sessions.GetProvidersForContext(context)
             .OfType<WebDriverSessionBuilder>()
             .Any(x => (x.Mode != AtataSessionMode.Pool || x.PoolInitialCapacity > 0) && x.UsesLocalBrowser && browserNames.Contains(x.LocalBrowserToUseName));
 

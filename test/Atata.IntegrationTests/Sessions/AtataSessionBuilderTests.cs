@@ -90,6 +90,24 @@ public static class AtataSessionBuilderTests
         }
     }
 
+    public sealed class StartConditions
+    {
+        [Test]
+        public async Task WithConditionThatReturnsFalse()
+        {
+            // Arrange
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseStartCondition(_ => false));
+
+            // Act
+            using AtataContext context = await contextBuilder.BuildAsync();
+
+            // Assert
+            context.Sessions.Should().BeEmpty();
+        }
+    }
+
     public sealed class Build
     {
         [Test]

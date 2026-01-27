@@ -36,10 +36,11 @@ public sealed class AtataSessionsBuilder
     internal AtataContextScopes? DefaultStartScopes =>
         _defaultStartScopes;
 
-    public IEnumerable<IAtataSessionProvider> GetProvidersForScope(AtataContextScope? scope)
+    public IEnumerable<IAtataSessionProvider> GetProvidersForContext(AtataContext context)
     {
         foreach (var provider in _sessionProviders)
-            if (DoesSessionStartScopeSatisfyContextScope(provider.StartScopes, scope))
+            if (DoesSessionStartScopeSatisfyContextScope(provider.StartScopes, context.Scope)
+                && DoSessionStartConditionsSatisfyContext(provider.StartConditions, context))
                 yield return provider;
     }
 
@@ -653,6 +654,12 @@ public sealed class AtataSessionsBuilder
             null => sessionStartScopes is null,
             _ => false
         };
+
+    private static bool DoSessionStartConditionsSatisfyContext(
+        List<Func<AtataContext, bool>> sessionStartConditions,
+        AtataContext context)
+        =>
+        sessionStartConditions.Count == 0 || sessionStartConditions.All(x => x.Invoke(context));
 
     private static bool IsProviderOfSessionType(IAtataSessionProvider provider, Type sessionType) =>
         provider switch

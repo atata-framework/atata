@@ -10,7 +10,7 @@
 /// such as mode, timeouts, variables, state, event subscriptions, etc.
 /// </remarks>
 [DebuggerDisplay("{ToString(),nq}")]
-public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBuilder
+public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuilderBase<TBuilder>, IAtataSessionBuilder
     where TSession : AtataSession, new()
     where TBuilder : AtataSessionBuilder<TSession, TBuilder>
 {
@@ -19,17 +19,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     protected AtataSessionBuilder() =>
         EventSubscriptions = new((TBuilder)this);
 
-    /// <inheritdoc/>
-    public string? Name { get; set; }
-
     AtataContext? IAtataSessionBuilder.TargetContext
     {
         get => _targetContext;
         set => _targetContext = value;
     }
-
-    /// <inheritdoc/>
-    public AtataContextScopes? StartScopes { get; set; }
 
     /// <summary>
     /// Gets or sets the count of sessions to build on startup.
@@ -135,56 +129,6 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// which provides the methods to subscribe to Atata and custom events.
     /// </summary>
     public AtataSessionEventSubscriptionsBuilder<TBuilder> EventSubscriptions { get; private set; }
-
-    /// <summary>
-    /// Configures this builder by action delegate.
-    /// </summary>
-    /// <param name="configure">An action delegate to configure the <typeparamref name="TBuilder"/>.</param>
-    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder Use(Action<TBuilder> configure)
-    {
-        TBuilder thisCasted = (TBuilder)this;
-
-        configure?.Invoke(thisCasted);
-        return thisCasted;
-    }
-
-    /// <summary>
-    /// Sets the <see cref="Name"/> value for a session.
-    /// </summary>
-    /// <param name="name">The name.</param>
-    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseName(string? name)
-    {
-        Name = name;
-        return (TBuilder)this;
-    }
-
-    /// <summary>
-    /// Sets the <see cref="StartScopes"/> value for a session.
-    /// </summary>
-    /// <param name="startScopes">The start scopes.</param>
-    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseStartScopes(AtataContextScopes? startScopes)
-    {
-        StartScopes = startScopes;
-        return (TBuilder)this;
-    }
-
-    /// <summary>
-    /// Sets the <see cref="StartScopes"/> value for a session
-    /// with either <see cref="AtataContextScopes.All"/> or <see cref="AtataContextScopes.None"/>,
-    /// depending on the <paramref name="start"/> parameter.
-    /// </summary>
-    /// <param name="start">Whether to start the session.</param>
-    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseStart(bool start = true)
-    {
-        StartScopes = start
-            ? AtataContextScopes.All
-            : AtataContextScopes.None;
-        return (TBuilder)this;
-    }
 
     /// <summary>
     /// Sets the <see cref="StartCount"/> value.
@@ -591,45 +535,17 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         new Report<TSession>(session, session.ExecutionUnit);
 
     /// <summary>
-    /// Returns a string that represents the current session builder.
-    /// </summary>
-    /// <returns>
-    /// A <see langword="string"/> that represents this instance.
-    /// </returns>
-    public override string ToString()
-    {
-        string typeName = GetType().ToStringInShortForm();
-
-        return Name?.Length > 0
-            ? $"{typeName} {{ Name={Name} }}"
-            : typeName;
-    }
-
-    /// <summary>
-    /// Creates a copy of the current builder.
-    /// </summary>
-    /// <returns>The copied builder instance.</returns>
-    public TBuilder Clone()
-    {
-        var copy = (TBuilder)MemberwiseClone();
-        copy._targetContext = null;
-
-        OnClone(copy);
-
-        return copy;
-    }
-
-    object ICloneable.Clone() =>
-        Clone();
-
-    /// <summary>
     /// Called when cloning the builder to create a copy.
     /// Copies the <see cref="Variables"/>, <see cref="State"/>, and <see cref="EventSubscriptions"/> to the <paramref name="copy"/>.
     /// Can be overridden in derived classes to provide custom cloning logic.
     /// </summary>
     /// <param name="copy">The builder copy to configure.</param>
-    protected virtual void OnClone(TBuilder copy)
+    protected override void OnClone(TBuilder copy)
     {
+        copy._targetContext = null;
+
+        base.OnClone(copy);
+
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.State = new Dictionary<string, object>(State);
 

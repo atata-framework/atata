@@ -1,5 +1,4 @@
-﻿using System.Net.NetworkInformation;
-using Atata.Cli;
+﻿using Atata.Cli;
 using Atata.WebDriverSetup;
 
 namespace Atata.IntegrationTests;
@@ -22,9 +21,7 @@ public class GlobalFixture
     }
 
     private static bool IsTestAppRunning() =>
-        Array.Exists(
-            IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners(),
-            x => x.Port == WebDriverSessionTestSuiteBase.TestAppPort);
+        !PortUtils.IsPortAvailable(WebDriverSessionTestSuiteBase.TestAppPort);
 
     private void SetUpTestApp()
     {
@@ -48,7 +45,7 @@ public class GlobalFixture
     [OneTimeTearDown]
     public void GlobalTearDown()
     {
-        if (_dotnetRunCommand != null)
+        if (_dotnetRunCommand is not null)
         {
             _dotnetRunCommand.Kill(true);
             _dotnetRunCommand.Dispose();

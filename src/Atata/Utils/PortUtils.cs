@@ -25,4 +25,19 @@ internal static class PortUtils
 
         throw new InvalidOperationException("Failed to find free port.");
     }
+
+    internal static bool IsPortAvailable(int port)
+    {
+        try
+        {
+            TcpListener listener = new(IPAddress.Loopback, port);
+            listener.Start();
+            listener.Stop();
+            return true;
+        }
+        catch (SocketException)
+        {
+            return false;
+        }
+    }
 }

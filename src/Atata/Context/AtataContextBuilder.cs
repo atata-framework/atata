@@ -818,7 +818,7 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.Sessions.AddBuilders(Sessions.Builders);
 
-        foreach (var provider in Sessions.GetProvidersForScope(Scope))
+        foreach (var provider in Sessions.GetProvidersForContext(context))
             await provider.StartAsync(context, cancellationToken)
                 .ConfigureAwait(false);
 

@@ -17,6 +17,11 @@ public interface IAtataSessionProvider : ICloneable
     AtataContextScopes? StartScopes { get; set; }
 
     /// <summary>
+    /// Gets the collection of predicates that must be satisfied in order a session to start.
+    /// </summary>
+    List<Func<AtataContext, bool>> StartConditions { get; }
+
+    /// <summary>
     /// Gets or sets the count of start sessions.
     /// The default value is <c>1</c>.
     /// </summary>
