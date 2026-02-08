@@ -148,6 +148,20 @@ public static class Subject
     public static Subject<TResult> DynamicResultOf<TResult>(Func<ValueTask<TResult>> function, string functionName) =>
         DynamicSubjectOf(function, BuildResultName(functionName));
 
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> DynamicResultOf<TResult>(Expression<Func<Task<TResult>>> functionExpression)
+    {
+        Guard.ThrowIfNull(functionExpression);
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicResultOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> DynamicResultOf<TResult>(Func<Task<TResult>> function, string functionName) =>
+        DynamicSubjectOf(function, BuildResultName(functionName));
+
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
     {
