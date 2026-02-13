@@ -56,7 +56,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     public new PageObjectVerificationProvider<TOwner> WaitTo
         => Should.Using(WaitingVerificationStrategy.Instance);
 
-    [Obsolete("Use SetNavigationUrl(...) or AppendNavigationUrl(...) instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use SetNavigationUrl(...), SetNavigationUrlVariable(...), or AppendNavigationUrl(...) instead.")] // Obsolete since v4.0.0.
     protected string? NavigationUrl
     {
         get => _navigationUrlData?.Value;
