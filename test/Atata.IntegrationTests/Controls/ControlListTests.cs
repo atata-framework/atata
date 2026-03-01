@@ -537,4 +537,48 @@ public class ControlListTests : WebDriverSessionTestSuite
             entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();
         }
     }
+
+    public sealed class WhenListDynamic : WebDriverSessionTestSuite
+    {
+        private ControlList<Text<DynamicListPage>, DynamicListPage> _sut;
+
+        protected override void OnSetUp() =>
+            _sut = Go.To<DynamicListPage>().Items;
+
+        [Test]
+        public void Count_Should_BeGreater() =>
+            _sut.Count.Should.BeGreater(5);
+
+        [Test]
+        public void Should_Contain_ByContent() =>
+            _sut.Should.Contain("Item 7");
+
+        [Test]
+        public void Should_Contain_ByPredicate() =>
+            _sut.Should.Contain(x => x == "Item 5");
+
+        [Test]
+        public void ItemByIndex_Should_Be() =>
+            _sut[6].Should.Be("Item 7");
+
+        [Test]
+        public void ItemByPredicate_Should_BeVisible() =>
+            _sut[x => x == "Item 5"].Should.BeVisible();
+
+        [Test]
+        public void Where_Should_ContainSingle() =>
+            _sut.Where(x => x == "Item 5").Should.ContainSingle();
+
+        [Test]
+        public void First_WithItemAppearingLater() =>
+            Assert.That(
+                () => _sut.First(x => x == "Item 9").Should.BePresent(),
+                Throws.InvalidOperationException);
+
+        [Test]
+        public void SingleOrDefault_WithItemAppearingLater() =>
+            Assert.That(
+                _sut.SingleOrDefault(x => x == "Item 9"),
+                Is.Null);
+    }
 }

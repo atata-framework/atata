@@ -1,0 +1,26 @@
+﻿@page
+@{
+    ViewBag.Title = "Dynamic List";
+}
+<div id="items" class="row">
+    <div class="item">Item 1</div>
+</div>
+
+<script>
+    let itemsCounter = 2;
+    const items = document.querySelector('#items');
+
+    const itemsAddIntervalId = setInterval(() => {
+        const newItem = document.createElement('div');
+        newItem.className = 'item';
+        newItem.textContent = `Item ${itemsCounter}`;
+
+        items.appendChild(newItem);
+
+        if (itemsCounter >= 30) {
+            clearInterval(itemsAddIntervalId);
+        }
+
+        itemsCounter++;
+    }, 250);
+</script>
