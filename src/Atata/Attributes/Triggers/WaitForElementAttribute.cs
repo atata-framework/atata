@@ -75,6 +75,7 @@ public class WaitForElementAttribute : WaitUntilAttribute
                 else
                     scopeContext.Missing(by);
             },
-            waitUnit.SearchOptions);
+            waitUnit.SearchOptions,
+            scopeComponent.Context.UIComponentAccessChainScopeCache.Clear);
     }
 }

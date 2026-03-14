@@ -113,15 +113,17 @@ public abstract class UIComponent
 
         try
         {
-            if (!cache.TryGet(this, actualSearchOptions.Visibility, out element))
+            bool isElementInCache = cache.TryGet(this, actualSearchOptions.Visibility, out element);
+
+            if (!isElementInCache)
             {
                 element = isActivatedAccessChainCache
                     ? StaleSafely.Execute(OnGetScopeElement, actualSearchOptions, cache.Clear)
                     : OnGetScopeElement(actualSearchOptions);
-            }
 
-            if (!isActivatedAccessChainCache && element != null)
-                cache.Add(this, actualSearchOptions.Visibility, element);
+                if (!isActivatedAccessChainCache && element is not null)
+                    cache.Set(this, actualSearchOptions.Visibility, element);
+            }
         }
         finally
         {
@@ -237,7 +239,8 @@ public abstract class UIComponent
             new ExecuteBehaviorLogSection(this, behavior),
             () => StaleSafely.Execute(
                 _ => behaviorExecutionAction.Invoke(behavior),
-                Context.ElementFindTimeout));
+                Context.ElementFindTimeout,
+                Context.UIComponentAccessChainScopeCache.Clear));
     }
 
     /// <inheritdoc cref="IUIComponent{TOwner}.ExecuteBehavior{TBehaviorAttribute}(Action{TBehaviorAttribute})"/>
@@ -252,7 +255,8 @@ public abstract class UIComponent
             new ExecuteBehaviorLogSection(this, behavior),
             () => StaleSafely.Execute(
                 _ => behaviorExecutionFunction.Invoke(behavior),
-                Context.ElementFindTimeout));
+                Context.ElementFindTimeout,
+                Context.UIComponentAccessChainScopeCache.Clear));
     }
 
     protected TAttribute GetAttributeOrThrow<TAttribute>() =>

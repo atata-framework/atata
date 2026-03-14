@@ -45,7 +45,8 @@ public static class IUIComponentVerificationProviderExtensions
                             else
                                 verifier.Component.Exists(options);
                         },
-                        searchOptions);
+                        searchOptions,
+                        verifier.Component.Context.UIComponentAccessChainScopeCache.Clear);
                 }
                 catch (Exception exception)
                 {
