@@ -183,7 +183,8 @@ return (
                 else
                     Missing(options);
             },
-            waitUnit.SearchOptions);
+            waitUnit.SearchOptions,
+            Session.UIComponentAccessChainScopeCache.Clear);
 
     internal sealed override bool OnMissing(SearchOptions options)
     {

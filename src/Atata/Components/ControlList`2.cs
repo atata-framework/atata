@@ -256,7 +256,7 @@ return textValues;";
 
         ControlListScopeLocator scopeLocator = new(
             searchOptions => GetItemElements(searchOptions)
-                .Where((element, index) => predicate(GetOrCreateItemByElement(element, (index + 1).Ordinalize()))));
+                .Where((element, index) => predicate(GetOrCreateItemByElement(element, (index + 1).Ordinalize(), so => GetItemElements(so), index))));
 
         return CreateItem(scopeLocator, name);
     }
@@ -287,19 +287,47 @@ return textValues;";
 
         return GetItemElements()
             .Select((element, index) => new { Element = element, Index = index })
-            .Where(x => predicate(GetOrCreateItemByElement(x.Element, name)))
+            .Where(x => predicate(GetOrCreateItemByElement(x.Element, name, so => GetItemElements(so), x.Index)))
             .Select(x => (int?)x.Index)
             .FirstOrDefault() ?? -1;
     }
 
-    protected TItem GetOrCreateItemByElement(IWebElement element, string name)
+    protected TItem GetOrCreateItemByElement(IWebElement element, string name, Func<SearchOptions, IReadOnlyList<IWebElement>> elementsGetFunction, int index)
     {
-        TItem DoGetOrCreateItemByElement() =>
-            CreateItem(new DefinedScopeLocator(element), name);
+        IWebElement? FindItemElementByIndex(SearchOptions searchOptions)
+        {
+            // Getting into this method only when the element is stale.
+            _cachedElementItemsMap.Remove(element);
 
-        TItem item = _cachedElementItemsMap.GetOrAdd(element, DoGetOrCreateItemByElement);
+            RetryWait wait = new(searchOptions.Timeout, searchOptions.RetryInterval);
+            IWebElement? freshElement = null;
+
+            wait.Until(() =>
+            {
+                freshElement = elementsGetFunction(searchOptions).ElementAtOrDefault(index);
+                return freshElement is not null;
+            });
+
+            return freshElement;
+        }
+
+        DynamicScopeLocator scopeLocator = new(FindItemElementByIndex, name);
+
+        if (_cachedElementItemsMap.TryGetValue(element, out TItem? item))
+        {
+            item.ScopeLocator = scopeLocator;
+        }
+        else
+        {
+            item = CreateItem(scopeLocator, name);
+            _cachedElementItemsMap[element] = item;
+        }
+
         item.Metadata.RemoveAll(x => x is NameAttribute);
         item.Metadata.Push(new NameAttribute(name));
+
+        Component.Session.UIComponentAccessChainScopeCache.Set(item, Visibility.Any, element);
+
         return item;
     }
 
@@ -528,7 +556,12 @@ return textValues;";
             : $"{itemsName} {ItemsText}{UIComponent.SubComponentSeparator}{{0}}";
 
         return GetItemElements(extraXPath: extraXPath)
-            .Select((element, index) => GetOrCreateItemByElement(element, string.Format(nameFormat, (index + 1).Ordinalize())))
+            .Select((element, index) =>
+                GetOrCreateItemByElement(
+                    element,
+                    string.Format(nameFormat, (index + 1).Ordinalize()),
+                    so => GetItemElements(so, extraXPath: extraXPath),
+                    index))
             .ToArray();
     }
 

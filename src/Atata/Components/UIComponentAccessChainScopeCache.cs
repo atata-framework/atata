@@ -23,7 +23,7 @@ public class UIComponentAccessChainScopeCache
         return true;
     }
 
-    internal void Add(UIComponent component, Visibility visibility, IWebElement scope)
+    internal void Set(UIComponent component, Visibility visibility, IWebElement scope)
     {
         if (IsActive)
         {

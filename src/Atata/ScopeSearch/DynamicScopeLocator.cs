@@ -4,14 +4,33 @@ public class DynamicScopeLocator : IScopeLocator
 {
     private readonly Func<SearchOptions, IWebElement?> _locateFunction;
 
-    public DynamicScopeLocator(Func<SearchOptions, IWebElement?> locateFunction) =>
+    public DynamicScopeLocator(Func<SearchOptions, IWebElement?> locateFunction, string? elementName = null)
+    {
         _locateFunction = locateFunction;
+        ElementName = elementName;
+    }
+
+    public string? ElementName { get; }
 
     public IWebElement? GetElement(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
         searchOptions ??= new();
 
-        return _locateFunction(searchOptions);
+        IWebElement? element = _locateFunction(searchOptions);
+
+        if (element is null && !searchOptions.IsSafely)
+        {
+            throw ElementNotFoundException.Create(
+                new SearchFailureData
+                {
+                    ElementName = ElementName,
+                    SearchOptions = searchOptions
+                });
+        }
+        else
+        {
+            return element;
+        }
     }
 
     public IWebElement[] GetElements(SearchOptions? searchOptions = null, string? xPathCondition = null)
