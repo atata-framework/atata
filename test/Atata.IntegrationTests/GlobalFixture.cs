@@ -16,7 +16,7 @@ public class GlobalFixture
         AtataContext.GlobalProperties.UseRootNamespaceOf<GlobalFixture>();
 
         await Task.WhenAll(
-            DriverSetup.AutoSetUpAsync(BrowserNames.Chrome),
+            DriverSetup.ConfigureChrome().WithCheckCertificateRevocationList(OSInfo.IsMacOS).SetUpAsync(),
             Task.Run(SetUpTestApp));
     }
 
