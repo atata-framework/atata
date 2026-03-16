@@ -12,7 +12,7 @@ public class SetUpFixture
     [OneTimeSetUp]
     public async Task GlobalSetUpAsync() =>
         await Task.WhenAll(
-            DriverSetup.AutoSetUpAsync(BrowserNames.Chrome),
+            DriverSetup.ConfigureChrome().WithCheckCertificateRevocationList(false).SetUpAsync(),
             Task.Run(SetUpTestApp));
 
     private static bool IsTestAppRunning() =>
