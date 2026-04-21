@@ -26,7 +26,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
 
         PostProcessOuterXPath(layerExecutionUnits, finalExecutionUnit);
 
-        return new StrategyScopeLocatorExecutionData(_component, scopeSource, searchOptions.IsSafely, layerExecutionUnits, finalExecutionUnit);
+        return new(_component, scopeSource, layerExecutionUnits, finalExecutionUnit);
     }
 
     private static void PostProcessOuterXPath(StrategyScopeLocatorLayerExecutionUnit[] layerExecutionUnits, StrategyScopeLocatorExecutionUnit finalExecutionUnit)
@@ -88,12 +88,22 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
     {
         IComponentScopeFindStrategy strategy = findAttribute.CreateStrategy(metadata);
 
-        SearchOptions searchOptions = new SearchOptions
+        TimeSpan findAttributeTimeout = TimeSpan.FromSeconds(findAttribute.Timeout);
+        TimeSpan resultTimeout = desiredSearchOptions.IsTimeoutSet && desiredSearchOptions.Timeout < findAttributeTimeout
+            ? desiredSearchOptions.Timeout
+            : findAttributeTimeout;
+
+        TimeSpan findAttributeRetryInterval = TimeSpan.FromSeconds(findAttribute.RetryInterval);
+        TimeSpan resultRetryInterval = desiredSearchOptions.IsRetryIntervalSet && desiredSearchOptions.RetryInterval < findAttributeRetryInterval
+            ? desiredSearchOptions.RetryInterval
+            : findAttributeRetryInterval;
+
+        SearchOptions searchOptions = new()
         {
             IsSafely = desiredSearchOptions.IsSafely,
             Visibility = findAttribute.Visibility,
-            Timeout = TimeSpan.FromSeconds(findAttribute.Timeout),
-            RetryInterval = TimeSpan.FromSeconds(findAttribute.RetryInterval)
+            Timeout = resultTimeout,
+            RetryInterval = resultRetryInterval
         };
 
         ComponentScopeFindOptions scopeFindOptions = ComponentScopeFindOptions.Create(_component, metadata, findAttribute);

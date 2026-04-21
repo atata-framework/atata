@@ -8,7 +8,11 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
     {
         ISearchContext scopeContext = executionData.ScopeSource.GetScopeContext(
             executionData.Component,
-            SearchOptions.Safely(executionData.IsSafely));
+            new()
+            {
+                IsSafely = executionData.FinalUnit.SearchOptions.IsSafely,
+                Timeout = executionData.FinalUnit.SearchOptions.Timeout
+            });
 
         if (scopeContext is null)
             return [];
@@ -24,7 +28,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
 
             if (element is null)
             {
-                if (!executionData.IsSafely)
+                if (!executionData.FinalUnit.SearchOptions.IsSafely)
                 {
                     XPathComponentScopeFindResult firstResult = xPathResults[0];
 

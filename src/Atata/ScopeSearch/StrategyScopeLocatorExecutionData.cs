@@ -5,13 +5,11 @@ public class StrategyScopeLocatorExecutionData
     public StrategyScopeLocatorExecutionData(
         UIComponent component,
         ScopeSource scopeSource,
-        bool isSafely,
         IEnumerable<StrategyScopeLocatorLayerExecutionUnit> layerUnits,
         StrategyScopeLocatorExecutionUnit finalUnit)
     {
         Component = component;
         ScopeSource = scopeSource;
-        IsSafely = isSafely;
         LayerUnits = layerUnits;
         FinalUnit = finalUnit;
     }
@@ -20,7 +18,9 @@ public class StrategyScopeLocatorExecutionData
 
     public ScopeSource ScopeSource { get; }
 
-    public bool IsSafely { get; }
+    [Obsolete("Use FinalUnit.SearchOptions.IsSafely instead.")] // Obsolete since v3.11.0.
+    public bool IsSafely =>
+        FinalUnit.SearchOptions.IsSafely;
 
     public IEnumerable<StrategyScopeLocatorLayerExecutionUnit> LayerUnits { get; }
 

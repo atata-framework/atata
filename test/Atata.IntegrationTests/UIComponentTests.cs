@@ -162,6 +162,34 @@ public class UIComponentTests : UITestFixture
                 .VerifyContentBlockIsLoaded();
 
         [Test]
+        public void WithUntilMissing_InMissingParentControl()
+        {
+            using (StopwatchAsserter.WithinSeconds(0, 4))
+                _page
+                    .Find<Control<WaitingOnInitPage>>(new FindByIdAttribute("missing-parent"))
+                    .Find<Control<WaitingOnInitPage>>(new FindByIdAttribute("missing-child"))
+                    .Wait(Until.Missing, new WaitOptions(5));
+        }
+
+        [Test]
+        public void WithUntilMissingOrHidden_InMissingParentControl()
+        {
+            using (StopwatchAsserter.WithinSeconds(0, 4))
+                _page
+                    .Find<Control<WaitingOnInitPage>>(new FindByIdAttribute("missing-parent"))
+                    .Find<Control<WaitingOnInitPage>>(new FindByIdAttribute("missing-child"))
+                    .Wait(Until.MissingOrHidden, new WaitOptions(5));
+        }
+
+        [Test]
+        public void WithUntilHidden_InMissingParentControl() =>
+            Assert.Throws<ElementNotFoundException>(() =>
+                _page
+                    .Find<Control<WaitingOnInitPage>>(new FindByIdAttribute("missing-parent"))
+                    .Find<Control<WaitingOnInitPage>>(new FindByIdAttribute("missing-child"))
+                    .Wait(Until.Hidden, new WaitOptions(2)));
+
+        [Test]
         public void WithUntilVisibleThenHidden() =>
             _page
                 .LoadingBlock.Wait(Until.VisibleThenHidden)
