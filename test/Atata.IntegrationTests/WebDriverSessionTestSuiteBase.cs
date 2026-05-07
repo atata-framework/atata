@@ -71,7 +71,7 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
         VerifyEquals(control, value);
     }
 
-    protected static AssertionException AssertThrowsAssertionExceptionWithUnableToLocateMessage(TestDelegate code)
+    protected static AssertionException AssertThrowsAssertionExceptionWithUnableToLocateMessage(Action code)
     {
         AssertionException exception = AssertThrowsWithoutInnerException<AssertionException>(code);
 

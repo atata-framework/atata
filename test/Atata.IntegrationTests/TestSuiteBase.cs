@@ -68,7 +68,7 @@ public abstract class TestSuiteBase
             control.Should.AtOnce.Be(value));
     }
 
-    protected static TException AssertThrowsWithInnerException<TException, TInnerException>(TestDelegate code)
+    protected static TException AssertThrowsWithInnerException<TException, TInnerException>(Action code)
         where TException : Exception
         where TInnerException : Exception
     {
@@ -79,7 +79,7 @@ public abstract class TestSuiteBase
         return exception;
     }
 
-    protected static TException AssertThrowsWithoutInnerException<TException>(TestDelegate code)
+    protected static TException AssertThrowsWithoutInnerException<TException>(Action code)
         where TException : Exception
     {
         TException exception = Assert.Throws<TException>(code)!;
