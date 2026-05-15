@@ -87,7 +87,7 @@ public abstract class UITestFixtureBase
             control.Should.AtOnce.Equal(value));
     }
 
-    protected static TException AssertThrowsWithInnerException<TException, TInnerException>(TestDelegate code)
+    protected static TException AssertThrowsWithInnerException<TException, TInnerException>(Action code)
         where TException : Exception
         where TInnerException : Exception
     {
@@ -98,7 +98,7 @@ public abstract class UITestFixtureBase
         return exception;
     }
 
-    protected static TException AssertThrowsWithoutInnerException<TException>(TestDelegate code)
+    protected static TException AssertThrowsWithoutInnerException<TException>(Action code)
         where TException : Exception
     {
         TException exception = Assert.Throws<TException>(code);
@@ -108,7 +108,7 @@ public abstract class UITestFixtureBase
         return exception;
     }
 
-    protected static AssertionException AssertThrowsAssertionExceptionWithUnableToLocateMessage(TestDelegate code)
+    protected static AssertionException AssertThrowsAssertionExceptionWithUnableToLocateMessage(Action code)
     {
         AssertionException exception = AssertThrowsWithoutInnerException<AssertionException>(code);
 
