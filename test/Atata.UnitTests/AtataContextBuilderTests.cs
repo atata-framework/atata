@@ -11,10 +11,13 @@ public class AtataContextBuilderTests
     {
         var globalContext = AtataContext.GlobalConfiguration.BuildingContext;
 
-        Assert.That(globalContext.TestNameFactory, Is.Null);
-        Assert.That(globalContext.DriverFactories, Is.Empty);
-        Assert.That(globalContext.LogConsumerConfigurations, Is.Empty);
-        Assert.That(globalContext.BaseUrl, Is.Null);
+        using (new AssertionScope())
+        {
+            globalContext.TestNameFactory.Should().BeNull();
+            globalContext.DriverFactories.Should().BeEmpty();
+            globalContext.LogConsumerConfigurations.Should().BeEmpty();
+            globalContext.BaseUrl.Should().BeNull();
+        }
 
         AtataContext.GlobalConfiguration
             .UseNUnitTestName()
@@ -31,18 +34,23 @@ public class AtataContextBuilderTests
 
         AtataContext.GlobalConfiguration.Clear();
 
-        Assert.That(globalContext.TestNameFactory(), Is.EqualTo(nameof(MixedConfiguration)));
-        Assert.That(globalContext.DriverFactories, Is.Empty);
-        Assert.That(globalContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
-        Assert.That(globalContext.LogConsumerConfigurations[0].Consumer, Is.TypeOf<NUnitTestContextLogConsumer>());
-        Assert.That(globalContext.BaseUrl, Is.Null);
+        using (new AssertionScope())
+        {
+            globalContext.TestNameFactory().Should().Be(nameof(MixedConfiguration));
+            globalContext.DriverFactories.Should().BeEmpty();
+            globalContext.LogConsumerConfigurations.Should().ContainSingle()
+                .Which.Consumer.Should().BeOfType<NUnitTestContextLogConsumer>();
+            globalContext.BaseUrl.Should().BeNull();
 
-        Assert.That(currentContext.DriverFactories, Has.Count.EqualTo(1));
-        Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
-        Assert.That(currentContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
-        Assert.That(currentContext.BaseUrl, Is.EqualTo(BaseUrl));
-        Assert.That(currentContext.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
-        Assert.That(currentContext.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(1)));
+            currentContext.DriverFactories.Should().ContainSingle()
+                .Which.Should().BeOfType<EdgeAtataContextBuilder>();
+            currentContext.DriverFactoryToUse.Alias.Should().Be(DriverAliases.Edge);
+            currentContext.LogConsumerConfigurations.Should().ContainSingle()
+                .Which.Consumer.Should().BeOfType<NUnitTestContextLogConsumer>();
+            currentContext.BaseUrl.Should().Be(BaseUrl);
+            currentContext.BaseRetryTimeout.Should().Be(TimeSpan.FromSeconds(100));
+            currentContext.BaseRetryInterval.Should().Be(TimeSpan.FromSeconds(1));
+        }
     }
 
     [Test]
@@ -54,23 +62,23 @@ public class AtataContextBuilderTests
 
         var context = contextBuilder.BuildingContext;
 
-        Assert.That(context.DriverFactories, Has.Count.EqualTo(2));
-        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Chrome));
+        context.DriverFactories.Should().HaveCount(2);
+        context.DriverFactoryToUse.Alias.Should().Be(DriverAliases.Chrome);
 
         contextBuilder.UseFirefox();
 
-        Assert.That(context.DriverFactories, Has.Count.EqualTo(3));
-        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Firefox));
+        context.DriverFactories.Should().HaveCount(3);
+        context.DriverFactoryToUse.Alias.Should().Be(DriverAliases.Firefox);
 
         contextBuilder.UseDriver(DriverAliases.Edge);
 
-        Assert.That(context.DriverFactories, Has.Count.EqualTo(3));
-        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
+        context.DriverFactories.Should().HaveCount(3);
+        context.DriverFactoryToUse.Alias.Should().Be(DriverAliases.Edge);
 
         contextBuilder.UseDriver(DriverAliases.InternetExplorer);
 
-        Assert.That(context.DriverFactories, Has.Count.EqualTo(4));
-        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.InternetExplorer));
+        context.DriverFactories.Should().HaveCount(4);
+        context.DriverFactoryToUse.Alias.Should().Be(DriverAliases.InternetExplorer);
     }
 
     [Test]
@@ -86,13 +94,16 @@ public class AtataContextBuilderTests
             .Clear()
             .BuildingContext;
 
-        Assert.That(context.TestNameFactory, Is.Null);
-        Assert.That(context.DriverFactories, Is.Empty);
-        Assert.That(context.DriverFactoryToUse, Is.Null);
-        Assert.That(context.LogConsumerConfigurations, Is.Empty);
-        Assert.That(context.PageSnapshots.Strategy, Is.EqualTo(CdpOrPageSourcePageSnapshotStrategy.Instance));
-        Assert.That(context.BaseUrl, Is.Null);
-        Assert.That(context.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(5)));
-        Assert.That(context.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(0.5)));
+        using (new AssertionScope())
+        {
+            context.TestNameFactory.Should().BeNull();
+            context.DriverFactories.Should().BeEmpty();
+            context.DriverFactoryToUse.Should().BeNull();
+            context.LogConsumerConfigurations.Should().BeEmpty();
+            context.PageSnapshots.Strategy.Should().Be(CdpOrPageSourcePageSnapshotStrategy.Instance);
+            context.BaseUrl.Should().BeNull();
+            context.BaseRetryTimeout.Should().Be(TimeSpan.FromSeconds(5));
+            context.BaseRetryInterval.Should().Be(TimeSpan.FromSeconds(0.5));
+        }
     }
 }
