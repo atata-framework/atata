@@ -538,7 +538,7 @@ public class ControlListTests : WebDriverSessionTestSuite
         }
     }
 
-    public sealed class WhenListDynamic : WebDriverSessionTestSuite
+    public sealed class WhenItemsAreAdding : WebDriverSessionTestSuite
     {
         private ControlList<Text<DynamicListPage>, DynamicListPage> _sut;
 
@@ -580,5 +580,17 @@ public class ControlListTests : WebDriverSessionTestSuite
             Assert.That(
                 _sut.SingleOrDefault(x => x == "Item 9"),
                 Is.Null);
+    }
+
+    public sealed class WhenItemsAreRemoving : WebDriverSessionTestSuite
+    {
+        private ControlList<Text<DynamicListRemovingPage>, DynamicListRemovingPage> _sut;
+
+        protected override void OnSetUp() =>
+            _sut = Go.To<DynamicListRemovingPage>().Items;
+
+        [Test]
+        public void Count_Should_BeGreater() =>
+            _sut.Count.Should.BeLessOrEqual(5);
     }
 }

@@ -1,0 +1,41 @@
+﻿@page
+@{
+    ViewBag.Title = "Dynamic List Removing";
+}
+<div id="items" class="row">
+    <div class="item">Item 1</div>
+    <div class="item">Item 2</div>
+    <div class="item">Item 3</div>
+    <div class="item">Item 4</div>
+    <div class="item">Item 5</div>
+    <div class="item">Item 6</div>
+    <div class="item">Item 7</div>
+    <div class="item">Item 8</div>
+    <div class="item">Item 9</div>
+    <div class="item">Item 10</div>
+    <div class="item">Item 11</div>
+    <div class="item">Item 12</div>
+    <div class="item">Item 13</div>
+    <div class="item">Item 14</div>
+    <div class="item">Item 15</div>
+    <div class="item">Item 16</div>
+    <div class="item">Item 17</div>
+    <div class="item">Item 18</div>
+    <div class="item">Item 19</div>
+    <div class="item">Item 20</div>
+</div>
+
+<script>
+    let itemsCounter = 1;
+    const items = document.querySelector('#items');
+
+    const intervalId = setInterval(() => {
+        items.removeChild(items.children[0]);
+
+        if (itemsCounter >= 15) {
+            clearInterval(intervalId);
+        }
+
+        itemsCounter++;
+    }, 50);
+</script>
