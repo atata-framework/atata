@@ -555,14 +555,15 @@ return textValues;";
             ? "{0}"
             : $"{itemsName} {ItemsText}{UIComponent.SubComponentSeparator}{{0}}";
 
-        return GetItemElements(extraXPath: extraXPath)
-            .Select((element, index) =>
-                GetOrCreateItemByElement(
-                    element,
-                    string.Format(nameFormat, (index + 1).Ordinalize()),
-                    so => GetItemElements(so, extraXPath: extraXPath),
-                    index))
-            .ToArray();
+        return Component.Session.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
+            GetItemElements(extraXPath: extraXPath)
+                .Select((element, index) =>
+                    GetOrCreateItemByElement(
+                        element,
+                        string.Format(nameFormat, (index + 1).Ordinalize()),
+                        so => GetItemElements(so, extraXPath: extraXPath),
+                        index))
+                .ToArray());
     }
 
     protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions? searchOptions = null, string? extraXPath = null)

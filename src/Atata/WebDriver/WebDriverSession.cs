@@ -9,7 +9,7 @@
 /// The session has additional variable in <see cref="AtataSession.Variables"/>: <c>{driver-alias}</c>.
 /// </para>
 /// </summary>
-public class WebDriverSession : WebSession
+public class WebDriverSession : WebSession, ISupportsScopedCaching
 {
     private IWebDriver _driver = null!;
 
@@ -116,6 +116,12 @@ public class WebDriverSession : WebSession
 
                 InitDriver();
             });
+
+    void ISupportsScopedCaching.ExecuteScopedBlock(Action action) =>
+        UIComponentAccessChainScopeCache.ExecuteWithin(action);
+
+    TResult ISupportsScopedCaching.ExecuteScopedBlock<TResult>(Func<TResult> function) =>
+        UIComponentAccessChainScopeCache.ExecuteWithin(function);
 
     protected override async ValueTask DisposeAsyncCore()
     {

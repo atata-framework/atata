@@ -46,22 +46,26 @@ public static partial class IObjectVerificationProviderExtensions
             IEnumerable<TObject>? actual = null;
             Exception? exception = null;
 
-            bool doesSatisfy = VerificationUtils.ExecuteUntil(
-                () =>
+            Func<bool> verificationBlockFunction = () =>
+            {
+                try
                 {
-                    try
-                    {
-                        actual = verifier.ObjectProvider.Object?.Select(x => x.Object).ToArray();
-                        bool result = predicate(actual!) != verifier.IsNegation;
-                        exception = null;
-                        return result;
-                    }
-                    catch (Exception e)
-                    {
-                        exception = e;
-                        return false;
-                    }
-                },
+                    actual = verifier.ObjectProvider.Object?.Select(x => x.Object).ToArray();
+                    bool result = predicate(actual!) != verifier.IsNegation;
+                    exception = null;
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    exception = e;
+                    return false;
+                }
+            };
+
+            bool doesSatisfy = VerificationUtils.ExecuteUntil(
+                verifier.ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
+                    ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(verificationBlockFunction)
+                    : verificationBlockFunction,
                 verifier.GetRetryOptions());
 
             if (!doesSatisfy)

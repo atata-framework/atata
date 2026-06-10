@@ -389,14 +389,20 @@ public static class IObjectProviderEnumerableExtensions
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
     {
         Guard.ThrowIfNull(source);
-        return [.. source.Object];
+
+        return source.ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
+            ? scopedCachingExecutionUnit.ExecuteScopedBlock<TSource[]>(() => [.. source.Object])
+            : [.. source.Object];
     }
 
     public static List<TSource> ToList<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
     {
         Guard.ThrowIfNull(source);
-        return [.. source.Object];
+
+        return source.ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
+            ? scopedCachingExecutionUnit.ExecuteScopedBlock<List<TSource>>(() => [.. source.Object])
+            : [.. source.Object];
     }
 
     public static ValueProvider<IEnumerable<TSource>, TOwner> Where<TSource, TOwner>(

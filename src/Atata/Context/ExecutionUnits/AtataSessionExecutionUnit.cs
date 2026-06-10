@@ -1,10 +1,10 @@
 ﻿namespace Atata;
 
-internal sealed class AtataSessionExecutionUnit : IAtataExecutionUnit
+internal class AtataSessionExecutionUnit : IAtataExecutionUnit
 {
     private readonly AtataSession _session;
 
-    internal AtataSessionExecutionUnit(AtataSession session) =>
+    public AtataSessionExecutionUnit(AtataSession session) =>
         _session = session;
 
     public AtataContext Context =>

@@ -23,12 +23,15 @@ public abstract class AtataSession : IAsyncDisposable
 
     private bool _isDisposed;
 
+    [SuppressMessage("Blocker Code Smell", "S3060:\"is\" should not be used with \"this\"", Justification = "<Pending>")]
     protected AtataSession()
     {
         _lazyStringRepresentation = new(ToStringCore);
 
         Id = AtataContext.GlobalProperties.IdGenerator.GenerateId();
-        ExecutionUnit = new AtataSessionExecutionUnit(this);
+        ExecutionUnit = this is ISupportsScopedCaching
+            ? new AtataSessionWithScopedCachingExecutionUnit(this)
+            : new AtataSessionExecutionUnit(this);
     }
 
     /// <summary>

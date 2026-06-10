@@ -70,30 +70,34 @@ public class ObjectVerificationProvider<TObject, TOwner> :
         {
             object? actual = null;
 
-            bool doesSatisfy = VerificationUtils.ExecuteUntil(
-                () =>
+            Func<bool> verificationBlockFunction = () =>
+            {
+                try
                 {
-                    try
+                    actual = ObjectProvider.Object;
+
+                    if (actual is Action actualAsAction)
                     {
-                        actual = ObjectProvider.Object;
-
-                        if (actual is Action actualAsAction)
-                        {
-                            actualAsAction.Invoke();
-                            actual = null;
-                        }
-
-                        exception = null;
-
-                        return false;
+                        actualAsAction.Invoke();
+                        actual = null;
                     }
-                    catch (Exception e)
-                    {
-                        exception = e;
-                        return (exactly ? e.GetType() == typeof(TException) : e is TException)
-                            && (messageWildcardPattern is null || WildcardPattern.IsMatch(e.Message, messageWildcardPattern, ResolveStringComparison()));
-                    }
-                },
+
+                    exception = null;
+
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    exception = e;
+                    return (exactly ? e.GetType() == typeof(TException) : e is TException)
+                        && (messageWildcardPattern is null || WildcardPattern.IsMatch(e.Message, messageWildcardPattern, ResolveStringComparison()));
+                }
+            };
+
+            bool doesSatisfy = VerificationUtils.ExecuteUntil(
+                ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
+                    ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(verificationBlockFunction)
+                    : verificationBlockFunction,
                 GetRetryOptions());
 
             if (!doesSatisfy)
@@ -144,26 +148,30 @@ public class ObjectVerificationProvider<TObject, TOwner> :
             {
                 Exception? exception = null;
 
-                bool doesSatisfy = VerificationUtils.ExecuteUntil(
-                    () =>
+                Func<bool> verificationBlockFunction = () =>
+                {
+                    try
                     {
-                        try
-                        {
-                            var actual = ObjectProvider.Object;
+                        var actual = ObjectProvider.Object;
 
-                            if (actual is Action actualAsAction)
-                                actualAsAction.Invoke();
+                        if (actual is Action actualAsAction)
+                            actualAsAction.Invoke();
 
-                            exception = null;
+                        exception = null;
 
-                            return true;
-                        }
-                        catch (Exception e)
-                        {
-                            exception = e;
-                            return false;
-                        }
-                    },
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        exception = e;
+                        return false;
+                    }
+                };
+
+                bool doesSatisfy = VerificationUtils.ExecuteUntil(
+                    ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
+                        ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(verificationBlockFunction)
+                        : verificationBlockFunction,
                     GetRetryOptions());
 
                 if (!doesSatisfy)
