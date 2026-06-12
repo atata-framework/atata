@@ -45,6 +45,12 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     public TermCase DomTestIdAttributeDefaultCase { get; set; } = FindByTestIdAttribute.DefaultAttributeCase;
 
     /// <summary>
+    /// Gets or sets the waiting time span that is used as a time of immutable/stable DOM state.
+    /// The default value is <c>100</c> milliseconds.
+    /// </summary>
+    public TimeSpan WaitForDomImmutableStateTime { get; set; } = new(0, 0, 0, 0, 100);
+
+    /// <summary>
     /// Sets the base URL.
     /// </summary>
     /// <param name="baseUrl">The base URL.</param>
@@ -96,6 +102,21 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     }
 
     /// <summary>
+    /// Sets the waiting time span that is used as a time of immutable/stable DOM state.
+    /// The default value is <c>100</c> milliseconds.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseWaitForDomImmutableStateTime(TimeSpan value)
+    {
+        Guard.ThrowIfLessThanOrEqualTo(value, TimeSpan.Zero);
+
+        WaitForDomImmutableStateTime = value;
+
+        return (TBuilder)this;
+    }
+
+    /// <summary>
     /// Sets the default case of the DOM test identifier attribute.
     /// The default value is <see cref="TermCase.Kebab"/>.
     /// </summary>
@@ -117,6 +138,7 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
         session.ElementFindRetryIntervalOptional = ElementFindRetryInterval;
         session.DomTestIdAttributeName = DomTestIdAttributeName;
         session.DomTestIdAttributeDefaultCase = DomTestIdAttributeDefaultCase;
+        session.WaitForDomImmutableStateTime = WaitForDomImmutableStateTime;
 
         session.ScreenshotTaker = CreateScreenshotTaker(session);
         session.PageSnapshotTaker = CreatePageSnapshotTaker(session);

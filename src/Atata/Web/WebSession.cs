@@ -65,6 +65,12 @@ public abstract class WebSession : AtataSession
     /// </summary>
     public TermCase DomTestIdAttributeDefaultCase { get; internal set; }
 
+    /// <summary>
+    /// Gets the waiting time span that is used as a time of immutable/stable DOM state.
+    /// The default value is <c>100</c> milliseconds.
+    /// </summary>
+    public TimeSpan WaitForDomImmutableStateTime { get; internal set; }
+
     internal IScreenshotTaker ScreenshotTaker { get; set; } = null!;
 
     internal IPageSnapshotTaker PageSnapshotTaker { get; set; } = null!;

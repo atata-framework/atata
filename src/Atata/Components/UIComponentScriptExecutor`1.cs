@@ -441,6 +441,78 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
             """,
             rootSelector);
 
+    /// <summary>
+    /// Waits for the first DOM mutation event inside the current component.
+    /// </summary>
+    /// <returns>An instance of the owner page object.</returns>
+    public TOwner WaitForDomMutation() =>
+        ExecuteAsyncAgainst(
+            """
+            var element = arguments[0];
+            var callback = arguments[1];
+
+            var observer = new MutationObserver(function(mutations, obs) {
+                obs.disconnect();
+                callback(true);
+            });
+
+            var config = {
+                attributes: true,
+                childList: true,
+                subtree: true,
+                characterData: true
+            };
+
+            observer.observe(element, config);
+            """);
+
+    /// <summary>
+    /// Waits for the current component to have an immutable/stable DOM.
+    /// There should not be any DOM mutation events inside the component for the specified time span.
+    /// The immutable state time is taken from <see cref="WebSession.WaitForDomImmutableStateTime"/> property,
+    /// which is 100 milliseconds by default.
+    /// </summary>
+    /// <returns>An instance of the owner page object.</returns>
+    public TOwner WaitForDomImmutableState() =>
+        WaitForDomImmutableState(Component.Session.WaitForDomImmutableStateTime);
+
+    /// <summary>
+    /// Waits for the current component to have an immutable/stable DOM.
+    /// There should not be any DOM mutation events inside the component for the specified time span.
+    /// </summary>
+    /// <param name="immutableStateTime">The time of immutable state to wait.</param>
+    /// <returns>An instance of the owner page object.</returns>
+    public TOwner WaitForDomImmutableState(TimeSpan immutableStateTime) =>
+        ExecuteAsyncAgainst(
+            """
+            var element = arguments[0];
+            var millisecondsOfStableState = arguments[1];
+            var callback = arguments[2];
+
+            var timeoutId;
+            var observer;
+
+            function onStable() {
+                observer.disconnect();
+                callback(true);
+            }
+
+            observer = new MutationObserver(function(mutations) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(onStable, millisecondsOfStableState);
+            });
+
+            observer.observe(element, {
+                attributes: true,
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
+
+            timeoutId = setTimeout(onStable, millisecondsOfStableState);
+            """,
+            (int)immutableStateTime.TotalMilliseconds);
+
     private static TResult ConvertResult<TResult>(object? result) =>
         AtataContext.GlobalProperties.ObjectConverter.Convert<TResult>(result)!;
 }
