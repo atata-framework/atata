@@ -592,5 +592,21 @@ public class ControlListTests : WebDriverSessionTestSuite
         [Test]
         public void Count_Should_BeGreater() =>
             _sut.Count.Should.BeLessOrEqual(5);
+
+        [Test]
+        public void Should_Contain_ByContent() =>
+            _sut.Should.Contain("Item 17");
+
+        [Test]
+        public void Should_Contain_ByPredicate() =>
+            _sut.Should.Contain(x => x == "Item 19");
+
+        [Test]
+        public void ItemByPredicate_Should_BeVisible() =>
+            _sut[x => x == "Item 19"].Should.BeVisible();
+
+        [Test]
+        public void Where_Should_ContainSingle() =>
+            _sut.Where(x => x == "Item 19").Should.ContainSingle();
     }
 }
