@@ -70,7 +70,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
         {
             object? actual = null;
 
-            Func<bool> verificationBlockFunction = () =>
+            bool DoVerify()
             {
                 try
                 {
@@ -92,12 +92,12 @@ public class ObjectVerificationProvider<TObject, TOwner> :
                     return (exactly ? e.GetType() == typeof(TException) : e is TException)
                         && (messageWildcardPattern is null || WildcardPattern.IsMatch(e.Message, messageWildcardPattern, ResolveStringComparison()));
                 }
-            };
+            }
 
             bool doesSatisfy = VerificationUtils.ExecuteUntil(
                 ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
-                    ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(verificationBlockFunction)
-                    : verificationBlockFunction,
+                    ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(DoVerify)
+                    : DoVerify,
                 GetRetryOptions());
 
             if (!doesSatisfy)
@@ -148,7 +148,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
             {
                 Exception? exception = null;
 
-                Func<bool> verificationBlockFunction = () =>
+                bool DoVerify()
                 {
                     try
                     {
@@ -166,12 +166,12 @@ public class ObjectVerificationProvider<TObject, TOwner> :
                         exception = e;
                         return false;
                     }
-                };
+                }
 
                 bool doesSatisfy = VerificationUtils.ExecuteUntil(
                     ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
-                        ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(verificationBlockFunction)
-                        : verificationBlockFunction,
+                        ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(DoVerify)
+                        : DoVerify,
                     GetRetryOptions());
 
                 if (!doesSatisfy)
