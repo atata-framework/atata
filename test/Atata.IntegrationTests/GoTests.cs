@@ -504,7 +504,7 @@ public class GoTests : WebDriverSessionTestSuite
         [SetUp]
         public void SetUp() =>
             BuildAtataContextWithWebDriverSession(
-                x => x.UseBaseUrl(null));
+                x => x.UseBaseUrl(null as string));
 
         [Test]
         public void ToUrl_Relative_WithoutPriorNavigation() =>

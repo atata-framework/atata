@@ -55,6 +55,20 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     /// </summary>
     /// <param name="baseUrl">The base URL.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseBaseUrl(Uri? baseUrl)
+    {
+        if (baseUrl != null && !baseUrl.IsAbsoluteUri)
+            throw new ArgumentException($"Invalid URL. The base URL should be an absolute URI.", nameof(baseUrl));
+
+        BaseUrl = baseUrl?.ToString();
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the base URL.
+    /// </summary>
+    /// <param name="baseUrl">The base URL.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
     public TBuilder UseBaseUrl(string? baseUrl)
     {
         if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))
