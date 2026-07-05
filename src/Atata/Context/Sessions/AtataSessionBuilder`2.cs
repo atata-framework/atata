@@ -131,6 +131,88 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     public AtataSessionEventSubscriptionsBuilder<TBuilder> EventSubscriptions { get; private set; }
 
     /// <summary>
+    /// Gets the sessions (type and name) that this session builder depends on.
+    /// </summary>
+    public IList<(Type Type, string? Name)> DependentSessions { get; private set; } = [];
+
+    /// <summary>
+    /// Gets the dynamic configuration actions.
+    /// </summary>
+    public IList<Action<TBuilder, AtataContext>> DynamicConfiguratonActions { get; private set; } = [];
+
+    /// <summary>
+    /// Adds the specified dynamic configuration action that depends on a specific session.
+    /// This action will be executed when the session is building.
+    /// If the dependent session is not found recursively in contexts during session building, an <see cref="AtataSessionNotFoundException"/> will be thrown.
+    /// </summary>
+    /// <typeparam name="TOtherSession">The type of the other session.</typeparam>
+    /// <param name="configure">A configuration action delegate.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder AddDependentConfiguration<TOtherSession>(Action<TOtherSession> configure)
+        where TOtherSession : AtataSession
+    {
+        Guard.ThrowIfNull(configure);
+        DependentSessions.Add((typeof(TOtherSession), null));
+        DynamicConfiguratonActions.Add((_, context) => configure(context.Sessions.GetRecursively<TOtherSession>()));
+        return (TBuilder)this;
+    }
+
+    /// <inheritdoc cref="AddDependentConfiguration{TOtherSession}(Action{TOtherSession})"/>
+    public TBuilder AddDependentConfiguration<TOtherSession>(Action<TBuilder, TOtherSession> configure)
+        where TOtherSession : AtataSession
+    {
+        Guard.ThrowIfNull(configure);
+        DependentSessions.Add((typeof(TOtherSession), null));
+        DynamicConfiguratonActions.Add((builder, context) => configure(builder, context.Sessions.GetRecursively<TOtherSession>()));
+        return (TBuilder)this;
+    }
+
+    /// <inheritdoc cref="AddDependentConfiguration{TOtherSession}(Action{TOtherSession})"/>
+    /// <param name="sessionName">Name of the session.</param>
+    /// <param name="configure">A configuration action delegate.</param>
+    public TBuilder AddDependentConfiguration<TOtherSession>(string? sessionName, Action<TOtherSession> configure)
+        where TOtherSession : AtataSession
+    {
+        Guard.ThrowIfNull(configure);
+        DependentSessions.Add((typeof(TOtherSession), sessionName));
+        DynamicConfiguratonActions.Add((_, context) => configure(context.Sessions.GetRecursively<TOtherSession>(sessionName)));
+        return (TBuilder)this;
+    }
+
+    /// <inheritdoc cref="AddDependentConfiguration{TOtherSession}(Action{TOtherSession})"/>
+    /// <param name="sessionName">Name of the session.</param>
+    /// <param name="configure">A configuration action delegate.</param>
+    public TBuilder AddDependentConfiguration<TOtherSession>(string? sessionName, Action<TBuilder, TOtherSession> configure)
+        where TOtherSession : AtataSession
+    {
+        Guard.ThrowIfNull(configure);
+        DependentSessions.Add((typeof(TOtherSession), sessionName));
+        DynamicConfiguratonActions.Add((builder, context) => configure(builder, context.Sessions.GetRecursively<TOtherSession>(sessionName)));
+        return (TBuilder)this;
+    }
+
+    /// <inheritdoc cref="AddDynamicConfiguration(Action{TBuilder, AtataContext})"/>
+    public TBuilder AddDynamicConfiguration(Action<TBuilder> configure)
+    {
+        Guard.ThrowIfNull(configure);
+        DynamicConfiguratonActions.Add((builder, _) => configure(builder));
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Adds the specified dynamic configuration action.
+    /// This action will be executed when the session is building.
+    /// </summary>
+    /// <param name="configure">A configuration action delegate.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder AddDynamicConfiguration(Action<TBuilder, AtataContext> configure)
+    {
+        Guard.ThrowIfNull(configure);
+        DynamicConfiguratonActions.Add(configure);
+        return (TBuilder)this;
+    }
+
+    /// <summary>
     /// Sets the <see cref="StartCount"/> value.
     /// </summary>
     /// <param name="count">The count of sessions to build on startup.</param>
@@ -454,6 +536,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
                     await session.EventBus.PublishAsync(new AtataSessionInitStartedEvent(session), cancellationToken)
                         .ConfigureAwait(false);
 
+                    foreach (var dynamicConfigurator in DynamicConfiguratonActions)
+                        dynamicConfigurator.Invoke((TBuilder)this, context);
+
                     session.LogConfiguration();
 
                     await session.StartAsync(cancellationToken).ConfigureAwait(false);
@@ -548,6 +633,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
 
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.State = new Dictionary<string, object>(State);
+
+        copy.DependentSessions = [.. DependentSessions];
+        copy.DynamicConfiguratonActions = [.. DynamicConfiguratonActions];
 
         copy.EventSubscriptions = EventSubscriptions.CloneFor(copy);
     }

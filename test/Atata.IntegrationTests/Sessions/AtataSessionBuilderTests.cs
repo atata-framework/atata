@@ -217,6 +217,125 @@ public static class AtataSessionBuilderTests
             context.Sessions.Should().BeEquivalentTo([session]);
         }
     }
+
+    public sealed class AddDependentConfiguration
+    {
+        [Test]
+        public async Task WithoutSessionName()
+        {
+            // Arrange
+            Mock<Action<FakeSession2Builder, FakeSession>> configureMock = new();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>()
+                .Sessions.Add<FakeSession2Builder>(x => x
+                    .AddDependentConfiguration(configureMock.Object));
+
+            // Act
+            using AtataContext context = await contextBuilder.BuildAsync();
+
+            // Assert
+            context.Sessions.Should().HaveCount(2);
+            context.Sessions[0].Should().BeOfType<FakeSession>();
+            context.Sessions[1].Should().BeOfType<FakeSession2>();
+
+            configureMock.Verify(x => x(It.IsNotNull<FakeSession2Builder>(), It.IsNotNull<FakeSession>()), Times.Once);
+        }
+
+        [Test]
+        public async Task WithoutSessionName_WhenNotFound()
+        {
+            // Arrange
+            Mock<Action<FakeSession>> configureMock = new();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSession2Builder>(x => x
+                    .AddDependentConfiguration(configureMock.Object));
+
+            // Act // Assert
+            Assert.That(
+                async () => await contextBuilder.BuildAsync(),
+                Throws.Exception.TypeOf<AtataSessionNotFoundException>()
+                    .With.Message.StartsWith("Failed to find FakeSession"));
+        }
+
+        [Test]
+        public async Task WithSessionName()
+        {
+            // Arrange
+            Mock<Action<FakeSession2Builder, FakeSession>> configureMock = new();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x.UseName("fake1"))
+                .Sessions.Add<FakeSession2Builder>(x => x
+                    .AddDependentConfiguration("fake1", configureMock.Object));
+
+            // Act
+            using AtataContext context = await contextBuilder.BuildAsync();
+
+            // Assert
+            context.Sessions.Should().HaveCount(2);
+            context.Sessions[0].Should().BeOfType<FakeSession>();
+            context.Sessions[1].Should().BeOfType<FakeSession2>();
+
+            configureMock.Verify(x => x(It.IsNotNull<FakeSession2Builder>(), It.IsNotNull<FakeSession>()), Times.Once);
+        }
+
+        [Test]
+        public async Task WithSessionName_WhenNotFound()
+        {
+            // Arrange
+            Mock<Action<FakeSession>> configureMock = new();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x.UseName("fake1"))
+                .Sessions.Add<FakeSession2Builder>(x => x
+                    .AddDependentConfiguration("fake2", configureMock.Object));
+
+            // Act // Assert
+            Assert.That(
+                async () => await contextBuilder.BuildAsync(),
+                Throws.Exception.TypeOf<AtataSessionNotFoundException>()
+                    .With.Message.StartsWith("Failed to find FakeSession { Name=fake2 }"));
+        }
+    }
+
+    public sealed class AddDynamicConfiguration
+    {
+        [Test]
+        public async Task WithActionHaving1Parameter()
+        {
+            // Arrange
+            Mock<Action<FakeSessionBuilder>> configureMock = new();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .AddDynamicConfiguration(configureMock.Object));
+
+            // Act
+            using AtataContext context = await contextBuilder.BuildAsync();
+
+            // Assert
+            configureMock.Verify(x => x(It.IsNotNull<FakeSessionBuilder>()), Times.Once);
+        }
+
+        [Test]
+        public async Task WithActionHaving2Parameters()
+        {
+            // Arrange
+            Mock<Action<FakeSessionBuilder, AtataContext>> configureMock = new();
+
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .AddDynamicConfiguration(configureMock.Object));
+
+            // Act
+            using AtataContext context = await contextBuilder.BuildAsync();
+
+            // Assert
+            configureMock.Verify(x => x(It.IsNotNull<FakeSessionBuilder>(), It.IsNotNull<AtataContext>()), Times.Once);
+        }
+    }
 }
 
 #pragma warning restore S6966 // Awaitable method should be used

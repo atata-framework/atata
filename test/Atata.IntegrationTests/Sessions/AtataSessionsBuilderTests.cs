@@ -245,7 +245,7 @@ public static class AtataSessionsBuilderTests
             // Arrange
             var sut = AtataContext.CreateDefaultNonScopedBuilder().Sessions;
             sut.Add<FakeSessionBuilder>();
-            sut.Add<FakeSessionBuilder2>();
+            sut.Add<FakeSession2Builder>();
             sut.Add<FakeSessionBuilder>(x => x.Name = "some");
 
             // Act
@@ -253,7 +253,7 @@ public static class AtataSessionsBuilderTests
 
             // Assert
             sut.Builders.Should().ContainSingle()
-                .Which.Should().BeOfType<FakeSessionBuilder2>();
+                .Which.Should().BeOfType<FakeSession2Builder>();
         }
     }
 
