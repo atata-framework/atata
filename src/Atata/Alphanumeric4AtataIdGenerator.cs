@@ -17,6 +17,7 @@ public sealed class Alphanumeric4AtataIdGenerator : IAtataIdGenerator
 
     private readonly Random _random;
 
+    [SuppressMessage("Major Vulnerability", "S2245:Pseudorandom number generators (PRNGs) should not be used in security contexts")]
     public Alphanumeric4AtataIdGenerator()
         : this(new Random())
     {
