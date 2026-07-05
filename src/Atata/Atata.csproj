@@ -33,10 +33,7 @@ The package targets .NET 8.0 and .NET Framework 4.6.2.
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="4.0.0-beta.6" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" Condition="'$(TargetFramework)' == 'net462'" />
-    <PackageReference Include="PolySharp" Version="1.15.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
     <PackageReference Include="Selenium.WebDriver" Version="4.45.0" />
   </ItemGroup>
   
