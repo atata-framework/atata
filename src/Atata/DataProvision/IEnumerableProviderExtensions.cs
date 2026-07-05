@@ -263,6 +263,16 @@ public static class IEnumerableProviderExtensions
             $"Skip({count})",
             x => x.Skip(count));
 
+#if NET8_0_OR_GREATER
+    public static EnumerableValueProvider<TSource, TOwner> SkipLast<TSource, TOwner>(
+        this IEnumerableProvider<TSource, TOwner> source,
+        int count)
+        =>
+        source.Query(
+            $"SkipLast({count})",
+            x => x.SkipLast(count));
+#endif
+
     public static EnumerableValueProvider<TSource, TOwner> SkipWhile<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source,
         Expression<Func<TSource, bool>> predicate)
