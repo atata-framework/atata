@@ -364,7 +364,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
             await context.Sessions.StartPoolAsync(this, cancellationToken)
                 .ConfigureAwait(false);
         }
-        else if (StartCount == 1 || Mode == AtataSessionMode.Pool)
+        else if (StartCount == 1)
         {
             await BuildSessionAsync(context, cancellationToken)
                 .ConfigureAwait(false);
