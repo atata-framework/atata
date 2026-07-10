@@ -42,6 +42,10 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     public AtataContextScope? Scope { get; private set; }
 
+    /// <summary>
+    /// Gets the builder of sessions,
+    /// which provides the functionality to add/configure/remove sessions and session providers.
+    /// </summary>
     public AtataSessionsBuilder Sessions { get; private set; }
 
     /// <summary>
