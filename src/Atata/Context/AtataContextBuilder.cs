@@ -374,7 +374,7 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// Sets the factory method of the test suite (fixture/class) type.
+    /// Sets the factory method of the test suite class type.
     /// </summary>
     /// <param name="testSuiteTypeFactory">The factory method of the test suite type.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -387,7 +387,7 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// Sets the type of the test suite (fixture/class).
+    /// Sets the type of the test suite class.
     /// </summary>
     /// <param name="testSuiteType">The type of the test suite.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
