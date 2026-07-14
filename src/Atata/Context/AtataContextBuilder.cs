@@ -621,6 +621,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Sets the aggregate assertion strategy.
+    /// The default value is an instance of <see cref="AtataAggregateAssertionStrategy"/>.
     /// </summary>
     /// <param name="strategy">The aggregate assertion strategy.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -633,6 +634,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Sets the strategy for warning assertion reporting.
+    /// The default value is an instance of <see cref="AtataWarningReportStrategy"/>.
     /// </summary>
     /// <param name="strategy">The warning report strategy.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -645,6 +647,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Sets the strategy for assertion failure reporting.
+    /// The default value is an instance of <see cref="AtataAssertionFailureReportStrategy"/>.
     /// </summary>
     /// <param name="strategy">The assertion failure reporting strategy.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
