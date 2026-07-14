@@ -288,7 +288,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <param name="key">The state key.</param>
     /// <param name="value">The state value.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseState(string key, object value)
+    public AtataContextBuilder UseState(string key, object? value)
     {
         Guard.ThrowIfNullOrWhitespace(key);
 
@@ -302,7 +302,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="objects">The objects to set.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseState(IEnumerable<KeyValuePair<string, object>> objects)
+    public AtataContextBuilder UseState(IEnumerable<KeyValuePair<string, object?>> objects)
     {
         Guard.ThrowIfNull(objects);
 
