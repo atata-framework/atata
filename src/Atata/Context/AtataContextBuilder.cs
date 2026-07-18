@@ -672,7 +672,7 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// Creates a new clear <see cref="AtataContextBuilder"/> with the same scope arguments.
+    /// Creates a new clean <see cref="AtataContextBuilder"/> instance with the same scope arguments.
     /// If this instance is <see cref="AtataContext.BaseConfiguration"/>,
     /// sets the new cleared instance into <see cref="AtataContext.BaseConfiguration"/>.
     /// </summary>
