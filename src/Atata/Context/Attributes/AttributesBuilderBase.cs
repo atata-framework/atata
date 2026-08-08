@@ -12,7 +12,7 @@ public abstract class AttributesBuilderBase
 
     /// <inheritdoc cref="Add(IEnumerable{Attribute})"/>
     public AtataContextBuilder Add(params Attribute[] attributes) =>
-        Add(attributes!.AsEnumerable());
+        Add(attributes.AsEnumerable());
 
     /// <summary>
     /// Adds the specified attributes.

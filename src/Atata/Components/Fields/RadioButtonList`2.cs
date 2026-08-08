@@ -33,7 +33,7 @@ public class RadioButtonList<TValue, TOwner> : OptionList<TValue, TOwner>
         if (value is null)
             throw new ArgumentNullException(nameof(value), $"Cannot set null value to {nameof(RadioButtonList<,>)} control.");
 
-        IWebElement element = GetItemElement(value!);
+        IWebElement element = GetItemElement(value);
         if (!element.Selected)
             element.ClickWithLogging(Log);
     }
