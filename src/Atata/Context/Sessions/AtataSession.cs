@@ -242,6 +242,7 @@ public abstract class AtataSession : IAsyncDisposable
     /// Asynchronously disposes the session and releases all associated resources.
     /// </summary>
     /// <returns>A <see cref="ValueTask"/> object.</returns>
+    [SuppressMessage("Major Bug", "S8949:The overload accepting a 'CancellationToken' should be used", Justification = "Dispose method doesn't need it.")]
     public async ValueTask DisposeAsync()
     {
         if (!_isDisposed)

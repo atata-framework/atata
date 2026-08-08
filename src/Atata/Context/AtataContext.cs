@@ -1049,6 +1049,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         ThrowPendingExceptions(exceptions);
     }
 
+    [SuppressMessage("Major Bug", "S8949:The overload accepting a 'CancellationToken' should be used", Justification = "Dispose method doesn't need it.")]
     private async Task<List<Exception>> SafelyDisposeAsync()
     {
         BodyExecutionStopwatch.Stop();
