@@ -2,7 +2,8 @@
 
 /// <summary>
 /// <para>
-/// Sets up drivers with auto version detection for the local configured browsers.
+/// Sets up drivers with automatic version detection for the local browsers,
+/// which are specified in the preconfigured <see cref="WebDriverSessionBuilder"/> instances as configured drivers.
 /// Gets the names of configured local browsers from <see cref="WebDriverSessionBuilder.LocalBrowserToUseName"/> property
 /// of <see cref="WebDriverSessionBuilder"/> session builders.
 /// Then invokes <c>Atata.WebDriverSetup.DriverSetup.AutoSetUpSafely(...)</c> static method

@@ -33,18 +33,8 @@ public abstract class AtataSessionRequestBuilder<TBuilder> : AtataSessionBuilder
     public bool StartMultipleInParallel { get; set; } = true;
 
     /// <summary>
-    /// Sets the <see cref="StartMultipleInParallel"/> value.
-    /// </summary>
-    /// <param name="enable">Enables parallel session requests if set to <see langword="true"/>.</param>
-    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseStartMultipleInParallel(bool enable)
-    {
-        StartMultipleInParallel = enable;
-        return (TBuilder)this;
-    }
-
-    /// <summary>
-    /// Sets the <see cref="StartCount"/> value for a session request.
+    /// Sets the <see cref="StartCount"/> value, the count of sessions to request on startup.
+    /// The default value is <c>1</c>.
     /// </summary>
     /// <param name="count">The count of sessions to request on startup.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -53,6 +43,18 @@ public abstract class AtataSessionRequestBuilder<TBuilder> : AtataSessionBuilder
         Guard.ThrowIfLessThan(count, 1);
 
         StartCount = count;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the <see cref="StartMultipleInParallel"/> value, the count of sessions to request on startup.
+    /// The default value is <c>1</c>.
+    /// </summary>
+    /// <param name="enable">Enables parallel session requests if set to <see langword="true"/>.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseStartMultipleInParallel(bool enable)
+    {
+        StartMultipleInParallel = enable;
         return (TBuilder)this;
     }
 

@@ -213,7 +213,10 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="StartCount"/> value.
+    /// Sets the <see cref="StartCount"/> value, the count of sessions to build on startup.
+    /// The default value is <c>1</c>.
+    /// Applies when <see cref="Mode"/> is set to
+    /// <see cref="AtataSessionMode.Own"/> or <see cref="AtataSessionMode.Shared"/>.
     /// </summary>
     /// <param name="count">The count of sessions to build on startup.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -226,7 +229,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="StartMultipleInParallel"/> value.
+    /// Sets the <see cref="StartMultipleInParallel"/> value,
+    /// a value indicating whether to build multiple sessions in parallel on startup
+    /// when <see cref="StartCount"/> is more than <c>1</c>;
+    /// or in case of pool mode, when <see cref="PoolInitialCapacity"/> is more than <c>1</c>.
+    /// The default value is <see langword="true"/>.
     /// </summary>
     /// <param name="enable">Enables parallel session build if set to <see langword="true"/>.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -346,9 +353,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="BaseRetryTimeout"/> value.
-    /// Sets the base retry timeout.
-    /// The default value is <c>5</c> seconds.
+    /// Sets the base retry timeout for session.
+    /// The default value is <see langword="null"/>.
+    /// When <see langword="null"/>, the value for session will be taken from
+    /// <see cref="AtataContext.BaseRetryTimeout"/>,
+    /// which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -359,9 +368,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="BaseRetryInterval"/> value.
-    /// Sets the base retry interval.
-    /// The default value is <c>200</c> milliseconds.
+    /// Sets the base retry interval for session.
+    /// The default value is <see langword="null"/>.
+    /// When <see langword="null"/>, the value for session will be taken from
+    /// <see cref="AtataContext.BaseRetryInterval"/>,
+    /// which is equal to <c>200</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -372,7 +383,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="WaitingTimeout"/> value.
+    /// Sets the waiting timeout for session.
+    /// The default value is <see langword="null"/>.
+    /// When <see langword="null"/>, the value for session will be taken from
+    /// <see cref="BaseRetryTimeout"/> or <see cref="AtataContext.WaitingTimeout"/>,
+    /// which are equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -383,7 +398,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="WaitingRetryInterval"/> value.
+    /// Sets the waiting retry interval for session.
+    /// The default value is <see langword="null"/>.
+    /// When <see langword="null"/>, the value for session will be taken from
+    /// <see cref="BaseRetryTimeout"/> or <see cref="AtataContext.WaitingRetryInterval"/>,
+    /// which are equal to <c>200</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -394,7 +413,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="VerificationTimeout"/> value.
+    /// Sets the verification timeout for session.
+    /// The default value is <see langword="null"/>.
+    /// When <see langword="null"/>, the value for session will be taken from
+    /// <see cref="BaseRetryTimeout"/> or <see cref="AtataContext.VerificationTimeout"/>,
+    /// which are equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -405,7 +428,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="VerificationRetryInterval"/> value.
+    /// Sets the verification retry interval for session.
+    /// The default value is <see langword="null"/>.
+    /// When <see langword="null"/>, the value for session will be taken from
+    /// <see cref="BaseRetryTimeout"/> or <see cref="AtataContext.VerificationRetryInterval"/>,
+    /// which are equal to <c>200</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -416,7 +443,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="SessionWaitingTimeout"/> value.
+    /// Sets the session waiting timeout,
+    /// which is used in session borrowing and getting from pool.
+    /// The default value is <c>5</c> minutes.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -427,7 +456,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     }
 
     /// <summary>
-    /// Sets the <see cref="SessionWaitingRetryInterval"/> value.
+    /// Sets the session waiting retry interval,
+    /// which is used in session borrowing and getting from pool.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>

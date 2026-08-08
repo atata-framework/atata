@@ -79,7 +79,11 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     }
 
     /// <summary>
-    /// Sets the <see cref="ElementFindTimeout"/> value.
+    /// Sets the element find timeout for session.
+    /// The default value is <see langword="null"/>.
+    /// When <see langword="null"/>, the value for session will be taken from
+    /// <see cref="AtataSessionBuilder{TSession, TBuilder}.BaseRetryTimeout"/>  or <see cref="AtataContext.BaseRetryTimeout"/>,
+    /// which are equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -90,7 +94,11 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     }
 
     /// <summary>
-    /// Sets the <see cref="ElementFindRetryInterval"/> value.
+    /// Sets the element find retry interval for session.
+    /// The default value is <see langword="null"/>.
+    /// When <see langword="null"/>, the value for session will be taken from
+    /// <see cref="AtataSessionBuilder{TSession, TBuilder}.BaseRetryInterval"/> or <see cref="AtataContext.BaseRetryInterval"/>,
+    /// which are equal to <c>200</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -116,6 +124,19 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     }
 
     /// <summary>
+    /// Sets the default case of the DOM test identifier attribute.
+    /// The default value is <see cref="TermCase.Kebab"/>.
+    /// </summary>
+    /// <param name="defaultCase">The default case.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseDomTestIdAttributeDefaultCase(TermCase defaultCase)
+    {
+        DomTestIdAttributeDefaultCase = defaultCase;
+
+        return (TBuilder)this;
+    }
+
+    /// <summary>
     /// Sets the waiting time span that is used as a time of immutable/stable DOM state.
     /// The default value is <c>100</c> milliseconds.
     /// </summary>
@@ -126,19 +147,6 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
         Guard.ThrowIfLessThanOrEqualTo(value, TimeSpan.Zero);
 
         WaitForDomImmutableStateTime = value;
-
-        return (TBuilder)this;
-    }
-
-    /// <summary>
-    /// Sets the default case of the DOM test identifier attribute.
-    /// The default value is <see cref="TermCase.Kebab"/>.
-    /// </summary>
-    /// <param name="defaultCase">The default case.</param>
-    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseDomTestIdAttributeDefaultCase(TermCase defaultCase)
-    {
-        DomTestIdAttributeDefaultCase = defaultCase;
 
         return (TBuilder)this;
     }

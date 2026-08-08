@@ -307,7 +307,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         UseDriver(new RemoteWebDriverBuilder(), configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="ChromeDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="ChromeDriver"/> with default <see cref="WebDriverAliases.Chrome"/> alias.
     /// </summary>
     /// <param name="configure">An action delegate to configure the provided <see cref="ChromeDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
@@ -315,7 +315,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         ConfigureChrome(WebDriverAliases.Chrome, configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="ChromeDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="ChromeDriver"/> with the specified <paramref name="alias"/>.
     /// </summary>
     /// <param name="alias">The driver alias.</param>
     /// <param name="configure">An action delegate to configure the provided <see cref="ChromeDriverBuilder"/>.</param>
@@ -327,7 +327,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="FirefoxDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="FirefoxDriver"/> with default <see cref="WebDriverAliases.Firefox"/> alias.
     /// </summary>
     /// <param name="configure">An action delegate to configure the provided <see cref="FirefoxDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
@@ -335,7 +335,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         ConfigureFirefox(WebDriverAliases.Firefox, configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="FirefoxDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="FirefoxDriver"/> with the specified <paramref name="alias"/>.
     /// </summary>
     /// <param name="alias">The driver alias.</param>
     /// <param name="configure">An action delegate to configure the provided <see cref="FirefoxDriverBuilder"/>.</param>
@@ -347,7 +347,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="InternetExplorerDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="InternetExplorerDriver"/> with default <see cref="WebDriverAliases.InternetExplorer"/> alias.
     /// </summary>
     /// <param name="configure">An action delegate to configure the provided <see cref="InternetExplorerDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
@@ -355,7 +355,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         ConfigureInternetExplorer(WebDriverAliases.InternetExplorer, configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="InternetExplorerDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="InternetExplorerDriver"/> with the specified <paramref name="alias"/>.
     /// </summary>
     /// <param name="alias">The driver alias.</param>
     /// <param name="configure">An action delegate to configure the provided <see cref="InternetExplorerDriverBuilder"/>.</param>
@@ -367,7 +367,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="EdgeDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="EdgeDriver"/> with default <see cref="WebDriverAliases.Edge"/> alias.
     /// </summary>
     /// <param name="configure">An action delegate to configure the provided <see cref="EdgeDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
@@ -375,7 +375,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         ConfigureEdge(WebDriverAliases.Edge, configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="EdgeDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="EdgeDriver"/> with the specified <paramref name="alias"/>.
     /// </summary>
     /// <param name="alias">The driver alias.</param>
     /// <param name="configure">An action delegate to configure the provided <see cref="EdgeDriverBuilder"/>.</param>
@@ -387,7 +387,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="SafariDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="SafariDriver"/> with default <see cref="WebDriverAliases.Safari"/> alias.
     /// </summary>
     /// <param name="configure">An action delegate to configure the provided <see cref="SafariDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
@@ -395,7 +395,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         ConfigureSafari(WebDriverAliases.Safari, configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="SafariDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="SafariDriver"/> with the specified <paramref name="alias"/>.
     /// </summary>
     /// <param name="alias">The driver alias.</param>
     /// <param name="configure">An action delegate to configure the provided <see cref="SafariDriverBuilder"/>.</param>
@@ -407,7 +407,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="RemoteWebDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="RemoteWebDriver"/> with default <see cref="WebDriverAliases.Remote"/> alias.
     /// </summary>
     /// <param name="configure">An action delegate to configure the provided <see cref="RemoteWebDriverBuilder"/>.</param>
     /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
@@ -415,7 +415,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         ConfigureRemoteDriver(WebDriverAliases.Remote, configure);
 
     /// <summary>
-    /// Configures an existing or creates a new builder for <see cref="RemoteWebDriver"/> by the specified alias.
+    /// Configures an existing or creates a new builder for <see cref="RemoteWebDriver"/> with the specified <paramref name="alias"/>.
     /// </summary>
     /// <param name="alias">The driver alias.</param>
     /// <param name="configure">An action delegate to configure the provided <see cref="RemoteWebDriverBuilder"/>.</param>
