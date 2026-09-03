@@ -417,6 +417,9 @@ dotnet_diagnostic.S4070.severity = none
 
 dotnet_diagnostic.S4261.severity = warning
 
+# S6444: Pass a timeout to limit the execution time
+dotnet_diagnostic.S6444.severity = none
+
 # S6562: Always set the "DateTimeKind" when creating new "DateTime" instances
 dotnet_diagnostic.S6562.severity = none
 
