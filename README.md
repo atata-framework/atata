@@ -1,3 +1,7 @@
+[简体中文](README_zh-CN.md) | [English](README.md)
+
+---
+
 # [Atata](https://atata.io)
 
 [![NuGet](http://img.shields.io/nuget/v/Atata.svg?style=flat)](https://www.nuget.org/packages/Atata/)
