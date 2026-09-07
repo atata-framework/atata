@@ -129,17 +129,17 @@ You may also find the following tutorials helpful:
 
 - [Basic web UI test project](https://atata.io/tutorials/basic-web-ui-test-project/)\
   How to create a basic web UI test project with a workflow test using Atata Framework
-- [Verification of page](/tutorials/verification-of-page/)\
+- [Verification of page](https://atata.io/tutorials/verification-of-page/)\
   How to verify a web page data using different approaches of Atata Framework.
-- [Verification of validation messages](/tutorials/verification-of-validation-messages/)\
+- [Verification of validation messages](https://atata.io/tutorials/verification-of-validation-messages/)\
   How to verify validation messages on web pages using Atata Framework.
-- [Handle confirmation popups](/tutorials/handle-confirmation-popups/)\
+- [Handle confirmation popups](https://atata.io/tutorials/handle-confirmation-popups/)\
   How to handle different confirmation popups using Atata Framework.
-- [Complex configuration](/tutorials/complex-configuration/)\
+- [Complex configuration](https://atata.io/tutorials/complex-configuration/)\
   How to configure multi-environment tests application using environment variables, *.json* and *.runsettings* files.
-- [Multi-browser configuration via .runsettings files](/tutorials/multi-browser-configuration-via-runsettings-files/)\
+- [Multi-browser configuration via .runsettings files](https://atata.io/tutorials/multi-browser-configuration-via-runsettings-files/)\
   How to configure multi-browser tests application using *.runsettings* files.
-- [Reporting to ExtentReports](/tutorials/reporting-to-extentreports/)\
+- [Reporting to ExtentReports](https://atata.io/tutorials/reporting-to-extentreports/)\
   How to configure Atata reporting to ExtentReports.
 
 ## Community
