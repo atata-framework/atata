@@ -3,30 +3,30 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net462</TargetFrameworks>
     <RootNamespace>Atata</RootNamespace>
-    <Version>4.0.0-beta.14</Version>
+    <Version>4.0.0</Version>
     <Description>
-C#/.NET web UI test automation full-featured framework based on Selenium WebDriver.
+Atata Framework is a full-featured C#/.NET test automation framework built around a powerful context-driven architecture and session-based execution model.
 
 Atata on GitHub: https://github.com/atata-framework/atata
 Atata Framework documentation: https://atata.io
 
 Features:
-- WebDriver. Based on Selenium WebDriver and preserves all its features.
-- Page object model. Provides a unique fluent page object pattern, which is easy to implement and maintain.
-- Components. Contains a rich set of ready-to-use components for inputs, tables, lists, etc.
-- Integration. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, GitHub Actions, or TeamCity.
-- Triggers. A bunch of triggers to bind with different events to extend component behavior.
-- Verification. A set of fluent assertion methods and triggers for a component and data verification.
-- Configurable.  Defines the default component search strategies as well as additional settings. Atata.Configuration.Json provides flexible JSON configurations.
-- Reporting/Logging. Built-in customizable logging; screenshots and snapshots capturing functionality.
-- Extensible. Atata.HtmlValidation adds HTML page validation. Atata.Bootstrap and Atata.KendoUI provide extra components.
+- WebDriver. Provides Selenium WebDriver session functionality. Preserves all WebDriver capabilities for local, remote, and headless browser automation.
+- Page object model. Provides a unique fluent page object pattern for concise, maintainable page and component definitions.
+- Components. Includes a rich set of ready-to-use UI testing components for inputs, tables, lists, etc.
+- Smart verification. Offers fluent assertions, aggregate checks, wait-aware verification, and built-in verification triggers.
+- Triggers. Includes a set of triggers to bind with different events to extend component behavior.
+- Configuration. Enables flexible settings, variables, URL templates, environment-aware run options, etc.
+- Logging and reporting. Built-in customizable structured logging, screenshots, page snapshots, artifact generation, and extensible log consumer support.
+- Extensible ecosystem. Features a bunch of add-ons such as Atata.HtmlValidation, Atata.NLog, Atata.AspNetCore, Atata.Testcontainers.
+- Integration. Easily integrates with NUnit, xUnit, MSTest, Reqnroll via dedicated packages. Works flawlessly on CI systems like GitHub Actions, Jenkins, etc.
 
 The package targets .NET 8.0 and .NET Framework 4.6.2.
     </Description>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageId>Atata</PackageId>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes></PackageReleaseNotes>
+    <PackageReleaseNotes>https://atata.io/blog/2026/09/07/atata-framework-4-release/</PackageReleaseNotes>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
   </PropertyGroup>
 

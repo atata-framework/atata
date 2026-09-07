@@ -8,41 +8,43 @@
 [![Atata docs](https://img.shields.io/badge/docs-Atata_Framework-orange.svg)](https://atata.io)
 [![X](https://img.shields.io/badge/follow-@AtataFramework-blue.svg)](https://x.com/AtataFramework)
 
-C#/.NET web UI test automation full-featured framework based on Selenium WebDriver.
-It uses a fluent page object pattern;
-has a built-in logging system;
-contains a unique triggers functionality;
-has a set of ready-to-use components.
-One of the key ideas of the framework is to provide a simple and intuitive syntax for defining and using page objects.
-A page object implementation requires as less code as possible.
-You can describe a page object class without any methods and only have a set of properties marked with attributes representing page components.
+**Atata Framework** is a full-featured C#/.NET test automation framework built around a powerful context-driven architecture and session-based execution model.
+It provides an intuitive, fluent page object pattern for web UI testing, which remains its core capability,
+while Atata 4 expands beyond web UI automation into a universal, extensible testing ecosystem.
+Designed to minimize boilerplate, Atata enables clean, declarative test components using properties, attributes, and reusable building blocks.
+With customizable built-in logging, a unique event-driven trigger system, and a rich ecosystem of ready-to-use components,
+Atata provides a consistent foundation for building maintainable and scalable automated tests across different testing domains.
 
-- **[What's new in v3.13.0](https://atata.io/blog/2026/09/04/atata-3.13.0-released/)**
-- **[Migrating to Atata 3](https://atata.io/upgrade/to-atata-3/)**
+- **[What's new in v4.0.0](https://atata.io/blog/2026/09/07/atata-framework-4-release/)**
+- **[Migrating to Atata 4](https://atata.io/upgrade/to-atata-4/)**
 
-*The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.*
+*The package targets .NET 8.0 and .NET Framework 4.6.2.*
 
 ## Features
 
 - **WebDriver**.
-  Based on [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) and preserves all its features.
+  Provides [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) session functionality.
+  Preserves all WebDriver capabilities for local, remote, and headless browser automation.
 - **Page object model**.
-  Provides a unique fluent page object pattern, which is easy to implement and maintain.
+  Provides a unique fluent page object pattern for concise, maintainable page and component definitions.
 - **Components**.
-  Contains a rich set of ready-to-use [components](https://atata.io/components/) for inputs, tables, lists, etc.
-- **Integration**.
-  Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, GitHub Actions, or TeamCity.
+  Includes a rich set of ready-to-use UI testing [components](https://atata.io/components/) for inputs, tables, lists, etc.
+- **Smart verification**.
+  Offers fluent assertions, aggregate checks, wait-aware verification, and built-in verification triggers.
 - **Triggers**.
-  A bunch of [triggers](https://atata.io/triggers/) to bind with different events to extend component behavior.
-- **Verification**.
-  A set of fluent assertion methods and triggers for a component and data verification.
-- **Configurable**.
-  Defines the default component search strategies as well as additional settings. [Atata.Configuration.Json](https://github.com/atata-framework/atata-configuration-json) provides flexible JSON configurations.
-- **Reporting/Logging**.
-  Built-in customizable logging; screenshots and snapshots capturing functionality.
-- **Extensible**.
-  [Atata.HtmlValidation](https://github.com/atata-framework/atata-htmlvalidation) adds HTML page validation.
-  [Atata.Bootstrap](https://github.com/atata-framework/atata-bootstrap) and [Atata.KendoUI](https://github.com/atata-framework/atata-kendoui) provide extra components.
+  Includes a set of [triggers](https://atata.io/triggers/) to bind with different events to extend component behavior.
+- **Configuration**.
+  Enables flexible settings, variables, URL templates, environment-aware run options, etc.
+- **Logging and reporting**.
+  Built-in customizable structured logging, screenshots, page snapshots, artifact generation, and extensible log consumer support.
+- **Extensible ecosystem**.
+  Features a bunch of add-ons such as [Atata.HtmlValidation](https://github.com/atata-framework/atata-htmlvalidation),
+  [Atata.NLog](https://github.com/atata-framework/atata-nlog),
+  [Atata.AspNetCore](https://github.com/atata-framework/atata-aspnetcore),
+  [Atata.Testcontainers](https://github.com/atata-framework/atata-testcontainers).
+- **Integration**. 
+  Easily integrates with NUnit, xUnit, MSTest, Reqnroll via dedicated packages.
+  Works flawlessly on CI systems like GitHub Actions, Jenkins, etc.
 
 ## Usage
 
@@ -53,23 +55,21 @@ Simple sign-in page object for https://demo.atata.io/signin page:
 ```C#
 using Atata;
 
-namespace SampleApp.UITests
+namespace SampleApp.UITests;
+
+using _ = SignInPage;
+
+[Url("/signin")] // Relative URL of the page.
+public class SignInPage : Page<_>
 {
-    using _ = SignInPage;
+    [FindByLabel] // Finds <label> element containing "Email" (<label for="email">Email</label>), then finds text <input> element by "id" that equals label's "for" attribute value.
+    public TextInput<_> Email { get; private set; }
 
-    [Url("signin")] // Relative URL of the page.
-    [VerifyH1] // Verifies that H1 header text equals "Sign In" upon page object initialization.
-    public class SignInPage : Page<_>
-    {
-        [FindByLabel] // Finds <label> element containing "Email" (<label for="email">Email</label>), then finds text <input> element by "id" that equals label's "for" attribute value.
-        public TextInput<_> Email { get; private set; }
+    [FindById("password")] // Finds password <input> element by id that equals "password" (<input id="password" type="password">).
+    public PasswordInput<_> Password { get; private set; }
 
-        [FindById("password")] // Finds password <input> element by id that equals "password" (<input id="password" type="password">).
-        public PasswordInput<_> Password { get; private set; }
-
-        [FindByValue(TermCase.Title)] // Finds button element by value that equals "Sign In" (<input value="Sign In" type="submit">).
-        public Button<_> SignIn { get; private set; }
-    }
+    [FindByValue(TermCase.Title)] // Finds button element by value that equals "Sign In" (<input value="Sign In" type="submit">).
+    public Button<_> SignIn { get; private set; }
 }
 ```
 
@@ -88,31 +88,18 @@ public void SignIn()
 }
 ```
 
-### Setup
-
-```C#
-[SetUp]
-public void SetUp()
-{
-    AtataContext.Configure()
-        .UseChrome()
-        .UseBaseUrl("https://demo.atata.io/")
-        .Build();
-}
-```
-
-*Find out more on [Atata usage](https://atata.io/getting-started/#usage). Check [atata-framework/atata-samples](https://github.com/atata-framework/atata-samples) for different Atata test scenario samples.*
+*Find out more on [Atata usage](https://atata.io/getting-started/#usage). Check [atata-framework/atata-samples](https://github.com/atata-framework/atata-samples) repository for different Atata test scenario samples.*
 
 ## Demo
 
-Demo [atata-framework/atata-sample-app-tests](https://github.com/atata-framework/atata-sample-app-tests) UI tests application demonstrates different testing approaches and features of Atata Framework. It covers main Atata features: page navigation, data input and verification, interaction with pop-ups and tables, logging, screenshot capture, etc.
+Demo [atata-framework/atata-sample-app-tests](https://github.com/atata-framework/atata-sample-app-tests) UI tests application demonstrates different testing approaches and features of Atata Framework.
+It covers main Atata features: page navigation, data input and verification, interaction with pop-ups and tables, logging, screenshot capture, etc.
 
 Sample test:
 
 ```C#
 [Test]
-public void Create()
-{
+public void Create() =>
     Login()
         .New()
             .ModalTitle.Should.Be("New User")
@@ -128,9 +115,8 @@ public void Create()
                 .Email.Should.Be(email)
                 .Office.Should.Be(office)
                 .Gender.Should.Be(gender)
-                .Birthday.Should.Not.Exist()
-                .Notes.Should.Not.Exist());
-}
+                .Birthday.Should.Not.BeVisible()
+                .Notes.Should.Not.BeVisible());
 ```
 
 ## Documentation
@@ -139,14 +125,22 @@ Find out more on [Atata Docs](https://atata.io) and on [Getting Started](https:/
 
 ### Tutorials
 
-You can also check the following tutorials:
+You may also find the following tutorials helpful:
 
-- [Atata - C# Web Test Automation Framework](https://www.codeproject.com/articles/Atata-New-Test-Automation-Framework) - an introduction to Atata Framework.
-- [Verification of Page](https://atata.io/tutorials/verification-of-page/) - how to verify web page data using different approaches of Atata Framework.
-- [Verification of Validation Messages](https://atata.io/tutorials/verification-of-validation-messages/) - how to verify validation messages on web pages using Atata Framework.
-- [Handle Confirmation Popups](https://atata.io/tutorials/handle-confirmation-popups/) - how to handle different confirmation popups using Atata Framework.
-- [Multi-Browser Configuration via .runsettings files](https://atata.io/tutorials/multi-browser-configuration-via-runsettings-files/) - how to configure multi-browser tests application using `.runsettings` files.
-- [Reporting to Extent Reports](https://atata.io/tutorials/reporting-to-extentreports/) - how to configure Atata reporting to Extent Reports.
+- [Basic web UI test project](https://atata.io/tutorials/basic-web-ui-test-project/)\
+  How to create a basic web UI test project with a workflow test using Atata Framework
+- [Verification of page](/tutorials/verification-of-page/)\
+  How to verify a web page data using different approaches of Atata Framework.
+- [Verification of validation messages](/tutorials/verification-of-validation-messages/)\
+  How to verify validation messages on web pages using Atata Framework.
+- [Handle confirmation popups](/tutorials/handle-confirmation-popups/)\
+  How to handle different confirmation popups using Atata Framework.
+- [Complex configuration](/tutorials/complex-configuration/)\
+  How to configure multi-environment tests application using environment variables, *.json* and *.runsettings* files.
+- [Multi-browser configuration via .runsettings files](/tutorials/multi-browser-configuration-via-runsettings-files/)\
+  How to configure multi-browser tests application using *.runsettings* files.
+- [Reporting to ExtentReports](/tutorials/reporting-to-extentreports/)\
+  How to configure Atata reporting to ExtentReports.
 
 ## Community
 
@@ -164,11 +158,20 @@ or use another [Atata Contact](https://atata.io/contact/) way.
 
 ## Contact author
 
-Contact me if you need a help in test automation using Atata Framework, or if you are looking for a quality test automation implementation for your project.
+Contact me, Yevhenii Shunevych, if you need help with test automation using the Atata Framework.
+You can [hire me for test automation development or consulting](https://atata.io/consulting/) if you are looking for a high-quality, maintainable automation solution for your project.
 
 - LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
 - Email: yevgeniy.shunevych@gmail.com
 - Consulting: https://atata.io/consulting/
+
+## Sponsorship
+
+Many thanks to the sponsors that regularly support the development of Atata Framework through donations:
+
+- **[Lombiq Technologies](https://lombiq.com/)**
+
+If Atata Framework is useful to you or your company, consider supporting the framework development with a [donation](https://atata.io/donate/).
 
 ## Contributing
 
