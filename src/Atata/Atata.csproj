@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net462</TargetFrameworks>
     <RootNamespace>Atata</RootNamespace>
-    <Version>4.0.0</Version>
+    <Version>4.0.1</Version>
     <Description>
 Atata Framework is a full-featured C#/.NET test automation framework built around a powerful context-driven architecture and session-based execution model.
 
