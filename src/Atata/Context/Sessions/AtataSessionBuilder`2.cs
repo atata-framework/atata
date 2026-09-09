@@ -562,13 +562,13 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
                 new AtataSessionInitLogSection(session),
                 async () =>
                 {
+                    foreach (var dynamicConfigurator in DynamicConfiguratonActions)
+                        dynamicConfigurator.Invoke((TBuilder)this, context);
+
                     ConfigureSession(session);
 
                     await session.EventBus.PublishAsync(new AtataSessionInitStartedEvent(session), cancellationToken)
                         .ConfigureAwait(false);
-
-                    foreach (var dynamicConfigurator in DynamicConfiguratonActions)
-                        dynamicConfigurator.Invoke((TBuilder)this, context);
 
                     session.LogConfiguration();
 
