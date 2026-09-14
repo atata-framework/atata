@@ -6,12 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="log4net.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Atata.Cli" Version="4.0.0" />
     <PackageReference Include="Atata.WebDriverSetup" Version="4.0.0" />
     <PackageReference Include="FluentAssertions" Version="7.2.2" />
