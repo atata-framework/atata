@@ -127,10 +127,10 @@ public class HierarchicalDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TV
         }
     }
 
-    internal void SetInitialValue(TKey key, TValue value) =>
+    public void SetInitialValue(TKey key, TValue value) =>
         _thisDictionary[key] = value;
 
-    internal void ChangeParentDictionary(IReadOnlyDictionary<TKey, TValue> parentDictionary) =>
+    public void SetParentDictionary(IReadOnlyDictionary<TKey, TValue> parentDictionary) =>
         _parentDictionary = parentDictionary;
 
     /// <summary>

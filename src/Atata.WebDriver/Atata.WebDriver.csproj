@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net462</TargetFrameworks>
+    <RootNamespace>Atata.WebDriver</RootNamespace>
+    <Version>5.0.0-beta.1</Version>
+    <PackageId>Atata.WebDriver</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Atata\Atata.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Atata.WebDriverExtras" Version="4.0.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" Condition="'$(TargetFramework)' == 'net462'" />
+    <PackageReference Include="PolySharp" Version="1.16.0" PrivateAssets="all" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.49.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Atata.IntegrationTests" /> <!--TODO: Remove--> 
+    <InternalsVisibleTo Include="Atata.WebDriver.IntegrationTests" />
+    <InternalsVisibleTo Include="Atata.WebDriver.UnitTests" />
+  </ItemGroup>
+
+</Project>

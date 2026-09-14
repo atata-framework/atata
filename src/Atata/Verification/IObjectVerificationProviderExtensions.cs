@@ -150,17 +150,6 @@ public static partial class IObjectVerificationProviderExtensions
             ? objectVerificationProvider.Not
             : (IObjectVerificationProvider<TObject, TOwner>)verificationProvider.GetType().GetPropertyWithThrowOnError("Not").GetValue(verificationProvider)!;
 
-    [Obsolete("Use Be(...) instead.")] // Obsolete since v4.0.0.
-    public static TOwner Equal<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)
-    {
-        var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
-
-        return verifier.Satisfy(
-            actual => equalityComparer.Equals(actual, expected),
-            VerificationMessage.Of("equal {0}", equalityComparer),
-            expected);
-    }
-
     /// <summary>
     /// Verifies that the object is equal to the <paramref name="expected"/> value.
     /// </summary>

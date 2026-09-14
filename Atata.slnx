@@ -18,9 +18,12 @@
     <File Path="src/GenerateDriverAtataContextBuilders.ps1" />
     <File Path="src/GenerateHeadingVerificationTriggers.ps1" />
   </Folder>
+  <Project Path="src/Atata.WebDriver/Atata.WebDriver.csproj" />
   <Project Path="src/Atata/Atata.csproj" />
   <Project Path="test/Atata.Benchmarks/Atata.Benchmarks.csproj" />
   <Project Path="test/Atata.IntegrationTests/Atata.IntegrationTests.csproj" />
   <Project Path="test/Atata.TestApp/Atata.TestApp.csproj" />
   <Project Path="test/Atata.UnitTests/Atata.UnitTests.csproj" />
+  <Project Path="test/Atata.WebDriver.IntegrationTests/Atata.WebDriver.IntegrationTests.csproj" />
+  <Project Path="test/Atata.WebDriver.UnitTests/Atata.WebDriver.UnitTests.csproj" />
 </Solution>

@@ -3,9 +3,9 @@ using System.Net.Sockets;
 
 namespace Atata;
 
-internal static class PortUtils
+public static class PortUtils
 {
-    internal static int FindAvailablePort()
+    public static int FindAvailablePort()
     {
         using Socket portSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         IPEndPoint socketEndPoint = new IPEndPoint(IPAddress.Any, 0);
@@ -13,7 +13,7 @@ internal static class PortUtils
         return ((IPEndPoint)portSocket.LocalEndPoint!).Port;
     }
 
-    internal static int FindAvailablePortExcept(IReadOnlyList<int> portsToIgnore)
+    public static int FindAvailablePortExcept(IReadOnlyList<int> portsToIgnore)
     {
         for (int i = 0; i < 500; i++)
         {
@@ -26,7 +26,7 @@ internal static class PortUtils
         throw new InvalidOperationException("Failed to find free port.");
     }
 
-    internal static bool IsPortAvailable(int port)
+    public static bool IsPortAvailable(int port)
     {
         try
         {

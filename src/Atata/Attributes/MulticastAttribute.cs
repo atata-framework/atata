@@ -237,7 +237,7 @@ public abstract class MulticastAttribute : Attribute
     /// </summary>
     /// <param name="metadata">The metadata.</param>
     /// <returns>The rank.</returns>
-    public virtual int? CalculateTargetRank(UIComponentMetadata metadata)
+    public virtual int? CalculateTargetRank(IComponentMetadata metadata)
     {
         if (!IsNameApplicable(metadata.Name))
             return null;
@@ -260,7 +260,7 @@ public abstract class MulticastAttribute : Attribute
             return null;
 
         int rank = 0;
-        int rankFactor = 100000;
+        int rankFactor = 100_000;
 
         if (TargetNames?.Length > 0)
             rank += rankFactor;

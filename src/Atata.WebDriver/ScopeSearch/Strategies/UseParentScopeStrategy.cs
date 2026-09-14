@@ -1,0 +1,7 @@
+﻿namespace Atata.WebDriver;
+
+public class UseParentScopeStrategy : XPathComponentScopeFindStrategy
+{
+    protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options) =>
+        builder.Self.Any;
+}

@@ -55,9 +55,8 @@ public static class ObjectConverterTests
             TestConvert<TermCase>(nameof(TermCase.Kebab))
                 .Should().Be(TermCase.Kebab);
 
-        [TestCase("findByIdAttribute", ExpectedResult = typeof(FindByIdAttribute))]
-        [TestCase("ordinaryPage", ExpectedResult = typeof(OrdinaryPage))]
-        [TestCase("testPage", ExpectedResult = typeof(TestPage))]
+        [TestCase("termAttribute", ExpectedResult = typeof(TermAttribute))]
+        [TestCase("testComponent", ExpectedResult = typeof(TestComponent))]
         public Type StringToType(string value) =>
             TestConvert<Type>(value);
 

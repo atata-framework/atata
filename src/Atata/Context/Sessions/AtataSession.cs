@@ -200,9 +200,9 @@ public abstract class AtataSession : IAsyncDisposable
 
     internal TimeSpan SessionWaitingRetryInterval { get; set; }
 
-    internal TimeSpan? BaseRetryTimeoutOptional { get; set; }
+    protected internal TimeSpan? BaseRetryTimeoutOptional { get; set; }
 
-    internal TimeSpan? BaseRetryIntervalOptional { get; set; }
+    protected internal TimeSpan? BaseRetryIntervalOptional { get; set; }
 
     internal TimeSpan? WaitingTimeoutOptional { get; set; }
 
@@ -466,13 +466,13 @@ public abstract class AtataSession : IAsyncDisposable
         }
         else
         {
-            Variables.ChangeParentDictionary(context.Variables);
+            Variables.SetParentDictionary(context.Variables);
         }
 
         if (State is null)
             State = new(context.State);
         else
-            State.ChangeParentDictionary(context.State);
+            State.SetParentDictionary(context.State);
 
         OnAssignedToContext();
     }

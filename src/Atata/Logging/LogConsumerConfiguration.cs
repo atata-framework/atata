@@ -58,30 +58,17 @@ public sealed class LogConsumerConfiguration : ICloneable
     /// </summary>
     public LogSectionEndOption SectionEnd { get; internal set; }
 
-    [Obsolete("Use NestingLevelIndent instead.")] // Obsolete since v4.0.0.
-    public string MessageNestingLevelIndent
-    {
-        get => NestingLevelIndent;
-        set => NestingLevelIndent = value;
-    }
-
     /// <summary>
     /// Gets or sets the nesting level indent.
     /// The default value is <c>"- "</c>.
     /// </summary>
     public string NestingLevelIndent { get; set; } = "- ";
 
-    [Obsolete("Use SectionStartPrefix instead.")] // Obsolete since v4.0.0.
-    public string MessageStartSectionPrefix { get; set; } = "> ";
-
     /// <summary>
     /// Gets or sets the prefix of section start.
     /// The default value is <c>"&gt; "</c>.
     /// </summary>
     public string SectionStartPrefix { get; set; } = "> ";
-
-    [Obsolete("Use SectionEndPrefix instead.")] // Obsolete since v4.0.0.
-    public string MessageEndSectionPrefix { get; set; } = "< ";
 
     /// <summary>
     /// Gets or sets the prefix of section end.

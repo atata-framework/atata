@@ -12,12 +12,12 @@ public sealed class TypeFinderTests
             Assembly.GetAssembly(typeof(TypeFinderTests))!
         ];
 
-    [TestCase("Atata.UnitTests.TestPage, Atata.UnitTests", ExpectedResult = typeof(TestPage))]
-    [TestCase("Atata.UnitTests.TestPage", ExpectedResult = typeof(TestPage))]
-    [TestCase("atata.unittests.testpage", ExpectedResult = typeof(TestPage))]
-    [TestCase("unittests.testpage", ExpectedResult = typeof(TestPage))]
-    [TestCase("TestPage", ExpectedResult = typeof(TestPage))]
-    [TestCase("testpage", ExpectedResult = typeof(TestPage))]
+    [TestCase("Atata.UnitTests.TestComponent, Atata.UnitTests", ExpectedResult = typeof(TestComponent))]
+    [TestCase("Atata.UnitTests.TestComponent", ExpectedResult = typeof(TestComponent))]
+    [TestCase("atata.unittests.testcomponent", ExpectedResult = typeof(TestComponent))]
+    [TestCase("unittests.testcomponent", ExpectedResult = typeof(TestComponent))]
+    [TestCase("TestComponent", ExpectedResult = typeof(TestComponent))]
+    [TestCase("testcomponent", ExpectedResult = typeof(TestComponent))]
 
     [TestCase("Atata.UnitTests.Utils.TypeFinderTests+SubClass, Atata.UnitTests", ExpectedResult = typeof(SubClass))]
     [TestCase("Atata.UnitTests.Utils.TypeFinderTests+SubClass", ExpectedResult = typeof(SubClass))]
@@ -33,16 +33,12 @@ public sealed class TypeFinderTests
     [TestCase("Atata.UnitTests.Utils.TypeFinderTests+StaticSubClass+GenericSubClass`1", ExpectedResult = typeof(StaticSubClass.GenericSubClass<>))]
     [TestCase("Utils.TypeFinderTests+StaticSubClass+GenericSubClass`1", ExpectedResult = typeof(StaticSubClass.GenericSubClass<>))]
 
-    [TestCase("button", ExpectedResult = typeof(Button<>))]
-    [TestCase("button`1", ExpectedResult = typeof(Button<>))]
-    [TestCase("button`2", ExpectedResult = typeof(Button<,>))]
+    [TestCase("testcomponent", ExpectedResult = typeof(TestComponent))]
+    [TestCase("testcomponent`1", ExpectedResult = typeof(TestComponent<>))]
+    [TestCase("testcomponent`2", ExpectedResult = typeof(TestComponent<,>))]
 
-    [TestCase("table", ExpectedResult = typeof(Table<,,>))]
-    [TestCase("table`1", ExpectedResult = typeof(Table<>))]
-    [TestCase("table`3", ExpectedResult = typeof(Table<,,>))]
-
-    [TestCase("atata.table", ExpectedResult = typeof(Table<,,>))]
-    [TestCase("atata.table`2", ExpectedResult = typeof(Table<,>))]
+    [TestCase("atata.unittests.testcomponent", ExpectedResult = typeof(TestComponent))]
+    [TestCase("atata.unittests.testcomponent`1", ExpectedResult = typeof(TestComponent<>))]
     public Type FindInAssemblies_WithKnownTypeName(string typeName) =>
         TypeFinder.FindInAssemblies(typeName, _assembliesToFindIn);
 

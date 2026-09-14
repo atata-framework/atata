@@ -94,6 +94,8 @@ public class TriggersPage : Page<_>
         {
         }
 
+        [SuppressMessage("Performance", "CA1822:Mark members as static")]
+        [SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static")]
         private void Execute(TriggerContext<_> context) =>
             context.Component.Owner.InputEvents.Add(context.Event);
     }

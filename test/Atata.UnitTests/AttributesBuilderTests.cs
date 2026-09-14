@@ -4,7 +4,7 @@ public sealed class AttributesBuilderTests
 {
     private readonly Attribute[] _stubAttributes =
     [
-        new FindByIdAttribute(),
+        new CultureAttribute("en-US"),
         new TermAttribute("some-id")
     ];
 
@@ -57,11 +57,11 @@ public sealed class AttributesBuilderTests
     [Test]
     public void Component_ByGenericParameter()
     {
-        _sut.Component<TestPage>()
+        _sut.Component<TestComponent>()
             .Add(_stubAttributes);
 
         _sut.AttributesContext.ComponentMap.Keys.First()
-            .Should().Be<TestPage>();
+            .Should().Be<TestComponent>();
 
         _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which
@@ -71,27 +71,27 @@ public sealed class AttributesBuilderTests
     [Test]
     public void Component_ByType()
     {
-        _sut.Component(typeof(TestPage))
+        _sut.Component(typeof(TestComponent))
             .Add(_stubAttributes);
 
         _sut.AttributesContext.ComponentMap.Keys.First()
-            .Should().Be<TestPage>();
+            .Should().Be<TestComponent>();
 
         _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which
             .Should().Equal(_stubAttributes);
     }
 
-    [TestCase("Atata.UnitTests." + nameof(TestPage) + ", Atata.UnitTests")]
-    [TestCase("Atata.UnitTests." + nameof(TestPage))]
-    [TestCase(nameof(TestPage))]
+    [TestCase("Atata.UnitTests." + nameof(TestComponent) + ", Atata.UnitTests")]
+    [TestCase("Atata.UnitTests." + nameof(TestComponent))]
+    [TestCase(nameof(TestComponent))]
     public void Component_ByTypeName(string typeName)
     {
         _sut.Component(typeName)
             .Add(_stubAttributes);
 
         _sut.AttributesContext.ComponentMap.Keys.First()
-            .Should().Be<TestPage>();
+            .Should().Be<TestComponent>();
 
         _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which

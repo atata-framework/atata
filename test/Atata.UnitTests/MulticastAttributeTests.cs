@@ -8,14 +8,19 @@ public static class MulticastAttributeTests
 
     public class CalculateTargetRank
     {
-        private UIComponentMetadata _metadata = null!;
+        private IComponentMetadata _metadata = null!;
 
         [SetUp]
         public void SetUp()
         {
-            _metadata = new UIComponentMetadata(
-                TargetNames.Some, TargetTypes.Some, TargetParentTypes.Some);
-            _metadata.Push(new TagAttribute(TargetTags.Some));
+            Mock<IComponentMetadata> metadataMock = new();
+
+            metadataMock.SetupGet(x => x.Name).Returns(TargetNames.Some);
+            metadataMock.SetupGet(x => x.ComponentType).Returns(TargetTypes.Some);
+            metadataMock.SetupGet(x => x.ParentComponentType).Returns(TargetParentTypes.Some);
+            metadataMock.Setup(x => x.GetAll<TagAttribute>()).Returns([new TagAttribute(TargetTags.Some)]);
+
+            _metadata = metadataMock.Object;
         }
 
         [Test]
@@ -175,9 +180,9 @@ public static class MulticastAttributeTests
 
     private static class TargetTypes
     {
-        public static readonly Type Some = typeof(Input<,>);
+        public static readonly Type Some = typeof(TestComponent<,>);
 
-        public static readonly Type Other = typeof(Button<>);
+        public static readonly Type Other = typeof(TestComponent<>);
     }
 
     private static class TargetTags
@@ -189,8 +194,8 @@ public static class MulticastAttributeTests
 
     private static class TargetParentTypes
     {
-        public static readonly Type Some = typeof(OrdinaryPage);
+        public static readonly Type Some = typeof(TestComponent<>);
 
-        public static readonly Type Other = typeof(TestPage);
+        public static readonly Type Other = typeof(TestComponent);
     }
 }

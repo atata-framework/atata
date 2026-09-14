@@ -39,8 +39,8 @@ public class TermAttribute : TermSettingsAttribute
 
     /// <summary>
     /// Gets or sets a value indicating whether the name should be cut
-    /// considering the IgnoreNameEndings property value
-    /// of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>.
+    /// considering the <c>IgnoreNameEndings</c> property value
+    /// of component definition attributes, like <c>ControlDefinitionAttribute</c> or <c>PageObjectDefinitionAttribute</c>.
     /// The default value is <see langword="true"/>.
     /// </summary>
     public bool CutEnding

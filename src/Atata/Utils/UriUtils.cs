@@ -57,7 +57,7 @@ public static class UriUtils
 
     [return: NotNullIfNotNull(nameof(uri1))]
     [return: NotNullIfNotNull(nameof(uri2))]
-    internal static string? MergeAsString(string? uri1, string? uri2)
+    public static string? MergeAsString(string? uri1, string? uri2)
     {
         if (uri1 is null)
             return uri2;
@@ -71,6 +71,6 @@ public static class UriUtils
         return DecomposedUri.Merge(uri1, uri2);
     }
 
-    internal static bool IsUrlHasPath(string? url) =>
+    public static bool IsUrlHasPath(string? url) =>
         !string.IsNullOrWhiteSpace(url) && url![0] is not ('?' or '&' or ';' or '#');
 }

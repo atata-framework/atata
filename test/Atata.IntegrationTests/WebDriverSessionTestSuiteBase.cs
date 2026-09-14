@@ -48,6 +48,7 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
         return atataContextBuilder;
     }
 
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements")]
     protected static void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
         where TPage : PageObject<TPage>
     {

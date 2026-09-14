@@ -59,19 +59,4 @@ public static class TermMatchExtensions
             TermMatch.EndsWith => "end with",
             _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(match)
         };
-
-    internal static string FormatComponentName(this TermMatch match, string[] values)
-    {
-        var format = match switch
-        {
-            TermMatch.Contains => "Containing '{0}'",
-            TermMatch.Equals => "{0}",
-            TermMatch.StartsWith => "Starting with '{0}'",
-            TermMatch.EndsWith => "Ending with '{0}'",
-            _ => throw Guard.CreateArgumentExceptionForUnsupportedValue(match)
-        };
-        string combinedValues = TermResolver.ToDisplayString(values);
-
-        return string.Format(format, combinedValues);
-    }
 }

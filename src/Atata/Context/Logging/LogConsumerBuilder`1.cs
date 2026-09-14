@@ -38,10 +38,6 @@ public sealed class LogConsumerBuilder<TLogConsumer>
         return this;
     }
 
-    [Obsolete("Use WithNestingLevelIndent(...) instead.")] // Obsolete since v4.0.0.
-    public LogConsumerBuilder<TLogConsumer> WithMessageNestingLevelIndent(string messageNestingLevelIndent) =>
-        WithNestingLevelIndent(messageNestingLevelIndent);
-
     /// <summary>
     /// Sets the nesting level indent.
     /// The default value is <c>"- "</c>.
@@ -54,10 +50,6 @@ public sealed class LogConsumerBuilder<TLogConsumer>
         return this;
     }
 
-    [Obsolete("Use WithSectionStartPrefix(...) instead.")] // Obsolete since v4.0.0.
-    public LogConsumerBuilder<TLogConsumer> WithMessageStartSectionPrefix(string messageStartSectionPrefix) =>
-        WithSectionStartPrefix(messageStartSectionPrefix);
-
     /// <summary>
     /// Sets the prefix of section start.
     /// The default value is <c>"&gt; "</c>.
@@ -69,10 +61,6 @@ public sealed class LogConsumerBuilder<TLogConsumer>
         _configuration.ConsumerConfiguration.SectionStartPrefix = sectionStartPrefix;
         return this;
     }
-
-    [Obsolete("Use WithSectionEndPrefix(...) instead.")] // Obsolete since v4.0.0.
-    public LogConsumerBuilder<TLogConsumer> WithMessageEndSectionPrefix(string messageEndSectionPrefix) =>
-        WithSectionEndPrefix(messageEndSectionPrefix);
 
     /// <summary>
     /// Sets the prefix of section end.

@@ -2,7 +2,7 @@
 
 public static class TypeExtensions
 {
-    internal static bool IsClassOrNullable(this Type type)
+    public static bool IsClassOrNullable(this Type type)
     {
         Guard.ThrowIfNull(type);
 
@@ -37,7 +37,7 @@ public static class TypeExtensions
         }
     }
 
-    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name)
+    public static MethodInfo GetMethodWithThrowOnError(this Type type, string name)
     {
         Guard.ThrowIfNull(type);
         Guard.ThrowIfNullOrWhitespace(name);
@@ -46,7 +46,7 @@ public static class TypeExtensions
             ?? throw new MissingMethodException(type.FullName, name);
     }
 
-    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, Type[] types)
+    public static MethodInfo GetMethodWithThrowOnError(this Type type, string name, Type[] types)
     {
         Guard.ThrowIfNull(type);
         Guard.ThrowIfNullOrWhitespace(name);
@@ -55,7 +55,7 @@ public static class TypeExtensions
             ?? throw new MissingMethodException(type.FullName, name);
     }
 
-    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags)
+    public static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags)
     {
         Guard.ThrowIfNull(type);
         Guard.ThrowIfNullOrWhitespace(name);
@@ -64,7 +64,7 @@ public static class TypeExtensions
             ?? throw new MissingMethodException(type.FullName, name);
     }
 
-    internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags, Type[] types)
+    public static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags, Type[] types)
     {
         Guard.ThrowIfNull(type);
         Guard.ThrowIfNullOrWhitespace(name);
@@ -73,7 +73,7 @@ public static class TypeExtensions
             ?? throw new MissingMethodException(type.FullName, name);
     }
 
-    internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
+    public static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
     {
         Guard.ThrowIfNull(type);
         Guard.ThrowIfNullOrWhitespace(name);
@@ -86,7 +86,7 @@ public static class TypeExtensions
             ?? throw new MissingMemberException(type.FullName, name);
     }
 
-    internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, Type? propertyType, BindingFlags bindingFlags = BindingFlags.Default)
+    public static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, Type? propertyType, BindingFlags bindingFlags = BindingFlags.Default)
     {
         if (propertyType is null)
             return type.GetPropertyWithThrowOnError(name, bindingFlags);
@@ -102,7 +102,7 @@ public static class TypeExtensions
             ?? throw new MissingMemberException(type.FullName, name);
     }
 
-    internal static FieldInfo GetFieldWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
+    public static FieldInfo GetFieldWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
     {
         Guard.ThrowIfNull(type);
         Guard.ThrowIfNullOrWhitespace(name);

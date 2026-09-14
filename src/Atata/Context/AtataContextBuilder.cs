@@ -231,14 +231,6 @@ public sealed class AtataContextBuilder : ICloneable
         return this;
     }
 
-    [Obsolete("Use UseVariable instead.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder AddVariable(string key, object? value) =>
-        UseVariable(key, value);
-
-    [Obsolete("Use UseVariables instead.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder AddVariables(IDictionary<string, object?> variables) =>
-        UseVariables(variables);
-
     /// <summary>
     /// Sets the variable.
     /// </summary>
@@ -554,22 +546,6 @@ public sealed class AtataContextBuilder : ICloneable
     public AtataContextBuilder UseCulture(string cultureName) =>
         UseCulture(CultureInfo.GetCultureInfo(cultureName));
 
-    [Obsolete("Use UseAssertionExceptionFactory(...) instead for custom exception, " +
-        "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder UseAssertionExceptionType<TException>()
-        where TException : Exception
-        =>
-        UseAssertionExceptionType(typeof(TException));
-
-    [Obsolete("Use UseAssertionExceptionFactory(...) instead for custom exception, " +
-        "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder UseAssertionExceptionType(Type exceptionType)
-    {
-        Guard.ThrowIfNot<Exception>(exceptionType);
-
-        return UseAssertionExceptionFactory(new TypeBasedAssertionExceptionFactory(exceptionType));
-    }
-
     /// <summary>
     /// Sets the assertion exception factory.
     /// The default value is an instance of <see cref="AtataAssertionExceptionFactory"/>.
@@ -582,22 +558,6 @@ public sealed class AtataContextBuilder : ICloneable
         return this;
     }
 
-    [Obsolete("Use UseAggregateAssertionExceptionFactory(...) instead for custom exception, " +
-        "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder UseAggregateAssertionExceptionType<TException>()
-        where TException : Exception
-        =>
-        UseAggregateAssertionExceptionType(typeof(TException));
-
-    [Obsolete("Use UseAggregateAssertionExceptionFactory(...) instead for custom exception, " +
-        "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder UseAggregateAssertionExceptionType(Type exceptionType)
-    {
-        Guard.ThrowIfNot<Exception>(exceptionType);
-
-        return UseAggregateAssertionExceptionFactory(new TypeBasedAggregateAssertionExceptionFactory(exceptionType));
-    }
-
     /// <summary>
     /// Sets the aggregate assertion exception factory.
     /// The default value is an instance of <see cref="AtataAggregateAssertionExceptionFactory"/>.
@@ -608,15 +568,6 @@ public sealed class AtataContextBuilder : ICloneable
     {
         AggregateAssertionExceptionFactory = factory;
         return this;
-    }
-
-    [Obsolete("Use UseAggregateAssertionStrategy(IAggregateAssertionStrategy) instead.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder UseAggregateAssertionStrategy<TAggregateAssertionStrategy>()
-        where TAggregateAssertionStrategy : IAggregateAssertionStrategy, new()
-    {
-        TAggregateAssertionStrategy strategy = new();
-
-        return UseAggregateAssertionStrategy(strategy);
     }
 
     /// <summary>
@@ -844,26 +795,6 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.Log.Trace($"Set: Culture={culture.Name}");
     }
-
-    [Obsolete("Instead use SetUpWebDriversForUse() for global AtataContextBuilder before build. " +
-        "Alternatively use SetUpWebDrivers(BrowserNames...) to specify driver names explicitly.")] // Obsolete since v4.0.0.
-    public void AutoSetUpDriverToUse() =>
-        throw new NotSupportedException();
-
-    [Obsolete("Instead use SetUpWebDriversForUse() for global AtataContextBuilder before build. " +
-        "Alternatively use SetUpWebDrivers(BrowserNames...) to specify driver names explicitly.")] // Obsolete since v4.0.0.
-    public Task AutoSetUpDriverToUseAsync() =>
-        throw new NotSupportedException();
-
-    [Obsolete("Instead use SetUpWebDriversConfigured() for global AtataContextBuilder before build. " +
-        "Alternatively use SetUpWebDrivers(BrowserNames...) to specify driver names explicitly.")] // Obsolete since v4.0.0.
-    public void AutoSetUpConfiguredDrivers() =>
-        throw new NotSupportedException();
-
-    [Obsolete("Instead use SetUpWebDriversConfigured() for global AtataContextBuilder before build. " +
-        "Alternatively use SetUpWebDrivers(BrowserNames...) to specify driver names explicitly.")] // Obsolete since v4.0.0.
-    public Task AutoSetUpConfiguredDriversAsync() =>
-        throw new NotSupportedException();
 
     object ICloneable.Clone() =>
         Clone();

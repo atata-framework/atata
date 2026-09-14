@@ -1,0 +1,94 @@
+﻿namespace Atata.WebDriver;
+
+public class UIComponentAccessChainScopeCache
+{
+    private readonly Dictionary<UIComponent, Dictionary<Visibility, IWebElement>> _accessChainItems = [];
+
+    internal bool IsActive { get; private set; }
+
+    internal bool TryGet(UIComponent component, Visibility visibility, [MaybeNullWhen(false)] out IWebElement scope)
+    {
+        scope = null;
+
+        return _accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement>? visibiltyElementMap)
+            && visibiltyElementMap.TryGetValue(visibility, out scope);
+    }
+
+    internal bool AcquireActivation()
+    {
+        if (IsActive)
+            return false;
+
+        IsActive = true;
+        return true;
+    }
+
+    internal void Set(UIComponent component, Visibility visibility, IWebElement scope)
+    {
+        if (IsActive)
+        {
+            if (!_accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement>? visibiltyElementMap))
+            {
+                visibiltyElementMap = [];
+                _accessChainItems.Add(component, visibiltyElementMap);
+            }
+
+            visibiltyElementMap[visibility] = scope;
+        }
+    }
+
+    internal void Release()
+    {
+        Clear();
+        IsActive = false;
+    }
+
+    public void Clear() =>
+        _accessChainItems.Clear();
+
+    public void ExecuteWithin(Action action)
+    {
+        Guard.ThrowIfNull(action);
+
+        bool isActivatedAccessChainCache = AcquireActivation();
+
+        if (isActivatedAccessChainCache)
+        {
+            try
+            {
+                action.Invoke();
+            }
+            finally
+            {
+                Release();
+            }
+        }
+        else
+        {
+            action.Invoke();
+        }
+    }
+
+    public TResult ExecuteWithin<TResult>(Func<TResult> function)
+    {
+        Guard.ThrowIfNull(function);
+
+        bool isActivatedAccessChainCache = AcquireActivation();
+
+        if (isActivatedAccessChainCache)
+        {
+            try
+            {
+                return function.Invoke();
+            }
+            finally
+            {
+                Release();
+            }
+        }
+        else
+        {
+            return function.Invoke();
+        }
+    }
+}

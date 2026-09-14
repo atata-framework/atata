@@ -89,31 +89,6 @@ public abstract class TestSuiteBase
         return exception;
     }
 
-    // TODO: Remove after Log4Net functionality is removed.
-    protected static void AssertThatFileExists(string filePath) =>
-        Assert.That(new FileInfo(filePath), Does.Exist);
-
-    // TODO: Remove after Log4Net functionality is removed.
-    protected static void AssertThatFileShouldContainText(string filePath, params string[] texts)
-    {
-        AssertThatFileExists(filePath);
-
-        using FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        using StreamReader reader = new(fileStream);
-
-        string fileContent = reader.ReadToEnd();
-        fileContent.Should().ContainAll(texts);
-    }
-
-    // TODO: Remove after Log4Net functionality is removed.
-    protected static void AssertThatFileShouldNotContainText(string filePath, params string[] texts)
-    {
-        AssertThatFileExists(filePath);
-
-        string fileContent = File.ReadAllText(filePath);
-        fileContent.Should().NotContainAll(texts);
-    }
-
     protected void VerifyLastLogMessages(LogLevel minLogLevel, params string[] expectedMessages)
     {
         var actualMessages = CurrentLog.GetMessagesSnapshot(minLogLevel, expectedMessages.Length);

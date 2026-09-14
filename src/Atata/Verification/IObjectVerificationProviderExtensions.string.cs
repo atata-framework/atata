@@ -76,14 +76,6 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
-    [Obsolete("Use MatchRegex(...) instead.")] // Obsolete since v4.0.0.
-    public static TOwner Match<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string pattern) =>
-        verifier.MatchRegex(pattern, RegexOptions.None);
-
-    [Obsolete("Use MatchRegex(...) instead.")] // Obsolete since v4.0.0.
-    public static TOwner Match<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string pattern, RegexOptions regexOptions) =>
-        verifier.MatchRegex(pattern, regexOptions);
-
     /// <summary>
     /// Verifies that a string matches the specified regular expression pattern.
     /// </summary>

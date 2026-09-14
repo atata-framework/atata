@@ -2,46 +2,46 @@
 
 public static class ObjectCreatorTests
 {
-    public class Create
+    public sealed class Create
     {
         private ObjectCreator _sut = null!;
 
         [SetUp]
         public void SetUp()
         {
-            IObjectConverter objectConverter = new ObjectConverter();
-            IObjectMapper objectMapper = new ObjectMapper(objectConverter);
+            ObjectConverter objectConverter = new();
+            ObjectMapper objectMapper = new(objectConverter);
 
-            _sut = new ObjectCreator(objectConverter, objectMapper);
+            _sut = new(objectConverter, objectMapper);
         }
 
         [Test]
         public void Empty()
         {
             object result = _sut.Create(
-                typeof(IgnoreInitAttribute),
+                typeof(TestClassEmpty),
                 []);
 
-            result.Should().BeOfType<IgnoreInitAttribute>();
+            result.Should().BeOfType<TestClassEmpty>();
         }
 
         [Test]
         public void WithPropertyValues_ForTypeWithDefaultConstructor()
         {
             object result = _sut.Create(
-                typeof(TraceLogAttribute),
+                typeof(TestClassWithProperties),
                 new Dictionary<string, object?>
                 {
-                    ["targetName"] = "SomeName",
-                    ["targetParentTypes"] = new[] { nameof(OrdinaryPage), nameof(TestPage) }
+                    ["id"] = 1,
+                    ["name"] = "SomeName"
                 });
 
-            var castedResult = result.Should().BeOfType<TraceLogAttribute>().Subject;
+            var castedResult = result.Should().BeOfType<TestClassWithProperties>().Subject;
 
             using (new AssertionScope())
             {
-                castedResult.TargetNames.Should().Equal("SomeName");
-                castedResult.TargetParentTypes.Should().Equal(typeof(OrdinaryPage), typeof(TestPage));
+                castedResult.Id.Should().Be(1);
+                castedResult.Name.Should().Be("SomeName");
             }
         }
 
@@ -49,19 +49,19 @@ public static class ObjectCreatorTests
         public void WithPropertyValues_ForTypeWithoutDefaultConstructor()
         {
             object result = _sut.Create(
-                typeof(FindByIdAttribute),
+                typeof(TestClassWithConstructorsAndProperties),
                 new Dictionary<string, object?>
                 {
-                    ["targetName"] = "SomeName",
-                    ["targetParentTypes"] = new[] { nameof(OrdinaryPage), nameof(TestPage) }
+                    ["id"] = 1,
+                    ["name"] = "SomeName"
                 });
 
-            var castedResult = result.Should().BeOfType<FindByIdAttribute>().Subject;
+            var castedResult = result.Should().BeOfType<TestClassWithConstructorsAndProperties>().Subject;
 
             using (new AssertionScope())
             {
-                castedResult.TargetNames.Should().Equal("SomeName");
-                castedResult.TargetParentTypes.Should().Equal(typeof(OrdinaryPage), typeof(TestPage));
+                castedResult.Id.Should().Be(1);
+                castedResult.Name.Should().Be("SomeName");
             }
         }
 
@@ -69,72 +69,72 @@ public static class ObjectCreatorTests
         public void WithConstructorParametersAndPropertyValues()
         {
             object result = _sut.Create(
-                typeof(FindByIdAttribute),
+                typeof(TestClassWithConstructorsAndProperties),
                 new Dictionary<string, object?>
                 {
-                    ["match"] = TermMatch.StartsWith,
-                    ["values"] = new[] { "val1", "val2" },
-                    ["format"] = "{0}!"
+                    ["id"] = 1,
+                    ["keys"] = new[] { "a", "b" },
+                    ["name"] = "SomeName"
                 });
 
-            var castedResult = result.Should().BeOfType<FindByIdAttribute>().Subject;
+            var castedResult = result.Should().BeOfType<TestClassWithConstructorsAndProperties>().Subject;
 
             using (new AssertionScope())
             {
-                castedResult.Match.Should().Be(TermMatch.StartsWith);
-                castedResult.Values.Should().Equal("val1", "val2");
-                castedResult.Format.Should().Be("{0}!");
+                castedResult.Id.Should().Be(1);
+                castedResult.Keys.Should().Equal("a", "b");
+                castedResult.Name.Should().Be("SomeName");
             }
         }
 
         [Test]
-        public void WithAlternativeConstructorParameterName_Value()
+        public void WithAlternativeConstructorParameterName()
         {
             object result = _sut.Create(
-                typeof(FindByIdAttribute),
+                typeof(TestClassWithConstructorsAndProperties),
                 new Dictionary<string, object?>
                 {
-                    ["match"] = TermMatch.EndsWith,
-                    ["value"] = "val1"
+                    ["id"] = 1,
+                    ["keysCustom"] = new[] { "a", "b" }
                 },
                 new Dictionary<string, string>
                 {
-                    ["value"] = "values",
-                    ["case"] = "termCase"
+                    ["keysCustom"] = "keys",
+                    ["nameCustom"] = "name"
                 });
 
-            var castedResult = result.Should().BeOfType<FindByIdAttribute>().Subject;
+            var castedResult = result.Should().BeOfType<TestClassWithConstructorsAndProperties>().Subject;
 
             using (new AssertionScope())
             {
-                castedResult.Match.Should().Be(TermMatch.EndsWith);
-                castedResult.Values.Should().Equal("val1");
+                castedResult.Id.Should().Be(1);
+                castedResult.Keys.Should().Equal("a", "b");
             }
         }
 
-        [Test]
-        public void WithAlternativeConstructorParameterName_Case()
+        [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty")]
+        public sealed class TestClassEmpty;
+
+        public sealed class TestClassWithProperties
         {
-            object result = _sut.Create(
-                typeof(FindByIdAttribute),
-                new Dictionary<string, object?>
-                {
-                    ["case"] = TermCase.LowerMerged,
-                    ["match"] = TermMatch.EndsWith
-                },
-                new Dictionary<string, string>
-                {
-                    ["value"] = "values",
-                    ["case"] = "termCase"
-                });
+            public int Id { get; set; }
 
-            var castedResult = result.Should().BeOfType<FindByIdAttribute>().Subject;
+            public required string Name { get; init; }
+        }
 
-            using (new AssertionScope())
-            {
-                castedResult.Match.Should().Be(TermMatch.EndsWith);
-                castedResult.Case.Should().Be(TermCase.LowerMerged);
-            }
+        public sealed class TestClassWithConstructorsAndProperties
+        {
+            public TestClassWithConstructorsAndProperties(params string[] keys) =>
+                Keys = keys;
+
+            public TestClassWithConstructorsAndProperties(int id, params string[] keys) =>
+               (Id, Keys) = (id, keys);
+
+            public string[] Keys { get; }
+
+            public int Id { get; set; }
+
+            public required string Name { get; init; }
         }
     }
 }

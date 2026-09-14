@@ -1,4 +1,4 @@
-﻿using RandomizeFunc = System.Func<Atata.UIComponentMetadata, object>;
+﻿using RandomizeFunc = System.Func<Atata.IComponentMetadata, object>;
 
 namespace Atata;
 
@@ -23,7 +23,7 @@ public static class ValueRandomizer
         RegisterNumberRandomizer<decimal>();
     }
 
-    public static void RegisterRandomizer<T>(Func<UIComponentMetadata, T> randomizeFunction)
+    public static void RegisterRandomizer<T>(Func<IComponentMetadata, T> randomizeFunction)
     {
         Guard.ThrowIfNull(randomizeFunction);
 
@@ -35,7 +35,7 @@ public static class ValueRandomizer
         =>
         s_randomizers[typeof(T)] = md => RandomizeNumber<T>(md);
 
-    private static string RandomizeString(UIComponentMetadata metadata)
+    private static string RandomizeString(IComponentMetadata metadata)
     {
         if (!TryRandomizeOneOfIncluded(metadata, out string value))
         {
@@ -49,7 +49,7 @@ public static class ValueRandomizer
         return value;
     }
 
-    private static T RandomizeNumber<T>(UIComponentMetadata metadata)
+    private static T RandomizeNumber<T>(IComponentMetadata metadata)
     {
         if (!TryRandomizeOneOfIncluded(metadata, out T value))
         {
@@ -66,18 +66,18 @@ public static class ValueRandomizer
         return value;
     }
 
-    private static bool RandomizeBool(UIComponentMetadata metadata) =>
+    private static bool RandomizeBool(IComponentMetadata metadata) =>
         Randomizer.GetBool();
 
     [return: NotNull]
-    private static T RandomizeNonFlagEnum<T>(Type enumType, UIComponentMetadata metadata)
+    private static T RandomizeNonFlagEnum<T>(Type enumType, IComponentMetadata metadata)
     {
         var optionValues = GetEnumOptionValues<T>(enumType, metadata);
         return Randomizer.GetOneOf(optionValues);
     }
 
     [return: NotNull]
-    private static T RandomizeFlagsEnum<T>(Type enumType, UIComponentMetadata metadata)
+    private static T RandomizeFlagsEnum<T>(Type enumType, IComponentMetadata metadata)
     {
         var optionValues = GetEnumOptionValues<T>(enumType, metadata);
         var countAttribute = metadata.Get<RandomizeCountAttribute>();
@@ -98,7 +98,7 @@ public static class ValueRandomizer
         }
     }
 
-    private static T[] GetEnumOptionValues<T>(Type enumType, UIComponentMetadata metadata)
+    private static T[] GetEnumOptionValues<T>(Type enumType, IComponentMetadata metadata)
     {
         T[] values = GetRandomizeIncludeValues<T>(metadata);
 
@@ -116,7 +116,7 @@ public static class ValueRandomizer
         return values;
     }
 
-    private static bool TryRandomizeOneOfIncluded<T>(UIComponentMetadata metadata, out T value)
+    private static bool TryRandomizeOneOfIncluded<T>(IComponentMetadata metadata, out T value)
     {
         T[] includeValues = GetRandomizeIncludeValues<T>(metadata);
 
@@ -132,7 +132,7 @@ public static class ValueRandomizer
         }
     }
 
-    private static T[] GetRandomizeIncludeValues<T>(UIComponentMetadata metadata)
+    private static T[] GetRandomizeIncludeValues<T>(IComponentMetadata metadata)
     {
         var includeAttribute = metadata.Get<RandomizeIncludeAttribute>();
 
@@ -140,7 +140,7 @@ public static class ValueRandomizer
     }
 
     [return: NotNull]
-    public static T GetRandom<T>(UIComponentMetadata metadata)
+    public static T GetRandom<T>(IComponentMetadata metadata)
     {
         Type type = typeof(T);
         type = Nullable.GetUnderlyingType(type) ?? type;

@@ -98,7 +98,7 @@ public static class VerificationUtils
         return StackTraceFilter.TakeBeforeInvokeMethodOfRuntimeMethodHandle(stackTrace);
     }
 
-    internal static bool ExecuteUntil(Func<bool> condition, (TimeSpan Timeout, TimeSpan RetryInterval) retryOptions)
+    public static bool ExecuteUntil(Func<bool> condition, (TimeSpan Timeout, TimeSpan RetryInterval) retryOptions)
     {
         RetryWait retryWait = new(retryOptions.Timeout, retryOptions.RetryInterval);
 

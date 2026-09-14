@@ -8,10 +8,6 @@
 /// </summary>
 public sealed class AtataContextGlobalProperties
 {
-    [Obsolete("Use DefaultArtifactsRootPathTemplateExcludingRunStart instead.")] // Obsolete since v4.0.0.
-    public const string DefaultArtifactsRootPathTemplateWithoutBuildStartFolder =
-        "{basedir}/artifacts";
-
     public const string DefaultArtifactsRootPathTemplateExcludingRunStart =
         "{basedir}/artifacts";
 
@@ -55,19 +51,11 @@ public sealed class AtataContextGlobalProperties
         }
     }
 
-    [Obsolete("Use RunStartUtc instead.")] // Obsolete since v4.0.0.
-    public DateTime BuildStartUtc =>
-        RunStartUtc;
-
     /// <summary>
     /// Gets the run start UTC date/time.
     /// Has the same value for all the tests being executed within one run.
     /// </summary>
     public DateTime RunStartUtc { get; private set; } = DateTime.UtcNow;
-
-    [Obsolete("Use RunStart instead.")] // Obsolete since v4.0.0.
-    public DateTime BuildStart =>
-        RunStart;
 
     /// <summary>
     /// Gets the run start date/time in <see cref="TimeZone"/> (local by default).
@@ -186,10 +174,6 @@ public sealed class AtataContextGlobalProperties
     /// The default value is an instance of <see cref="Alphanumeric4AtataIdGenerator"/>.
     /// </summary>
     public IAtataIdGenerator IdGenerator { get; set; } = new Alphanumeric4AtataIdGenerator();
-
-    [Obsolete("Use UseDefaultArtifactsRootPathTemplateIncludingRunStart instead.")] // Obsolete since v4.0.0.
-    public AtataContextGlobalProperties UseDefaultArtifactsRootPathTemplateIncludingBuildStart(bool include) =>
-        UseDefaultArtifactsRootPathTemplateIncludingRunStart(include);
 
     /// <summary>
     /// Sets the default Artifacts Root path template with optionally
