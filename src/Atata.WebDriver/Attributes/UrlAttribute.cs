@@ -5,7 +5,7 @@
 /// Specifies the URL to navigate to during initialization of page object.
 /// Applies to page object types.
 /// The URL can be either absolute or relative.
-/// In case of relative URL, it is concatenated with the <see cref="AtataContext.BaseUrl"/>.
+/// In case of relative URL, it is concatenated with the <see cref="WebSession.BaseUrl"/>.
 /// </para>
 /// <para>
 /// The URL can be represented in a template format, like <c>"/organization/{OrganizationId}/details"</c>.
