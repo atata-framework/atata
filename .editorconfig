@@ -362,6 +362,10 @@ dotnet_diagnostic.S2187.severity = none
 
 dotnet_diagnostic.S2302.severity = warning
 
+# S2325: Methods and properties that don't access instance data should be static
+# Duplicates CA1822
+dotnet_diagnostic.S2325.severity = none
+
 dotnet_diagnostic.S2357.severity = warning
 
 dotnet_diagnostic.S2387.severity = warning
