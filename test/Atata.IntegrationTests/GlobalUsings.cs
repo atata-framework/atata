@@ -1,7 +1,6 @@
 ﻿global using System.Diagnostics;
 global using System.Diagnostics.CodeAnalysis;
 global using FluentAssertions;
-global using FluentAssertions.Execution;
 global using Moq;
 global using NUnit.Framework;
 global using NUnit.Framework.Interfaces;
