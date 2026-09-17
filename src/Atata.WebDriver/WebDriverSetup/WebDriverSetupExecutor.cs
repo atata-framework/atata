@@ -27,7 +27,7 @@ internal static class WebDriverSetupExecutor
         await context.Log.CreateSubLog().ExecuteSectionAsync(
             new SetUpWebDriversLogSection(browserNames),
             async () =>
-                await WebDriverSetupAdapter.AutoSetUpSafelyAsync(browserNames, context.DefaultCancellationToken)
+                await WebDriverSetupAdapter.AutoSetUpSafelyAsync(browserNames, cancellationToken)
                     .ConfigureAwait(false))
             .ConfigureAwait(false);
 }
