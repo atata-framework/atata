@@ -46,6 +46,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
     public new FieldVerificationProvider<TValue, CheckBoxList<TValue, TOwner>, TOwner> WaitTo =>
         Should.Using(WaitingVerificationStrategy.Instance);
 
+    [SuppressMessage("Style", "IDE0305:Simplify collection initialization")]
     protected override TValue GetValue()
     {
         TValue[] selectedValues = GetItemElements()

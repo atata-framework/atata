@@ -4,6 +4,7 @@ internal sealed class AtataSessionWithScopedCachingExecutionUnit : AtataSessionE
 {
     private readonly ISupportsScopedCaching _sessionSupportingScopedCaching;
 
+    [SuppressMessage("Critical Code Smell", "S1944:Invalid casts should be avoided")]
     public AtataSessionWithScopedCachingExecutionUnit(AtataSession session)
         : base(session) =>
         _sessionSupportingScopedCaching = (ISupportsScopedCaching)session;

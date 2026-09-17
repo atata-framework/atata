@@ -82,6 +82,7 @@ return '';";
         return content ?? string.Empty;
     }
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     private static string? DoGet<TOwner>(IUIComponent<TOwner> component, ContentSource contentSource)
         where TOwner : PageObject<TOwner>, IPageObject<TOwner>
         =>

@@ -28,6 +28,7 @@ public class WindowTitleAttribute : MulticastAttribute, ITermSettings
     {
     }
 
+    [SuppressMessage("Minor Code Smell", "S3254:Default parameter values should not be passed as arguments")]
     public WindowTitleAttribute(params string[] values)
         : this(values, DefaultMatch)
     {

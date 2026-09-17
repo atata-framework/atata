@@ -33,6 +33,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
 
     string IUsesLocalBrowser.BrowserName => _browserName;
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     protected sealed override IWebDriver CreateDriver(ILogManager logManager)
     {
         var options = _optionsFactory?.Invoke() ?? new TOptions();

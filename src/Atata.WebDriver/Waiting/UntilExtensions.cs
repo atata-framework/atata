@@ -2,6 +2,7 @@
 
 public static class UntilExtensions
 {
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     public static WaitUnit[] GetWaitUnits(this Until until, WaitOptions? options = null)
     {
         options ??= new();

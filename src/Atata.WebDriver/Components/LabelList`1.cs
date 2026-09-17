@@ -14,6 +14,7 @@ public class LabelList<TOwner> : AssociatedControlList<Label<TOwner>, TOwner>
     /// </summary>
     /// <param name="control">The control for which the <see cref="Label{TOwner}"/> control is to be created.</param>
     /// <returns>The <see cref="Label{TOwner}"/> control.</returns>
+    [SuppressMessage("Critical Code Smell", "S2302:\"nameof\" should be used")]
     protected override Label<TOwner> CreateAssociatedControl(Control<TOwner> control)
     {
         string? id = control.DomProperties.Id;

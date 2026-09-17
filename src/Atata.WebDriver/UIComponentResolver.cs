@@ -1,4 +1,6 @@
-﻿namespace Atata.WebDriver;
+﻿#pragma warning disable IDE0305 // Simplify collection initialization
+
+namespace Atata.WebDriver;
 
 public static class UIComponentResolver
 {

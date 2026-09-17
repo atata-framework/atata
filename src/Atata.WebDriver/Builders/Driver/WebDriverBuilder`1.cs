@@ -33,6 +33,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     /// </summary>
     public bool InitialHealthCheck { get; private set; }
 
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     IWebDriver IWebDriverFactory.Create(ILogManager logManager)
     {
         Guard.ThrowIfNull(logManager);
@@ -181,6 +182,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     /// </summary>
     /// <param name="service">The driver service.</param>
     /// <returns>A string representation of the driver service.</returns>
+    [SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static")]
     protected string GetDriverServiceStringForLog(DriverService service)
     {
         StringBuilder builder = new(service.GetType().ToStringInShortForm());

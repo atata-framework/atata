@@ -58,7 +58,7 @@ public class Table<THeader, TRow, TOwner> : Control<TOwner>, ITable
     /// </summary>
     /// <returns>The collection of text values.</returns>
     protected virtual IEnumerable<string> SelectColumnHeaderTexts() =>
-        Headers.SelectContentsByExtraXPath(elementXPath: null, valueProviderName: "column header texts").Value.ToArray();
+        [.. Headers.SelectContentsByExtraXPath(elementXPath: null, valueProviderName: "column header texts").Value];
 
     /// <summary>
     /// Clears the column header texts of the component.

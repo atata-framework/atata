@@ -20,6 +20,8 @@ public class FindByXPathStrategy : XPathComponentScopeFindStrategy
         "self::"
     ];
 
+    [SuppressMessage("Style", "IDE0305:Simplify collection initialization")]
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
     {
         string[] conditionalXPathTerms = builder.Options.Terms

@@ -18,6 +18,7 @@ public sealed class SetUpWebDriversConfiguredEventHandler : IAsyncEventHandler<A
 {
     public static SetUpWebDriversConfiguredEventHandler Instance { get; } = new();
 
+    [SuppressMessage("Style", "IDE0305:Simplify collection initialization")]
     public async Task HandleAsync(AtataContextInitStartedEvent eventData, AtataContext context, CancellationToken cancellationToken)
     {
         AtataContextBuilder contextBuilder = eventData.ContextBuilder;

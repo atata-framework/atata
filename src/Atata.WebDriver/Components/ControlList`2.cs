@@ -526,10 +526,9 @@ return textValues;";
     {
         string formattedScript = GetElementValuesScript.Replace("{0}", elementValueJSPath);
 
-        return Component.Script.Execute<IEnumerable<object>>(formattedScript, elements).Value
+        return [.. Component.Script.Execute<IEnumerable<object>>(formattedScript, elements).Value
             .Cast<string>()
-            .Select(x => x?.Trim())
-            .ToArray();
+            .Select(x => x?.Trim())];
     }
 
     /// <summary>

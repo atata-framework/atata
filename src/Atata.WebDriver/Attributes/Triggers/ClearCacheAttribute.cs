@@ -32,6 +32,7 @@ public class ClearCacheAttribute : TriggerAttribute
             targetComponent.ClearCache();
     }
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     private static IUIComponent<TOwner> GetTargetComponent<TOwner>(IUIComponent<TOwner> component, ClearCacheTarget target)
         where TOwner : PageObject<TOwner> =>
         target switch

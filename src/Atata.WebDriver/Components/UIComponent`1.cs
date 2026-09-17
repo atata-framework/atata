@@ -288,6 +288,7 @@ return (
     /// </summary>
     /// <param name="on">The event to trigger.</param>
     [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     protected void ExecuteTriggers(TriggerEvents on)
     {
         if (on == TriggerEvents.None || _currentDeniedTriggers.Contains(on))
