@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Atata.IntegrationTests" /> <!--TODO: Remove--> 
     <InternalsVisibleTo Include="Atata.WebDriver.IntegrationTests" />
     <InternalsVisibleTo Include="Atata.WebDriver.UnitTests" />
   </ItemGroup>
