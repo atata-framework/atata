@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Move WebDriver-related types to Atata.WebDriver project.
 - In `AtataSessionBuilder<TSession, TBuilder>` rename because of typo property `DynamicConfiguratonActions` to `DynamicConfigurationActions`.
 
+### Removed
+
+- Remove Selenium.WebDriver package reference
+
 ## [4.0.1] - 2026-09-09
 
 ### Fixed
