@@ -328,6 +328,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public abstract class ExtensionMethodTestSuite<TObject, TTestSuite>
         where TTestSuite : ExtensionMethodTestSuite<TObject, TTestSuite>
     {
+        [SuppressMessage("Major Code Smell", "S2743:Static fields should not be used in generic types")]
         private static readonly TestSuiteData s_testSuiteData = new();
 
         private Subject<TObject> _sut = null!;
@@ -338,6 +339,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
             return new TestSuiteBuilder(s_testSuiteData);
         }
 
+        [SuppressMessage("Design", "CA1000:Do not declare static members on generic types")]
         public static IEnumerable<TestCaseData> GetTestActions() =>
             GetTestActionGroups().SelectMany(x => x);
 

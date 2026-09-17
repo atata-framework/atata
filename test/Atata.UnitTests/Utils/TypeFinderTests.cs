@@ -53,16 +53,14 @@ public sealed class TypeFinderTests
 
     public static class StaticSubClass
     {
-        public class NonGenericSubClass
-        {
-        }
+        [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty")]
+        public class NonGenericSubClass;
 
-        public class GenericSubClass<T>
-        {
-        }
+        [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty")]
+        [SuppressMessage("Major Code Smell", "S2326:Unused type parameters should be removed")]
+        public class GenericSubClass<T>;
     }
 
-    public class SubClass
-    {
-    }
+    [SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty")]
+    public class SubClass;
 }

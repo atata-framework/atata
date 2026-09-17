@@ -92,6 +92,7 @@ public sealed class EnumerableProviderTests
         public TestOwner(Func<IEnumerable<int>> sourceValuesGetFunction) =>
             _sourceValuesGetFunction = sourceValuesGetFunction;
 
+        [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
         public TestOwner Object => this;
 
         public string ProviderName => nameof(TestOwner);

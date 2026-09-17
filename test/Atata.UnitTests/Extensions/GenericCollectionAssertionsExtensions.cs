@@ -21,6 +21,7 @@ public static class GenericCollectionAssertionsExtensions
     {
         private static IEqualityComparer<T>? s_defaultComparer;
 
+        [SuppressMessage("Design", "CA1000:Do not declare static members on generic types")]
         public static new IEqualityComparer<T> Default =>
             s_defaultComparer ??= new ReferenceEqualityComparer<T>();
 

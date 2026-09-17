@@ -2,6 +2,7 @@
 
 public static class ImprovedExpressionStringBuilderTests
 {
+    [SuppressMessage("Minor Code Smell", "S3962:\"static readonly\" constants should be \"const\" instead")]
     private static readonly string s_testFieldValue = "FldStr";
 
     [Flags]
@@ -14,6 +15,7 @@ public static class ImprovedExpressionStringBuilderTests
         BC = 6
     }
 
+    [SuppressMessage("Minor Code Smell", "S1125:Boolean literals should not be redundant")]
     private static List<TestCaseData> GetExpressionTestCases()
     {
         List<TestCaseData> items = [];

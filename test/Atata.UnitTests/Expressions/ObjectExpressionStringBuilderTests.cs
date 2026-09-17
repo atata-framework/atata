@@ -2,6 +2,7 @@
 
 public class ObjectExpressionStringBuilderTests
 {
+    [SuppressMessage("Minor Code Smell", "S1125:Boolean literals should not be redundant", Justification = "<Pending>")]
     public static IEnumerable<TestCaseData> GetExpressionTestCases()
     {
         List<TestCaseData> items = [];
