@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Atata.IntegrationTests;
+﻿namespace Atata.IntegrationTests;
 
 public sealed class StopwatchAsserter : IDisposable
 {

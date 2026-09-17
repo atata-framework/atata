@@ -1,54 +1,13 @@
-﻿using Atata.Cli;
-using Atata.WebDriverSetup;
-
-namespace Atata.IntegrationTests;
+﻿namespace Atata.IntegrationTests;
 
 [SetUpFixture]
-public class GlobalFixture
+public sealed class GlobalFixture
 {
-    private CliCommand _dotnetRunCommand;
-
     [OneTimeSetUp]
     public async Task GlobalSetUpAsync()
     {
         ThreadPool.SetMinThreads(Environment.ProcessorCount * 4, Environment.ProcessorCount);
 
         AtataContext.GlobalProperties.UseRootNamespaceOf<GlobalFixture>();
-
-        await Task.WhenAll(
-            DriverSetup.ConfigureChrome().WithCheckCertificateRevocationList(!OSInfo.IsMacOS).SetUpAsync(),
-            Task.Run(SetUpTestApp));
-    }
-
-    private static bool IsTestAppRunning() =>
-        !PortUtils.IsPortAvailable(WebDriverSessionTestSuiteBase.TestAppPort);
-
-    private void SetUpTestApp()
-    {
-        if (!IsTestAppRunning())
-            StartTestApp();
-    }
-
-    private void StartTestApp()
-    {
-        string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Atata.TestApp");
-
-        ProgramCli dotnetCli = new ProgramCli("dotnet", useCommandShell: true)
-            .WithWorkingDirectory(testAppPath);
-
-        _dotnetRunCommand = dotnetCli.Start("run");
-
-        RetryWait testAppWait = new(TimeSpan.FromSeconds(40), TimeSpan.FromSeconds(0.2));
-        testAppWait.Until(IsTestAppRunning);
-    }
-
-    [OneTimeTearDown]
-    public void GlobalTearDown()
-    {
-        if (_dotnetRunCommand is not null)
-        {
-            _dotnetRunCommand.Kill(true);
-            _dotnetRunCommand.Dispose();
-        }
     }
 }

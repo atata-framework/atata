@@ -49,7 +49,7 @@ public static partial class IObjectVerificationProviderExtensions
             TObject actual = default!;
             Exception? exception = null;
 
-            Func<bool> verificationBlockFunction = () =>
+            bool ExecuteVerificationAttempt()
             {
                 try
                 {
@@ -63,12 +63,12 @@ public static partial class IObjectVerificationProviderExtensions
                     exception = e;
                     return false;
                 }
-            };
+            }
 
             bool doesSatisfy = VerificationUtils.ExecuteUntil(
                 verifier.ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
-                    ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(verificationBlockFunction)
-                    : verificationBlockFunction,
+                    ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(ExecuteVerificationAttempt)
+                    : ExecuteVerificationAttempt,
                 verifier.GetRetryOptions());
 
             if (!doesSatisfy)

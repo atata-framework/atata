@@ -1,24 +1,24 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
-public class AtataContextAggregateAssertTests : WebDriverSessionTestSuite
+public sealed class AtataContextAggregateAssertTests : SessionlessTestSuite
 {
-    private StubPage _page;
+    private StubComponent _sut;
 
     protected override void OnSetUp() =>
-        _page = Go.To<StubPage>();
+        _sut = new();
 
     [Test]
     public void NoFailure() =>
         Assert.DoesNotThrow(() =>
             CurrentContext.AggregateAssert(() =>
-                _page.IsTrue.Should.AtOnce.BeTrue()));
+                _sut.IsTrue.Should.AtOnce.BeTrue()));
 
     [Test]
     public void OneFailure()
     {
         AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
             CurrentContext.AggregateAssert(() =>
-                _page.IsTrue.Should.AtOnce.BeFalse()))!;
+                _sut.IsTrue.Should.AtOnce.BeFalse()))!;
 
         Assert.That(exception.Results, Has.Count.EqualTo(1));
         Assert.That(exception.Results[0].StackTrace, Does.Contain(nameof(OneFailure)));
@@ -31,9 +31,9 @@ public class AtataContextAggregateAssertTests : WebDriverSessionTestSuite
         AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
             CurrentContext.AggregateAssert(() =>
             {
-                _page.IsTrue.Should.AtOnce.BeFalse();
-                _page.IsTrue.Should.AtOnce.BeTrue();
-                _page.IsTrue.Should.AtOnce.BeFalse();
+                _sut.IsTrue.Should.AtOnce.BeFalse();
+                _sut.IsTrue.Should.AtOnce.BeTrue();
+                _sut.IsTrue.Should.AtOnce.BeFalse();
             }))!;
 
         Assert.That(exception.Results, Has.Count.EqualTo(2));

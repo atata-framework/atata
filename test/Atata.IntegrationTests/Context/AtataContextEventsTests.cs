@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
-public sealed class AtataContextEventsTests : WebDriverSessionTestSuiteBase
+public sealed class AtataContextEventsTests : TestSuiteBase
 {
     [Test]
     public void AtataContextPreInitEvent()

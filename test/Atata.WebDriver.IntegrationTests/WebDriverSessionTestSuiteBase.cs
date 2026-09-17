@@ -21,33 +21,6 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
     protected static WebDriverSession CurrentSession =>
         CurrentContext.Sessions.Get<WebDriverSession>();
 
-    protected AtataContext BuildAtataContextWithWebDriverSession(
-        Action<WebDriverSessionBuilder>? configureWebDriverSession = null) =>
-        ConfigureAtataContextWithWebDriverSession(configureWebDriverSession)
-            .Build();
-
-    protected AtataContextBuilder ConfigureAtataContextWithWebDriverSession(
-        Action<WebDriverSessionBuilder>? configureWebDriverSession = null)
-    {
-        AtataContextBuilder atataContextBuilder = ConfigureSessionlessAtataContext();
-
-        atataContextBuilder.Sessions.AddWebDriver(session =>
-        {
-            session.UseBaseUrl(BaseUrl)
-                .UseChrome(x => x
-                    .WithArguments(ChromeArguments)
-                    .WithPortsToIgnore(_portsToIgnore)
-                    .WithInitialHealthCheck());
-
-            session.Screenshots.TakeOnFailure = false;
-            session.PageSnapshots.TakeOnFailure = false;
-
-            configureWebDriverSession?.Invoke(session);
-        });
-
-        return atataContextBuilder;
-    }
-
     protected static void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
         where TPage : PageObject<TPage>
     {
@@ -87,6 +60,33 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
     protected static void AssertThatPopupBoxIsNotOpen() =>
         Assert.Throws<NoAlertPresentException>(() =>
             CurrentSession.Driver.SwitchTo().Alert());
+
+    protected AtataContext BuildAtataContextWithWebDriverSession(
+        Action<WebDriverSessionBuilder>? configureWebDriverSession = null) =>
+        ConfigureAtataContextWithWebDriverSession(configureWebDriverSession)
+            .Build();
+
+    protected AtataContextBuilder ConfigureAtataContextWithWebDriverSession(
+        Action<WebDriverSessionBuilder>? configureWebDriverSession = null)
+    {
+        AtataContextBuilder atataContextBuilder = ConfigureSessionlessAtataContext();
+
+        atataContextBuilder.Sessions.AddWebDriver(session =>
+        {
+            session.UseBaseUrl(BaseUrl)
+                .UseChrome(x => x
+                    .WithArguments(ChromeArguments)
+                    .WithPortsToIgnore(_portsToIgnore)
+                    .WithInitialHealthCheck());
+
+            session.Screenshots.TakeOnFailure = false;
+            session.PageSnapshots.TakeOnFailure = false;
+
+            configureWebDriverSession?.Invoke(session);
+        });
+
+        return atataContextBuilder;
+    }
 
     protected void AssertThatLastLogSectionIsVerificationAndEmpty()
     {

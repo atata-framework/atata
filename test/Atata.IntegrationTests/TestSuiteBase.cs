@@ -23,7 +23,7 @@ public abstract class TestSuiteBase
         builder.LogConsumers.Add(new TextOutputLogConsumer(TestContext.WriteLine));
         builder.LogConsumers.Add(_fakeLogConsumer);
 
-        // Commented temporarily due to AddArtifactsToNUnitTestContext method migration to Atata.NUnit.
+        // TODO: Review. Commented temporarily due to AddArtifactsToNUnitTestContext method migration to Atata.NUnit.
         ////builder.EventSubscriptions.AddArtifactsToNUnitTestContext();
 
         return builder;
@@ -49,80 +49,6 @@ public abstract class TestSuiteBase
                 context.HandleTestResultException(testContext.Result.Message, testContext.Result.StackTrace);
 
             await context.DisposeAsync().ConfigureAwait(false);
-        }
-    }
-
-    protected static void VerifyEquals<T, TPage>(Field<T, TPage> control, T value)
-        where TPage : PageObject<TPage>
-    {
-        control.Should.Be(value);
-        Assert.That(control.Value, Is.EqualTo(value));
-    }
-
-    protected static void VerifyDoesNotEqual<T, TPage>(Field<T, TPage> control, T value)
-        where TPage : PageObject<TPage>
-    {
-        control.Should.Not.Be(value);
-
-        Assert.Throws<AssertionException>(() =>
-            control.Should.AtOnce.Be(value));
-    }
-
-    protected static TException AssertThrowsWithInnerException<TException, TInnerException>(Action code)
-        where TException : Exception
-        where TInnerException : Exception
-    {
-        TException exception = Assert.Throws<TException>(code)!;
-
-        Assert.That(exception.InnerException, Is.InstanceOf<TInnerException>(), "Invalid inner exception.");
-
-        return exception;
-    }
-
-    protected static TException AssertThrowsWithoutInnerException<TException>(Action code)
-        where TException : Exception
-    {
-        TException exception = Assert.Throws<TException>(code)!;
-
-        Assert.That(exception.InnerException, Is.Null, "Inner exception should be null.");
-
-        return exception;
-    }
-
-    protected void VerifyLastLogMessages(LogLevel minLogLevel, params string[] expectedMessages)
-    {
-        var actualMessages = CurrentLog.GetMessagesSnapshot(minLogLevel, expectedMessages.Length);
-
-        Assert.That(actualMessages, Is.EqualTo(expectedMessages));
-    }
-
-    protected void VerifyLastLogNestingTextsWithMessagesMatch(LogLevel minLogLevel, params string[] expectedMessagePatterns)
-    {
-        var actualMessages = CurrentLog.GetNestingTextsWithMessagesSnapshot(minLogLevel, expectedMessagePatterns.Length);
-        actualMessages.Should().HaveCount(expectedMessagePatterns.Length);
-
-        using (new AssertionScope())
-        {
-            for (int i = 0; i < expectedMessagePatterns.Length; i++)
-            {
-                actualMessages[i].Should().MatchRegex(expectedMessagePatterns[i]);
-            }
-        }
-    }
-
-    protected void VerifyLastLogEntries(params (LogLevel Level, string? Message, Exception? Exception)[] expectedLogEntries)
-    {
-        var actualLogEntries = CurrentLog.GetSnapshot(LogLevel.Trace, expectedLogEntries.Length);
-        actualLogEntries.Should().HaveCount(expectedLogEntries.Length);
-
-        using (new AssertionScope())
-        {
-            for (int i = 0; i < expectedLogEntries.Length; i++)
-            {
-                actualLogEntries[i].Level.Should().Be(expectedLogEntries[i].Level);
-                actualLogEntries[i].Message.Should().Be(expectedLogEntries[i].Message);
-                actualLogEntries[i].Exception.Should().Be(expectedLogEntries[i].Exception);
-            }
         }
     }
 

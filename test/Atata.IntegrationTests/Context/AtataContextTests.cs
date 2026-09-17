@@ -5,7 +5,7 @@ namespace Atata.IntegrationTests.Context;
 
 public static class AtataContextTests
 {
-    public sealed class Artifacts : WebDriverSessionTestSuite
+    public sealed class Artifacts : SessionlessTestSuite
     {
         [Test]
         public void SubDirectory_Should_Not_Exist() =>

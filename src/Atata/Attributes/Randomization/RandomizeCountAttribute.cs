@@ -2,10 +2,8 @@
 
 /// <summary>
 /// Specifies the count of items to randomize.
+/// Can be used for collections or enums with flags.
 /// </summary>
-/// <remarks>
-/// It can be useful for <see cref="CheckBoxList{TValue, TOwner}"/> to set the number of checkboxes to check.
-/// </remarks>
 public class RandomizeCountAttribute : MulticastAttribute
 {
     public RandomizeCountAttribute(int count)

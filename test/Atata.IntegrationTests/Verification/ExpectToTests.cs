@@ -1,16 +1,16 @@
 ﻿namespace Atata.IntegrationTests.Verification;
 
-public class ExpectToTests : WebDriverSessionTestSuite
+public sealed class ExpectToTests : SessionlessTestSuite
 {
-    private StubPage _page;
+    private StubComponent _sut;
 
     protected override void OnSetUp() =>
-        _page = Go.To<StubPage>();
+        _sut = new();
 
     [Test]
     public void NoFailure()
     {
-        var expectTo = _page.IsTrue.ExpectTo;
+        var expectTo = _sut.IsTrue.ExpectTo;
 
         expectTo.BeTrue();
 
@@ -20,7 +20,7 @@ public class ExpectToTests : WebDriverSessionTestSuite
     [Test]
     public void NoFailure_WithRetry()
     {
-        var expectTo = _page.IsTrueInASecond.ExpectTo;
+        var expectTo = _sut.IsTrueInASecond.ExpectTo.WithinSeconds(5);
 
         expectTo.BeTrue();
 
@@ -30,7 +30,7 @@ public class ExpectToTests : WebDriverSessionTestSuite
     [Test]
     public void OneFailure()
     {
-        var expectTo = _page.IsTrue.ExpectTo.AtOnce;
+        var expectTo = _sut.IsTrue.ExpectTo.AtOnce;
 
         expectTo.BeFalse();
 
@@ -45,7 +45,7 @@ public class ExpectToTests : WebDriverSessionTestSuite
     [Test]
     public void TwoFailures()
     {
-        var expectTo = _page.IsTrue.ExpectTo.AtOnce;
+        var expectTo = _sut.IsTrue.ExpectTo.AtOnce;
 
         expectTo.BeFalse();
         expectTo.Not.BeTrue();

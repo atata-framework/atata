@@ -1,16 +1,16 @@
 ﻿namespace Atata.IntegrationTests.Verification;
 
-public class WaitToTests : WebDriverSessionTestSuite
+public class WaitToTests : SessionlessTestSuite
 {
-    private StubPage _page;
+    private StubComponent _sut;
 
     protected override void OnSetUp() =>
-        _page = Go.To<StubPage>();
+        _sut = new();
 
     [Test]
     public void NoFailure()
     {
-        var waitTo = _page.IsTrue.WaitTo;
+        var waitTo = _sut.IsTrue.WaitTo;
 
         waitTo.BeTrue();
     }
@@ -18,7 +18,7 @@ public class WaitToTests : WebDriverSessionTestSuite
     [Test]
     public void NoFailure_WithRetry()
     {
-        var waitTo = _page.IsTrueInASecond.WaitTo;
+        var waitTo = _sut.IsTrueInASecond.WaitTo.WithinSeconds(5);
 
         waitTo.BeTrue();
     }
@@ -26,7 +26,7 @@ public class WaitToTests : WebDriverSessionTestSuite
     [Test]
     public void Positive_Failure()
     {
-        var waitTo = _page.IsTrue.WaitTo.AtOnce;
+        var waitTo = _sut.IsTrue.WaitTo.AtOnce;
 
         var exception = Assert.Throws<TimeoutException>(() =>
             waitTo.BeFalse())!;
@@ -38,7 +38,7 @@ public class WaitToTests : WebDriverSessionTestSuite
     [Test]
     public void Negative_Failure()
     {
-        var waitTo = _page.IsTrue.WaitTo.Not.AtOnce;
+        var waitTo = _sut.IsTrue.WaitTo.Not.AtOnce;
 
         var exception = Assert.Throws<TimeoutException>(() =>
             waitTo.BeTrue())!;
