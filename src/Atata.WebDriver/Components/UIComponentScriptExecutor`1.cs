@@ -89,6 +89,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>An instance of the owner page object.</returns>
+    [SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities")]
     public TOwner ExecuteAsync(string script, params object?[] arguments)
     {
         ExecuteAsyncScript(script, arguments);
@@ -103,6 +104,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
+    [SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities")]
     public ValueProvider<TResult, TOwner> ExecuteAsync<TResult>(string script, params object?[] arguments) =>
         Component.CreateValueProvider(
             "script result",

@@ -31,6 +31,7 @@ public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
         where TControl : Control<TOwner> =>
         Resolve<TControl>(propertyName!, additionalAttributesFactory);
 
+    [SuppressMessage("Reliability", "CA2021:Do not call Enumerable.Cast<T> or Enumerable.OfType<T> with incompatible types", Justification = "The type is actually compatible")]
     public TControl Resolve<TControl>(string propertyName, Func<IEnumerable<Attribute>>? additionalAttributesFactory = null)
         where TControl : Control<TOwner>
     {
