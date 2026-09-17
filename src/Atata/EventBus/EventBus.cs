@@ -48,6 +48,7 @@ public class EventBus : IEventBus
         }
     }
 
+    /// <inheritdoc/>
     public async Task PublishAsync<TEvent>(TEvent eventData)
     {
         Guard.ThrowIfNull(eventData);
@@ -62,11 +63,14 @@ public class EventBus : IEventBus
                 eventHandlersArray = [.. eventHandlerSubscriptions.Select(x => x.EventHandler)];
             }
 
+            // CancellationToken.None is intentionally used, not the DefaultCancellationToken of AtataContext.
+            // This PublishAsync is intended to be called by deinitialization methods.
             await PublishToEventHandlersAsync(eventData, eventHandlersArray, CancellationToken.None)
                 .ConfigureAwait(false);
         }
     }
 
+    /// <inheritdoc/>
     public async Task PublishAsync<TEvent>(TEvent eventData, CancellationToken cancellationToken)
     {
         Guard.ThrowIfNull(eventData);
