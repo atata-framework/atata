@@ -138,7 +138,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     /// <summary>
     /// Gets the dynamic configuration actions.
     /// </summary>
-    public IList<Action<TBuilder, AtataContext>> DynamicConfiguratonActions { get; private set; } = [];
+    public IList<Action<TBuilder, AtataContext>> DynamicConfigurationActions { get; private set; } = [];
 
     /// <summary>
     /// Adds the specified dynamic configuration action that depends on a specific session.
@@ -153,7 +153,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     {
         Guard.ThrowIfNull(configure);
         DependentSessions.Add((typeof(TOtherSession), null));
-        DynamicConfiguratonActions.Add((_, context) => configure(context.Sessions.GetRecursively<TOtherSession>()));
+        DynamicConfigurationActions.Add((_, context) => configure(context.Sessions.GetRecursively<TOtherSession>()));
         return (TBuilder)this;
     }
 
@@ -163,7 +163,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     {
         Guard.ThrowIfNull(configure);
         DependentSessions.Add((typeof(TOtherSession), null));
-        DynamicConfiguratonActions.Add((builder, context) => configure(builder, context.Sessions.GetRecursively<TOtherSession>()));
+        DynamicConfigurationActions.Add((builder, context) => configure(builder, context.Sessions.GetRecursively<TOtherSession>()));
         return (TBuilder)this;
     }
 
@@ -175,7 +175,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     {
         Guard.ThrowIfNull(configure);
         DependentSessions.Add((typeof(TOtherSession), sessionName));
-        DynamicConfiguratonActions.Add((_, context) => configure(context.Sessions.GetRecursively<TOtherSession>(sessionName)));
+        DynamicConfigurationActions.Add((_, context) => configure(context.Sessions.GetRecursively<TOtherSession>(sessionName)));
         return (TBuilder)this;
     }
 
@@ -187,7 +187,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     {
         Guard.ThrowIfNull(configure);
         DependentSessions.Add((typeof(TOtherSession), sessionName));
-        DynamicConfiguratonActions.Add((builder, context) => configure(builder, context.Sessions.GetRecursively<TOtherSession>(sessionName)));
+        DynamicConfigurationActions.Add((builder, context) => configure(builder, context.Sessions.GetRecursively<TOtherSession>(sessionName)));
         return (TBuilder)this;
     }
 
@@ -195,7 +195,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     public TBuilder AddDynamicConfiguration(Action<TBuilder> configure)
     {
         Guard.ThrowIfNull(configure);
-        DynamicConfiguratonActions.Add((builder, _) => configure(builder));
+        DynamicConfigurationActions.Add((builder, _) => configure(builder));
         return (TBuilder)this;
     }
 
@@ -208,7 +208,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     public TBuilder AddDynamicConfiguration(Action<TBuilder, AtataContext> configure)
     {
         Guard.ThrowIfNull(configure);
-        DynamicConfiguratonActions.Add(configure);
+        DynamicConfigurationActions.Add(configure);
         return (TBuilder)this;
     }
 
@@ -562,7 +562,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
                 new AtataSessionInitLogSection(session),
                 async () =>
                 {
-                    foreach (var dynamicConfigurator in DynamicConfiguratonActions)
+                    foreach (var dynamicConfigurator in DynamicConfigurationActions)
                         dynamicConfigurator.Invoke((TBuilder)this, context);
 
                     ConfigureSession(session);
@@ -666,7 +666,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
         copy.State = new Dictionary<string, object>(State);
 
         copy.DependentSessions = [.. DependentSessions];
-        copy.DynamicConfiguratonActions = [.. DynamicConfiguratonActions];
+        copy.DynamicConfigurationActions = [.. DynamicConfigurationActions];
 
         copy.EventSubscriptions = EventSubscriptions.CloneFor(copy);
     }
