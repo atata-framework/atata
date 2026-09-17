@@ -3,6 +3,8 @@
 public sealed class HybridLogTests : TestSuiteBase
 {
     [Test]
+    [SuppressMessage("Major Code Smell", "S2925:\"Thread.Sleep\" should not be used in tests")]
+    [SuppressMessage("Major Code Smell", "S6966:Awaitable method should be used")]
     public async Task SessionsInParallel()
     {
         var builder = ConfigureSessionlessAtataContext();

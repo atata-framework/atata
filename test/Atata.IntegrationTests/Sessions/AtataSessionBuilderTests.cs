@@ -108,6 +108,7 @@ public static class AtataSessionBuilderTests
         }
     }
 
+    [SuppressMessage("Minor Code Smell", "S4041:Type names should not match namespaces")]
     public sealed class Build
     {
         [Test]

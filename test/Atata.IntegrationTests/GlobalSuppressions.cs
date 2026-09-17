@@ -1,7 +1,0 @@
-﻿#pragma warning disable S103 // Lines should not be too long
-
-[assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.IntegrationTests.Verification.MixedVerificationTests.ThrowingSut.ThrowingProperty")]
-[assembly: SuppressMessage("Major Code Smell", "S2925:\"Thread.Sleep\" should not be used in tests", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IntegrationTests.Logging.HybridLogTests.SessionsInParallel~System.Threading.Tasks.Task")]
-[assembly: SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.IntegrationTests.Verification.MixedVerificationTests.ThrowingSut.ThrowingProperty")]
-[assembly: SuppressMessage("Major Code Smell", "S6966:Awaitable method should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IntegrationTests.Logging.HybridLogTests.SessionsInParallel~System.Threading.Tasks.Task")]
-[assembly: SuppressMessage("Minor Code Smell", "S4041:Type names should not match namespaces", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.IntegrationTests.Sessions.AtataSessionBuilderTests.Build")]

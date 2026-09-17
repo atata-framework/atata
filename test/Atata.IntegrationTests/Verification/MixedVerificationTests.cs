@@ -138,6 +138,7 @@ public abstract class MixedVerificationTests
 
     public sealed class ThrowingSut
     {
+        [SuppressMessage("Performance", "CA1822:Mark members as static")]
         public string ThrowingProperty =>
             throw new InvalidOperationException(
                 "Expect me to fail.",
