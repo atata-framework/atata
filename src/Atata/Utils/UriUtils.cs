@@ -1,4 +1,7 @@
-﻿namespace Atata;
+﻿// TODO: Remove the below "pragma warning" when .NET Framework target is dropped.
+#pragma warning disable CS8602
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of methods for URI manipulations.
@@ -42,7 +45,7 @@ public static class UriUtils
         if (!string.IsNullOrWhiteSpace(relativeUri))
         {
             bool baseUriEndsWithSlash = baseUri.Length > 0 && baseUri[^1] == '/';
-            bool relativeUriStartsWithSlash = relativeUri![0] == '/';
+            bool relativeUriStartsWithSlash = relativeUri[0] == '/';
 
             if (baseUriEndsWithSlash && relativeUriStartsWithSlash)
                 fullUrl += relativeUri[1..];
@@ -72,5 +75,5 @@ public static class UriUtils
     }
 
     public static bool IsUrlHasPath(string? url) =>
-        !string.IsNullOrWhiteSpace(url) && url![0] is not ('?' or '&' or ';' or '#');
+        !string.IsNullOrWhiteSpace(url) && url[0] is not ('?' or '&' or ';' or '#');
 }

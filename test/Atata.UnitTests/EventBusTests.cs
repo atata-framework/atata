@@ -7,10 +7,10 @@ public class EventBusTests
     protected AtataContext Context { get; private set; } = null!;
 
     [SetUp]
-    public void SetUp()
+    public async Task SetUpAsync(CancellationToken cancellationToken)
     {
-        Context = AtataContext.CreateBuilder(AtataContextScope.Test)
-            .Build();
+        Context = await AtataContext.CreateBuilder(AtataContextScope.Test)
+            .BuildAsync(cancellationToken);
 
         Sut = new EventBus(Context)
             .ToSutSubject();

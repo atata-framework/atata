@@ -1,4 +1,6 @@
-﻿namespace Atata.UnitTests.Sessions;
+﻿#pragma warning disable S8949 // The overload accepting a 'CancellationToken' should be used
+
+namespace Atata.UnitTests.Sessions;
 
 public sealed class AtataSessionPoolTests
 {

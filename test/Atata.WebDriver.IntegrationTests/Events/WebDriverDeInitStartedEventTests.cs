@@ -7,6 +7,7 @@ public sealed class WebDriverDeInitStartedEventTests : WebDriverSessionTestSuite
     private AtataContext _context;
 
     [SetUp]
+    [SuppressMessage("Major Bug", "S8949:The overload accepting a 'CancellationToken' should be used")]
     public void SetUp()
     {
         _executionsCount = 0;

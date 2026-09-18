@@ -7,9 +7,11 @@ public sealed class AtataSessionCollectionTests
     private DisposableSubject<AtataSessionCollection> _sut = null!;
 
     [SetUp]
-    public async Task SetUpAsync()
+    public async Task SetUpAsync(CancellationToken cancellationToken)
     {
-        _context = await AtataContext.CreateDefaultNonScopedBuilder().BuildAsync();
+        _context = await AtataContext.CreateDefaultNonScopedBuilder()
+            .BuildAsync(cancellationToken);
+
         _sut = new AtataSessionCollection(_context).ToSutDisposableSubject();
     }
 

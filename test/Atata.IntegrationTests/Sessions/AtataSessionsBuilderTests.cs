@@ -420,6 +420,7 @@ public static class AtataSessionsBuilderTests
             await AssertContextBuildFailureBecauseOfNotFoundSessionToBorrowAsync(contextBuilder);
         }
 
+        [SuppressMessage("Major Bug", "S8949:The overload accepting a 'CancellationToken' should be used")]
         private static async Task AssertContextBuildFailureBecauseOfNotFoundSessionToBorrowAsync(AtataContextBuilder contextBuilder)
         {
             // Act
@@ -597,6 +598,7 @@ public static class AtataSessionsBuilderTests
                 .WithMessage("Timed out after * waiting for FakeSession from a session pool.");
         }
 
+        [SuppressMessage("Major Bug", "S8949:The overload accepting a 'CancellationToken' should be used")]
         private static async Task AssertContextBuildFailureBecauseOfNotFoundSessionPoolAsync(AtataContextBuilder contextBuilder)
         {
             // Act
