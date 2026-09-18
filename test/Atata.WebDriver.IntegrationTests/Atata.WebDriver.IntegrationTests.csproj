@@ -9,7 +9,7 @@
     <PackageReference Include="Atata.Cli" Version="4.0.0" />
     <PackageReference Include="Atata.WebDriverSetup" Version="4.0.0" />
     <PackageReference Include="FluentAssertions" Version="7.2.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="NUnit" Version="4.6.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="6.3.0" />
