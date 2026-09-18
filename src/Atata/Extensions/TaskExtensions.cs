@@ -19,6 +19,7 @@ internal static class TaskExtensions
             valueTask.GetAwaiter().GetResult();
     }
 
+    [SuppressMessage("Critical Code Smell", "S5034:\"ValueTask\" should be consumed correctly")]
     internal static TResult RunSync<TResult>(this ValueTask<TResult> valueTask) =>
         valueTask.IsCompletedSuccessfully
             ? valueTask.Result

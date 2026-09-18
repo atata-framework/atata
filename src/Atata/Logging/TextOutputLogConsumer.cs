@@ -51,6 +51,7 @@ public class TextOutputLogConsumer : ILogConsumer
     protected virtual void Write(string completeMessage) =>
         _writeAction?.Invoke(completeMessage);
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     private string BuildCompleteMessage(LogEventInfo eventInfo)
     {
         var builder = new StringBuilder()

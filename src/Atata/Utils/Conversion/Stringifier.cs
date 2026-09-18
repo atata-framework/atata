@@ -176,6 +176,8 @@ public static class Stringifier
         return outputBuilder.ToString();
     }
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     private static void PrintSimplifiedTypeName(Type type, Queue<Type>? genericArgumentTypeQueue, StringBuilder outputBuilder)
     {
         Type? declaringType = type.DeclaringType;

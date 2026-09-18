@@ -850,6 +850,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
                 }
             }
         }
+#pragma warning disable S2696 // Instance members should not write to "static" fields
         else if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
         {
             if (s_currentThreadStaticContext != this)
@@ -860,6 +861,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             if (s_currentStaticContext != this)
                 s_currentStaticContext = this;
         }
+#pragma warning restore S2696 // Instance members should not write to "static" fields
     }
 
     public void SetToDefaultCancellationTokenWhenDefault(ref CancellationToken cancellationToken)

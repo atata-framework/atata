@@ -148,6 +148,8 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets a value indicating whether this instance has any target specified.
     /// </summary>
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
     public virtual bool IsTargetSpecified =>
         TargetNames?.Length > 0 ||
         TargetTypes?.Length > 0 ||
@@ -213,6 +215,7 @@ public abstract class MulticastAttribute : Attribute
     /// <returns>
     /// <see langword="true"/> if the name applies the criteria; otherwise, <see langword="false"/>.
     /// </returns>
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
     public bool IsNameApplicable(string? name) =>
         (TargetNames is null or [] || (name is not null && TargetNames.Contains(name)))
             && (ExcludeTargetNames is null || ExcludeTargetNames.Length == 0 || !ExcludeTargetNames.Contains(name));
@@ -224,6 +227,7 @@ public abstract class MulticastAttribute : Attribute
     /// <returns>
     /// <see langword="true"/> if the tags apply the criteria; otherwise, <see langword="false"/>.
     /// </returns>
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
     public bool AreTagsApplicable(IEnumerable<string> tags)
     {
         Guard.ThrowIfNull(tags);

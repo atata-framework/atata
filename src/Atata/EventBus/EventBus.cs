@@ -92,6 +92,7 @@ public class EventBus : IEventBus
         }
     }
 
+    [SuppressMessage("Major Code Smell", "S1066:Mergeable \"if\" statements should be combined")]
     private async Task PublishToEventHandlersAsync<TEvent>(TEvent eventData, object[] eventHandlers, CancellationToken cancellationToken)
     {
         List<Task> executingTasks = [];

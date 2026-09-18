@@ -49,6 +49,8 @@ public static class StringExtensions
             return value.ToLower(culture);
     }
 
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     public static string[] SplitIntoWords(this string value)
     {
         ReadOnlySpan<char> chars = value.AsSpan();

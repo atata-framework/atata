@@ -57,6 +57,7 @@ public static class TypeFinder
             : DoFind(typeName);
     }
 
+    [SuppressMessage("Style", "IDE0305:Simplify collection initialization")]
     private static Type? FindAmongTypes(string typeName, IEnumerable<Type> typesToFindAmong)
     {
         string pureTypeName;
@@ -121,6 +122,8 @@ public static class TypeFinder
             .Where(x => nameRegex.IsMatch(x.Name));
     }
 
+    [SuppressMessage("Style", "IDE0075:Simplify conditional expression")]
+    [SuppressMessage("Minor Code Smell", "S1125:Boolean literals should not be redundant")]
     private static IEnumerable<Type> FilterByDeclaringTypeNames(IEnumerable<Type> types, IEnumerable<string> declaringTypeNames)
     {
         bool DoesMatch(Type type)
@@ -132,8 +135,8 @@ public static class TypeFinder
                 bool match = currentType is null
                     ? false
                     : typeName.Contains(GenericTypeSeparator)
-                    ? currentType.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase)
-                    : CreateRegexForNameConsideringGeneric(typeName).IsMatch(currentType.Name);
+                        ? currentType.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase)
+                        : CreateRegexForNameConsideringGeneric(typeName).IsMatch(currentType.Name);
 
                 if (!match)
                     return false;

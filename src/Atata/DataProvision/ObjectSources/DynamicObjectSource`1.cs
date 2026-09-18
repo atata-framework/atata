@@ -19,6 +19,7 @@ public class DynamicObjectSource<TObject> : IObjectSource<TObject>
     }
 
     /// <inheritdoc/>
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     public TObject Object =>
         _objectGetFunction.Invoke();
 

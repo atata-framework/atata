@@ -644,6 +644,7 @@ public sealed class AtataSessionsBuilder
         return (IAtataSessionBuilder)factoryMethod.InvokeWithExceptionUnwrapping(null)!;
     }
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     private static bool DoesSessionStartScopeSatisfyContextScope(AtataContextScopes? sessionStartScopes, AtataContextScope? scope) =>
         scope switch
         {

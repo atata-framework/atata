@@ -199,6 +199,7 @@ public static class IEnumerableProviderExtensions
             x => x.Select(selectorFunction));
     }
 
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     public static TSource Single<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source)
     {
@@ -211,6 +212,7 @@ public static class IEnumerableProviderExtensions
         return value;
     }
 
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     public static TSource Single<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source,
         Expression<Func<TSource, bool>> predicate)

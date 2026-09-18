@@ -243,6 +243,7 @@ public abstract class AtataSession : IAsyncDisposable
     /// </summary>
     /// <returns>A <see cref="ValueTask"/> object.</returns>
     [SuppressMessage("Major Bug", "S8949:The overload accepting a 'CancellationToken' should be used", Justification = "Dispose method doesn't need it.")]
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     public async ValueTask DisposeAsync()
     {
         if (!_isDisposed)
@@ -298,6 +299,7 @@ public abstract class AtataSession : IAsyncDisposable
     /// Performs disposal logic for the session.
     /// </summary>
     /// <returns>A <see cref="ValueTask"/> object.</returns>
+    [SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities")]
     protected virtual ValueTask DisposeAsyncCore()
     {
         Context.Sessions.Remove(this);

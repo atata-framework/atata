@@ -662,6 +662,7 @@ public sealed class AtataContextBuilder : ICloneable
         return context;
     }
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     private AtataContext CreateAtataContext()
     {
         string? testName = Scope is null or AtataContextScope.Test
@@ -786,6 +787,7 @@ public sealed class AtataContextBuilder : ICloneable
         context.Activate();
     }
 
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements")]
     private static void ApplyCulture(AtataContext context, CultureInfo culture)
     {
         Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;

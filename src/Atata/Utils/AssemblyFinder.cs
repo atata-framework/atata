@@ -35,6 +35,7 @@ public static class AssemblyFinder
     /// </summary>
     /// <param name="assemblyNamePatterns">The assembly name patterns.</param>
     /// <returns>The found assemblies.</returns>
+    [SuppressMessage("Style", "IDE0305:Simplify collection initialization")]
     public static Assembly[] FindAllByPatterns(IEnumerable<string> assemblyNamePatterns)
     {
         Guard.ThrowIfNullOrEmpty(assemblyNamePatterns);

@@ -182,6 +182,7 @@ public static class TermResolver
     private static bool IsComplexStringFormat([NotNullWhen(true)] string? format) =>
         format is not null && format.Contains("{0");
 
+    [SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together")]
     private static string RetrieveValueFromString(string value, string? format) =>
         IsComplexStringFormat(format)
             ? RetrieveValuePart(value, format)
@@ -344,6 +345,7 @@ public static class TermResolver
         }
     }
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     private static string[] GetIndividualEnumTerms(Enum value, TermAttribute? termAttribute, ITermSettings? termSettings, CultureInfo culture)
     {
         string[] values = termAttribute?.Values?.Length > 0

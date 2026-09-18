@@ -46,7 +46,7 @@ public static partial class IObjectVerificationProviderExtensions
             IEnumerable<TObject>? actual = null;
             Exception? exception = null;
 
-            Func<bool> verificationBlockFunction = () =>
+            bool ExecuteVerificationAttempt()
             {
                 try
                 {
@@ -60,12 +60,12 @@ public static partial class IObjectVerificationProviderExtensions
                     exception = e;
                     return false;
                 }
-            };
+            }
 
             bool doesSatisfy = VerificationUtils.ExecuteUntil(
                 verifier.ExecutionUnit is ISupportsScopedCaching scopedCachingExecutionUnit
-                    ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(verificationBlockFunction)
-                    : verificationBlockFunction,
+                    ? () => scopedCachingExecutionUnit.ExecuteScopedBlock(ExecuteVerificationAttempt)
+                    : ExecuteVerificationAttempt,
                 verifier.GetRetryOptions());
 
             if (!doesSatisfy)
@@ -909,7 +909,7 @@ public static partial class IObjectVerificationProviderExtensions
             .ToArray();
 
         return verifier.Satisfy(
-            actual => actual != null && DoItemsMatchPredicates((actual as IReadOnlyList<TItem>) ?? actual.ToArray(), predicates),
+            actual => actual != null && DoItemsMatchPredicates((actual as IReadOnlyList<TItem>) ?? [.. actual], predicates),
             $"consist of items {Stringifier.ToString(predicateExpressions)}");
     }
 

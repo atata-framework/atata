@@ -11,6 +11,7 @@ public class ObjectConverter : IObjectConverter
     public TDestination? Convert<TDestination>(object? sourceValue) =>
         (TDestination?)Convert(sourceValue, typeof(TDestination));
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     public object? Convert(object? sourceValue, Type destinationType)
     {
         Guard.ThrowIfNull(destinationType);
@@ -94,6 +95,7 @@ public class ObjectConverter : IObjectConverter
     private static object ConvertViaSystemConversion(object value, Type destinationType) =>
         System.Convert.ChangeType(value, destinationType);
 
+    [SuppressMessage("Style", "IDE0305:Simplify collection initialization")]
     private object ConvertToArray(object value, Type elementType)
     {
         var originalValueType = value.GetType();

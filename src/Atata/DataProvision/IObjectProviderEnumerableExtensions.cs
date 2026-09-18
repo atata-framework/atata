@@ -281,11 +281,13 @@ public static class IObjectProviderEnumerableExtensions
             $"Select({ConvertToString(selector)})");
     }
 
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     public static ValueProvider<TSource, TOwner> Single<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
         =>
         source.ValueOf(x => x.Single(), "Single()");
 
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     public static ValueProvider<TSource, TOwner> Single<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         Expression<Func<TSource, bool>> predicate)

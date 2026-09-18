@@ -17,6 +17,7 @@ public static class EnumExtensions
         }
     }
 
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
     public static IEnumerable<Enum> GetIndividualFlags(this Enum flags)
     {
         Type dataType = Enum.GetUnderlyingType(flags.GetType());

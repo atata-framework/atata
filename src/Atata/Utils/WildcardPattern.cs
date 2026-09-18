@@ -66,6 +66,7 @@ public class WildcardPattern
         IsMatch(Guard.ReturnOrThrowIfNull(input).AsSpan());
 
     /// <inheritdoc cref="IsMatch(string)"/>
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     public bool IsMatch(ReadOnlySpan<char> input)
     {
         ReadOnlySpan<char> patternSpan = _pattern.AsSpan();

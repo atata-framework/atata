@@ -63,6 +63,7 @@ public class ObjectMapper : IObjectMapper
         }
     }
 
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements")]
     private static string BuildMappingExceptionMessage(Type type, string propertyName, string additionalMessage) =>
         $"Failed to map \"{propertyName}\" property for {type.FullName} type. {additionalMessage}";
 }

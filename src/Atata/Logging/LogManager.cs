@@ -442,6 +442,7 @@ internal sealed class LogManager : ILogManager, IDisposable
         return message;
     }
 
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     internal void TryReleasePostponingConsumers(TestResultStatus testResultStatus)
     {
         foreach (var consumerConfiguration in _configuration.ConsumerConfigurations)

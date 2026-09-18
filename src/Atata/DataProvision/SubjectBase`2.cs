@@ -28,6 +28,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     protected override TSubject Owner => (TSubject)this;
 
     /// <inheritdoc cref="IObjectProvider{TObject}.Object"/>
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     public new TObject Object => base.Object;
 
     /// <summary>

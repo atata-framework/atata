@@ -2,6 +2,7 @@
 
 internal static class AtataContextParentResolver
 {
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     internal static AtataContext? FindParentContext(AtataContext rootContext, AtataContextScope scope, TestInfo testInfo)
     {
         if (scope == AtataContextScope.Global)
@@ -87,6 +88,7 @@ internal static class AtataContextParentResolver
         return parentContext;
     }
 
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     private static AtataContext? FindTestSuiteGroupContext(AtataContext parentContext, TestInfo testInfo)
     {
         foreach (var childContext in parentContext.ChildContexts)

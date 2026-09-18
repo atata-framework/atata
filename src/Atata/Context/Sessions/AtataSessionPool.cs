@@ -79,11 +79,8 @@ internal sealed class AtataSessionPool : IEnumerable<AtataSession>
     {
         for (int i = 0; i < count; i++)
         {
-            AtataSession? session = await TryBuildAsync(cancellationToken)
-                .ConfigureAwait(false);
-
-            if (session is null)
-                throw CreateExceptionForMaxCapacityReached();
+            AtataSession session = await TryBuildAsync(cancellationToken).ConfigureAwait(false)
+                ?? throw CreateExceptionForMaxCapacityReached();
 
             _items.Enqueue(session);
         }

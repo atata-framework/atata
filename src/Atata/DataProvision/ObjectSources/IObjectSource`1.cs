@@ -9,6 +9,7 @@ public interface IObjectSource<out TObject>
     /// <summary>
     /// Gets the object value/instance.
     /// </summary>
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     TObject Object { get; }
 
     /// <summary>

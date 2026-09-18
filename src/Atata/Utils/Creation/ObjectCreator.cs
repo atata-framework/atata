@@ -92,6 +92,7 @@ public class ObjectCreator : IObjectCreator
         }
     }
 
+    [SuppressMessage("Style", "IDE0305:Simplify collection initialization")]
     private object CreateInstanceViaConstructorAndRemoveUsedValues(
         ConstructorInfo constructor,
         Dictionary<string, object?> valuesMap,
@@ -111,6 +112,8 @@ public class ObjectCreator : IObjectCreator
         return constructor.Invoke(arguments);
     }
 
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements")]
+    [SuppressMessage("Critical Code Smell", "S2302:\"nameof\" should be used")]
     private static KeyValuePair<string, object?> RetrievePairByName(
         Dictionary<string, object?> valuesMap,
         Dictionary<string, string> alternativeParameterNamesMap,

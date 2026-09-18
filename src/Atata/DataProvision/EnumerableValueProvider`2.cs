@@ -26,6 +26,7 @@ public class EnumerableValueProvider<TItem, TOwner> :
     }
 
     /// <inheritdoc/>
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     protected override IEnumerable<TItem> Object =>
         base.Object.Select((item, index) =>
         {

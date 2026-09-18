@@ -14,6 +14,8 @@ public sealed class TestInfo : IEquatable<TestInfo>
     {
     }
 
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     public TestInfo(
         string? name,
         Type? suiteType,

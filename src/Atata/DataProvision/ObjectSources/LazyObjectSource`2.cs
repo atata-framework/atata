@@ -29,6 +29,7 @@ public class LazyObjectSource<TObject, TSource> : IObjectSource<TObject>
     }
 
     /// <inheritdoc/>
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     public TObject Object =>
         _lazyObject.Value;
 

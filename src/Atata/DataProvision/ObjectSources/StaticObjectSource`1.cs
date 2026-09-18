@@ -14,6 +14,7 @@ public class StaticObjectSource<TObject> : IObjectSource<TObject>
         Object = source;
 
     /// <inheritdoc/>
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     public TObject Object { get; }
 
     /// <inheritdoc/>

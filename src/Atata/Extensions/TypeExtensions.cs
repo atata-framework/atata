@@ -9,6 +9,7 @@ public static class TypeExtensions
         return type.IsClass || Nullable.GetUnderlyingType(type) is not null;
     }
 
+    [SuppressMessage("Style", "IDE0305:Simplify collection initialization")]
     public static Enum[] GetIndividualEnumFlags(this Type type)
     {
         Guard.ThrowIfNull(type);
@@ -127,6 +128,7 @@ public static class TypeExtensions
             return GetDepthOfInheritanceOfRegularType(type, baseType);
     }
 
+    [SuppressMessage("Critical Code Smell", "S1994:\"for\" loop increment clauses should modify the loops' counters")]
     private static int? GetDepthOfInheritanceOfRegularType(Type type, Type baseType)
     {
         Type? typeToCheck = type;

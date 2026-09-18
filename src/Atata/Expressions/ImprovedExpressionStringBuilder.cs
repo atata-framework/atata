@@ -198,6 +198,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return node;
     }
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     protected override Expression VisitMethodCall(MethodCallExpression node)
     {
         bool isExtensionMethod = Attribute.GetCustomAttribute(node.Method, typeof(ExtensionAttribute)) != null;
@@ -255,6 +256,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return node;
     }
 
+    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements")]
     protected static bool IsIndexer(MethodCallExpression node) =>
         node.Method.IsSpecialName && (node.Method.Name == "get_Item" || node.Method.Name == "get_Chars") && node.Arguments.Count > 0;
 
@@ -402,6 +404,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
     private static bool IsCharComparison(BinaryExpression node) =>
         node.NodeType != ExpressionType.ArrayIndex && (IsCharComparison(node.Left, node.Right) || IsCharComparison(node.Right, node.Left));
 
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
     private static bool IsCharComparison(Expression left, Expression right) =>
         left.NodeType == ExpressionType.Convert
         && left.Type == typeof(int)
@@ -412,6 +415,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
     private static bool IsEnumComparison(BinaryExpression node) =>
         node.NodeType != ExpressionType.ArrayIndex && (IsEnumComparison(node.Left, node.Right) || IsEnumComparison(node.Right, node.Left));
 
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
     private static bool IsEnumComparison(Expression left, Expression right) =>
         left.NodeType == ExpressionType.Convert
         && left.Type.IsPrimitive

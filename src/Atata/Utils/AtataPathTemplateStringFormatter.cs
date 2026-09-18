@@ -23,6 +23,8 @@ internal sealed class AtataPathTemplateStringFormatter : IFormatProvider, ICusto
         return _templateFormatter.Format(format, arg, formatProvider);
     }
 
+    [SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex")]
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     private static string Sanitize(string origin)
     {
         if (origin.Length == 0)

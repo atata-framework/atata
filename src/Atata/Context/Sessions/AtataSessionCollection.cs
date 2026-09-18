@@ -708,6 +708,7 @@ public sealed class AtataSessionCollection : IReadOnlyList<AtataSession>, IDispo
         _isDisposed = true;
     }
 
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     internal IEnumerable<AtataSession> GetAllIncludingPooled()
     {
         foreach (AtataSession session in _sessionListOrderedByAdding)

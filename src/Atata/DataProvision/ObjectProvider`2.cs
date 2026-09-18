@@ -63,6 +63,7 @@ public abstract class ObjectProvider<TObject, TOwner> :
         Object;
 
     /// <inheritdoc cref="IObjectProvider{TObject}.Object"/>
+    [SuppressMessage("Naming", "CA1720:Identifier contains type name")]
     protected virtual TObject Object =>
         _objectSource.Object;
 

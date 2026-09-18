@@ -19,6 +19,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : AtataSessionBuil
     protected AtataSessionBuilder() =>
         EventSubscriptions = new((TBuilder)this);
 
+    [SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented")]
     AtataContext? IAtataSessionBuilder.TargetContext
     {
         get => _targetContext;

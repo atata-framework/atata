@@ -98,6 +98,7 @@ public sealed class LogEventInfo
     internal void MakeSnapshotIfItDoesNotExist() =>
         _propertiesSnapshot ??= [.. GetPropertiesLazy()];
 
+    [SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex")]
     private IEnumerable<KeyValuePair<string, object?>> GetPropertiesLazy()
     {
         yield return new("time-elapsed", TimeElapsed);

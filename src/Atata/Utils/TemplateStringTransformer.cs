@@ -87,6 +87,7 @@ public static class TemplateStringTransformer
     public static string TransformUri(string template, IEnumerable<KeyValuePair<string, object?>> variables) =>
         Transform(template, variables, AtataUriTemplateStringFormatter.Default);
 
+    [SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply")]
     private static string Transform(string template, IEnumerable<KeyValuePair<string, object?>> variables, IFormatProvider formatProvider)
     {
         Guard.ThrowIfNull(template);
