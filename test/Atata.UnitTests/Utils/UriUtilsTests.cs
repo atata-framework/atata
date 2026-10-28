@@ -22,6 +22,14 @@ public class UriUtilsTests
             result.Should().BeNull();
     }
 
+    [TestCase("HTTPS://something.com")]
+    [TestCase("HtTpS://something.com")]
+    public void TryCreateAbsoluteUrl_WithCaseInsensitiveScheme(string url)
+    {
+        UriUtils.TryCreateAbsoluteUrl(url, out Uri? result).Should().BeTrue();
+        result!.Scheme.Should().Be("https");
+    }
+
     [TestCase("http://some.com", "path", ExpectedResult = "http://some.com/path")]
     [TestCase("http://some.com/", "path", ExpectedResult = "http://some.com/path")]
     [TestCase("http://some.com", "/path", ExpectedResult = "http://some.com/path")]

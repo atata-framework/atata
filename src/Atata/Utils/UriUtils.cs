@@ -8,7 +8,7 @@ namespace Atata;
 /// </summary>
 public static class UriUtils
 {
-    private static readonly Regex s_urlSchemaRegex = new("^[a-z]+://");
+    private static readonly Regex s_urlSchemaRegex = new("^[a-zA-Z]+://");
 
     /// <summary>
     /// Tries to create an absolute <see cref="Uri"/>.

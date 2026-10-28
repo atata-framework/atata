@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Recognize absolute URLs with mixed- or uppercase schemes.
+
 ### Changed
 
 - Upgrade Selenium.WebDriver package reference to v4.49.0.
