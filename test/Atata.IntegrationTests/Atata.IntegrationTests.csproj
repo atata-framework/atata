@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <NoWarn>CS8618</NoWarn>
+    <NoWarn>$(NoWarn);CS8618;S8949</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

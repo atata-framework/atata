@@ -51,11 +51,13 @@ public sealed class FakeLogConsumer : ILogConsumer
     {
         lock (_records)
         {
-            return [.. _records.AsEnumerable()
+            return [
+                .. _records.AsEnumerable()
                 .Reverse()
                 .Where(x => x.Level >= minLogLevel)
                 .Take(countFromEnd)
-                .Reverse()];
+                .Reverse()
+            ];
         }
     }
 
@@ -63,10 +65,12 @@ public sealed class FakeLogConsumer : ILogConsumer
     {
         lock (_records)
         {
-            return [.. _records.AsEnumerable()
+            return [
+                .. _records.AsEnumerable()
                 .Reverse()
                 .Where(x => x.Level == logLevel)
-                .Reverse()];
+                .Reverse()
+            ];
         }
     }
 

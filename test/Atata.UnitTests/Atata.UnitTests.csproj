@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net10.0;net462</TargetFrameworks>
+    <NoWarn>$(NoWarn);S8949</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
