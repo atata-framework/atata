@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Upgrade Selenium.WebDriver package reference to v4.49.0.
+- Upgrade Selenium.WebDriver package reference to v4.54.0.
 
 ## [4.0.1] - 2026-09-09
 
