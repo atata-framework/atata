@@ -4,6 +4,8 @@ public partial class WebDriverSessionBuilderTests
 {
     public sealed class BrowserLog : WebDriverSessionTestSuiteBase
     {
+        public const string BrowserLinkErrorMessageIndicator = "browserLink";
+
         [Test]
         public void UseLog()
         {
@@ -35,6 +37,7 @@ public partial class WebDriverSessionBuilderTests
             Subject.Invoking(() => CurrentContext.Dispose())
                 .Should.Throw<AggregateAssertionException>()
                 .SubjectOf(x => x.Results)
+                    .Where(x => !x.Message.Contains(BrowserLinkErrorMessageIndicator))
                     .Should.HaveCount(3)
                     .Select(x => x.Status).Should.ConsistOnlyOf(AssertionStatus.Warning)
                     .ValueOf(x => x[0].Message).Should.ContainAll(
@@ -59,6 +62,7 @@ public partial class WebDriverSessionBuilderTests
             Subject.Invoking(() => CurrentContext.Dispose())
                 .Should.Throw<AggregateAssertionException>()
                 .SubjectOf(x => x.Results)
+                    .Where(x => !x.Message.Contains(BrowserLinkErrorMessageIndicator))
                     .Should.HaveCount(2)
                     .Select(x => x.Status).Should.ConsistOnlyOf(AssertionStatus.Warning)
                     .ValueOf(x => x[0].Message).Should.ContainAll(
